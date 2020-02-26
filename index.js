@@ -35,7 +35,7 @@ client.on('message', message => {
             return message.channel.send(`You didn't provide any arguments, ${message.author}!`);
         } else if (args[0] === 'foo') {
             return message.channel.send('bar');
-        } else if (command.toLowerCase === 'kick') {
+        } else if (command === 'kick') {
             //grab the "first" mentioned user from the message
             //this will return a `User` object, just like `message.author`
             const taggedUser = message.mentions.users.first();
