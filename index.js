@@ -27,7 +27,7 @@ client.on('message', message => {
 client.on('message', message => {
     if (!message.content.startsWith(prefix) || message.author.bot) return ;
 
-    const args = message.content.slice(prefix.length).split(' ');
+    const args = message.content.slice(prefix.length).split(/ +/);
     const command = args.shift().toLowerCase();
 
     if (command === 'args-info') {
@@ -35,6 +35,12 @@ client.on('message', message => {
             return message.channel.send(`You didn't provide any arguments, ${message.author}!`);
         } else if (args[0] === 'foo') {
             return message.channel.send('bar');
+        } else if (command.toLowerCase === 'kick') {
+            //grab the "first" mentioned user from the message
+            //this will return a `User` object, just like `message.author`
+            const taggedUser = message.mentions.users.first();
+
+            message.channel.send(`You wanted to kick: ${taggedUser.username}`);
         }
 
         //message.channel.send(`Command name: ${command}\nArguments: ${args}`);
