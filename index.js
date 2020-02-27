@@ -1,6 +1,6 @@
 
 
-const { prefix, token } = require('./config_beta.json');
+const { prefix, token } = require('./config.json');
 
 
 //everything below this line can be copied to the real bot
