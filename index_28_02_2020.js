@@ -1,6 +1,5 @@
 const { Client, RichEmbed, Collection } = require("discord.js");
 const { token, prefix } = require('./config.json');
-const fs = require("fs")
 
 const client = new Client({
     disableEveryone: true
@@ -8,14 +7,11 @@ const client = new Client({
 
 client.commands = new Collection();
 client.aliases = new Collection();
-client.categories = fs.readdirSync("./commands/");
 
 
-
-
-
-
-
+//config({
+//    path: __dirname + "/.env"
+//})
 
 
 ["command"].forEach(handler => {
@@ -25,12 +21,12 @@ client.categories = fs.readdirSync("./commands/");
 
 client.on("ready", () => {
 
-    console.log(`I'm now online`);
+    console.log(`I'm now online, my name is ${client.user.username}`);
 
     client.user.setPresence({
         status: "online",
         game: {
-            name: "you guys test me",
+            name: "me getting developed",
             type: "WATCHING"
         }
     });
