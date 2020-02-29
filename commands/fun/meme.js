@@ -12,7 +12,7 @@ module.exports = {
         if (!channel)
             return;
 
-         
+        if (message.deletable) message.delete();
             // In this array, 
             // you can put the subreddits you want to grab memes from
             const subReddits = ["dankmeme", "meme", "me_irl"];
