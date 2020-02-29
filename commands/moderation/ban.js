@@ -89,7 +89,7 @@ module.exports = {
                 msg.delete();
 
                 message.reply(`ban canceled.`)
-                    .then(m => m.delete(10000));
+                    .then(m => m.delete(5000));
             }
         });
     }

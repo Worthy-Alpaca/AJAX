@@ -25,12 +25,12 @@ client.categories = fs.readdirSync("./commands/");
 
 client.on("ready", () => {
 
-    console.log(`I'm now online, my name is ${client.user.username}`);
+    console.log(`I'm now online`);
 
     client.user.setPresence({
         status: "online",
         game: {
-            name: "me getting developed",
+            name: "you guys test me",
             type: "WATCHING"
         }
     });
