@@ -40,15 +40,15 @@ client.on("ready", () => {
 
 client.on("guildMemberAdd", async member => {
     if (member.bot) return;
-    const channel = member.guild.channels.find(channel => channel.name === "welcome");
+    const channel = member.guild.channels.find(channel => channel.name === "general-chat");
     if (!channel) return;
 
 
     const embed = new RichEmbed()
         .setColor("RANDOM")
         .setTimestamp()
-        .setAuthor("New member", member.user.displayAvatarURL)
-        .setDescription(stripIndents`Welcome to the idiotsatlarge discord server ${member}.
+        .setAuthor(`${member}`, member.user.displayAvatarURL)
+        .setDescription(stripIndents`Welcome to the idiotsatlarge discord server.
         We are a clan of friendly people who have fun and work together.
         You have any questions or need help? Just ask ingame or on this server. :grin:
         To keep the clan going, player inactivity fo 30 days will result in discharge.
