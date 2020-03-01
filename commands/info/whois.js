@@ -34,7 +34,7 @@ module.exports = {
             .addField('User Information', stripIndents`**> ID:** ${member.user.id}
             **> Username:** ${member.user.username}
             **> Discord Tag:** ${member.user.tag}
-            **> Created at:** ${created}, true`)
+            **> Created at:** ${created}`, true)
 
             .setTimestamp()
 

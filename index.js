@@ -1,8 +1,9 @@
 const { Client, RichEmbed, Collection } = require("discord.js");
-const { token, prefix } = require('./config.json');
+const { token, prefix, version } = require('./config.json');
 const fs = require("fs");
 const { stripIndents } = require("common-tags");
 const { promptMessage } = require("./functions.js");
+const msg = "This is a test";
 
 const client = new Client({
     disableEveryone: true
@@ -28,12 +29,23 @@ client.categories = fs.readdirSync("./commands/");
 client.on("ready", () => {
 
     console.log(`I'm now online, my name is ${client.user.username}`);
-	console.log(client.channels);
+    
+    var channel = client.channels.get("595648135108493312");
+    
+
+    const embed2 = new RichEmbed()
+        .setColor("RANDOM")
+        .setTimestamp()
+        .setAuthor("Update occured")
+        .setDescription(stripIndents`I have been updated. :grin: 
+        New version: ${version}`);
+
+    channel.sendMessage(embed2);
 
     client.user.setPresence({
         status: "online",
         game: {
-            name: "the idiots play",
+            name: "me getting developed",
             type: "WATCHING"
         }
     });
