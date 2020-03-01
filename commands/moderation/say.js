@@ -5,7 +5,7 @@ module.exports = {
     aliases: ["bc", "broadcast"],
     description: "Says your input via the bot",
     usage: "<input>",
-    run: (client, message, args) => {
+    run: async (client, message, args) => {
         message.delete();
 
         if (!message.member.hasPermission("MANAGE_MESSAGES"))

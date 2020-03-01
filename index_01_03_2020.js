@@ -2,7 +2,6 @@ const { Client, RichEmbed, Collection } = require("discord.js");
 const { token, prefix } = require('./config.json');
 const fs = require("fs");
 const { stripIndents } = require("common-tags");
-const { promptMessage } = require("./functions.js");
 
 const client = new Client({
     disableEveryone: true
@@ -38,11 +37,9 @@ client.on("ready", () => {
     });
 });
 
-client.on("guildMemberAdd", async member => {
-    if (member.bot) return;
-    const channel = member.guild.channels.find(channel => channel.name === "welcome");
+client.on("guildMemberAdd", member => {
+    const channel = member.guild.channels.find(channel => channel.name === "general-chat");
     if (!channel) return;
-
 
     const embed = new RichEmbed()
         .setColor("RANDOM")
@@ -54,20 +51,7 @@ client.on("guildMemberAdd", async member => {
         To keep the clan going, player inactivity fo 30 days will result in discharge.
         If you are away for more than 30 days, just message @jonhhammer or leave a message here on the server.`);
 
-    //const emoji = ["??"]
-
-    //const m = await channel.send(embed);
-    //const reacted = await promptMessage(m, member.user, 90, emoji);
-
-
-    //if (reacted === emoji) {
-    //    member.addRole("test-role").catch(e => console.log(e.message))
-    //}
-
-
     return channel.send(embed);
-        
-    
 });
 
 client.on("message", async message => {
