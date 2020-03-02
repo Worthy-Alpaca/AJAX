@@ -1,14 +1,15 @@
 const { Client, RichEmbed, Collection } = require("discord.js");
-const { token, prefix, version } = require('./config.json');
+const { token, prefix, version, status, greeting_channel, } = require('./config.json');
 const fs = require("fs");
 const { stripIndents } = require("common-tags");
 const { promptMessage } = require("./functions.js");
-const msg = "This is a test";
+
 
 const client = new Client({
     disableEveryone: true
 });
 
+client.reply = new Collection();
 client.commands = new Collection();
 client.aliases = new Collection();
 client.categories = fs.readdirSync("./commands/");
@@ -29,14 +30,15 @@ client.categories = fs.readdirSync("./commands/");
 client.on("ready", () => {
 
     console.log(`I'm now online, my name is ${client.user.username}`);
+    //console.log(client.channels);
     
-    var channel = client.channels.get("595648135108493312");
+    var channel = client.channels.get(`${greeting_channel}`);
     
 
     const embed2 = new RichEmbed()
-        .setColor("RANDOM")
+        .setColor("Random")
         .setTimestamp()
-        .setAuthor("Update occured")
+        .setAuthor("Update occured", client.user.displayAvatarURL)
         .setDescription(stripIndents`I have been updated. :grin: 
         New version: ${version}`);
 
@@ -45,15 +47,17 @@ client.on("ready", () => {
     client.user.setPresence({
         status: "online",
         game: {
-            name: "me getting developed",
+            name: `${status}`,
             type: "WATCHING"
         }
     });
 });
 
+
+
 client.on("guildMemberAdd", async member => {
     if (member.bot) return;
-    const channel = member.guild.channels.find(channel => channel.name === "general-chat");
+    const channel = member.guild.channels.find(channel => channel.name === `${welcome_cannel}`);
     if (!channel) return;
 
 
@@ -84,7 +88,6 @@ client.on("guildMemberAdd", async member => {
 });
 
 client.on("message", async message => {
-    
 
     if (message.author.bot) return;
     if (!message.guild) return;
@@ -101,8 +104,12 @@ client.on("message", async message => {
 
     if (command)
         command.run(client, message, args);
+
+   
     
 })
+
+
 
 client.login(token);
 
