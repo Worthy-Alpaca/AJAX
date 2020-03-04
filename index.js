@@ -32,17 +32,6 @@ client.on("ready", () => {
     console.log(`I'm now online, my name is ${client.user.username}`);
     //console.log(client.channels);
     
-    var channel = client.channels.get(`${greeting_channel}`);
-    
-
-    const embed2 = new RichEmbed()
-        .setColor("Random")
-        .setTimestamp()
-        .setAuthor("Update occured", client.user.displayAvatarURL)
-        .setDescription(stripIndents`I have been updated. :grin: 
-        New version: ${version}`);
-
-    channel.sendMessage(embed2);
 
     client.user.setPresence({
         status: "online",
