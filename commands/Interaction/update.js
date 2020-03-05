@@ -5,12 +5,15 @@ const { stripIndents } = require("common-tags");
 
 module.exports = {
     name: "update",
-    description: "Sends the update message of the bot",
+    category: "interaction",
+    description: "Updates the bot",
     run: async (client, message, args) => {
         message.delete();
 
-        if (!message.member.hasPermission("ADMINISTRATOR"))
-            return;
+        //const father = guild.find(d => d.id === "595341356432621573");
+
+        if (message.author.id !== "595341356432621573")
+            return message.reply("You are not my father.").then(m => m.delete(5000));
 
 
 

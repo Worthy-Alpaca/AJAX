@@ -31,15 +31,9 @@ client.on("ready", () => {
 
     console.log(`I'm now online, my name is ${client.user.username}`);
     //console.log(client.channels);
-    const embed2 = new RichEmbed()
-        .setColor("Random")
-        .setTimestamp()
-        .setAuthor("Restart occured", client.user.displayAvatarURL)
-        .setDescription(stripIndents`I have restarted`);
-
 
     client.fetchUser("595341356432621573", false).then(user => {
-        user.send(`${embed2}`)
+        user.send(`I'm online`)
     });
 
     client.user.setPresence({
