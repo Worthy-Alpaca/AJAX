@@ -6,7 +6,7 @@ const { raid_channel } = require("../../config.json");
 module.exports = {
     name: "raid",
     category: "fun",
-    description: "Kicks the member",
+    description: "adds the raid role",
     usage: "<id | mention>",
     run: async (client, message, args) => {
         const logChannel = message.guild.channels.find(c => c.name === `${raid_channel}`) || message.channel;
