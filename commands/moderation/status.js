@@ -3,7 +3,7 @@
 
 module.exports = {
     name: "status",
-    category: "interaction",
+    category: "moderation",
     description: "Changes the status of the bot",
     usage: "<input>",
     run: async (client, message, args) => {

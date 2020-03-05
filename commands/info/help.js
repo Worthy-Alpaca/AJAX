@@ -23,6 +23,7 @@ module.exports = {
 function getAll(client, message) {
     const embed = new RichEmbed()
         .setColor("RANDOM")
+        
 
     const commands = (category) => {
         return client.commands
