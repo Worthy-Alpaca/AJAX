@@ -6,17 +6,13 @@ module.exports = {
     name: "remove",
     category: "moderation",
     description: "removes the member",
-    usage: "<kick/ban, id | mention>",
+    usage: "<kick | ban, id | mention, reason>",
     run: async (client, message, args) => {
         const logChannel = message.guild.channels.find(c => c.name === "reports") || message.channel;
 
         if (message.deletable) message.delete();
 
-        // No author permissions
-        if (!message.member.hasPermission("KICK_MEMBERS")) {
-            return message.reply("❌ You do not have permissions to kick members. Please contact a staff member")
-                .then(m => m.delete(5000));
-        }
+        
 
         //no functions mentioned
         if (!args[0]) {
@@ -54,7 +50,7 @@ module.exports = {
 
         // Can't kick urself
         if (toKick.id === message.author.id) {
-            return message.reply("You can't kick yourself smartboi :rofl:")
+            return message.reply("You can't do that to yourself smartboi :rofl:")
                 .then(m => m.delete(5000));
         }
 
@@ -65,6 +61,13 @@ module.exports = {
         }
                 
         if (args[0].toLowerCase() === "kick") {
+
+            // No author permissions
+            if (!message.member.hasPermission("KICK_MEMBERS")) {
+                return message.reply("❌ You do not have permissions to kick members. Please contact a staff member")
+                    .then(m => m.delete(5000));
+            }
+
             const embed = new RichEmbed()
                 .setColor("#ff0000")
                 .setThumbnail(toKick.user.displayAvatarURL)
@@ -101,7 +104,14 @@ module.exports = {
                         .then(m => m.delete(5000));
                 }
             });
-        } else if (args[0] === "ban") {
+        } else if (args[0].toLowerCase() === "ban") {
+
+            // No author permissions
+            if (!message.member.hasPermission("BAN_MEMBERS")) {
+                return message.reply("❌ You do not have permissions to ban members. Please contact a staff member")
+                    .then(m => m.delete(5000));
+            }
+
             const embed = new RichEmbed()
                 .setColor("#ff0000")
                 .setThumbnail(toKick.user.displayAvatarURL)
