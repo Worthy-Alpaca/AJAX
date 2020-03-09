@@ -56,8 +56,8 @@ client.on("guildMemberAdd", async member => {
     const embed = new RichEmbed()
         .setColor("RANDOM")
         .setTimestamp()
-        .setAuthor(`${member}`, member.user.displayAvatarURL)
-        .setDescription(stripIndents`Welcome to the idiotsatlarge discord server.
+        .setAuthor(`We have a new member`, member.user.displayAvatarURL)
+        .setDescription(stripIndents`Hello ${member} and welcome to the idiotsatlarge discord server. :partying_face:
         We are a clan of friendly people who have fun and work together.
         You have any questions or need help? Just ask ingame or on this server. :grin:
         To keep the clan going, player inactivity fo 30 days will result in discharge.

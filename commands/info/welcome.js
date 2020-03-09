@@ -18,8 +18,8 @@ module.exports = {
         const embed = new RichEmbed()
             .setColor("RANDOM")
             .setTimestamp()
-            .setAuthor(`${rMember}`, rMember.user.displayAvatarURL)
-            .setDescription(stripIndents`Welcome to the idiotsatlarge discord server.
+            .setAuthor(`We have a new member`, rMember.user.displayAvatarURL)
+            .setDescription(stripIndents`Hello ${rMember} and welcome to the idiotsatlarge discord server. :partying_face:
         We are a clan of friendly people who have fun and work together.
         You have any questions or need help? Just ask ingame or on this server. :grin:
         To keep the clan going, player inactivity fo 30 days will result in discharge.
