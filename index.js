@@ -49,7 +49,7 @@ client.on("ready", () => {
 
 client.on("guildMemberAdd", async member => {
     if (member.bot) return;
-    const channel = member.guild.channels.find(channel => channel.name === `${welcome_cannel}`);
+    const channel = member.guild.channels.find(channel => channel.name === `${welcome_channel}`);
     if (!channel) return;
 
 
