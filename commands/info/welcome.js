@@ -10,6 +10,8 @@ module.exports = {
     usage: "<mention>",
 
     run: async (client, message, args) => {
+
+        if (message.deletable) message.delete();
         
         //const member = getMember(message, args.join(" "));
         const rMember = message.mentions.members.first() || message.guild.members.get(args[0]);
