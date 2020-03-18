@@ -34,11 +34,8 @@ module.exports = {
 
    
 
-        // No bot permissions
-        if (!message.guild.me.hasPermission("KICK_MEMBERS")) {
-            return message.reply("❌ I do not have permissions to kick members. Please contact a staff member")
-                .then(m => m.delete(5000));
-        }
+        
+        
 
         const toKick = message.mentions.members.first() || message.guild.members.get(args[1]);
 
@@ -65,6 +62,12 @@ module.exports = {
             // No author permissions
             if (!message.member.hasPermission("KICK_MEMBERS")) {
                 return message.reply("❌ You do not have permissions to kick members. Please contact a staff member")
+                    .then(m => m.delete(5000));
+            }
+
+            //no bot permission
+            if (!message.guild.me.hasPermission("KICK_MEMBERS")) {
+                return message.reply("❌ I do not have permissions to kick members. Please contact a staff member")
                     .then(m => m.delete(5000));
             }
 
@@ -109,6 +112,12 @@ module.exports = {
             // No author permissions
             if (!message.member.hasPermission("BAN_MEMBERS")) {
                 return message.reply("❌ You do not have permissions to ban members. Please contact a staff member")
+                    .then(m => m.delete(5000));
+            }
+
+            //no bot permissions
+            if (!message.guild.me.hasPermission("BAN_MEMBERS")) {
+                return message.reply("❌ I do not have permissions to ban members. Please contact a staff member")
                     .then(m => m.delete(5000));
             }
 
