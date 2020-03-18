@@ -16,7 +16,7 @@ client.categories = fs.readdirSync("./commands/");
 
 
 
-
+//testing again
 
 
 
