@@ -17,6 +17,7 @@ client.categories = fs.readdirSync("./commands/");
 
 
 //this is a test for the develop branch
+//new branch with features
 
 
 
