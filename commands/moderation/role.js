@@ -42,7 +42,7 @@ module.exports = {
             await rMember.removeRole(role.id).catch(e => console.log(e.message))
             message.channel.send(`This role, ${role.name}, has been removed from ${rMember}.`)
         } else if ((args[0] !== "add") || (args[0] !== "remove")) {
-            return message.reply("you did not provide a valid action.")
+            return message.reply("You did not provide a valid action.")
                 .then(m => m.delete(5000));
         } 
 

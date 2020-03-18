@@ -158,7 +158,7 @@ module.exports = {
                 }
             });
         } else if ((args[0].toLowerCase() !== "kick") || (args[0].toLowerCase() !== "ban")) {
-            return message.reply("You need to specify what you want me to do.")
+            return message.reply("You did not provide a valid action.")
         } 
     }
 };
