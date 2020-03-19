@@ -23,7 +23,7 @@ module.exports = {
 
 
 function getAll(client, message) {
-    const embed = new MessageEmbed()
+    const embed = new RichEmbed()
         .setColor("RANDOM")
         .setFooter(message.guild.name)
         .setTimestamp()
