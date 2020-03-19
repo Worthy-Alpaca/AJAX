@@ -11,10 +11,10 @@ module.exports = {
 
     run: async (client, message, args) => {
 
-        //if (message.deletable) message.delete();
+        if (message.deletable) message.delete();
         
         //const member = getMember(message, args.join(" "));
-        const rMember = getMember(message, args.join(" ")); //message.mentions.members.first() || message.guild.members.get(args[0]);
+        const rMember = message.mentions.members.first() || message.guild.members.get(args[0]);
         if (!rMember) return message.reply("You need to welcome someone.")
 
         const embed = new RichEmbed()
