@@ -21,10 +21,14 @@ module.exports = {
 
 }
 
-// : `\${cmd.description}\`
+
 function getAll(client, message) {
-    const embed = new RichEmbed()
+    const embed = new MessageEmbed()
         .setColor("RANDOM")
+        .setFooter(message.guild.name)
+        .setTimestamp()
+        .setTitle("Help menu")
+        .setThumbnail(client.user.displayAvatarURL)
         
 
     const commands = (category) => {

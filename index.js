@@ -16,9 +16,6 @@ client.categories = fs.readdirSync("./commands/");
 
 
 
-//testing again
-
-
 
 
 ["command"].forEach(handler => {
@@ -61,7 +58,8 @@ client.on("guildMemberAdd", async member => {
         You have any questions or need help? Just ask ingame or on this server. :grin:
         To keep the clan going, player inactivity fo 30 days will result in discharge.
         If you are away for more than 30 days, just message @jonhhammer or leave a message here on the server.
-        If you want to join the raid, use !raid to get the corresponding role.`);
+        If you want to join the raid, use !raid to get the corresponding role.
+        Please do not join someone ingame without asking first.`);
 
     return channel.send(embed);
         

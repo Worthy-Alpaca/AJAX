@@ -8,12 +8,6 @@ module.exports = {
     run: async (client, message, args) => {
 
 
-        //if (!message.member.hasPermission("MANAGE_ROLES")) return message.reply("Sorry pal, you can't do that.");
-        //let rMember = message.guild.member(message.mentions.users.first()) || message.guild.members.get(args[1]);
-        //if (!rMember) return message.reply("Should I add or remove the role?");
-        //let role = message.guild.roles.find(r => r.name === args[2]) || message.guild.roles.find(r => r.id === args[2]);
-        //if (!role) return message.reply("Specify a role");
-
         if (message.deletable) message.delete();
 
         if (!args[0]) {
