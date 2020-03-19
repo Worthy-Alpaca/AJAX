@@ -6,7 +6,7 @@ const { promptMessage } = require("./functions.js");
 
 
 const client = new Client({
-    disableEveryone: true
+    disableEveryone: false
 });
 
 client.reply = new Collection();
