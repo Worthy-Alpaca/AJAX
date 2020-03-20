@@ -14,13 +14,40 @@ module.exports = {
 
         
 
-        const newstatus = args.slice(0).join(" ")
+        let newstatus;
+        let type;
+
+        if (args.length < 1) {
+            return message.reply("Nothing for me to do?");
+        }
+    
+        if (args[0] === "watching") {
+            type = "watching"
+            newstatus = args.slice(1).join(" ");
+            if (args.length < 2) {
+                return message.reply("Maybe add an action.")
+            }
+        } else if (args[0] === "playing") {
+            type = "playing"
+            newstatus = args.slice(1).join(" ");
+            if (args.length < 2) {
+                return message.reply("Maybe add an action.")
+            }
+        } else if (args [0] === "streaming") {
+            type = "streaming"
+            newstatus = args.slice(1).join(" ");
+            if (args.length < 2) {
+                return message.reply("Maybe add an action.")
+            }
+        }  else if ((args[0] !== "watching") || (args[0] !== "streaming") || (args[0] !== "playing")) {
+            return message.reply("You need to tell me what to do. (playing|streaming|watching)");
+        }
 
         client.user.setPresence({
             status: "online",
             game: {
                 name: `${newstatus}`,
-                type: "WATCHING"
+                type: `${type}`
             }
         });
 
