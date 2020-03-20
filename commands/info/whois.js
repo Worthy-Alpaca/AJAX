@@ -19,7 +19,7 @@ module.exports = {
             .filter(r => r.id !== message.guild.id)
             .map(r => r)
             .join(", ") || "none";
-
+    
         //user variables
         const created = formatDate(member.user.createdAt);
 
