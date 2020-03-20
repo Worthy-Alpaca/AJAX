@@ -5,7 +5,7 @@ module.exports = {
     name: "status",
     category: "moderation",
     description: "Changes the status of the bot",
-    usage: "<input>",
+    usage: "<action> <'game'>",
     run: async (client, message, args) => {
         message.delete();
 
