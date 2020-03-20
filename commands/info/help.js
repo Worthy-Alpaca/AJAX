@@ -1,5 +1,6 @@
 const { RichEmbed } = require("discord.js");
 const { stripIndents } = require("common-tags");
+const { prefix } = require("../../config.json");
 
 module.exports = {
     name: "help",
@@ -34,7 +35,7 @@ function getAll(client, message) {
     const commands = (category) => {
         return client.commands
             .filter(cmd => cmd.category === category)
-            .map(cmd => `- \`${cmd.name}\`=> \`${cmd.description}\``)
+            .map(cmd => `- \`${prefix}${cmd.name}\`=> \`${cmd.description}\``)
             .join("\n");
 
     }
