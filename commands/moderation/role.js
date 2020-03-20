@@ -10,6 +10,11 @@ module.exports = {
 
         if (message.deletable) message.delete();
 
+        if (!message.member.hasPermission("MANAGE_ROLES")) {
+            return message.reply("You can't do that. Please contact a staff member!")
+                .then(m => m.delete(5000));
+        }
+
         if (!args[0]) {
             return message.reply("Please tell me what to do.")
                 .then(m => m.delete(5000));
