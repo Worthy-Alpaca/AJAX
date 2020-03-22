@@ -22,25 +22,25 @@ module.exports = {
         }
     
         if (args[0] === "watching") {
-            type = "watching"
+            type = args[0]
             newstatus = args.slice(1).join(" ");
             if (args.length < 2) {
                 return message.reply("Maybe add an action.")
             }
         } else if (args[0] === "playing") {
-            type = "playing"
+            type = args[0]
             newstatus = args.slice(1).join(" ");
             if (args.length < 2) {
                 return message.reply("Maybe add an action.")
             }
         } else if (args [0] === "streaming") {
-            type = "streaming"
+            type = args[0]
             newstatus = args.slice(1).join(" ");
             if (args.length < 2) {
                 return message.reply("Maybe add an action.")
             }
         }  else if ((args[0] !== "watching") || (args[0] !== "streaming") || (args[0] !== "playing")) {
-            return message.reply("You need to tell me what to do. (playing|streaming|watching)");
+            return message.reply("You need to tell me what to do. (playing | streaming | watching)");
         }
 
         client.user.setPresence({
