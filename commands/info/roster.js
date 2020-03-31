@@ -23,15 +23,13 @@ module.exports = {
             if (member.hasPermission("ADMINISTRATOR")){
                 name = member.displayName
                 admins.push(name)
-            }   
-        })
-
-        guild.members.forEach(member => {
-            if (member.hasPermission("KICK_MEMBERS")){
+            } else if(member.hasPermission("KICK_MEMBERS")) {
                 name = member.displayName
                 moderators.push(name)
-            }   
+            }
         })
+
+
 
 
         
