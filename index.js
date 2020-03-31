@@ -29,9 +29,9 @@ client.on("ready", () => {
     console.log(`I'm now online, my name is ${client.user.username}`);
     //console.log(client.channels);
 
-    client.fetchUser("595341356432621573", false).then(user => {
+    /* client.fetchUser("595341356432621573", false).then(user => {
         user.send(`I'm online`)
-    });
+    }); */
 
     client.user.setPresence({
         status: "online",
