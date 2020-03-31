@@ -34,7 +34,7 @@ module.exports = {
         })
 
 
-        x.push(moderators.filter(n => !admins.includes(n)))
+        
 
 
 
@@ -45,7 +45,7 @@ module.exports = {
             .setTitle("People who do stuff")
             .setThumbnail(guild.displayAvatarURL)
             .addField('ADMINS', stripIndents`${admins.join('\n')}`, true)
-            .addField('MODERATORS', stripIndents`${x.join('\n')}`, true)
+            .addField('MODERATORS', stripIndents`${moderators.filter(n => !admins.includes(n)).join('\n')}`, true)
         
         return message.channel.send(embed);
         
