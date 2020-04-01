@@ -35,16 +35,15 @@ module.exports = (client) => {
     console.log(table.toString());
 }
 
-/**
- * This is the basic command layout
- * module.exports = {
- *  name: "Command name",
- *  aliases: ["array", "of", "aliases"]
- *  category: "Category name",
- *  description: "Command description"
- *  usage: "[args input]",
- *  run: (client, message, args) => {
- *      The code in here to execute
- *  }
- * }
- */
+
+ 
+ /* module.exports = {
+  name: "Command name",
+  aliases: ["array", "of", "aliases"]
+  category: "Category name",
+  description: "Command description"
+  usage: "[args input]",
+  run: (client, message, args) => {
+      The code in here to execute
+  }
+ } */

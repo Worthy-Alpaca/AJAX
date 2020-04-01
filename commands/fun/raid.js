@@ -6,7 +6,7 @@ const { raid_channel, unfit_raid } = require("../../config.json");
 module.exports = {
     name: "raid",
     category: "fun",
-    description: "Kicks the member",
+    description: "Enables you to take part in the raid",
     usage: "<id | mention>",
     run: async (client, message, args) => {
         const logChannel = message.guild.channels.find(c => c.name === `${raid_channel}`) || message.channel;
@@ -54,7 +54,7 @@ module.exports = {
                 }
             });
         } else {
-            return message.reply("You are unfit for the raid. If you think that is wrong, please contact a staff member.")
+            return message.reply("You are unfit for the raid. If you think that is wrong, please contact a staff member nearest to you.")
         }
     }
 };
