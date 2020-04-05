@@ -15,7 +15,7 @@ module.exports = {
         if (message.deletable) message.delete();
             // In this array, 
             // you can put the subreddits you want to grab memes from
-            const subReddits = ["dankmeme", "meme", "me_irl", "gifs"];
+            const subReddits = ["dankmeme", "meme", "me_irl", "funny"];
             // Grab a random property from the array
             const random = subReddits[Math.floor(Math.random() * subReddits.length)];
 
