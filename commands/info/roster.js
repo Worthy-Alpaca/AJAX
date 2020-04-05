@@ -29,14 +29,7 @@ module.exports = {
         })
 
 
-<<<<<<< HEAD
-
-
         
-
-=======
-        
->>>>>>> develop
 
 
         const embed = new RichEmbed()
