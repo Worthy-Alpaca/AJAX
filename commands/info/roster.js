@@ -14,8 +14,7 @@ module.exports = {
         const guild = message.channel.guild;
 
         var admins = [];
-        var moderators = [];
-        var x = [];
+        var moderators = []
         var name
         
 
@@ -30,10 +29,14 @@ module.exports = {
         })
 
 
+<<<<<<< HEAD
 
 
         
 
+=======
+        
+>>>>>>> develop
 
 
         const embed = new RichEmbed()
