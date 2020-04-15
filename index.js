@@ -4,6 +4,7 @@ const { token } = require('./token.json');
 const fs = require("fs");
 const { stripIndents } = require("common-tags");
 const { promptMessage } = require("./functions.js");
+const { answers, replies } = require("./answers.json")
 
 
 
@@ -166,12 +167,18 @@ client.on("message", async message => {
         });
       }
 
-      
-
                   
 
     if (!message.guild) return;
-    if (!message.content.startsWith(prefix)) return;
+    if (message.content.endsWith("?")) {
+      return message.channel.send(answers[Math.floor(Math.random() * answers.length)]);
+    } else if (message.isMemberMentioned(client.user)) {
+      return message.channel.send(replies[Math.floor(Math.random() * replies.length)]);
+    } else if (!message.content.startsWith(prefix)) {
+      return;
+    } 
+
+
     if (!message.member) message.member = await message.guild.fetchMember(message);
 
     const args = message.content.slice(prefix.length).trim().split(/ +/g);
