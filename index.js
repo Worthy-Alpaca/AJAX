@@ -6,6 +6,8 @@ const { stripIndents } = require("common-tags");
 const { promptMessage } = require("./functions.js");
 
 
+
+
 const client = new Client({
     disableEveryone: false
 });
@@ -42,6 +44,10 @@ client.on("ready", () => {
     });
 });
 
+const usersMap = new Map();
+const LIMIT = 5;
+const TIME = 7000;
+const DIFF = 3000;
 
 
 client.on("guildMemberAdd", async member => {
@@ -67,9 +73,84 @@ client.on("guildMemberAdd", async member => {
     
 });
 
+
+
+
 client.on("message", async message => {
 
+    
+
     if (message.author.bot) return;
+    //const mutee = message.author;
+    
+
+    /* if(usersMap.has(message.author.id)) {
+        let mutee = message.author.id;
+        const userData = usersMap.get(message.author.id);
+        const { lastMessage, timer } = userData;
+        const difference = message.createdTimestamp - lastMessage.createdTimestamp;
+        let muterole = message.guild.roles.find(r => r.name === "Muted")
+        if(!muterole) {
+            try{
+                muterole = await message.guild.createRole({
+                    name: "Muted",
+                    color: "#514f48",
+                    permissions: []
+                })
+            message.guild.channels.forEach(async (channel, id) => {
+                await channel.overwritePermissions(muterole, {
+                    SEND_MESSAGES: false,
+                    ADD_REACTIONS: false,
+                    SEND_TTS_MESSAGES: false,
+                    ATTACH_FILES: false,
+                    SPEAK: false
+                })
+            })
+            } catch(e) {
+            console.log(e.stack);
+            }   
+        }
+        let msgCount = userData.msgCount;
+        console.log(difference);
+        if(difference > DIFF) {
+          clearTimeout(timer);
+          console.log('Cleared timeout');
+          userData.msgCount = 1;
+          userData.lastMessage = message;
+          userData.timer = setTimeout(() => {
+            usersMap.delete(message.author.id);
+            console.log('Removed from RESET.');
+          }, TIME);
+          usersMap.set(message.author.id, userData);
+        }
+        else {
+          ++msgCount;
+          if(parseInt(msgCount) === LIMIT) {
+            mutee.roles.add(muterole)
+            message.channel.send('You have been muted.');
+            setTimeout(() => {
+              mutee.roles.remove(muterole);
+              message.channel.send('You have been unmuted');
+            }, TIME);
+          } else {
+            userData.msgCount = msgCount;
+            usersMap.set(message.author.id, userData);
+          }
+        }
+      }
+      else {
+        let fn = setTimeout(() => {
+          usersMap.delete(message.author.id);
+          console.log('Removed from map.');
+        }, TIME);
+        usersMap.set(message.author.id, {
+          msgCount: 1,
+          lastMessage: message,
+          timer: fn
+        });
+      } */
+
+
     if (!message.guild) return;
     if (!message.content.startsWith(prefix)) return;
     if (!message.member) message.member = await message.guild.fetchMember(message);
