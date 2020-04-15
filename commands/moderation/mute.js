@@ -6,7 +6,7 @@ const { stripIndents } = require("common-tags");
 module.exports = {
     name: "mute",
     category: "moderation",
-    description: "mutes a persom",
+    description: "mutes a person",
     usage: "<id | mention>",
     run: async (client, message, args) => {
 
@@ -15,7 +15,7 @@ module.exports = {
         const report = message.guild.channels.find(channel => channel.name === "reports");
         const mutee = message.mentions.members.first();
         
-        if (!message.member.hasPermission("MANAGE_ROLES")) {
+        if (!message.member.hasPermission("KICK_MEMBERS")) {
             return message.reply("You can't do that. Please contact a staff member!")
                 .then(m => m.delete(5000));
         }
