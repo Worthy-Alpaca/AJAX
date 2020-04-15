@@ -12,7 +12,9 @@ module.exports = {
 
 
         if (message.deletable) message.delete();
-
+        const report = message.guild.channels.find(channel => channel.name === "reports");
+        const mutee = message.mentions.members.first();
+        
         if (!message.member.hasPermission("MANAGE_ROLES")) {
             return message.reply("You can't do that. Please contact a staff member!")
                 .then(m => m.delete(5000));
@@ -24,7 +26,18 @@ module.exports = {
                 .then(m => m.delete(5000));
         }
 
-        const mutee = message.mentions.members.first();
+        const embed = new RichEmbed() 
+            .setColor("#ff0000")
+            .setTimestamp()
+            .setFooter(message.guild.name, message.guild.iconURL)
+            .setAuthor("Muted member", mutee.user.displayAvatarURL)
+            .setDescription(stripIndents`**> Member: ${mutee} (${mutee.id})
+            **> Automated Mute
+            **> Muted in: ${message.channel}
+            **> Reason: SPAM
+            MUTE needs to be manually removed`);
+
+        
         let muterole = message.guild.roles.find(r => r.name === "Muted")
         if(!muterole) {
             try{
@@ -62,6 +75,7 @@ module.exports = {
         } else {
             await mutee.addRole(muterole)
             message.channel.send(muted);
+            report.send(embed);
         }
 
 
