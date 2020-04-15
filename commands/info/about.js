@@ -18,7 +18,7 @@ module.exports = {
             .setColor("RANDOM")
             .setTimestamp()
             .setThumbnail(client.user.displayAvatarURL)
-            .addField('Bot information', stripIndents`**> Bot name** ${client.displayName}
+            .addField('Bot information', stripIndents`**> Bot name** ${client.user.username}
             **> Version:** ${version}`, true)
             .addField('Server information', stripIndents`**> Server name** ${message.guild.name}
             **> Current Member amount:** ${message.guild.memberCount}`, true)
