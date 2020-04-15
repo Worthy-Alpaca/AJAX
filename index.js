@@ -81,15 +81,30 @@ client.on("message", async message => {
     
 
     if (message.author.bot) return;
-    //const mutee = message.author;
+    
     
 
-    /* if(usersMap.has(message.author.id)) {
-        let mutee = message.author.id;
+    if(usersMap.has(message.author.id)) {
+        let mutee = message.member;
+        const report = message.guild.channels.find(channel => channel.name === "reports");
         const userData = usersMap.get(message.author.id);
         const { lastMessage, timer } = userData;
         const difference = message.createdTimestamp - lastMessage.createdTimestamp;
         let muterole = message.guild.roles.find(r => r.name === "Muted")
+
+        const embed = new RichEmbed() 
+            .setColor("#ff0000")
+            .setTimestamp()
+            .setFooter(message.guild.name, message.guild.iconURL)
+            .setAuthor("Muted member", mutee.user.displayAvatarURL)
+            .setDescription(stripIndents`**> Member: ${mutee} (${mutee.id})
+            **> Automated Mute
+            **> Muted in: ${message.channel}
+            **> Reason: SPAM
+            MUTE needs to be manually removed`);
+
+        
+
         if(!muterole) {
             try{
                 muterole = await message.guild.createRole({
@@ -111,7 +126,7 @@ client.on("message", async message => {
             }   
         }
         let msgCount = userData.msgCount;
-        console.log(difference);
+        //console.log(difference);
         if(difference > DIFF) {
           clearTimeout(timer);
           console.log('Cleared timeout');
@@ -126,12 +141,13 @@ client.on("message", async message => {
         else {
           ++msgCount;
           if(parseInt(msgCount) === LIMIT) {
-            mutee.roles.add(muterole)
-            message.channel.send('You have been muted.');
-            setTimeout(() => {
-              mutee.roles.remove(muterole);
+            mutee.addRole(muterole);
+            message.channel.send(`${mutee} You have been muted. Please contact a staff member to get that reversed.`);
+            report.send(embed);
+            /* setTimeout(() => {
+              mutee.removeRole(muterole);
               message.channel.send('You have been unmuted');
-            }, TIME);
+            }, TIME); */
           } else {
             userData.msgCount = msgCount;
             usersMap.set(message.author.id, userData);
@@ -141,15 +157,18 @@ client.on("message", async message => {
       else {
         let fn = setTimeout(() => {
           usersMap.delete(message.author.id);
-          console.log('Removed from map.');
+          //console.log('Removed from map.');
         }, TIME);
         usersMap.set(message.author.id, {
           msgCount: 1,
           lastMessage: message,
           timer: fn
         });
-      } */
+      }
 
+      
+
+                  
 
     if (!message.guild) return;
     if (!message.content.startsWith(prefix)) return;
