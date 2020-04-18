@@ -1,11 +1,10 @@
 const { Client, RichEmbed, Collection } = require("discord.js");
-const { prefix, version, status, welcome_channel, } = require('./config.json');
+const { prefix, version, status, welcome_channel, DIFF, LIMIT, TIME } = require('./config.json');
 const { token } = require('./token.json');
 const fs = require("fs");
 const { stripIndents } = require("common-tags");
 const { promptMessage } = require("./functions.js");
 const { answers, replies } = require("./answers.json")
-
 
 
 
@@ -46,10 +45,9 @@ client.on("ready", () => {
 });
 
 const usersMap = new Map();
-const LIMIT = 5;
+/* const LIMIT = 5;
 const TIME = 7000;
-const DIFF = 3000;
-
+const DIFF = 3000; */
 
 client.on("guildMemberAdd", async member => {
     if (member.bot) return;
@@ -144,6 +142,7 @@ client.on("message", async message => {
           if(parseInt(msgCount) === LIMIT) {
             mutee.addRole(muterole);
             message.channel.send(`${mutee} You have been muted. Please contact a staff member to get that reversed.`);
+            report.send(`@here, someone has been auto-muted.`);
             report.send(embed);
             /* setTimeout(() => {
               mutee.removeRole(muterole);
