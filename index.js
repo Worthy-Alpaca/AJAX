@@ -4,7 +4,7 @@ const { token } = require('./token.json');
 const fs = require("fs");
 const { stripIndents } = require("common-tags");
 const { promptMessage } = require("./functions.js");
-const { answers, replies, asks } = require("./answers.json")
+const { answers, replies, asks, help, positive, sassy } = require("./answers.json")
 
 
 
@@ -173,14 +173,22 @@ client.on("message", async message => {
       if (message.isMemberMentioned(client.user)) {
         if (message.content.toLowerCase().includes("how") && message.content.toLowerCase().includes("are") && message.content.toLowerCase().includes("you")) {
           return message.channel.send(asks[Math.floor(Math.random() * asks.length)] );
-        } else if (message.content.toLowerCase().includes("can") && message.content.toLowerCase().includes("you") && message.content.toLowerCase().includes("help") && message.content.toLowerCase().includes("me")) {
+        } else if (message.content.toLowerCase().includes("can" && "you" && "help" && "me")) { 
           return message.reply("I might. Why don't you try out !help? :wink:");
+        } else if (message.content.toLowerCase().includes("Skynet" || "terminator") || message.content.toLowerCase().includes("jugdement day")) {
+          return message.channel.send(sassy[Math.floor(Math.random() * sassy.length)] );
+        } else if (message.content.toLowerCase().includes("usefull") || message.content.toLowerCase().includes("sleep") || message.content.toLowerCase().includes("well")) {
+          return message.channel.send(positive[Math.floor(Math.random() * positive.length)]);
         } else {
           return message.channel.send(replies[Math.floor(Math.random() * replies.length)]);  
         } 
-      } else {
+      } else if (message.content.toLowerCase().includes(message.content.toLowerCase().includes("can" && "help" && "me"))) {
+          return message.channel.send(help[Math.floor(Math.random() * help.length)] );
+      }else {
         return message.channel.send(answers[Math.floor(Math.random() * answers.length)]);
       }  
+    } else if (message.content.toLowerCase().includes("I" && "will" && "be" && "back")) {
+      return message.reply("Oh yeah? Can't wait for that")
     }
 
 
