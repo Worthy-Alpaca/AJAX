@@ -4,7 +4,7 @@ const { token } = require('./token.json');
 const fs = require("fs");
 const { stripIndents } = require("common-tags");
 const { promptMessage } = require("./functions.js");
-const { answers, replies } = require("./answers.json")
+const { answers, replies, asks } = require("./answers.json")
 
 
 
@@ -170,12 +170,18 @@ client.on("message", async message => {
 
     if (!message.guild) return;
     if (message.content.endsWith("?") || message.content.endsWith("!")) {
-      return message.channel.send(answers[Math.floor(Math.random() * answers.length)]);
-    } else if (message.isMemberMentioned(client.user) || message.content.endsWith("?") || message.content.endsWith("!")) {
-      return message.channel.send(replies[Math.floor(Math.random() * replies.length)]);
-    } else if (!message.content.startsWith(prefix)) {
-      return;
-    } 
+      if (message.isMemberMentioned(client.user)) {
+        if (message.content.toLowerCase().includes("how") && message.content.toLowerCase().includes("are") && message.content.toLowerCase().includes("you")) {
+          return message.channel.send(asks[Math.floor(Math.random() * asks.length)] );
+        } else if (message.content.toLowerCase().includes("can") && message.content.toLowerCase().includes("you") && message.content.toLowerCase().includes("help") && message.content.toLowerCase().includes("me")) {
+          return message.reply("I might. Why don't you try out !help? :wink:");
+        } else {
+          return message.channel.send(replies[Math.floor(Math.random() * replies.length)]);  
+        } 
+      } else {
+        return message.channel.send(answers[Math.floor(Math.random() * answers.length)]);
+      }  
+    }
 
 
     if (!message.member) message.member = await message.guild.fetchMember(message);
