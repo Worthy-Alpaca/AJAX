@@ -4,7 +4,7 @@ const { token } = require('./token.json');
 const fs = require("fs");
 const { stripIndents } = require("common-tags");
 const { promptMessage } = require("./functions.js");
-const { answers, replies, asks, help, positive, sassy } = require("./answers.json")
+const { answers, replies, asks, help, positive, sassy, robot } = require("./answers.json")
 
 
 
@@ -175,10 +175,12 @@ client.on("message", async message => {
           return message.channel.send(asks[Math.floor(Math.random() * asks.length)] );
         } else if (message.content.toLowerCase().includes("can" && "you" && "help" && "me")) { 
           return message.reply("I might. Why don't you try out !help? :wink:");
-        } else if (message.content.toLowerCase().includes("Skynet" || "terminator") || message.content.toLowerCase().includes("jugdement day")) {
+        } else if (message.content.toLowerCase().includes("skynet") || message.content.toLowerCase().includes("jugdement day")) {
           return message.channel.send(sassy[Math.floor(Math.random() * sassy.length)] );
         } else if (message.content.toLowerCase().includes("usefull") || message.content.toLowerCase().includes("sleep") || message.content.toLowerCase().includes("well")) {
           return message.channel.send(positive[Math.floor(Math.random() * positive.length)]);
+        } else if (message.content.toLowerCase().includes("robot")){
+          return message.channel.send(robot[Math.floor(Math.random() * robot.length)]);
         } else {
           return message.channel.send(replies[Math.floor(Math.random() * replies.length)]);  
         } 
