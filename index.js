@@ -169,9 +169,9 @@ client.on("message", async message => {
                   
 
     if (!message.guild) return;
-    if (message.content.endsWith("?")) {
+    if (message.content.endsWith("?") || message.content.endsWith("!")) {
       return message.channel.send(answers[Math.floor(Math.random() * answers.length)]);
-    } else if (message.isMemberMentioned(client.user)) {
+    } else if (message.isMemberMentioned(client.user) || message.content.endsWith("?") || message.content.endsWith("!")) {
       return message.channel.send(replies[Math.floor(Math.random() * replies.length)]);
     } else if (!message.content.startsWith(prefix)) {
       return;
