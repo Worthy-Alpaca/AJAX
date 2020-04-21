@@ -189,9 +189,7 @@ client.on("message", async message => {
       }else {
         return message.channel.send(answers[Math.floor(Math.random() * answers.length)]);
       }  
-    } else if (message.content.toLowerCase().includes("I" && "will" && "be" && "back")) {
-      return message.reply("Oh yeah? Can't wait for that")
-    }
+    } 
 
 
     if (!message.member) message.member = await message.guild.fetchMember(message);
