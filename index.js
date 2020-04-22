@@ -5,7 +5,7 @@ const fs = require("fs");
 const { stripIndents } = require("common-tags");
 const { promptMessage } = require("./functions.js");
 const { answers, replies, asks, help, positive, sassy, robot } = require("./answers.json")
-
+const usersMap = new Map();
 
 
 const client = new Client({
@@ -44,11 +44,10 @@ client.on("ready", () => {
     });
 });
 
-const usersMap = new Map();
-/* const LIMIT = 5;
-const TIME = 7000;
-const DIFF = 3000; */
 
+
+
+//welcome message
 client.on("guildMemberAdd", async member => {
     if (member.bot) return;
     const channel = member.guild.channels.find(channel => channel.name === `${welcome_channel}`);
@@ -59,7 +58,7 @@ client.on("guildMemberAdd", async member => {
         .setColor("RANDOM")
         .setTimestamp()
         .setAuthor(`We have a new member`, member.user.displayAvatarURL)
-        .setDescription(stripIndents`Hello ${member} and welcome to the idiotsatlarge discord server. :partying_face:
+        .setDescription(stripIndents`Hello ${member} and welcome to the IdiotsAtLarge discord server. :partying_face:
         We are a clan of friendly people who have fun and work together.
         You have any questions or need help? Just ask ingame or on this server. :grin:
         To keep the clan going, player inactivity fo 30 days will result in discharge.
@@ -74,7 +73,7 @@ client.on("guildMemberAdd", async member => {
 
 
 
-
+//message handler
 client.on("message", async message => {
 
     
@@ -82,7 +81,7 @@ client.on("message", async message => {
     if (message.author.bot) return;
     
     
-
+    //automated spam detection and mute
     if(usersMap.has(message.author.id)) {
         let mutee = message.member;
         const report = message.guild.channels.find(channel => channel.name === "reports");
@@ -169,7 +168,9 @@ client.on("message", async message => {
                   
 
     if (!message.guild) return;
-    if (message.content.endsWith("?") || message.content.endsWith("!")) {
+
+    //reply function
+    if (message.content.endsWith("?") || message.content.endsWith("?!")) {
       if (message.isMemberMentioned(client.user)) {
         if (message.content.toLowerCase().includes("how") && message.content.toLowerCase().includes("are") && message.content.toLowerCase().includes("you")) {
           return message.channel.send(asks[Math.floor(Math.random() * asks.length)] );
