@@ -4,7 +4,7 @@ const { prefix, version } = require("../../config.json");
 
 module.exports = {
     name: "help",
-    aliases: ["h", "info"],
+    aliases: ["info"],
     category: "info",
     description: "Returns all commands, or one specific command info",
     usage: "[command | alias]",
