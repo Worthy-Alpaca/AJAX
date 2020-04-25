@@ -1,10 +1,10 @@
 const { RichEmbed } = require("discord.js");
 const { stripIndents } = require("common-tags");
-const { prefix } = require("../../config.json");
+const { prefix, version } = require("../../config.json");
 
 module.exports = {
     name: "help",
-    aliases: ["h", "info"],
+    aliases: ["info"],
     category: "info",
     description: "Returns all commands, or one specific command info",
     usage: "[command | alias]",
@@ -26,7 +26,7 @@ module.exports = {
 function getAll(client, message) {   
     const embed = new RichEmbed()
         .setColor("RANDOM")
-        .setFooter(message.guild.name)
+        .setFooter(`Version: ${version}`)
         .setTimestamp()
         .setTitle("Help menu")
         .setThumbnail(client.user.displayAvatarURL)
