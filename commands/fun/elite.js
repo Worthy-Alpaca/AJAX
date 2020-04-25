@@ -15,7 +15,7 @@ module.exports = {
     usage: "don't use me yet!",
     run: async (client, message, args) => {
         if (message.deletabe) message.delete();
-        //return message.reply("This is not working yet. Come back at a later time, maybe I'll have it figured out then :grin:")
+        return message.reply("This is not working yet. Come back at a later time, maybe I'll have it figured out then :grin:")
          
         if (!args.length) {
             return message.channel.send('You need to supply a search term!')
