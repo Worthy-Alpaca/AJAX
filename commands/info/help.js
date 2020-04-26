@@ -52,7 +52,7 @@ function getCMD(client, message, input) {
 
     const cmd = client.commands.get(input.toLowerCase()) || client.commands.get(client.aliases.get(input.toLowerCase()));
 
-    let info = `No information found for command **${input.toLowerCase()}**`;
+    let info = `What do you mean with **${input.toLowerCase()}**? I don't know what you are talking about`;
 
     if (!cmd) {
         return message.channel.send(embed.setColor("RED").setDescription(info));

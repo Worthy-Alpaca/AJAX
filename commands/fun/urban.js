@@ -8,7 +8,7 @@ module.exports = {
     name: "urban",
     category: "fun",
     description: "Sends an urban dictonary entry",
-    usage: "word",
+    usage: "<word>",
     run: async (client, message, args) => {
         if (message.deletabe) message.delete();
 
