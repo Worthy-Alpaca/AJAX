@@ -27,7 +27,7 @@ module.exports = {
             var landables = [];
             var nonlandables = [];
             var id;
-
+            
             response.bodies.forEach(function(bodies) {
                 if (bodies.isLandable) {
                     id = bodies.id
@@ -54,9 +54,15 @@ module.exports = {
             
 
             message.channel.send(embed);
+           
+
+           
         })
 
         fetch(url2).then(response => response.json()).then(function(response) {
+           
+            
+            
             var station = [];
             var outposts = [];
             var planetary = [];
@@ -67,6 +73,9 @@ module.exports = {
                     id = stations.id
                     station.push(id)
                 } else if (stations.type === "Ocellus Starport") {
+                    id = stations.id
+                    station.push(id)
+                } else if (stations.type === "Coriolis Starport") {
                     id = stations.id
                     station.push(id)
                 } else if (stations.type === "Planetary Port") {
@@ -93,6 +102,8 @@ module.exports = {
             
 
             message.channel.send(embed);
+        
+
         })
     }
    }
