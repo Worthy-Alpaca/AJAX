@@ -18,9 +18,13 @@ module.exports = {
             return message.channel.send('You need to supply a search term!')
                 .then(m => m.delete(5000));
         }
+
+        
+
         const sys = args.slice(0).join("+")
         const url = `https://www.edsm.net/api-system-v1/bodies?sysname=${sys}`
         const url2 = `https://www.edsm.net/api-system-v1/stations?sysname=${sys}`
+        const url3 = `https://www.edsm.net/api-system-v1/factions?sysname=${sys}`
         
         const response1  = await fetch(url).then(function(response) {
             return response.json();
@@ -30,9 +34,15 @@ module.exports = {
             return response.json();
         })
 
+        const response3 = await fetch(url3).then(function(response) {
+            return response.json();
+        })
+
         if (typeof response1.id == 'undefined') {
-            return message.reply("I don't know about that system. Let me ask around real quick.")
+            return message.reply("I have never heard about that system. Let me ask around real quick.")
         } else message.reply("I found something. One second please")
+
+        
 
              
         var station = [];
@@ -41,17 +51,29 @@ module.exports = {
         var id2;
         var landables = [];
         var nonlandables = [];
+        var stars = [];
         var id1;
+        var faction;
 
-        
+        if (typeof response3.controllingFaction == 'undefined') {
+            faction = "System is not inhabitated"
+        } else {
+            faction = response3.controllingFaction.name
+        }
 
         response1.bodies.forEach(function(bodies) {
             if (bodies.isLandable) {
                 id = bodies.id
                 landables.push(id1)
             } else if (!bodies.isLandable) {
-                id = bodies.id
-                nonlandables.push(id1)
+                if (bodies.type === "Star") {
+                    id = bodies.id
+                    stars.push(id1)
+                } else {
+                    id = bodies.id
+                    nonlandables.push(id1)  
+                }
+                
             }
         })
 
@@ -85,10 +107,12 @@ module.exports = {
             .setTimestamp()
             .setTitle(response1.name)
             .setURL(response1.url)
+            .setDescription(`**Controlling Faction:** ${faction}`)
             .addField(`\u200b`,  stripIndents`**Main Star** 
             Star Class: ${response1.bodies[0].subType}
             Scoopable: ${response1.bodies[0].isScoopable}`, true)
-            .addField(`\u200b`, stripIndents`**Planetary Bodies**
+            .addField(`\u200b`, stripIndents`**Stellar Bodies**
+            Stars: ${stars.length}
             Landable Bodies: ${landables.length}
             Nonlandable Bodies: ${nonlandables.length}`, true)
             .addField(`\u200b`,  stripIndents`**Stations** 
@@ -99,7 +123,7 @@ module.exports = {
             
 
         message.channel.send(embed);
-
+        
         
     }
    }
