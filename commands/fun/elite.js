@@ -12,7 +12,7 @@ module.exports = {
     usage: "<System>",
     run: async (client, message, args) => {
 
-        if (message.deletabe) message.delete();
+        message.delete();
         
         if (!args.length) {
             return message.channel.send('You need to supply a search term!')
@@ -54,10 +54,16 @@ module.exports = {
         var stars = [];
         var id1;
         var faction;
+        var allegiance;
+        var government;
 
         if (typeof response3.controllingFaction == 'undefined') {
             faction = "System is not inhabitated"
+            government = "therefore no government"
+            allegiance = "and also no allegiance"
         } else {
+            allegiance = response3.controllingFaction.allegiance
+            government = response3.controllingFaction.government
             faction = response3.controllingFaction.name
         }
 
@@ -107,7 +113,9 @@ module.exports = {
             .setTimestamp()
             .setTitle(response1.name)
             .setURL(response1.url)
-            .setDescription(`**Controlling Faction:** ${faction}`)
+            .setDescription(`**Controlling Faction:** ${faction}
+            **Government:** ${government}
+            **Allegiance:** ${allegiance}`)
             .addField(`\u200b`,  stripIndents`**Main Star** 
             Star Class: ${response1.bodies[0].subType}
             Scoopable: ${response1.bodies[0].isScoopable}`, true)
