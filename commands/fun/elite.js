@@ -12,7 +12,7 @@ module.exports = {
     usage: "<System>",
     run: async (client, message, args) => {
 
-        if (message.deletabe) message.delete();
+        message.delete();
         
         if (!args.length) {
             return message.channel.send('You need to supply a search term!')
