@@ -17,9 +17,17 @@ module.exports = {
 
         var channel = message.guild.channels.find(channel => channel.name === `${args[0]}`);
         
-        if (typeof args[0] == 'undefined') {
-            return message.channel.send("Maybe include a message :wink:")
+        if (!channel) {
+            if (typeof args[0] == 'undefined') {
+                return message.channel.send("Maybe include a message :wink:")
+            }  
+        } else {
+            if (typeof args[1] == 'undefined') {
+                return message.channel.send("Maybe include a message :wink:")
+            }
         }
+
+        
 
         if (!channel) {
             if (args[0].toLowerCase() === "embed") {
