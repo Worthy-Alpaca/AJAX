@@ -20,11 +20,19 @@ module.exports = {
 
         guild.members.forEach(member => {
             if (member.hasPermission("ADMINISTRATOR")){
-                name = member.displayName
-                admins.push(name)
+                if (member.id === client.user.id) {
+                    return
+                } else {
+                    name = member.displayName
+                    admins.push(name)
+                }
             } else if(member.hasPermission("KICK_MEMBERS")) {
-                name = member.displayName
-                moderators.push(name)
+                if (member.id === client.user.id) {
+                    return
+                } else {
+                    name = member.displayName
+                    moderators.push(name)
+                }
             }
         })
 
