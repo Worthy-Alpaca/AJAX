@@ -25,7 +25,7 @@ module.exports = {
             .setTimestamp()
             .setAuthor("Update occured", client.user.displayAvatarURL)
             .setDescription(stripIndents`I have been updated. :grin: 
-        New version: ${version}`);
+        New version: **${version}**`);
 
 
 
