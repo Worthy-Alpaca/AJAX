@@ -43,7 +43,7 @@ module.exports = {
             .setColor("#ff0000")
             .setTimestamp()
             .setFooter(message.guild.name, message.guild.iconURL)
-            .setAuthor("Reported member", rMember.user.displayAvatarURL)
+            .setAuthor("**Reported member**", rMember.user.displayAvatarURL)
             .setDescription(stripIndents`**> Member: ${rMember} (${rMember.id})
             **> Behavior: ${behavior2}
             **> Reported by: ${message.member} (${message.member.id})

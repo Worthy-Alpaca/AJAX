@@ -1,5 +1,4 @@
 const fetch = require('node-fetch');
-fetch('https://aws.random.cat/meow').then(response => response.json());
 
 
 

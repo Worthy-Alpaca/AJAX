@@ -39,7 +39,7 @@ module.exports = {
         })
 
         if (typeof response1.id == 'undefined') {
-            return message.reply("I have never heard about that system. Let me ask around real quick.")
+            return message.reply(`I have never heard of the \`${args.slice(0).join(" ")}\` system. Let me ask around real quick.`)
         } else message.reply("I found something. One second please")
 
         

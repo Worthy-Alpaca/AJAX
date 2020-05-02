@@ -28,10 +28,10 @@ module.exports = {
             .setThumbnail(member.user.displayAvatarURL)
             .setColor(member.displayHexColor === "#000000" ? "#ffffff" : member.displayHexColor)
 
-            .addField('Member information', stripIndents`**> Display name** ${member.displayName}
+            .addField('**Member information**', stripIndents`**> Display name** ${member.displayName}
             **> Joined at:** ${joined}
             **> Roles:** ${roles}`, true)
-            .addField('User Information', stripIndents`**> ID:** ${member.user.id}
+            .addField('**User Information**', stripIndents`**> ID:** ${member.user.id}
             **> Username:** ${member.user.username}
             **> Discord Tag:** ${member.user.tag}
             **> Created at:** ${created}`, true)
