@@ -72,6 +72,7 @@ module.exports = {
         if (mutee.roles.has(muterole.id)) {
             await mutee.removeRole(muterole)
             message.channel.send(unmuted);
+            report.send(`${mutee} has been unmuted`);
         } else {
             await mutee.addRole(muterole)
             message.channel.send(muted);
