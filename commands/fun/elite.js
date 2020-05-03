@@ -56,16 +56,18 @@ module.exports = {
         var faction;
         var allegiance;
         var government;
+        var test;
 
         if (typeof response3.controllingFaction == 'undefined') {
             faction = "System is not inhabitated"
-            government = "therefore no government"
-            allegiance = "and also no allegiance"
+            test = true;
         } else {
             allegiance = response3.controllingFaction.allegiance
             government = response3.controllingFaction.government
             faction = response3.controllingFaction.name
         }
+
+        
 
         response1.bodies.forEach(function(bodies) {
             if (bodies.isLandable) {
@@ -123,12 +125,17 @@ module.exports = {
             Stars: ${stars.length}
             Landable Bodies: ${landables.length}
             Nonlandable Bodies: ${nonlandables.length}`, true)
-            .addField(`\u200b`,  stripIndents`**Stations** 
+            
+            
+            
+        if (test == true ) {
+            embed.setDescription(`This system is **uninhabitated**`)
+        } else {
+            embed.addField(`\u200b`,  stripIndents`**Stations** 
             Star Ports: ${station.length}
             Outposts: ${outposts.length}
             Planetary Ports: ${planetary.length}`, true);
-            
-            
+        }
 
         message.channel.send(embed);
         
