@@ -36,7 +36,7 @@ client.on("ready", () => {
     }); */
 
     client.user.setPresence({
-        status: "online",
+        status: "invisible",
         game: {
             name: `${status}`,
             type: "WATCHING"
