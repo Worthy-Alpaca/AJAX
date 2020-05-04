@@ -20,6 +20,10 @@ module.exports = {
         if (!role) return message.reply("This role doesn't exist. Maybe add it??");
 
         
+        if (unraid) {
+            return message.reply("You are unfit for the raid. If you think that is wrong, please contact a staff member nearest to you.")
+        }
+
 
         const embed = new RichEmbed()
             .setColor("#ff0000")
@@ -33,28 +37,23 @@ module.exports = {
             .setAuthor(`This verification becomes invalid after 30s.`)
             .setDescription(`Do you want to join the raid?`)
 
-        if (!unraid) {
-            // Send the message
-            await message.channel.send(promptEmbed).then(async msg => {
+        await message.channel.send(promptEmbed).then(async msg => {
                 // Await the reactions and the reaction collector
-                const emoji = await promptMessage(msg, message.author, 30, ["✔", "❌"]);
+            const emoji = await promptMessage(msg, message.author, 30, ["✔", "❌"]);    
 
                 // The verification stuffs
-                if (emoji === "✔") {
-                    msg.delete();
-                    await toKick.addRole(role.id).catch(e => console.log(e.message))
-                    message.channel.send(`Welcome to the big boy league :grin:`)
+            if (emoji === "✔") {
+                msg.delete();
+                await toKick.addRole(role.id).catch(e => console.log(e.message))
+                message.channel.send(`Welcome to the big boy league :grin:`)
 
-                    logChannel.send(embed);
-                } else if (emoji === "❌") {
-                    msg.delete();
+                logChannel.send(embed);
+            } else if (emoji === "❌") {
+                msg.delete();
 
-                    message.reply(`Not ready yet? Maybe next time.`)
-                        .then(m => m.delete(10000));
-                }
-            });
-        } else {
-            return message.reply("You are unfit for the raid. If you think that is wrong, please contact a staff member nearest to you.")
-        }
+                message.reply(`Not ready yet? Maybe next time.`)
+                    .then(m => m.delete(10000));
+            }
+        });    
     }
 };

@@ -57,8 +57,8 @@ client.on("guildMemberAdd", async member => {
     const embed = new RichEmbed()
         .setColor("RANDOM")
         .setTimestamp()
-        .setAuthor(`We have a new member`, member.user.displayAvatarURL)
-        .setDescription(stripIndents`Hello ${member} and welcome to the IdiotsAtLarge discord server. :partying_face:
+        .setAuthor(`Hooray, ${member.displayName} just joined our merry band of misfits`, member.user.displayAvatarURL)
+        .setDescription(stripIndents`Hello ${member.displayName} and welcome to the IdiotsAtLarge discord server. :partying_face:
         We are a clan of friendly people who have fun and work together.
         You have any questions or need help? Just ask ingame or on this server. :grin:
         To keep the clan going, player inactivity fo 30 days will result in discharge.
