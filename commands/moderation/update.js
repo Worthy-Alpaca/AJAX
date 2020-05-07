@@ -20,12 +20,22 @@ module.exports = {
 
         
         client.user.setPresence({
-            status: "online",
+            status: "invisible",
             game: {
                 name: `${status}`,
                 type: "WATCHING"
             }
         });
+
+        setTimeout(() => {
+            client.user.setPresence({
+                status: "online",
+                game: {
+                    name: `${status}`,
+                    type: "WATCHING"
+                }
+            })
+        }, 5000)
         if (args[0] === "send") {
             setTimeout(() => {
                 const embed2 = new RichEmbed()
@@ -37,7 +47,7 @@ module.exports = {
 
                 return channel.send(embed2);
  
-            }, 3000)
+            }, 7000)
         } else return
 
         
