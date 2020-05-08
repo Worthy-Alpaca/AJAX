@@ -2,6 +2,7 @@ module.exports = {
     name: "close",
     category: "moderation",
     description: "Clears a voice channel",
+    usage: "<channel>",
     run: async (client, message, args) => {
         message.delete();
         

@@ -2,6 +2,7 @@ module.exports = {
     name: "lock",
     category: "moderation",
     description: "Locks a voice channel",
+    usage: "<channel>, [amount]",
     run: async (client, message, args) => {
         
         message.delete();
