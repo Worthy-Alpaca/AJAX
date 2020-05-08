@@ -6,7 +6,7 @@ module.exports = {
     name: "role",
     category: "moderation",
     description: "adds/removes roles",
-    usage: "<add | remove, id | mention, role>",
+    usage: "<add | remove, id | mention, role(case sensitive)>",
     run: async (client, message, args) => {
 
 
