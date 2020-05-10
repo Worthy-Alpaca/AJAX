@@ -15,7 +15,30 @@ module.exports = {
 
         const roleColor = message.guild.me.highestRole.hexColor;
 
-        var channel = message.guild.channels.find(channel => channel.name === `${args[0]}`);
+        function checkHash(number) {
+            return number != "#";
+        }
+          
+        var b;
+        //console.log(args[0])
+        var chnl = Array.from(args[0])
+        
+        if (chnl.includes("#")) {
+            b = chnl.filter(checkHash); 
+            b.shift();
+            b.pop();
+            //console.log(1)
+            //console.log(b)
+            var channel = message.guild.channels.find(channel => channel.id === b.join(""));       
+        } else {
+            //b = chnl;
+            //console.log(2)
+            var channel = message.guild.channels.find(channel => channel.name === chnl.join(""));
+        }
+        //console.log(channel.id)
+        
+        
+        //console.log(channel)
         
         if (!channel) {
             if (typeof args[0] == 'undefined') {
