@@ -12,10 +12,10 @@ module.exports = {
         var count = false;
 
 
-        if (!message.member.hasPermission("ADMINISTRATOR")) {
+        /* if (!message.member.hasPermission("ADMINISTRATOR")) {
             return message.reply("You are not powerfull enough to do that.")
                 .then(m => m.delete(5000));
-        }
+        } */
 
         if (!args[0]) {
             return message.reply("You need to tell me what channel to close down")
