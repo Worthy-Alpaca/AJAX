@@ -24,9 +24,7 @@ module.exports = {
         var chnl = Array.from(args[0])
         
         if (chnl.includes("#")) {
-            b = chnl.filter(checkHash); 
-            b.shift();
-            b.pop();
+            b = chnl.slice(2, chnl.indexOf(">"))
             //console.log(1)
             //console.log(b)
             var channel = message.guild.channels.find(channel => channel.id === b.join(""));       
