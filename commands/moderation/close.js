@@ -6,7 +6,7 @@ module.exports = {
     run: async (client, message, args) => {
         message.delete();
         
-        if (!message.member.hasPermission("ADMINISTRATOR")) {
+        if (!message.member.hasPermission("KICK_MEMBERS")) {
             return message.reply("You are not powerfull enough to do that.")
                 .then(m => m.delete(5000));
         }
