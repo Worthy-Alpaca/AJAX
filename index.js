@@ -28,7 +28,7 @@ client.categories = fs.readdirSync("./commands/");
 
 client.on("ready", () => {
 
-    console.log(`I'm now online, my name is ${client.user.username}`);
+    console.log(`Logged in as ${client.user.username}`);
     //console.log(client.channels);
 
     /* client.fetchUser("595341356432621573", false).then(user => {
