@@ -15,9 +15,6 @@ module.exports = {
 
         const roleColor = message.guild.me.highestRole.hexColor;
 
-        function checkHash(number) {
-            return number != "#";
-        }
           
         var b;
         //console.log(args[0])
