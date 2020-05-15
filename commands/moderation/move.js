@@ -1,4 +1,4 @@
-const { moderator } = require("../../config.json");
+const { admin, moderator } = require("../../config.json");
 
 module.exports = {
     name: "move",
