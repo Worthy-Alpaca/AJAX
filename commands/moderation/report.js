@@ -1,5 +1,6 @@
 const { RichEmbed } = require('discord.js');
 const { stripIndents } = require("common-tags");
+const { admin, moderator } = require("../../config.json"); 
 
 
 module.exports = {
@@ -18,7 +19,7 @@ module.exports = {
         if (!rMember)
             return message.reply("Couldn't find that person").then(m => m.delete(5000));
 
-        if (rMember.hasPermission("ADMINISTRATOR") || rMember.user.bot)
+        if (rMember.roles.has(message.guild.roles.find(r => r.name === admin).id) || rMember.user.bot)
             return message.reply("Can't report that member").then(m => m.delete(5000));
 
         if (args[0] === "good") {

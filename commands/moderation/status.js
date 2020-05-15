@@ -1,4 +1,4 @@
-//const { status } = require("../../config.json")
+const { admin } = require("../../config.json")
 
 
 module.exports = {
@@ -9,7 +9,7 @@ module.exports = {
     run: async (client, message, args) => {
         message.delete();
 
-        if (!message.member.hasPermission("ADMINISTRATOR"))
+        if (!message.member.roles.has(message.guild.roles.find(r => r.name === admin).id))
             return message.reply("YOU DARE COMMAND ME, MORTAL?").then(m => m.delete(5000));
 
         

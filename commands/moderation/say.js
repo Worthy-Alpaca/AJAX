@@ -1,4 +1,5 @@
 const { RichEmbed } = require("discord.js");
+const { admin } = require("../../config.json")
 
 module.exports = {
     name: "say",
@@ -8,7 +9,7 @@ module.exports = {
     run: async (client, message, args) => {
         message.delete();
 
-        if (!message.member.hasPermission("MANAGE_MESSAGES"))
+        if (!message.member.roles.has(message.guild.roles.find(r => r.name === admin).id))
             return message.reply("You don't have the required permissions to use this command.").then(m => m.delete(5000));
 
         
