@@ -7,11 +7,13 @@ module.exports = {
     usage: "<channel1 -> channel2>",
     run: async (client, message, args) => {
         message.delete();
-        
-        if (!message.member.roles.has(message.guild.roles.find(r => r.name === moderator).id)) {
-            return message.reply("You are not powerfull enough to do that.")
-                .then(m => m.delete(5000));
+        if (!message.member.roles.has(message.guild.roles.find(r => r.name === admin).id)) {
+            if (!message.member.roles.has(message.guild.roles.find(r => r.name === moderator).id)) {
+                return message.reply("You are not powerfull enough to do that.")
+                    .then(m => m.delete(5000));
+            }
         }
+        
 
         if (!args[0]) {
             return message.reply("You need to tell me what channel to close down")

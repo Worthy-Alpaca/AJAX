@@ -1,4 +1,4 @@
-const { moderator } = require("../../config.json");
+const { admin, moderator } = require("../../config.json");
 
 module.exports = {
     name: "clear",
@@ -11,9 +11,12 @@ module.exports = {
         }
     
         // Member doesn't have permissions
-        if (!message.member.roles.has(message.guild.roles.find(r => r.name === moderator).id)) {
-            return message.reply("You can't delete messages....").then(m => m.delete(5000));
+        if (!message.member.roles.has(message.guild.roles.find(r => r.name === admin).id)) {
+            if (!message.member.roles.has(message.guild.roles.find(r => r.name === moderator).id)) {
+                return message.reply("You can't delete messages....").then(m => m.delete(5000));
+            } 
         }
+        
 
         // Check if args[0] is a number
         if (isNaN(args[0]) || parseInt(args[0]) <= 0) {

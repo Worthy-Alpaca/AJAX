@@ -61,10 +61,13 @@ module.exports = {
         if (args[0].toLowerCase() === "kick") {
 
             // No author permissions
-            if (!message.member.roles.has(message.guild.roles.find(r => r.name === moderator).id)) {
-                return message.reply("❌ You do not have permissions to kick members. Please contact a staff member")
-                    .then(m => m.delete(5000));
+            if (!message.member.roles.has(message.guild.roles.find(r => r.name === admin).id)) {
+                if (!message.member.roles.has(message.guild.roles.find(r => r.name === moderator).id)) {
+                    return message.reply("❌ You do not have permissions to kick members. Please contact a staff member")
+                        .then(m => m.delete(5000));
+                }
             }
+            
 
             //no bot permission
             if (!message.guild.me.hasPermission("KICK_MEMBERS")) {

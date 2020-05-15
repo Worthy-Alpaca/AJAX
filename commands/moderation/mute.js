@@ -1,8 +1,7 @@
-
 const Discord = require("discord.js");
 const { RichEmbed } = require('discord.js');
 const { stripIndents } = require("common-tags");
-const { moderator } = require("../../config.json");
+const { admin, moderator } = require("../../config.json");
 
 module.exports = {
     name: "mute",
@@ -15,12 +14,13 @@ module.exports = {
         if (message.deletable) message.delete();
         const report = message.guild.channels.find(channel => channel.name === "reports");
         const mutee = message.mentions.members.first();
-        
-        if (!message.member.roles.has(message.guild.roles.find(r => r.name === moderator).id)) {
-            return message.reply("You can't do that. Please contact a staff member!")
-                .then(m => m.delete(5000));
+          
+        if (!message.member.roles.has(message.guild.roles.find(r => r.name === admin).id)) {
+            if (!message.member.roles.has(message.guild.roles.find(r => r.name === moderator).id)) {
+                return message.reply("You can't do that. Please contact a staff member!")
+                    .then(m => m.delete(5000));
+            }
         }
-
 
         if (!args[0]) {
             return message.reply("You need to tag someone.")
@@ -77,6 +77,7 @@ module.exports = {
         } else {
             await mutee.addRole(muterole)
             message.channel.send(muted);
+            report.send("@here someone has been muted");
             report.send(embed);
         }
 
