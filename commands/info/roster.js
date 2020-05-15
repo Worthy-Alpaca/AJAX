@@ -1,5 +1,6 @@
 const { RichEmbed } = require("discord.js");
 const { stripIndents } = require("common-tags");
+const { admin, moderator } = require("../../config.json")
 
 
 module.exports = {
@@ -19,14 +20,14 @@ module.exports = {
         
 
         guild.members.forEach(member => {
-            if (member.hasPermission("ADMINISTRATOR")){
+            if (member.roles.has(message.guild.roles.find(r => r.name === admin).id)){
                 if (member.id === client.user.id) {
                     return
                 } else {
                     name = member.displayName
                     admins.push(name)
                 }
-            } else if(member.hasPermission("KICK_MEMBERS")) {
+            } else if(member.roles.has(message.guild.roles.find(r => r.name === moderator).id)) {
                 if (member.id === client.user.id) {
                     return
                 } else {

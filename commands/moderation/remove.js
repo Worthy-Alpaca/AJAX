@@ -1,6 +1,7 @@
 const { RichEmbed } = require("discord.js");
 const { stripIndents } = require("common-tags");
 const { promptMessage } = require("../../functions.js");
+const { admin, moderator } = require("../../config.json");
 
 module.exports = {
     name: "remove",
@@ -60,7 +61,7 @@ module.exports = {
         if (args[0].toLowerCase() === "kick") {
 
             // No author permissions
-            if (!message.member.hasPermission("KICK_MEMBERS")) {
+            if (!message.member.roles.has(message.guild.roles.find(r => r.name === moderator).id)) {
                 return message.reply("❌ You do not have permissions to kick members. Please contact a staff member")
                     .then(m => m.delete(5000));
             }
@@ -110,7 +111,7 @@ module.exports = {
         } else if (args[0].toLowerCase() === "ban") {
 
             // No author permissions
-            if (!message.member.hasPermission("BAN_MEMBERS")) {
+            if (!message.member.roles.has(message.guild.roles.find(r => r.name === admin).id)) {
                 return message.reply("❌ You do not have permissions to ban members. Please contact a staff member")
                     .then(m => m.delete(5000));
             }

@@ -1,3 +1,5 @@
+const { moderator } = require("../../config.json");
+
 module.exports = {
     name: "clear",
     aliases: ["purge", "nuke"],
@@ -9,7 +11,7 @@ module.exports = {
         }
     
         // Member doesn't have permissions
-        if (!message.member.hasPermission("MANAGE_MESSAGES")) {
+        if (!message.member.roles.has(message.guild.roles.find(r => r.name === moderator).id)) {
             return message.reply("You can't delete messages....").then(m => m.delete(5000));
         }
 

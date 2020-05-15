@@ -1,3 +1,5 @@
+const { admin } = require("../../config.json");
+
 module.exports = {
     name: "lock",
     category: "moderation",
@@ -12,7 +14,7 @@ module.exports = {
         var count = false;
 
 
-        /* if (!message.member.hasPermission("ADMINISTRATOR")) {
+        /* if (!message.member.roles.has(message.guild.roles.find(r => r.name === admin).id)) {
             return message.reply("You are not powerfull enough to do that.")
                 .then(m => m.delete(5000));
         } */

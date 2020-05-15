@@ -2,6 +2,7 @@
 const Discord = require("discord.js");
 const { RichEmbed } = require('discord.js');
 const { stripIndents } = require("common-tags");
+const { moderator } = require("../../config.json");
 
 module.exports = {
     name: "mute",
@@ -15,7 +16,7 @@ module.exports = {
         const report = message.guild.channels.find(channel => channel.name === "reports");
         const mutee = message.mentions.members.first();
         
-        if (!message.member.hasPermission("KICK_MEMBERS")) {
+        if (!message.member.roles.has(message.guild.roles.find(r => r.name === moderator).id)) {
             return message.reply("You can't do that. Please contact a staff member!")
                 .then(m => m.delete(5000));
         }

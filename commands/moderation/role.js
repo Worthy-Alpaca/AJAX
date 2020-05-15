@@ -1,6 +1,7 @@
 const Discord = require("discord.js");
 const { RichEmbed } = require("discord.js");
 const { promptMessage } = require("../../functions.js");
+const { moderator } = require("../../config.json");
 
 module.exports = {
     name: "role",
@@ -12,7 +13,7 @@ module.exports = {
 
         
 
-        if (!message.member.hasPermission("MANAGE_ROLES")) {
+        if (!message.member.roles.has(message.guild.roles.find(r => r.name === moderator).id)) {
             return message.reply("You can't do that. Please contact a staff member!")
                 .then(m => m.delete(5000));
         }

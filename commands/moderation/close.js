@@ -1,3 +1,5 @@
+const { moderator } = require("../../config.json");
+
 module.exports = {
     name: "close",
     category: "moderation",
@@ -6,7 +8,7 @@ module.exports = {
     run: async (client, message, args) => {
         message.delete();
         
-        if (!message.member.hasPermission("KICK_MEMBERS")) {
+        if (!message.member.roles.has(message.guild.roles.find(r => r.name === moderator).id)) {
             return message.reply("You are not powerfull enough to do that.")
                 .then(m => m.delete(5000));
         }
