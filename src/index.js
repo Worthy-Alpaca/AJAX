@@ -1,6 +1,6 @@
 const { Client, RichEmbed, Collection } = require("discord.js");
 const { prefix, version, status, welcome_channel, DIFF, LIMIT, TIME } = require('./config.json');
-const { token } = require('./token.json');
+const { token } = require('../token.json');
 const fs = require("fs");
 const { stripIndents } = require("common-tags");
 const { promptMessage } = require("./functions.js");
