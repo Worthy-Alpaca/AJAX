@@ -104,6 +104,8 @@ client.on("guildMemberAdd", async member => {
 
     if (typeof greeting == 'undefined') {
       greeting = "No greeting on this server. Sorry"
+    } else if (greeting === null) {
+      greeting = "No greeting on this server. Sorry"
     }
     
     const embed = new RichEmbed()
