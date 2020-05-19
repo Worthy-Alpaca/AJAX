@@ -11,6 +11,13 @@ module.exports = {
         var admin = await getAdmin(message, con);
         var moderator = await getMod(message, con);
 
+        if (admin === null) {
+            return message.channel.send("You need to set the role for admin first. Do that by typing !setadmin")
+        }
+        if (moderator === null) {
+            return message.channel.send("You need to set the role for moderator first. Do that by typing !setmod")
+        }
+
         if (!message.member.roles.has(message.guild.roles.find(r => r.name === admin).id)) {
             if (!message.member.roles.has(message.guild.roles.find(r => r.name === moderator).id)) {
                 return message.reply("You are not powerfull enough to do that.")

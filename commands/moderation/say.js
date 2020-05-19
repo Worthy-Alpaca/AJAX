@@ -1,5 +1,5 @@
 const { RichEmbed } = require("discord.js");
-const { admin } = require("../../config.json")
+const { getAdmin, getMod } = require("../../functions")
 
 module.exports = {
     name: "say",
@@ -11,6 +11,13 @@ module.exports = {
 
         var admin = await getAdmin(message, con);
         var moderator = await getMod(message, con);
+
+        if (admin === null) {
+            return message.channel.send("You need to set the role for admin first. Do that by typing !setadmin")
+        }
+        if (moderator === null) {
+            return message.channel.send("You need to set the role for moderator first. Do that by typing !setmod")
+        }
 
         if (!message.member.roles.has(message.guild.roles.find(r => r.name === admin).id))
             return message.reply("You don't have the required permissions to use this command.").then(m => m.delete(5000));

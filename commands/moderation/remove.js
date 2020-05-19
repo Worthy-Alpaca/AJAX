@@ -16,6 +16,13 @@ module.exports = {
         var admin = await getAdmin(message, con);
         var moderator = await getMod(message, con);
 
+        if (admin === null) {
+            return message.channel.send("You need to set the role for admin first. Do that by typing !setadmin")
+        }
+        if (moderator === null) {
+            return message.channel.send("You need to set the role for moderator first. Do that by typing !setmod")
+        }
+
         //no functions mentioned
         if (!args[0]) {
             return message.reply("Please tell me what to do.")

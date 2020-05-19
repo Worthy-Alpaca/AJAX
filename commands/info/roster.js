@@ -1,6 +1,6 @@
 const { RichEmbed } = require("discord.js");
 const { stripIndents } = require("common-tags");
-const { admin, moderator } = require("../../config.json")
+const { getAdmin, getMod } = require("../../functions");
 
 
 module.exports = {
@@ -14,9 +14,18 @@ module.exports = {
 
         const guild = message.channel.guild;
 
-        var admins = [];
-        var moderators = []
+        var admin = await getAdmin(message, con);
+        var moderator = await getMod(message, con);
         var name
+        var admins = [];
+        var moderators = [];
+        console.log(admin)
+        if (admin === null) {
+            return message.channel.send("You need to set the role for admin first. Do that by typing !setadmin")
+        }
+        if (moderator === null) {
+            return message.channel.send("You need to set the role for moderator first. Do that by typing !setmod")
+        }
         
 
         guild.members.forEach(member => {

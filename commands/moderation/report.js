@@ -18,6 +18,13 @@ module.exports = {
         var admin = await getAdmin(message, con);
         var moderator = await getMod(message, con);
 
+        if (admin === null) {
+            return message.channel.send("You need to set the role for admin first. Do that by typing !setadmin")
+        }
+        if (moderator === null) {
+            return message.channel.send("You need to set the role for moderator first. Do that by typing !setmod")
+        }
+
         if (!rMember)
             return message.reply("Couldn't find that person").then(m => m.delete(5000));
 
