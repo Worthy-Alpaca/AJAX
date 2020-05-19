@@ -79,7 +79,7 @@ module.exports = {
 
         return new Promise(function(resolve, reject) {
             con.query(`SELECT * FROM servers WHERE id = '${member.guild.id}'`, (err, rows) => {
-                msg = rows[0].message;
+                msg = rows[0].greeting;
                 resolve(msg);
             });
         });
