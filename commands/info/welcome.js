@@ -18,13 +18,22 @@ module.exports = {
         if (!member) return message.reply("You need to welcome someone.")
 
         var greeting = await getMsg(member, con);   
-        var channel = await getChnl(member, con)
+        var channel = await getChnl(member, con);
+        
+        var chnl = Array.from(channel)
+        
+        if (chnl.includes("#")) {
+        b = chnl.slice(2, chnl.indexOf(">"))
+        var channel = member.guild.channels.find(channel => channel.id === b.join(""));       
+        } else {
+        var channel = member.guild.channels.find(channel => channel.name === chnl.join(""));
+        }
         const embed = new RichEmbed()
                 .setColor("RANDOM")
                 .setTimestamp()
                 .setAuthor(`Hooray, ${member.displayName} just joined our merry band of misfits`, member.user.displayAvatarURL)
                 .setDescription(stripIndents`${greeting}`);   
-            
+        console.log(channel)    
         return channel.send(embed);
          
     }
