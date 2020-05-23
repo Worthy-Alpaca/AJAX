@@ -18,22 +18,34 @@ module.exports = {
         if (!member) return message.reply("You need to welcome someone.")
 
         var greeting = await getMsg(member, con);   
-        var channel = await getChnl(member, con);
+        var chnl = await getChnl(member, con);
         
-        var chnl = Array.from(channel)
+        //var chnl = Array.from(channel)
         
-        if (chnl.includes("#")) {
+        /* if (chnl.includes("#")) {
         b = chnl.slice(2, chnl.indexOf(">"))
-        var channel = member.guild.channels.find(channel => channel.id === b.join(""));       
+              
         } else {
         var channel = member.guild.channels.find(channel => channel.name === chnl.join(""));
+        } */
+        if (typeof greeting == 'undefined') {
+            greeting = "Welcome to this generic server. The owner has not bothered with a custom welcome message so you get this one"
+        } else if (greeting === null) {
+            greeting = "Welcome to this generic server. The owner has not bothered with a custom welcome message so you get this one"
+        }
+        var channel = member.guild.channels.find(channel => channel.id === chnl); 
+
+        if (typeof channel == 'undefined') {
+            channel = member.guild.channels.find(channel => channel.id === member.guild.systemChannelID); 
+        } else if (channel === null) {
+            channel = member.guild.channels.find(channel => channel.id === member.guild.systemChannelID); 
         }
         const embed = new RichEmbed()
                 .setColor("RANDOM")
                 .setTimestamp()
                 .setAuthor(`Hooray, ${member.displayName} just joined our merry band of misfits`, member.user.displayAvatarURL)
                 .setDescription(stripIndents`${greeting}`);   
-        console.log(channel)    
+        //console.log(channel)    
         return channel.send(embed);
          
     }
