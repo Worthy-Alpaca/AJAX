@@ -101,7 +101,7 @@ client.on("guildMemberAdd", async member => {
     } else {
       var channel = member.guild.channels.find(channel => channel.name === chnl.join(""));
     }
-
+    console.log(channel)
     if (typeof greeting == 'undefined') {
       greeting = "No greeting on this server. Sorry"
     } else if (greeting === null) {
@@ -114,7 +114,7 @@ client.on("guildMemberAdd", async member => {
         .setAuthor(`Hooray, ${member.displayName} just joined our merry band of misfits`, member.user.displayAvatarURL)
         .setDescription(stripIndents`${greeting}`);
     
-        return channel.send(embed)
+    return channel.send(embed)
     
 });
 
