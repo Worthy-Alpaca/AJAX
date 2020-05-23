@@ -88,27 +88,35 @@ client.on("guildMemberAdd", async member => {
     var greeting;  
     
     if (member.bot) return; 
-    
-    channel = await getChnl(member, con);
+    //console.log(member)
+    chnl = await getChnl(member, con);
     greeting = await getMsg(member, con);
     
 
-    var chnl = Array.from(channel)
+    //var chnl = Array.from(channel)
         
-    if (chnl.includes("#")) {
+    /* if (chnl.includes("#")) {
       b = chnl.slice(2, chnl.indexOf(">"))
       var channel = member.guild.channels.find(channel => channel.id === b.join(""));       
     } else {
       var channel = member.guild.channels.find(channel => channel.name === chnl.join(""));
-    }
-    console.log(channel)
+    } */
+    
+    var channel = member.guild.channels.find(channel => channel.id === chnl); 
+    //console.log(channel)
     if (typeof greeting == 'undefined') {
-      greeting = "No greeting on this server. Sorry"
+      greeting = "Welcome to this generic server. The owner has not bothered with a custom welcome message so you get this one"
     } else if (greeting === null) {
-      greeting = "No greeting on this server. Sorry"
+      greeting = "Welcome to this generic server. The owner has not bothered with a custom welcome message so you get this one"
+    }
+
+    if (typeof channel == 'undefined') {
+      channel = member.guild.channels.find(channel => channel.id === member.guild.systemChannelID);
+    } else if (channel === null) {
+      channel = member.guild.channels.find(channel => channel.id === member.guild.systemChannelID);
     }
     
-    const embed = new RichEmbed()
+    const embed = new RichEmbed() 
         .setColor("RANDOM")
         .setTimestamp()
         .setAuthor(`Hooray, ${member.displayName} just joined our merry band of misfits`, member.user.displayAvatarURL)
