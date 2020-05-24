@@ -13,25 +13,16 @@ module.exports = {
 
         if (message.deletable) message.delete();
         
-        //const member = getMember(message, args.join(" "));
         const member = message.mentions.members.first() || message.guild.members.get(args[0]);
         if (!member) return message.reply("You need to welcome someone.")
 
         var greeting = await getMsg(member, con);   
         var chnl = await getChnl(member, con);
         
-        //var chnl = Array.from(channel)
-        
-        /* if (chnl.includes("#")) {
-        b = chnl.slice(2, chnl.indexOf(">"))
-              
-        } else {
-        var channel = member.guild.channels.find(channel => channel.name === chnl.join(""));
-        } */
         if (typeof greeting == 'undefined') {
-            greeting = "Welcome to this generic server. The owner has not bothered with a custom welcome message so you get this one"
+            greeting = "Welcome to this generic server. The owner has not bothered with a custom welcome message so you get this one."
         } else if (greeting === null) {
-            greeting = "Welcome to this generic server. The owner has not bothered with a custom welcome message so you get this one"
+            greeting = "Welcome to this generic server. The owner has not bothered with a custom welcome message so you get this one."
         }
         var channel = member.guild.channels.find(channel => channel.id === chnl); 
 
@@ -45,7 +36,7 @@ module.exports = {
                 .setTimestamp()
                 .setAuthor(`Hooray, ${member.displayName} just joined our merry band of misfits`, member.user.displayAvatarURL)
                 .setDescription(stripIndents`${greeting}`);   
-        //console.log(channel)    
+           
         return channel.send(embed);
          
     }

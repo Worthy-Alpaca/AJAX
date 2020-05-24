@@ -88,26 +88,17 @@ client.on("guildMemberAdd", async member => {
     var greeting;  
     
     if (member.bot) return; 
-    //console.log(member)
+    
+    //getting welcome channel/message
     chnl = await getChnl(member, con);
     greeting = await getMsg(member, con);
-    
-
-    //var chnl = Array.from(channel)
         
-    /* if (chnl.includes("#")) {
-      b = chnl.slice(2, chnl.indexOf(">"))
-      var channel = member.guild.channels.find(channel => channel.id === b.join(""));       
-    } else {
-      var channel = member.guild.channels.find(channel => channel.name === chnl.join(""));
-    } */
-    
     var channel = member.guild.channels.find(channel => channel.id === chnl); 
-    //console.log(channel)
+    
     if (typeof greeting == 'undefined') {
-      greeting = "Welcome to this generic server. The owner has not bothered with a custom welcome message so you get this one"
+      greeting = "Welcome to this generic server. The owner has not bothered with a custom welcome message so you get this one."
     } else if (greeting === null) {
-      greeting = "Welcome to this generic server. The owner has not bothered with a custom welcome message so you get this one"
+      greeting = "Welcome to this generic server. The owner has not bothered with a custom welcome message so you get this one."
     }
 
     if (typeof channel == 'undefined') {
