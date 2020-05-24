@@ -43,8 +43,9 @@ module.exports = {
             .setTimestamp()
             .setAuthor(`Hooray, ${member.displayName} just joined our merry band of misfits`, member.user.displayAvatarURL)
             .setDescription(stripIndents`${greeting}`);
-    
-        await channel.send(embed).then(async msg => {
+        
+        return channel.send(embed)
+        /* await channel.send(embed).then(async msg => {
             // Await the reactions and the reaction collector
             const emoji = await promptMessage(msg, member, 6000, "✔");    
 
@@ -54,7 +55,7 @@ module.exports = {
                 await member.addRole(role.id).catch(e => console.log(e.message))
         
             } 
-        });
+        }); */
          
     }
     

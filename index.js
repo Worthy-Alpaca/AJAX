@@ -3,7 +3,7 @@ const { prefix, version, status, welcome_channel, DIFF, LIMIT, TIME } = require(
 const { token, password } = require('./token.json');
 const fs = require("fs");
 const { stripIndents } = require("common-tags");
-const { promptMessage, getChnl, getMsg, getapproved } = require("./functions.js");
+const { promptMessage, getChnl, getMsg, getapproved, getapproved2, getMember, getstartcmd } = require("./functions.js");
 const { answers, replies, asks, help, positive, sassy, robot } = require("./answers.json")
 const usersMap = new Map();
 const mysql = require("mysql");
@@ -38,7 +38,7 @@ var con = mysql.createConnection({
 con.connect(err => {
   if(err) throw err;
   console.log("connected to database");
-  con.query("CREATE TABLE IF NOT EXISTS servers(id VARCHAR(20) NOT NULL UNIQUE, name TEXT NOT NULL, admin TEXT, moderator TEXT, greeting VARCHAR(512) CHARACTER SET utf8 COLLATE utf8_unicode_ci, channel TEXT, approved TEXT) CHARACTER SET utf8 COLLATE utf8_unicode_ci;")
+  con.query("CREATE TABLE IF NOT EXISTS servers(id VARCHAR(20) NOT NULL UNIQUE, name TEXT NOT NULL, admin TEXT, moderator TEXT, greeting VARCHAR(512) CHARACTER SET utf8 COLLATE utf8_unicode_ci, channel TEXT, approved TEXT, startcmd TEXT) CHARACTER SET utf8 COLLATE utf8_unicode_ci;")
 })
 
 client.on("ready", () => {
@@ -121,7 +121,8 @@ client.on("guildMemberAdd", async member => {
         .setAuthor(`Hooray, ${member.displayName} just joined our merry band of misfits`, member.user.displayAvatarURL)
         .setDescription(stripIndents`${greeting}`);
     
-    await channel.send(embed).then(async msg => {
+    return channel.send(embed);
+    /* await channel.send(embed).then(async msg => {
       // Await the reactions and the reaction collector
       const emoji = await promptMessage(msg, member, -1, "✔");    
 
@@ -131,7 +132,7 @@ client.on("guildMemberAdd", async member => {
           await member.addRole(role.id).catch(e => console.log(e.message))
   
       } 
-    });
+    }); */
     
 });
 
@@ -256,6 +257,18 @@ client.on("message", async message => {
       }  
     } 
 
+    const startcommand = await getstartcmd(message, con);
+
+    if (message.content.startsWith(`${startcommand}`)) {
+      
+      const member = getMember(message);
+      guild = member.guild;
+      rl = await getapproved2(message, con);
+
+      const role = message.guild.roles.find(r => r.id === rl);
+      
+      member.addRole(role.id).catch(e => console.log(e.message));
+    }
 
     if (!message.member) message.member = await message.guild.fetchMember(message);
 
