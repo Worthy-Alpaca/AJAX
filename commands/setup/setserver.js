@@ -14,10 +14,12 @@ module.exports = {
         //declaring stuff
         const member = message.member;        
         var greeting;
+        var cmd;
         var md2;
         var ch2;
         var ms2;
         var apr2;
+        var cmd2;
 
         //setting up the admin role
         function getadm(message) { 
@@ -191,6 +193,35 @@ module.exports = {
                 });
             })            
         }
+        //setting up the startcmd
+        function getcmd(message) {
+            return new Promise(function(resolve, reject) {
+                
+                
+                message.channel.send('Please enter the server greeting (currently no emoji support)').then(() => {
+                    const filter = m => message.author.id === m.author.id;
+                    var cmd;
+                
+                    message.channel.awaitMessages(filter, { time: 60000, max: 1, errors: ['time'] })
+                        .then(messages => {
+                            cmd = messages.first().content
+                            msg = message.channel.send(`You've entered: \`${cmd}\``).then(m => m.delete(5000));
+                            con.query(`SELECT * FROM servers WHERE id = '${message.guild.id}'`, (err, rows) => {
+                                let sql;
+
+                                sql = `UPDATE servers SET startcmd = '${cmd}' WHERE id = '${message.guild.id}'`;
+                                cmd = true;
+                                resolve(cmd);
+                                return con.query(sql);
+                            })
+                        })
+                        .catch(() => {
+                            message.channel.send('You did not provide any input!');
+                        })
+                        
+                });
+            })
+        }
         //setup complete message
         const embed = new RichEmbed()
             .setColor(member.displayHexColor === "#000000" ? "#ffffff" : member.displayHexColor)
@@ -219,6 +250,10 @@ module.exports = {
         }
 
         if (apr2) {
+            cmd2 = await getcmd(message);
+        }
+
+        if (cmd2) {
             message.channel.send(embed);
         }
         

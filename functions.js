@@ -94,6 +94,28 @@ module.exports = {
                 resolve(msg);
             });
         });
+    },
+
+    getapproved2: function(message, con) {
+        var msg;
+
+        return new Promise(function(resolve, reject) {
+            con.query(`SELECT * FROM servers WHERE id = '${message.guild.id}'`, (err, rows) => {
+                msg = rows[0].approved;
+                resolve(msg);
+            });
+        });
+    },
+
+    getstartcmd: function(message, con) {
+        var msg;
+
+        return new Promise(function(resolve, reject) {
+            con.query(`SELECT * FROM servers WHERE id = '${message.guild.id}'`, (err, rows) => {
+                msg = rows[0].startcmd;
+                resolve(msg);
+            });
+        });
     }
 
     
