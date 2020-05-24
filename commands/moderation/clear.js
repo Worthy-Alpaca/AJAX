@@ -21,8 +21,8 @@ module.exports = {
         }
     
         // Member doesn't have permissions
-        if (!message.member.roles.has(message.guild.roles.find(r => r.name === admin).id)) {
-            if (!message.member.roles.has(message.guild.roles.find(r => r.name === moderator).id)) {
+        if (!message.member.roles.has(message.guild.roles.find(r => r.id=== admin).id)) {
+            if (!message.member.roles.has(message.guild.roles.find(r => r.id=== moderator).id)) {
                 return message.reply("You can't delete messages....").then(m => m.delete(5000));
             } 
         }

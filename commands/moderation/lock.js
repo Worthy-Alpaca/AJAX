@@ -14,7 +14,7 @@ module.exports = {
         var count = false;
 
 
-        /* if (!message.member.roles.has(message.guild.roles.find(r => r.name === admin).id)) {
+        /* if (!message.member.roles.has(message.guild.roles.find(r => r.id=== admin).id)) {
             return message.reply("You are not powerfull enough to do that.")
                 .then(m => m.delete(5000));
         } */

@@ -69,8 +69,8 @@ module.exports = {
         if (args[0].toLowerCase() === "kick") {
 
             // No author permissions
-            if (!message.member.roles.has(message.guild.roles.find(r => r.name === admin).id)) {
-                if (!message.member.roles.has(message.guild.roles.find(r => r.name === moderator).id)) {
+            if (!message.member.roles.has(message.guild.roles.find(r => r.id=== admin).id)) {
+                if (!message.member.roles.has(message.guild.roles.find(r => r.id=== moderator).id)) {
                     return message.reply("❌ You do not have permissions to kick members. Please contact a staff member")
                         .then(m => m.delete(5000));
                 }
@@ -122,7 +122,7 @@ module.exports = {
         } else if (args[0].toLowerCase() === "ban") {
 
             // No author permissions
-            if (!message.member.roles.has(message.guild.roles.find(r => r.name === admin).id)) {
+            if (!message.member.roles.has(message.guild.roles.find(r => r.id=== admin).id)) {
                 return message.reply("❌ You do not have permissions to ban members. Please contact a staff member")
                     .then(m => m.delete(5000));
             }

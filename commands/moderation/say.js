@@ -19,7 +19,7 @@ module.exports = {
             return message.channel.send("You need to set the role for moderator first. Do that by typing !setmod")
         }
 
-        if (!message.member.roles.has(message.guild.roles.find(r => r.name === admin).id))
+        if (!message.member.roles.has(message.guild.roles.find(r => r.id=== admin).id))
             return message.reply("You don't have the required permissions to use this command.").then(m => m.delete(5000));
 
         
