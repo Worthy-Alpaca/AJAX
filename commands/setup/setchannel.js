@@ -8,7 +8,7 @@ module.exports = {
             return message.reply("You are not powerfull enough to do that");
         }
                         
-        message.channel.send('Please enter the greeting channel (please use with a tag, e.g. #channel)').then(() => {
+        message.channel.send('Please enter the greeting channel').then(() => {
             const filter = m => message.author.id === m.author.id;
             
         
@@ -21,9 +21,7 @@ module.exports = {
                         var channel = b.join("")
                     } else {
                         var channel2 = message.guild.channels.find(channel => channel.name === chnl.join(""));                        
-                        var chnl2 = Array.from(channel2.id);                        
-                        c = chnl2.slice(2, chnl2.indexOf(">"))                        
-                        var channel = c.join("")                      
+                        var channel = channel2.id;                                  
                     }
                     
                     message.channel.send(`You've entered: \`${channel}\``).then(m => m.delete(5000));

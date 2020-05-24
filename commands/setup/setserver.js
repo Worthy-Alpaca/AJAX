@@ -12,13 +12,12 @@ module.exports = {
         }
         
         //declaring stuff
-        const member = message.member;
-        var admin;
-        var moderator;
+        const member = message.member;        
         var greeting;
         var md2;
         var ch2;
         var ms2;
+        var apr2;
 
         //setting up the admin role
         function getadm(message) { 
@@ -30,8 +29,16 @@ module.exports = {
                 
                     message.channel.awaitMessages(filter, { time: 60000, max: 1, errors: ['time'] })
                         .then(messages => {
-                            admin = messages.first().content
-                            msg = message.channel.send(`You've entered: \`${messages.first().content}\``).then(m => m.delete(5000));
+                            var chnl = Array.from(messages.first().content)
+                    
+                            if (chnl.includes("@")) {
+                                b = chnl.slice(3, chnl.indexOf(">"))
+                                var admin = b.join("")
+                            } else {
+                                var channel2 = message.guild.roles.find(r => r.name === chnl.join(""));                        
+                                var admin = channel2.id;                                  
+                            }
+                            msg = message.channel.send(`You've entered: \`${admin}\``).then(m => m.delete(5000));
                             con.query(`SELECT * FROM servers WHERE id = '${message.guild.id}'`, (err, rows) => {
                                 let sql;
 
@@ -58,8 +65,16 @@ module.exports = {
                 
                     message.channel.awaitMessages(filter, { time: 60000, max: 1, errors: ['time'] })
                         .then(messages => {
-                            moderator = messages.first().content
-                            msg = message.channel.send(`You've entered: \`${messages.first().content}\``).then(m => m.delete(5000));
+                            var chnl = Array.from(messages.first().content)
+                    
+                            if (chnl.includes("@")) {
+                                b = chnl.slice(3, chnl.indexOf(">"))
+                                var moderator = b.join("")
+                            } else {
+                                var channel2 = message.guild.roles.find(r => r.name === chnl.join(""));                        
+                                var moderator = channel2.id;                                  
+                            }
+                            msg = message.channel.send(`You've entered: \`${moderator}\``).then(m => m.delete(5000));
                             con.query(`SELECT * FROM servers WHERE id = '${message.guild.id}'`, (err, rows) => {
                                 let sql;
         
@@ -87,17 +102,15 @@ module.exports = {
                     message.channel.awaitMessages(filter, { time: 60000, max: 1, errors: ['time'] })
                         .then(messages => {
                             var chnl = Array.from(messages.first().content)
-        
+
                             if (chnl.includes("#")) {
                                 b = chnl.slice(2, chnl.indexOf(">"))
                                 var channel = b.join("")
                             } else {
                                 var channel2 = message.guild.channels.find(channel => channel.name === chnl.join(""));                        
-                                var chnl2 = Array.from(channel2.id);                        
-                                c = chnl2.slice(2, chnl2.indexOf(">"))                        
-                                var channel = c.join("")                      
-                            }
-                            
+                                var channel = channel2.id;                                  
+                            }        
+                                                   
                             message.channel.send(`You've entered: \`${channel}\``).then(m => m.delete(5000));
                             con.query(`SELECT * FROM servers WHERE id = '${message.guild.id}'`, (err, rows) => {
                                 let sql;
@@ -119,7 +132,7 @@ module.exports = {
             return new Promise(function(resolve, reject) {
                 
                 
-                message.channel.send('Please enter the server greeting').then(() => {
+                message.channel.send('Please enter the server greeting (currently no emoji support)').then(() => {
                     const filter = m => message.author.id === m.author.id;
                     var ms;
                 
@@ -142,6 +155,41 @@ module.exports = {
                         
                 });
             })
+        }
+        //setting up the approved role
+        function getapr(message) {
+            return new Promise(function(resolve, reject) {
+                message.channel.send('Please enter the role for approved members').then(() => {
+                    const filter = m => message.author.id === m.author.id;
+                    var apr;
+                
+                    message.channel.awaitMessages(filter, { time: 60000, max: 1, errors: ['time'] })
+                        .then(messages => {
+                            var chnl = Array.from(messages.first().content)
+                    
+                            if (chnl.includes("@")) {
+                                b = chnl.slice(3, chnl.indexOf(">"))
+                                var approved = b.join("")
+                            } else {
+                                var channel2 = message.guild.roles.find(r => r.name === chnl.join(""));                        
+                                var approved = channel2.id;                                  
+                            }
+                            msg = message.channel.send(`You've entered: \`${approved}\``).then(m => m.delete(5000));
+                            con.query(`SELECT * FROM servers WHERE id = '${message.guild.id}'`, (err, rows) => {
+                                let sql;
+        
+                                sql = `UPDATE servers SET approved = '${approved}' WHERE id = '${message.guild.id}'`;
+                                apr = true;
+                                resolve(apr);
+                                return con.query(sql);
+                            })
+                        })
+                        .catch(() => {
+                            message.channel.send('You did not provide any input!');
+                        })
+                          
+                });
+            })            
         }
         //setup complete message
         const embed = new RichEmbed()
@@ -166,7 +214,11 @@ module.exports = {
             ms2 = await getms(message);
         }
 
-        if (md2) {
+        if (ms2) {
+            apr2 = await getapr(message);
+        }
+
+        if (apr2) {
             message.channel.send(embed);
         }
         

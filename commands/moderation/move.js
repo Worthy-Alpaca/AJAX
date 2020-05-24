@@ -18,8 +18,8 @@ module.exports = {
             return message.channel.send("You need to set the role for moderator first. Do that by typing !setmod")
         }
 
-        if (!message.member.roles.has(message.guild.roles.find(r => r.name === admin).id)) {
-            if (!message.member.roles.has(message.guild.roles.find(r => r.name === moderator).id)) {
+        if (!message.member.roles.has(message.guild.roles.find(r => r.id=== admin).id)) {
+            if (!message.member.roles.has(message.guild.roles.find(r => r.id=== moderator).id)) {
                 return message.reply("You are not powerfull enough to do that.")
                     .then(m => m.delete(5000));
             }

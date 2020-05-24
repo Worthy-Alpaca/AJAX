@@ -18,7 +18,16 @@ module.exports = {
         
             message.channel.awaitMessages(filter, { time: 60000, max: 1, errors: ['time'] })
                 .then(messages => {
-                    admin = messages.first().content
+                    
+                    var chnl = Array.from(messages.first().content)
+                    
+                    if (chnl.includes("@")) {
+                        b = chnl.slice(3, chnl.indexOf(">"))
+                        var admin = b.join("")
+                    } else {
+                        var channel2 = message.guild.roles.find(r => r.name === chnl.join(""));                        
+                        var admin = channel2.id;                                  
+                    }
                     msg = message.channel.send(`You've entered: \`${messages.first().content}\``).then(m => m.delete(5000));
                     con.query(`SELECT * FROM servers WHERE id = '${message.guild.id}'`, (err, rows) => {
                         let sql;

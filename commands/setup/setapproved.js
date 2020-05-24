@@ -1,16 +1,16 @@
 module.exports = {
-    name: "setmod",
+    name: "setapproved",
     category: "setup",
-    description: "Set the moderator role",
+    description: "Set the approved role",
     run: async (client, message, args, con) => {
         
         if (!message.member.hasPermission("ADMINISTRATOR")){
             return message.reply("You are not powerfull enough to do that");
         }
-
-        var moderator;
-                
-        message.channel.send('Please enter the moderator role').then(() => {
+       
+        var approved;
+        
+        message.channel.send('Please enter the role for approved members').then(() => {
             const filter = m => message.author.id === m.author.id;
             
         
@@ -20,16 +20,17 @@ module.exports = {
                     
                     if (chnl.includes("@")) {
                         b = chnl.slice(3, chnl.indexOf(">"))
-                        var moderator = b.join("")
+                        var approved = b.join("")
                     } else {
                         var channel2 = message.guild.roles.find(r => r.name === chnl.join(""));                        
-                        var moderator = channel2.id;                                  
+                        var approved = channel2.id;                                  
                     }
-                    msg = message.channel.send(`You've entered: \`${messages.first().content}\``).then(m => m.delete(5000));
+                    console.log(approved)
+                    msg = message.channel.send(`You've entered: \`${approved}\``).then(m => m.delete(5000));
                     con.query(`SELECT * FROM servers WHERE id = '${message.guild.id}'`, (err, rows) => {
                         let sql;
 
-                        sql = `UPDATE servers SET moderator = '${moderator}' WHERE id = '${message.guild.id}'`;
+                        sql = `UPDATE servers SET approved = '${approved}' WHERE id = '${message.guild.id}'`;
                         return con.query(sql);
                     })
                 })

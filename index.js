@@ -3,7 +3,7 @@ const { prefix, version, status, welcome_channel, DIFF, LIMIT, TIME } = require(
 const { token, password } = require('./token.json');
 const fs = require("fs");
 const { stripIndents } = require("common-tags");
-const { promptMessage, getChnl, getMsg } = require("./functions.js");
+const { promptMessage, getChnl, getMsg, getapproved } = require("./functions.js");
 const { answers, replies, asks, help, positive, sassy, robot } = require("./answers.json")
 const usersMap = new Map();
 const mysql = require("mysql");
@@ -31,13 +31,14 @@ var con = mysql.createConnection({
   host: "localhost",
   user: "root",
   password: password,
-  database: "servers"
+  database: "servers",
+  encoding: "utf8mb4_unicode_ci"
 });
 
 con.connect(err => {
   if(err) throw err;
   console.log("connected to database");
-  con.query("create table if not exists servers(id varchar(20) not null, name text not null, admin text, moderator text, greeting text, channel text);")
+  con.query("CREATE TABLE IF NOT EXISTS servers(id VARCHAR(20) NOT NULL UNIQUE, name TEXT NOT NULL, admin TEXT, moderator TEXT, greeting VARCHAR(512) CHARACTER SET utf8 COLLATE utf8_unicode_ci, channel TEXT, approved TEXT) CHARACTER SET utf8 COLLATE utf8_unicode_ci;")
 })
 
 client.on("ready", () => {
@@ -92,13 +93,20 @@ client.on("guildMemberAdd", async member => {
     //getting welcome channel/message
     chnl = await getChnl(member, con);
     greeting = await getMsg(member, con);
+    rl = await getapproved(member, con);
+
+    const role = member.guild.roles.find(r => r.id === rl)
         
     var channel = member.guild.channels.find(channel => channel.id === chnl); 
+
+    if (!role) {
+      return message.reply("No role has been defined yet. You can fix that with !setapproved")
+    }
     
     if (typeof greeting == 'undefined') {
-      greeting = "Welcome to this generic server. The owner has not bothered with a custom welcome message so you get this one."
+      greeting = "Welcome to this generic server. The owner has not bothered with a custom welcome message so you get this one. :person_shrugging:"
     } else if (greeting === null) {
-      greeting = "Welcome to this generic server. The owner has not bothered with a custom welcome message so you get this one."
+      greeting = "Welcome to this generic server. The owner has not bothered with a custom welcome message so you get this one. :person_shrugging:"
     }
 
     if (typeof channel == 'undefined') {
@@ -113,7 +121,17 @@ client.on("guildMemberAdd", async member => {
         .setAuthor(`Hooray, ${member.displayName} just joined our merry band of misfits`, member.user.displayAvatarURL)
         .setDescription(stripIndents`${greeting}`);
     
-    return channel.send(embed)
+    await channel.send(embed).then(async msg => {
+      // Await the reactions and the reaction collector
+      const emoji = await promptMessage(msg, member, -1, "✔");    
+
+          // The verification stuffs
+      if (emoji === "✔") {
+          msg.delete();
+          await member.addRole(role.id).catch(e => console.log(e.message))
+  
+      } 
+    });
     
 });
 
