@@ -198,7 +198,7 @@ module.exports = {
             return new Promise(function(resolve, reject) {
                 
                 
-                message.channel.send('Please enter the server greeting (currently no emoji support)').then(() => {
+                message.channel.send('Please enter the command which shall be used to approve new members (try to use something unusual)').then(() => {
                     const filter = m => message.author.id === m.author.id;
                     var cmd;
                 
