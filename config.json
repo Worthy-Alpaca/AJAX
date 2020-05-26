@@ -6,8 +6,6 @@
   "welcome_channel": "general-chat",
   "raid_channel": "division2-chat",
   "unfit_raid":  "unraid",
-  "moderator": "Lieutenant",
-  "admin": "Commander",
   "DIFF": 3000,
   "LIMIT": 5,
   "TIME": 7000
