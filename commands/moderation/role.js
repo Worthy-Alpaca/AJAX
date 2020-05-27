@@ -1,7 +1,6 @@
 const Discord = require("discord.js");
 const { RichEmbed } = require("discord.js");
-const { promptMessage } = require("../../functions.js");
-const { getAdmin, getMod } = require("../../functions");
+const { getAdmin, getMod } = require("../../functions/functions.js");
 
 module.exports = {
     name: "role",

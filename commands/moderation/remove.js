@@ -1,7 +1,6 @@
 const { RichEmbed } = require("discord.js");
 const { stripIndents } = require("common-tags");
-const { promptMessage } = require("../../functions.js");
-const { getAdmin, getMod } = require("../../functions");
+const { getAdmin, getMod, promptMessage } = require("../../functions/functions.js");
 
 module.exports = {
     name: "remove",
