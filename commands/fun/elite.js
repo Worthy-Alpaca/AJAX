@@ -17,9 +17,7 @@ module.exports = {
         if (!args.length) {
             return message.channel.send('You need to supply a search term!')
                 .then(m => m.delete(5000));
-        }
-
-        
+        }       
 
         const sys = args.slice(0).join("+")
         const url = `https://www.edsm.net/api-system-v1/bodies?sysname=${sys}`
@@ -41,10 +39,7 @@ module.exports = {
         if (typeof response1.id == 'undefined') {
             return message.reply(`I have never heard of the \`${args.slice(0).join(" ")}\` system. Let me ask around real quick.`)
         } else message.reply("I found something. One second please")
-
-        
-
-             
+          
         var station = [];
         var outposts = [];
         var planetary = [];
@@ -66,9 +61,7 @@ module.exports = {
             government = response3.controllingFaction.government
             faction = response3.controllingFaction.name
         }
-
         
-
         response1.bodies.forEach(function(bodies) {
             if (bodies.isLandable) {
                 id = bodies.id
@@ -84,7 +77,6 @@ module.exports = {
                 
             }
         })
-
 
         response2.stations.forEach(function(stations) {
             if (stations.type === "Orbis Starport") {
@@ -107,7 +99,6 @@ module.exports = {
                 outposts.push(id2)
             }
         })
-
             
         const embed = new RichEmbed()
             .setColor('RANDOM')
@@ -125,8 +116,7 @@ module.exports = {
             Stars: ${stars.length}
             Landable Bodies: ${landables.length}
             Nonlandable Bodies: ${nonlandables.length}`, true)
-            
-            
+               
             
         if (test == true ) {
             embed.setDescription(`This system is **uninhabitated**`)

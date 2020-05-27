@@ -54,7 +54,7 @@ module.exports = {
                 .then(m => m.delete(5000));
         }
 
-        // Can't kick urself
+        // person to remove = author
         if (toKick.id === message.author.id) {
             return message.reply("You can't do that to yourself smartboi :rofl:")
                 .then(m => m.delete(5000));

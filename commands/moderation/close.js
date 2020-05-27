@@ -25,7 +25,6 @@ module.exports = {
             } 
         }
         
-
         if (!args[0]) {
             return message.reply("You need to tell me what channel to close down")
         }    
@@ -40,11 +39,8 @@ module.exports = {
 
         if (channel.type !== 'voice') {
             return message.reply("That is not a voice channel")
-        }
-
-        //console.log(channel)
+        }      
         
-
         for (const [memberID, member] of channel.members) {
             member.setVoiceChannel(null)
               .catch(console.error);

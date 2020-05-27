@@ -25,8 +25,7 @@ module.exports = {
             if (!message.member.roles.has(message.guild.roles.find(r => r.id=== moderator).id)) {
                 return message.reply("You can't delete messages....").then(m => m.delete(5000));
             } 
-        }
-        
+        }        
 
         // Check if args[0] is a number
         if (isNaN(args[0]) || parseInt(args[0]) <= 0) {

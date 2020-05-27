@@ -122,18 +122,7 @@ client.on("guildMemberAdd", async member => {
         .setDescription(stripIndents`${greeting}`);
     
     return channel.send(embed);
-    /* await channel.send(embed).then(async msg => {
-      // Await the reactions and the reaction collector
-      const emoji = await promptMessage(msg, member, -1, "✔");    
-
-          // The verification stuffs
-      if (emoji === "✔") {
-          msg.delete();
-          await member.addRole(role.id).catch(e => console.log(e.message))
-  
-      } 
-    }); */
-    
+        
 });
 
 
@@ -189,7 +178,7 @@ client.on("message", async message => {
             }   
         }
         let msgCount = userData.msgCount;
-        //console.log(difference);
+        
         if(difference > DIFF) {
           clearTimeout(timer);
           console.log('Cleared timeout');
@@ -220,8 +209,7 @@ client.on("message", async message => {
       }
       else {
         let fn = setTimeout(() => {
-          usersMap.delete(message.author.id);
-          //console.log('Removed from map.');
+          usersMap.delete(message.author.id);          
         }, TIME);
         usersMap.set(message.author.id, {
           msgCount: 1,

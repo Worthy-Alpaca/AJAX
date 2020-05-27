@@ -27,14 +27,11 @@ module.exports = {
             }
         }
         
-
         if (!args[0]) {
             return message.reply("Please tell me what to do.")
                 .then(m => m.delete(5000));
         }
-
         
-
         if (!args[1]) {
             return message.reply("You need to tag someone.")
                 .then(m => m.delete(5000));
@@ -47,13 +44,15 @@ module.exports = {
         }
 
         
-
         const mRole = args.slice(1);
-        mRole.shift();
+        mRole.shift();   
         
-        
+        let role = message.mentions.roles.first();
 
-        let role = message.guild.roles.find(r => r.name === mRole.join(" ")) || message.guild.roles.find(r => r.id === args[2]);
+        if (!role) {
+            role = message.guild.roles.find(r => r.name === mRole.join(" ")) || message.guild.roles.find(r => r.id === args[2]);
+        }
+        
         
         if ((args[0] === "add") || (args[0] === "remove")) {
             
@@ -64,12 +63,7 @@ module.exports = {
 
         if (!role) {
             return message.reply(`\`${mRole}\` does not exist. Maybe check your spelling?`)
-        }
-
-        /* if ((args[0] !== "add") || (args[0] !== "remove")) {
-            return message.reply("You did not provide a valid action.")
-                .then(m => m.delete(5000));
-        }  */
+        }        
 
         if (!message.guild.me.hasPermission("MANAGE_ROLES")) return message.reply("I don't have permission to do that. Go fix it!!");
 
