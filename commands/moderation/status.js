@@ -1,5 +1,5 @@
 //const { admin } = require("../../config.json")
-const { getAdmin, getMod } = require("../../functions");
+const { getAdmin, getMod } = require("../../functions/functions.js");
 
 
 module.exports = {

@@ -1,5 +1,5 @@
 const { RichEmbed } = require("discord.js");
-const { getMember, formatDate, getMsg, getChnl, getapproved, promptMessage } = require("../../functions.js");
+const { getMember, formatDate, getMsg, getChnl, getapproved, promptMessage } = require("../../functions/functions.js");
 const { stripIndents } = require("common-tags");
 
 
