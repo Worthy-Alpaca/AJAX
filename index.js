@@ -258,6 +258,8 @@ client.on("message", async message => {
       member.addRole(role.id).catch(e => console.log(e.message));
     }
 
+    if (!message.content.startsWith(prefix)) return;
+
     if (!message.member) message.member = await message.guild.fetchMember(message);
 
     const args = message.content.slice(prefix.length).trim().split(/ +/g);
