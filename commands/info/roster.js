@@ -19,7 +19,7 @@ module.exports = {
         var name
         var admins = [];
         var moderators = [];
-        console.log(admin)
+        
         if (admin === null) {
             return message.channel.send("You need to set the role for admin first. Do that by typing !setadmin")
         }
@@ -28,14 +28,14 @@ module.exports = {
         }
         
         guild.members.forEach(member => {
-            if (member.roles.has(message.guild.roles.find(r => r.name === admin).id)){
+            if (member.roles.has(message.guild.roles.find(r => r.id === admin).id)){
                 if (member.id === client.user.id) {
                     return
                 } else {
                     name = member.displayName
                     admins.push(name)
                 }
-            } else if(member.roles.has(message.guild.roles.find(r => r.name === moderator).id)) {
+            } else if(member.roles.has(message.guild.roles.find(r => r.id === moderator).id)) {
                 if (member.id === client.user.id) {
                     return
                 } else {
