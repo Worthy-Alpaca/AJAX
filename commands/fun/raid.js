@@ -1,7 +1,7 @@
 const { RichEmbed } = require("discord.js");
 const { stripIndents } = require("common-tags");
 const { promptMessage, getMember } = require("../../functions/functions.js");
-const { raid_channel, unfit_raid } = require("../../config.json");
+const { raid_channel, unfit_raid } = require("../../src/config.json");
 
 module.exports = {
     name: "raid",

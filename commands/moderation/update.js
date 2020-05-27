@@ -1,4 +1,4 @@
-const { welcome_channel, version, status } = require("../../config.json");
+const { welcome_channel, version, status } = require("../../src/config.json");
 const { RichEmbed } = require("discord.js");
 const { stripIndents } = require("common-tags");
 

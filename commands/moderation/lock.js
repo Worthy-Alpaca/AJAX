@@ -1,4 +1,4 @@
-const { admin } = require("../../config.json");
+const { admin } = require("../../src/config.json");
 
 module.exports = {
     name: "lock",

@@ -1,9 +1,9 @@
 const { Client, RichEmbed, Collection } = require("discord.js");
 const { prefix, version, status, welcome_channel, DIFF, LIMIT, TIME } = require('./config.json');
-const { token, password } = require('./token.json');
+const { token, password } = require('../token.json');
 const fs = require("fs");
 const { stripIndents } = require("common-tags");
-const { promptMessage, getChnl, getMsg, getapproved, getapproved2, getMember, getstartcmd } = require("./functions/functions.js");
+const { promptMessage, getChnl, getMsg, getapproved, getapproved2, getMember, getstartcmd } = require("../functions/functions.js");
 const { answers, replies, asks, help, positive, sassy, robot } = require("./answers.json");
 const usersMap = new Map();
 const mysql = require("mysql");
@@ -23,7 +23,7 @@ client.categories = fs.readdirSync("./commands/");
 
 
 ["command"].forEach(handler => {
-    require(`./handler/${handler}`)(client);
+    require(`../handler/${handler}`)(client);
 });
 
 

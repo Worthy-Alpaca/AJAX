@@ -1,4 +1,4 @@
-//const { admin } = require("../../config.json")
+//const { admin } = require("../../src/config.json")
 const { getAdmin, getMod } = require("../../functions/functions.js");
 
 
