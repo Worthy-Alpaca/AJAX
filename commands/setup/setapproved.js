@@ -25,7 +25,7 @@ module.exports = {
                         var channel2 = message.guild.roles.find(r => r.name === chnl.join(""));                        
                         var approved = channel2.id;                                  
                     }
-                    console.log(approved)
+                    
                     msg = message.channel.send(`You've entered: \`${approved}\``).then(m => m.delete(5000));
                     con.query(`SELECT * FROM servers WHERE id = '${message.guild.id}'`, (err, rows) => {
                         let sql;

@@ -28,24 +28,16 @@ module.exports = {
 
           
         var b;
-        //console.log(args[0])
+        
         var chnl = Array.from(args[0])
         
         if (chnl.includes("#")) {
-            b = chnl.slice(2, chnl.indexOf(">"))
-            //console.log(1)
-            //console.log(b)
+            b = chnl.slice(2, chnl.indexOf(">"))           
             var channel = message.guild.channels.find(channel => channel.id === b.join(""));       
         } else {
-            //b = chnl;
-            //console.log(2)
             var channel = message.guild.channels.find(channel => channel.name === chnl.join(""));
         }
-        //console.log(channel.id)
-        
-        
-        //console.log(channel)
-        
+                
         if (!channel) {
             if (typeof args[0] == 'undefined') {
                 return message.channel.send("Maybe include a message :wink:")
@@ -54,9 +46,7 @@ module.exports = {
             if (typeof args[1] == 'undefined') {
                 return message.channel.send("Maybe include a message :wink:")
             }
-        }
-
-        
+        }       
 
         if (!channel) {
             if (args[0].toLowerCase() === "embed") {

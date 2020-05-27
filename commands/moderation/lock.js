@@ -11,13 +11,7 @@ module.exports = {
         
         var mID;
         var mID2 = 0;
-        var count = false;
-
-
-        /* if (!message.member.roles.has(message.guild.roles.find(r => r.id=== admin).id)) {
-            return message.reply("You are not powerfull enough to do that.")
-                .then(m => m.delete(5000));
-        } */
+        var count = false;      
 
         if (!args[0]) {
             return message.reply("You need to tell me what channel to close down")
@@ -25,19 +19,15 @@ module.exports = {
 
         const mRole = args.slice(0);
         const a = mRole.pop()
-        //console.log(mRole)
+        
         parseInt(a, 10)
-        //console.log(a)
-
+        
         if (Number.isInteger(+a)) {
             mID = a;
-            count = true;
-            //console.log(mRole, a)
+            count = true;            
         } else {
-            mRole.push(a)
-            //console.log(mRole, "2")
+            mRole.push(a)            
         }
-
         
         const channel = message.guild.channels.find(channel => channel.name === mRole.join(" "));
 
@@ -47,12 +37,9 @@ module.exports = {
 
         if (channel.type !== 'voice') {
             return message.reply("That is not a voice channel")
-        }
-        
-        
+        }               
 
-        if (count) {
-            //console.log(mID)
+        if (count) {            
             channel.edit({
                 userLimit: mID
             })

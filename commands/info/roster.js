@@ -27,7 +27,6 @@ module.exports = {
             return message.channel.send("You need to set the role for moderator first. Do that by typing !setmod")
         }
         
-
         guild.members.forEach(member => {
             if (member.roles.has(message.guild.roles.find(r => r.name === admin).id)){
                 if (member.id === client.user.id) {
@@ -45,10 +44,6 @@ module.exports = {
                 }
             }
         })
-
-
-        
-
 
         const embed = new RichEmbed()
             .setColor("RANDOM")

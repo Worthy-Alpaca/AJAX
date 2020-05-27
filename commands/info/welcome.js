@@ -45,18 +45,7 @@ module.exports = {
             .setDescription(stripIndents`${greeting}`);
         
         return channel.send(embed)
-        /* await channel.send(embed).then(async msg => {
-            // Await the reactions and the reaction collector
-            const emoji = await promptMessage(msg, member, 6000, "✔");    
-
-                // The verification stuffs
-            if (emoji === "✔") {
-                msg.delete();
-                await member.addRole(role.id).catch(e => console.log(e.message))
-        
-            } 
-        }); */
-         
+                 
     }
     
 }
