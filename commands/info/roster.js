@@ -50,10 +50,20 @@ module.exports = {
             .setFooter(message.guild.name)
             .setTimestamp()
             .setTitle("People who do stuff")
-            .setThumbnail(guild.displayAvatarURL)
-            .addField('**ADMINS**', stripIndents`${admins.join('\n')}`, true)
-            .addField('**MODERATORS**', stripIndents`${moderators.filter(n => !admins.includes(n)).join('\n')}`, true)
+            .setThumbnail(guild.displayAvatarURL);
+            
         
+        if (admins.length > 0) {
+            embed.addField('**ADMINS**', stripIndents`${admins.join('\n')}`, true);
+        } else {
+            embed.addField('**ADMINS**', stripIndents`It appears you either don't have any server admins or set the wrong role in the setup process... dumbass`, true);
+        }
+        
+        if (moderators.length > 0) {
+            embed.addField('**MODERATORS**', stripIndents`${moderators.filter(n => !admins.includes(n)).join('\n')}`, true);
+        } else {
+            embed.addField('**MODERATORS**', stripIndents`No moderators on this server`, true);
+        }
         return message.channel.send(embed);
         
     }
