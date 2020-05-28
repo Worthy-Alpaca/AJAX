@@ -9,8 +9,7 @@ module.exports = {
         if (!message.member.hasPermission("ADMINISTRATOR")){
             return message.reply("You are not powerfull enough to do that");
         }
-       
-        var admin;
+        
         return getadm(message, con);
         
     }
