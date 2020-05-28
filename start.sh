@@ -1,3 +1,3 @@
 while true; do
-    node index.js
+    node ./src/index.js
 done
