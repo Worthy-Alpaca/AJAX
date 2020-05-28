@@ -13,10 +13,10 @@ module.exports = {
         var moderator = await getMod(message, con);
 
         if (admin === null) {
-            return message.channel.send("You need to set the role for admin first. Do that by typing !setadmin")
+            return message.channel.send("You need to set the role for admin first. Do that by typing !setadmin").then(m => m.delete(5000));
         }
         if (moderator === null) {
-            return message.channel.send("You need to set the role for moderator first. Do that by typing !setmod")
+            return message.channel.send("You need to set the role for moderator first. Do that by typing !setmod").then(m => m.delete(5000));
         }
 
         if (!message.member.roles.has(message.guild.roles.find(r => r.id=== admin).id))
@@ -25,10 +25,10 @@ module.exports = {
         
 
         const roleColor = message.guild.me.highestRole.hexColor;
-
-          
-        var b;
-        
+        if (typeof args[0] == 'undefined') {
+            return message.channel.send("Maybe include something :wink:")
+        } 
+            
         var chnl = Array.from(args[0])
         
         if (chnl.includes("#")) {
@@ -38,14 +38,10 @@ module.exports = {
             var channel = message.guild.channels.find(channel => channel.name === chnl.join(""));
         }
                 
-        if (!channel) {
-            if (typeof args[0] == 'undefined') {
-                return message.channel.send("Maybe include a message :wink:")
-            }  
-        } else {
+        if (channel) {
             if (typeof args[1] == 'undefined') {
                 return message.channel.send("Maybe include a message :wink:")
-            }
+            } 
         }       
 
         if (!channel) {
