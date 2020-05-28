@@ -20,19 +20,19 @@ module.exports = {
         }       
 
         const sys = args.slice(0).join("+")
-        const url = `https://www.edsm.net/api-system-v1/bodies?sysname=${sys}`
-        const url2 = `https://www.edsm.net/api-system-v1/stations?sysname=${sys}`
-        const url3 = `https://www.edsm.net/api-system-v1/factions?sysname=${sys}`
+        const system = `https://www.edsm.net/api-system-v1/bodies?sysname=${sys}`
+        const stations = `https://www.edsm.net/api-system-v1/stations?sysname=${sys}`
+        const factions = `https://www.edsm.net/api-system-v1/factions?sysname=${sys}`
         
-        const response1  = await fetch(url).then(function(response) {
+        const response1  = await fetch(system).then(function(response) {
             return response.json();
         })
 
-        const response2 = await fetch(url2).then(function(response) {
+        const response2 = await fetch(stations).then(function(response) {
             return response.json();
         })
 
-        const response3 = await fetch(url3).then(function(response) {
+        const response3 = await fetch(factions).then(function(response) {
             return response.json();
         })
 
@@ -79,27 +79,27 @@ module.exports = {
         })
 
         response2.stations.forEach(function(stations) {
-            if (stations.type === "Orbis Starport") {
-                id = stations.id
-                station.push(id2)
-            } else if (stations.type === "Ocellus Starport") {
-                id = stations.id
-                station.push(id2)
-            } else if (stations.type === "Coriolis Starport") {
-                id = stations.id
-                station.push(id2)
-            } else if (stations.type === "Planetary Port"){
-                id = stations.id
-                planetary.push(id2)
-            } else if (stations.type === "Planetary Outpost") {
-                id = stations.id
-                planetary.push(id2)
-            } else if (stations.type === "Outpost") {
-                id = stations.id
-                outposts.push(id2)
+            if (stations.type === "Orbis Starport") {  
+                info = `${stations.name}  (${Math.round(stations.distanceToArrival)} ls)`                                            
+                station.push(info)
+            } else if (stations.type === "Ocellus Starport") {  
+                info = `${stations.name}  (${Math.round(stations.distanceToArrival)} ls)`              
+                station.push(info)
+            } else if (stations.type === "Coriolis Starport") {   
+                info = `${stations.name}  (${Math.round(stations.distanceToArrival)} ls)`             
+                station.push(info)
+            } else if (stations.type === "Planetary Port"){  
+                info = `${stations.name}  (${Math.round(stations.distanceToArrival)} ls)`              
+                planetary.push(info)
+            } else if (stations.type === "Planetary Outpost") {  
+                info = `${stations.name}  (${Math.round(stations.distanceToArrival)} ls)`              
+                planetary.push(info)
+            } else if (stations.type === "Outpost") {  
+                info = `${stations.name}  (${Math.round(stations.distanceToArrival)} ls)`              
+                outposts.push(info)
             }
         })
-            
+         
         const embed = new RichEmbed()
             .setColor('RANDOM')
             .setFooter('EDSM Database')
@@ -115,17 +115,23 @@ module.exports = {
             .addField(`\u200b`, stripIndents`**Stellar Bodies**
             Stars: ${stars.length}
             Landable Bodies: ${landables.length}
-            Nonlandable Bodies: ${nonlandables.length}`, true)
+            Nonlandable Bodies: ${nonlandables.length}`, true);
                
             
         if (test == true ) {
             embed.setDescription(`This system is **uninhabitated**`)
         } else {
             embed.addField(`\u200b`,  stripIndents`**Stations** 
-            Star Ports: ${station.length}
+            Star Ports: ${station.length}                        
             Outposts: ${outposts.length}
             Planetary Ports: ${planetary.length}`, true);
-        }
+            embed.addField(`\u200b`, stripIndents`**Star Ports**
+            - ${station.join('\n- ')}`)
+            embed.addField(`\u200b`, stripIndents`**Outposts**
+            - ${outposts.join('\n- ')}`)
+            embed.addField(`\u200b`, stripIndents`**Planetary Ports**
+            - ${planetary.join('\n- ')}`)
+            }
 
         message.channel.send(embed);
         
