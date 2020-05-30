@@ -1,7 +1,7 @@
 const { welcome_channel, version, status } = require("../../src/config.json");
 const { RichEmbed } = require("discord.js");
 const { stripIndents } = require("common-tags");
-
+const { exec } = require("child_process");
 
 module.exports = {
     name: "update",
@@ -19,6 +19,19 @@ module.exports = {
         var channel = message.guild.channels.find(channel => channel.name === `${welcome_channel}`);
 
         
+
+        exec("update.sh", (error, stdout, stderr) => {
+            if (error) {
+                console.log(`error: ${error.message}`);
+                return;
+            }
+            if (stderr) {
+                console.log(`stderr: ${stderr}`);
+                return;
+            }
+            console.log(`stdout: ${stdout}`);
+        });
+
         client.user.setPresence({
             status: "invisible",
             game: {
