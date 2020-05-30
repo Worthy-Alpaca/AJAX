@@ -13,22 +13,21 @@ module.exports = {
             return;
 
         if (message.deletable) message.delete();
-            // In this array, 
-            // you can put the subreddits you want to grab memes from
-            const subReddits = ["dankmeme", "meme", "me_irl", "funny"];
-            // Grab a random property from the array
-            const random = subReddits[Math.floor(Math.random() * subReddits.length)];
+        // In this array, 
+        // you can put the subreddits you want to grab memes from
+        const subReddits = ["dankmeme", "meme", "me_irl", "funny"];
+        // Grab a random property from the array
+        const random = subReddits[Math.floor(Math.random() * subReddits.length)];
 
-            // Get a random image from the subreddit page
-            const img = await randomPuppy(random);
-            const embed = new RichEmbed()
-                .setColor("RANDOM")
-                .setImage(img)
-                .setTitle(`From /r/${random}`)
-                .setURL(`https://reddit.com/r/${random}`);
+        // Get a random image from the subreddit page
+        const img = await randomPuppy(random);
+        const embed = new RichEmbed()
+            .setColor("RANDOM")
+            .setImage(img)
+            .setTitle(`From /r/${random}`)
+            .setURL(`https://reddit.com/r/${random}`);
 
-            return channel.send(embed);
-
+        return channel.send(embed);
         
     }
 }
