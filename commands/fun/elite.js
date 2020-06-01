@@ -23,8 +23,11 @@ module.exports = {
         const system = `https://www.edsm.net/api-system-v1/bodies?sysname=${sys}`
         const stations = `https://www.edsm.net/api-system-v1/stations?sysname=${sys}`
         const factions = `https://www.edsm.net/api-system-v1/factions?sysname=${sys}`
+        const sysinfo = `https://www.edsm.net/api-v1/system?sysname=${sys}&showPermit=1&showInformation=1`
         
-        const response1  = await fetch(system).then(function(response) {
+
+         
+        const response1  = await fetch(system).then(function(response) {            
             return response.json();
         })
 
@@ -36,43 +39,57 @@ module.exports = {
             return response.json();
         })
 
+        const response4 = await fetch(sysinfo).then(function(response) {            
+            return response.json();
+        })  
+
         if (typeof response1.id == 'undefined') {
             return message.reply(`I have never heard of the \`${args.slice(0).join(" ")}\` system. Let me ask around real quick.`)
         } else message.reply("I found something. One second please")
           
         var station = [];
         var outposts = [];
-        var planetary = [];
-        var id2;
+        var planetary = [];        
         var landables = [];
         var nonlandables = [];
         var stars = [];
-        var id1;
-        var faction;
-        var allegiance;
-        var government;
-        var test;
+        var permit;
+        var uninhabitated;
+        var thumbnail;
 
-        if (typeof response3.controllingFaction == 'undefined') {
-            faction = "System is not inhabitated"
-            test = true;
+        if (response4.information.allegiance === "Alliance") {
+            thumbnail = "https://edassets.org/static/img/factions/Alliance-insignia.png"
+        } else if (response4.information.allegiance === "Empire") {
+            thumbnail = "https://edassets.org/static/img/factions/Empire-insignia.png"
+        } else if (response4.information.allegiance === "Federation") {
+            thumbnail = "https://edassets.org/static/img/factions/Federation-insignia.png"
+        } else if (response4.information.allegiance === "Independent") {
+            thumbnail = "https://edassets.org/static/img/squadrons/independent-power.png"
         } else {
-            allegiance = response3.controllingFaction.allegiance
-            government = response3.controllingFaction.government
-            faction = response3.controllingFaction.name
+            thumbnail = "https://edassets.org/static/img/decals/Planet1.png"
+        }
+
+        if (typeof response3.controllingFaction == 'undefined') {            
+            uninhabitated = true;
+        } 
+
+        if (response4.requirePermit) {
+            permit = response4.permitName;
+        } else {
+            permit = "No permit required"
         }
         
         response1.bodies.forEach(function(bodies) {
             if (bodies.isLandable) {
                 id = bodies.id
-                landables.push(id1)
-            } else if (!bodies.isLandable) {
+                landables.push(id)
+            } else {
                 if (bodies.type === "Star") {
                     id = bodies.id
-                    stars.push(id1)
+                    stars.push(id)
                 } else {
                     id = bodies.id
-                    nonlandables.push(id1)  
+                    nonlandables.push(id)  
                 }
                 
             }
@@ -104,11 +121,15 @@ module.exports = {
             .setColor('RANDOM')
             .setFooter('EDSM Database')
             .setTimestamp()
+            .setThumbnail(thumbnail)
             .setTitle(response1.name)
             .setURL(response1.url)
-            .setDescription(`**Controlling Faction:** ${faction}
-            **Government:** ${government}
-            **Allegiance:** ${allegiance}`)
+            .setDescription(`**Controlling Faction:** ${response4.information.faction} 
+            **Permit:** ${permit}
+            **Government:** ${response4.information.government} 
+            **State:** ${response4.information.factionState}
+            **Allegiance:** ${response4.information.allegiance} 
+            **Population:** ${response4.information.population}`)
             .addField(`\u200b`,  stripIndents`**Main Star** 
             Star Class: ${response1.bodies[0].subType}
             Scoopable: ${response1.bodies[0].isScoopable}`, true)
@@ -118,7 +139,7 @@ module.exports = {
             Nonlandable Bodies: ${nonlandables.length}`, true);
                
             
-        if (test == true ) {
+        if (uninhabitated == true ) {
             embed.setDescription(`This system is **uninhabitated**`)
         } else {
             embed.addField(`\u200b`,  stripIndents`**Stations** 
@@ -126,11 +147,11 @@ module.exports = {
             Outposts: ${outposts.length}
             Planetary Ports: ${planetary.length}`, true);
             embed.addField(`\u200b`, stripIndents`**Star Ports**
-            - ${station.join('\n- ')}`)
+            - ${station.join('\n- ')}`, true)            
+            embed.addField(`\u200b`, stripIndents`**Planetary Ports**
+            - ${planetary.join('\n- ')}`, true)
             embed.addField(`\u200b`, stripIndents`**Outposts**
             - ${outposts.join('\n- ')}`)
-            embed.addField(`\u200b`, stripIndents`**Planetary Ports**
-            - ${planetary.join('\n- ')}`)
             }
 
         message.channel.send(embed);
