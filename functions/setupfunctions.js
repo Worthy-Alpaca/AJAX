@@ -1,15 +1,14 @@
 module.exports = {
 
-    getadm: function(message, con) { 
+    setadm: function(message, con) { 
         return new Promise(function(resolve, reject) { 
             var adm;
             message.channel.send('Please enter the admin role').then(() => {
-                const filter = m => message.author.id === m.author.id;
-                
+                const filter = m => message.author.id === m.author.id;                
             
-                message.channel.awaitMessages(filter, { time: 60000, max: 1, errors: ['time'] })
-                    .then(messages => {
-                        var chnl = Array.from(messages.first().content)
+                message.channel.awaitMessages(filter, { time: 120000, max: 1, errors: ['time'] })
+                    .then(messages => {                        
+                        var chnl = Array.from(messages.first().content)                      
                 
                         if (chnl.includes("@")) {
                             b = chnl.slice(3, chnl.indexOf(">"))
@@ -27,23 +26,23 @@ module.exports = {
                             resolve(adm);
                             return con.query(sql);
                         })
-                    })
+                    })                    
                     .catch(() => {
-                        message.channel.send('You did not provide any input!');
+                        message.channel.send('You did not provide any input!').then(m => m.delete(5000));
                     })
                     
             });
         });
     },
 
-    getmd: function(message, con) {
+    setmd: function(message, con) {
         return new Promise(function(resolve, reject) {
             message.channel.send('Please enter the moderator role').then(() => {
                 var md;
                 const filter = m => message.author.id === m.author.id;
                 
             
-                message.channel.awaitMessages(filter, { time: 60000, max: 1, errors: ['time'] })
+                message.channel.awaitMessages(filter, { time: 120000, max: 1, errors: ['time'] })
                     .then(messages => {
                         var chnl = Array.from(messages.first().content)
                 
@@ -72,14 +71,14 @@ module.exports = {
         })
     },
 
-    getch: function(message, con) {
+    setch: function(message, con) {
         return new Promise(function(resolve, reject) {
             message.channel.send('Please enter the greeting channel (please use with a tag, e.g. #channel)').then(() => {
                 const filter = m => message.author.id === m.author.id;
                 var ch;
                 
             
-                message.channel.awaitMessages(filter, { time: 60000, max: 1, errors: ['time'] })
+                message.channel.awaitMessages(filter, { time: 120000, max: 1, errors: ['time'] })
                     .then(messages => {
                         var chnl = Array.from(messages.first().content)
 
@@ -108,7 +107,7 @@ module.exports = {
         })
     },
 
-    getms: function(message, con) {
+    setms: function(message, con) {
         return new Promise(function(resolve, reject) {
             
             
@@ -116,7 +115,7 @@ module.exports = {
                 const filter = m => message.author.id === m.author.id;
                 var ms;
             
-                message.channel.awaitMessages(filter, { time: 60000, max: 1, errors: ['time'] })
+                message.channel.awaitMessages(filter, { time: 120000, max: 1, errors: ['time'] })
                     .then(messages => {
                         var greeting = messages.first().content
                         msg = message.channel.send(`You've entered: \`${messages.first().content}\``).then(m => m.delete(5000));
@@ -137,13 +136,13 @@ module.exports = {
         })
     },
 
-    getapr: function(message, con) {
+    setapr: function(message, con) {
         return new Promise(function(resolve, reject) {
             message.channel.send('Please enter the role for approved members').then(() => {
                 const filter = m => message.author.id === m.author.id;
                 var apr;
             
-                message.channel.awaitMessages(filter, { time: 60000, max: 1, errors: ['time'] })
+                message.channel.awaitMessages(filter, { time: 120000, max: 1, errors: ['time'] })
                     .then(messages => {
                         var chnl = Array.from(messages.first().content)
                 
@@ -172,7 +171,7 @@ module.exports = {
         })            
     },
 
-    getcmd: function(message, con) {
+    setcmd: function(message, con) {
         return new Promise(function(resolve, reject) {
             
             
@@ -180,7 +179,7 @@ module.exports = {
                 const filter = m => message.author.id === m.author.id;
                 var cmd;
             
-                message.channel.awaitMessages(filter, { time: 60000, max: 1, errors: ['time'] })
+                message.channel.awaitMessages(filter, { time: 120000, max: 1, errors: ['time'] })
                     .then(messages => {
                         cmd = messages.first().content
                         msg = message.channel.send(`You've entered: \`${cmd}\``).then(m => m.delete(5000));
