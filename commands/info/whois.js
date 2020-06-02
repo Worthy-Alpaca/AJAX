@@ -27,7 +27,6 @@ module.exports = {
             .setFooter(member.displayName, member.user.displayAvatarURL)
             .setThumbnail(member.user.displayAvatarURL)
             .setColor(member.displayHexColor === "#000000" ? "#ffffff" : member.displayHexColor)
-
             .addField('**Member information**', stripIndents`**> Display name** ${member.displayName}
             **> Joined at:** ${joined}
             **> Roles:** ${roles}`, true)
@@ -35,12 +34,11 @@ module.exports = {
             **> Username:** ${member.user.username}
             **> Discord Tag:** ${member.user.tag}
             **> Created at:** ${created}`, true)
-
             .setTimestamp()
 
 
         if (member.user.presence.game)
-            embed.addField('Currently playing', `**> Name:** ${member.user.presence.game.name}`)
+            embed.addField('Currently playing', `**> Name:** ${member.user.presence.game.name}`);
 
         message.channel.send(embed);
 
