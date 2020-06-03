@@ -54,7 +54,8 @@ module.exports = {
             
         
         if (admins.length > 0) {
-            embed.addField('**ADMINS**', stripIndents`${admins.join('\n')}`, true);
+            embed.addField(`\u200b`, stripIndents`**ADMINS**
+            ${admins.join('\n')}`, true);
         } else {
             embed.addField('**ADMINS**', stripIndents`It appears you either don't have any server admins or set the wrong role in the setup process... dumbass`, true);
         }
