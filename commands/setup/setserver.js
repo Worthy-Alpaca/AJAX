@@ -59,17 +59,17 @@ module.exports = {
         }
         
         if (cmd2) {
-        console.log("bingo")
-        const admin2 = await getAdmin(message, con);
-        const moderator2 = await getMod(message, con);
-        const welcomechannel2 = await getChnl(member, con);
-        const approvedrole2 = await getapproved(member, con);
-        admin = message.guild.roles.find(r => r.id === admin2);
-        moderator = message.guild.roles.find(r => r.id === moderator2);
-        welcomechannel = message.guild.channels.find(c => c.id === welcomechannel2);
-        welcomemessage = await getMsg(member, con);
-        approvedrole = message.guild.roles.find(r => r.id === approvedrole2);
-        startcmd = await getstartcmd(message, con);
+            console.log("bingo")
+            const admin2 = await getAdmin(message, con);
+            const moderator2 = await getMod(message, con);
+            const welcomechannel2 = await getChnl(member, con);
+            const approvedrole2 = await getapproved(member, con);
+            admin = message.guild.roles.find(r => r.id === admin2);
+            moderator = message.guild.roles.find(r => r.id === moderator2);
+            welcomechannel = message.guild.channels.find(c => c.id === welcomechannel2);
+            welcomemessage = await getMsg(member, con);
+            approvedrole = message.guild.roles.find(r => r.id === approvedrole2);
+            startcmd = await getstartcmd(message, con);
         }
 
         const embed2= new RichEmbed()
