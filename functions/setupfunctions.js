@@ -198,5 +198,36 @@ module.exports = {
                     
             });
         })
+    },
+
+    setDB: function(guild, con) {
+        return new Promise(function(resolve, reject) {
+            con.query(`SELECT * FROM servers WHERE id = '${guild.id}'`, (err, rows) => {
+                if(err) throw err;
+                let sql;
+                let db;
+                       
+                if (!rows.length) {
+                  console.log(guild.name, "added")
+                  sql = `INSERT INTO servers (id, name) VALUES ('${guild.id}', '${guild.name}')`
+                  db = true;
+                  resolve(db);
+                  return con.query(sql);
+                }
+        
+                if(rows[0].id === guild.id) {                  
+                  db = true;
+                  resolve(db);
+                  return;
+                } else {
+                  console.log("b")
+                  sql = `INSERT INTO servers (id, name) VALUES ('${guild.id}', '${guild.name}')`
+                  db = true;
+                  resolve(db);
+                  return con.query(sql);
+                }               
+                        
+            }); 
+        })
     }
 };
