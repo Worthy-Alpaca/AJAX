@@ -35,10 +35,8 @@ module.exports = {
         
         
         
-        //set admin role
-        
-        const adm2 = await setadm(message, con);
-        
+        //set admin role        
+        const adm2 = await setadm(message, con);        
         //set moderator role
         if (adm2) {
             md2 = await setmd(message, con);
