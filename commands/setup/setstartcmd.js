@@ -1,4 +1,4 @@
-const { getcmd } = require("../../functions/setupfunctions");
+const { setcmd } = require("../../functions/setupfunctions");
 
 module.exports = {
     name: "setstartcmd",
@@ -10,6 +10,6 @@ module.exports = {
             return message.reply("You are not powerfull enough to do that");
         }
 
-        return getcmd(message, con);
+        return setcmd(message, con);
     }
 }

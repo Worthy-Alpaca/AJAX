@@ -1,4 +1,4 @@
-const { getms } = require("../../functions/setupfunctions");
+const { setms } = require("../../functions/setupfunctions");
 
 module.exports = {
     name: "setgreeting",
@@ -10,7 +10,7 @@ module.exports = {
             return message.reply("You are not powerfull enough to do that");
         }
 
-        return getms(message, con);
+        return setms(message, con);
         
     }
 }

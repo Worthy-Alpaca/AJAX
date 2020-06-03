@@ -33,7 +33,7 @@ module.exports = {
                 status: "online",
                 game: {
                     name: `${status}`,
-                    type: "WATCHING"
+                    type: "LISTENING"
                 }
             })
         }, 5000)

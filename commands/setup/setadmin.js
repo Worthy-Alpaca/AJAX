@@ -1,4 +1,4 @@
-const { getadm } = require("../../functions/setupfunctions");
+const { setadm } = require("../../functions/setupfunctions");
 
 module.exports = {
     name: "setadmin",
@@ -10,7 +10,7 @@ module.exports = {
             return message.reply("You are not powerfull enough to do that");
         }
         
-        return getadm(message, con);
+        return setadm(message, con);
         
     }
 }

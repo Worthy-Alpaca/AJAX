@@ -1,4 +1,4 @@
-const { getapr } = require("../../functions/setupfunctions");
+const { setapr } = require("../../functions/setupfunctions");
 
 module.exports = {
     name: "setapproved",
@@ -10,7 +10,7 @@ module.exports = {
             return message.reply("You are not powerfull enough to do that");
         }
        
-        return getapr(message, con);
+        return setapr(message, con);
         
     }
 }

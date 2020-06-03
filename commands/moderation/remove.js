@@ -88,8 +88,8 @@ module.exports = {
                 .setFooter(message.member.displayName, message.author.displayAvatarURL)
                 .setTimestamp()
                 .setDescription(stripIndents`**- Kicked member:** ${toKick} (${toKick.id})
-            **- Kicked by:** ${message.member} (${message.member.id})
-            **- Reason:** ${args.slice(2).join(" ")}`);
+                **- Kicked by:** ${message.member} (${message.member.id})
+                **- Reason:** ${args.slice(2).join(" ")}`);
 
             const promptEmbed = new RichEmbed()
                 .setColor("GREEN")
@@ -138,8 +138,8 @@ module.exports = {
                 .setFooter(message.member.displayName, message.author.displayAvatarURL)
                 .setTimestamp()
                 .setDescription(stripIndents`**> baned member:** ${toKick} (${toKick.id})
-            **> baned by:** ${message.member} (${message.member.id})
-            **> Reason:** ${args.slice(2).join(" ")}`);
+                **> baned by:** ${message.member} (${message.member.id})
+                **> Reason:** ${args.slice(2).join(" ")}`);
 
             const promptEmbed = new RichEmbed()
                 .setColor("GREEN")

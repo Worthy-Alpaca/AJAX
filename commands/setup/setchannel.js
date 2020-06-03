@@ -1,4 +1,4 @@
-const { getch } = require("../../functions/setupfunctions");
+const { setch } = require("../../functions/setupfunctions");
 
 module.exports = {
     name: "setchannel",
@@ -10,7 +10,7 @@ module.exports = {
             return message.reply("You are not powerfull enough to do that");
         }
 
-        return getch(message, con);                        
+        return setch(message, con);                        
         
     }
 }

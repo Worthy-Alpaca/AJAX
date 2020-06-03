@@ -75,12 +75,40 @@ client.on("ready", () => {
         status: "online",
         game: {
             name: `${status}`,
-            type: "WATCHING"
+            type: "listening"
         }
     });
 });
 
+//on joining a new server
+client.on("guildCreate", guild => {
+  channel = guild.channels.find(channel => channel.id === guild.systemChannelID);
+  channel.send(`Hi there, I'm ${client.user.username}. You can run !setserver to set everything up. See !help for all of my commands. Enjoy :grin:`)
+  con.query(`SELECT * FROM servers WHERE id = '${guild.id}'`, (err, rows) => {
+    if(err) throw err;
+    let sql;
+    let db;                  
+      
+    if (!rows.length) {
+        console.log(guild.name, "added")
+        sql = `INSERT INTO servers (id, name) VALUES ('${guild.id}', '${guild.name}')`
+        return con.query(sql);
+    }
 
+    if(rows[0].id === guild.id) {                  
+      db = true;
+      
+      return;
+    } else {
+      console.log("b")
+      sql = `INSERT INTO servers (id, name) VALUES ('${guild.id}', '${guild.name}')`
+      db = true;
+      
+      con.query(sql);
+    }                          
+            
+  });
+})
 
 
 //welcome message

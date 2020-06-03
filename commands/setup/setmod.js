@@ -1,4 +1,4 @@
-const { getmd } = require("../../functions/setupfunctions");
+const { setmd } = require("../../functions/setupfunctions");
 
 module.exports = {
     name: "setmod",
@@ -10,7 +10,7 @@ module.exports = {
             return message.reply("You are not powerfull enough to do that");
         }
 
-        return getmd(message, con);
+        return setmd(message, con);
 
     }
 }
