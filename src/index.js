@@ -82,8 +82,15 @@ client.on("ready", () => {
 
 //on joining a new server
 client.on("guildCreate", guild => {
+
+  client.fetchUser(`595341356432621573`, false).then(user => {
+    user.send(`I was added to a new server: ${guild.name}, ${guild.id}`)
+  });
+
   channel = guild.channels.find(channel => channel.id === guild.systemChannelID);
-  channel.send(`Hi there, I'm ${client.user.username}. You can run !setserver to set everything up. See !help for all of my commands. Enjoy :grin:`)
+
+  channel.send(`Hi there, I'm ${client.user.username}. You can run !setserver to set everything up. See !help for all of my commands. Enjoy :grin:`);
+  
   con.query(`SELECT * FROM servers WHERE id = '${guild.id}'`, (err, rows) => {
     if(err) throw err;
     let sql;
