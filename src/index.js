@@ -4,7 +4,7 @@ const { token, password } = require('../token.json');
 const fs = require("fs");
 const Discord = require("discord.js")
 const { stripIndents } = require("common-tags");
-const { promptMessage, getChnl, getMsg, getapproved, getapproved2, getMember, getstartcmd } = require("../functions/functions.js");
+const { promptMessage, getChnl, getMsg, getapproved, getapproved2, getMember, getstartcmd, getreportschannel } = require("../functions/functions.js");
 const { answers, replies, asks, help, positive, sassy, robot } = require("./answers.json");
 const usersMap = new Map();
 const mysql = require("mysql");
@@ -39,7 +39,7 @@ var con = mysql.createConnection({
 con.connect(err => {
   if(err) throw err;
   console.log("connected to database");
-  con.query("CREATE TABLE IF NOT EXISTS servers(id VARCHAR(20) NOT NULL UNIQUE, name TEXT NOT NULL, admin TEXT, moderator TEXT, greeting VARCHAR(512) CHARACTER SET utf8 COLLATE utf8_unicode_ci, channel TEXT, approved TEXT, startcmd TEXT) CHARACTER SET utf8 COLLATE utf8_unicode_ci;")
+  con.query("CREATE TABLE IF NOT EXISTS servers(id VARCHAR(20) NOT NULL UNIQUE, name TEXT NOT NULL, admin TEXT, moderator TEXT, greeting VARCHAR(512) CHARACTER SET utf8 COLLATE utf8_unicode_ci, channel TEXT, approved TEXT, startcmd TEXT, reports TEXT) CHARACTER SET utf8 COLLATE utf8_unicode_ci;")
 })
 
 client.on("ready", () => {
@@ -174,7 +174,8 @@ client.on("message", async message => {
     //automated spam detection and mute
     if(usersMap.has(message.author.id)) {
         let mutee = message.member;
-        const report = message.guild.channels.cache.find(channel => channel.name === "reports");
+        const reports = await getreportschannel(message, con);
+        const report = message.guild.channels.cache.find(channel => channel.id === reports);
         const userData = usersMap.get(message.author.id);
         const { lastMessage, timer } = userData;
         const difference = message.createdTimestamp - lastMessage.createdTimestamp;

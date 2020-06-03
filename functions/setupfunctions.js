@@ -229,5 +229,41 @@ module.exports = {
                         
             }); 
         })
-    }
+    },
+    
+    setreports: function(message, con) {
+        return new Promise(function(resolve, reject) {
+            message.channel.send('Please enter the channel where you want your reports to be displayed').then(() => {
+                const filter = m => message.author.id === m.author.id;
+                var ch;
+                
+            
+                message.channel.awaitMessages(filter, { time: 120000, max: 1, errors: ['time'] })
+                    .then(messages => {
+                        var chnl = Array.from(messages.first().content)
+
+                        if (chnl.includes("#")) {
+                            b = chnl.slice(2, chnl.indexOf(">"))
+                            var channel = b.join("")
+                        } else {
+                            var channel2 = message.guild.channels.cache.find(channel => channel.name === chnl.join(""));                        
+                            var channel = channel2.id;                                  
+                        }        
+                                               
+                        message.channel.send(`You've entered: \`${channel}\``).then(m => m.delete( {timeout: 5000} ));
+                        con.query(`SELECT * FROM servers WHERE id = '${message.guild.id}'`, (err, rows) => {
+                            let sql;
+                            sql = `UPDATE servers SET reports = '${channel}' WHERE id = '${message.guild.id}'`;
+                            ch = true;
+                            resolve(ch);
+                            return con.query(sql);
+                        })
+                    })
+                    .catch(() => {
+                        message.channel.send('You did not provide any input!');
+                    })
+                      
+            });
+        })
+    },
 };

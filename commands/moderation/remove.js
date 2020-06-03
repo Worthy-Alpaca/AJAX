@@ -1,6 +1,6 @@
 const Discord  = require("discord.js");
 const { stripIndents } = require("common-tags");
-const { getAdmin, getMod, promptMessage } = require("../../functions/functions.js");
+const { getAdmin, getMod, promptMessage, getreportschannel } = require("../../functions/functions.js");
 
 module.exports = {
     name: "remove",
@@ -8,7 +8,9 @@ module.exports = {
     description: "removes the member",
     usage: "<kick | ban, id | mention, reason>",
     run: async (client, message, args, con) => {
-        const logChannel = message.guild.channels.cache.find(c => c.name === "reports") || message.channel;
+
+        const reports = await getreportschannel(message, con);
+        const logChannel = message.guild.channels.cache.find(c => c.id === reports) || message.channel;
 
         if (message.deletable) message.delete();
 

@@ -1,6 +1,6 @@
 const Discord  = require("discord.js");
 const { stripIndents } = require("common-tags");
-const { getAdmin, getMod } = require("../../functions/functions.js"); 
+const { getAdmin, getMod, getreportschannel } = require("../../functions/functions.js"); 
 
 
 module.exports = {
@@ -44,7 +44,9 @@ module.exports = {
         if (!args[2])
             return message.channel.send("Please include a reason for the report").then(m => m.delete(10000));
 
-        const channel = message.guild.channels.cache.find(channel => channel.name === "reports");
+        const reports = getreportschannel(message, con);
+
+        const channel = message.guild.channels.cache.find(channel => channel.id === reports);
 
         if (!channel)
             return message.channel.send("I could not find a \`#reports\` channel").then(m => m.delete(10000));

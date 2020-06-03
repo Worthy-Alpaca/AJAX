@@ -1,7 +1,7 @@
 const Discord  = require("discord.js");
 const { stripIndents } = require("common-tags");
-const { setadm, setmd, setch, setms, setapr, setcmd, setDB } = require("../../functions/setupfunctions.js");
-const { getAdmin, getMod, getChnl, getMsg, getapproved, getstartcmd } = require("../../functions/functions.js");
+const { setadm, setmd, setch, setms, setapr, setcmd, setreports } = require("../../functions/setupfunctions.js");
+const { getAdmin, getMod, getChnl, getMsg, getapproved, getstartcmd, getreportschannel } = require("../../functions/functions.js");
 
 
 module.exports = {
@@ -21,7 +21,8 @@ module.exports = {
         var ch2;
         var ms2;
         var apr2;
-        var cmd2;        
+        var cmd2;
+        var rpt2;        
         
         
         //setup complete message
@@ -57,18 +58,24 @@ module.exports = {
         if (apr2) {
             cmd2 = await setcmd(message, con);
         }
+        //set report channel
+        if (cmd2) {
+            rpt2 = await setreports(message, con);
+        }
         
-        if (cmd2) {            
+        if (rpt2) {            
             const admin2 = await getAdmin(message, con);
             const moderator2 = await getMod(message, con);
             const welcomechannel2 = await getChnl(member, con);
             const approvedrole2 = await getapproved(member, con);
+            const reportschannel2 = await getreportschannel(message, con);
             admin = message.guild.roles.cache.find(r => r.id === admin2);
             moderator = message.guild.roles.cache.find(r => r.id === moderator2);
             welcomechannel = message.guild.channels.cache.find(c => c.id === welcomechannel2);
             welcomemessage = await getMsg(member, con);
             approvedrole = message.guild.roles.cache.find(r => r.id === approvedrole2);
             startcmd = await getstartcmd(message, con);
+            reportschannel = message.guild.channels.cache.find(c => c.id === reportschannel2);
         }
 
         const embed2= new Discord.MessageEmbed()
@@ -88,8 +95,10 @@ module.exports = {
             ${approvedrole}`, true)
             .addField(`\u200b`, stripIndents`**Command for approving new members**
             ${startcmd}`, true)
+            .addField(`\u200b`, stripIndents`**Channel for your reports**
+            ${reportschannel}`, true);
 
-        if (cmd2) {
+        if (rpt2) {
             message.channel.bulkDelete(14, true)
                 .then(message.channel.send(embed))
                 .then(message.channel.send(embed2));

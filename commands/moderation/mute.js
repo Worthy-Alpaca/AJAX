@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
 const { stripIndents } = require("common-tags");
-const { getAdmin, getMod } = require("../../functions/functions.js");
+const { getAdmin, getMod, getreportschannel } = require("../../functions/functions.js");
 
 module.exports = {
     name: "mute",
@@ -11,10 +11,12 @@ module.exports = {
 
 
         if (message.deletable) message.delete();
-        const report = message.guild.channels.cache.find(channel => channel.name === "reports");
+        
         const mutee = message.mentions.members.first();
         var admin = await getAdmin(message, con);
         var moderator = await getMod(message, con);
+        var reports = await getreportschannel(message, con);
+        const report = message.guild.channels.cache.find(channel => channel.id === reports);
 
         if (admin === null) {
             return message.channel.send("You need to set the role for admin first. Do that by typing !setadmin")
@@ -22,7 +24,7 @@ module.exports = {
         if (moderator === null) {
             return message.channel.send("You need to set the role for moderator first. Do that by typing !setmod")
         }
-          
+                 
         if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id=== admin).id)) {
             if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id=== moderator).id)) {
                 return message.reply("You can't do that. Please contact a staff member!")

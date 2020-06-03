@@ -116,6 +116,16 @@ module.exports = {
                 resolve(msg);
             });
         });
+    },
+
+    getreportschannel: function(message, con) {
+        var chnl;
+        return new Promise(function(resolve, reject) {
+            con.query(`SELECT * FROM servers WHERE id = '${message.guild.id}'`, (err, rows) => {
+                chnl = rows[0].reports;
+                resolve(chnl);
+            })
+        })
     }
 
     
