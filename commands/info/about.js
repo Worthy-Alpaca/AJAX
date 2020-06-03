@@ -1,4 +1,4 @@
-const { RichEmbed } = require("discord.js");
+const Discord  = require("discord.js");
 const { stripIndents } = require("common-tags");
 const { version } = require("../../src/config.json");
 const { getapproved2 } = require("../../functions/functions.js");
@@ -17,8 +17,8 @@ module.exports = {
 
         approvedR = await getapproved2(message, con);
         
-        guild.members.forEach(member => {
-            if (member.roles.has(message.guild.roles.find(r => r.id === approvedR).id)){
+        guild.members.cache.forEach(member => {
+            if (member.roles.cache.has(message.guild.roles.cache.find(r => r.id === approvedR).id)){
                 if (member.id === client.user.id) {
                     return
                 } else {
@@ -28,10 +28,10 @@ module.exports = {
             } 
         })
 
-        const embed = new RichEmbed()
+        const embed = new Discord.MessageEmbed()
             .setColor("RANDOM")
             .setTimestamp()
-            .setThumbnail(client.user.displayAvatarURL)
+            .setThumbnail(client.user.displayAvatarURL())
             .setTitle(client.user.username)
             .setURL("https://github.com/Worthy-Alpaca/AJAX")            
             .addField(`\u200b`, stripIndents`**Bot Information**            

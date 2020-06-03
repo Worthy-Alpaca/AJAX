@@ -1,4 +1,4 @@
-const { RichEmbed } = require("discord.js");
+const Discord  = require("discord.js");
 const { stripIndents } = require("common-tags");
 const { getAdmin, getMod, promptMessage } = require("../../functions/functions.js");
 
@@ -8,7 +8,7 @@ module.exports = {
     description: "removes the member",
     usage: "<kick | ban, id | mention, reason>",
     run: async (client, message, args, con) => {
-        const logChannel = message.guild.channels.find(c => c.name === "reports") || message.channel;
+        const logChannel = message.guild.channels.cache.find(c => c.name === "reports") || message.channel;
 
         if (message.deletable) message.delete();
 
@@ -25,19 +25,19 @@ module.exports = {
         //no functions mentioned
         if (!args[0]) {
             return message.reply("Please tell me what to do.")
-                .then(m => m.delete(5000));
+                .then(m => m.delete( {timeout: 5000} ));
         }
 
         // No args
         if (!args[1]) {
             return message.reply("Please provide a person to kick/ban.")
-                .then(m => m.delete(5000));
+                .then(m => m.delete( {timeout: 5000} ));
         }
 
         // No reason
         if (!args[2]) {
             return message.reply("Please provide a reason to kick/ban.")
-                .then(m => m.delete(5000));
+                .then(m => m.delete( {timeout: 5000} ));
         }
 
    
@@ -50,28 +50,28 @@ module.exports = {
         // No member found
         if (!toKick) {
             return message.reply("Couldn't find that member, try again")
-                .then(m => m.delete(5000));
+                .then(m => m.delete( {timeout: 5000} ));
         }
 
         // person to remove = author
         if (toKick.id === message.author.id) {
             return message.reply("You can't do that to yourself smartboi :rofl:")
-                .then(m => m.delete(5000));
+                .then(m => m.delete( {timeout: 5000} ));
         }
 
         // Check if the user's kickable
         if (!toKick.kickable) {
             return message.reply("I can't kick that person due to role hierarchy, I suppose.")
-                .then(m => m.delete(5000));
+                .then(m => m.delete( {timeout: 5000} ));
         }
                 
         if (args[0].toLowerCase() === "kick") {
 
             // No author permissions
-            if (!message.member.roles.has(message.guild.roles.find(r => r.id=== admin).id)) {
-                if (!message.member.roles.has(message.guild.roles.find(r => r.id=== moderator).id)) {
+            if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id=== admin).id)) {
+                if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id=== moderator).id)) {
                     return message.reply("❌ You do not have permissions to kick members. Please contact a staff member")
-                        .then(m => m.delete(5000));
+                        .then(m => m.delete( {timeout: 5000} ));
                 }
             }
             
@@ -79,19 +79,19 @@ module.exports = {
             //no bot permission
             if (!message.guild.me.hasPermission("KICK_MEMBERS")) {
                 return message.reply("❌ I do not have permissions to kick members. Please contact a staff member")
-                    .then(m => m.delete(5000));
+                    .then(m => m.delete( {timeout: 5000} ));
             }
 
-            const embed = new RichEmbed()
+            const embed = new Discord.MessageEmbed()
                 .setColor("#ff0000")
-                .setThumbnail(toKick.user.displayAvatarURL)
-                .setFooter(message.member.displayName, message.author.displayAvatarURL)
+                .setThumbnail(toKick.user.displayAvatarURL())
+                .setFooter(message.member.displayName, message.author.displayAvatarURL())
                 .setTimestamp()
                 .setDescription(stripIndents`**- Kicked member:** ${toKick} (${toKick.id})
                 **- Kicked by:** ${message.member} (${message.member.id})
                 **- Reason:** ${args.slice(2).join(" ")}`);
 
-            const promptEmbed = new RichEmbed()
+            const promptEmbed = new Discord.MessageEmbed()
                 .setColor("GREEN")
                 .setAuthor(`This verification becomes invalid after 30s.`)
                 .setDescription(`Do you want to kick ${toKick}?`)
@@ -115,33 +115,33 @@ module.exports = {
                     msg.delete();
 
                     message.reply(`Kick canceled.`)
-                        .then(m => m.delete(5000));
+                        .then(m => m.delete( {timeout: 5000} ));
                 }
             });
         } else if (args[0].toLowerCase() === "ban") {
 
             // No author permissions
-            if (!message.member.roles.has(message.guild.roles.find(r => r.id=== admin).id)) {
+            if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id=== admin).id)) {
                 return message.reply("❌ You do not have permissions to ban members. Please contact a staff member")
-                    .then(m => m.delete(5000));
+                    .then(m => m.delete( {timeout: 5000} ));
             }
 
             //no bot permissions
             if (!message.guild.me.hasPermission("BAN_MEMBERS")) {
                 return message.reply("❌ I do not have permissions to ban members. Please contact a staff member")
-                    .then(m => m.delete(5000));
+                    .then(m => m.delete( {timeout: 5000} ));
             }
 
-            const embed = new RichEmbed()
+            const embed = new Discord.MessageEmbed()
                 .setColor("#ff0000")
-                .setThumbnail(toKick.user.displayAvatarURL)
-                .setFooter(message.member.displayName, message.author.displayAvatarURL)
+                .setThumbnail(toKick.user.displayAvatarURL())
+                .setFooter(message.member.displayName, message.author.displayAvatarURL())
                 .setTimestamp()
                 .setDescription(stripIndents`**> baned member:** ${toKick} (${toKick.id})
                 **> baned by:** ${message.member} (${message.member.id})
                 **> Reason:** ${args.slice(2).join(" ")}`);
 
-            const promptEmbed = new RichEmbed()
+            const promptEmbed = new Discord.MessageEmbed()
                 .setColor("GREEN")
                 .setAuthor(`This verification becomes invalid after 30s.`)
                 .setDescription(`Do you want to ban ${toKick}?`)
@@ -165,7 +165,7 @@ module.exports = {
                     msg.delete();
 
                     message.reply(`ban canceled.`)
-                        .then(m => m.delete(5000));
+                        .then(m => m.delete( {timeout: 5000} ));
                 }
             });
         } else if ((args[0].toLowerCase() !== "kick") || (args[0].toLowerCase() !== "ban")) {

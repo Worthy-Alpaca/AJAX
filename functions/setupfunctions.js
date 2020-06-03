@@ -14,10 +14,10 @@ module.exports = {
                             b = chnl.slice(3, chnl.indexOf(">"))
                             var admin = b.join("")
                         } else {
-                            var channel2 = message.guild.roles.find(r => r.name === chnl.join(""));                        
+                            var channel2 = message.guild.roles.cache.find(r => r.name === chnl.join(""));                        
                             var admin = channel2.id;                                  
                         }
-                        msg = message.channel.send(`You've entered: \`${admin}\``).then(m => m.delete(5000));
+                        msg = message.channel.send(`You've entered: \`${admin}\``).then(m => m.delete( {timeout: 5000} ));
                         con.query(`SELECT * FROM servers WHERE id = '${message.guild.id}'`, (err, rows) => {
                             let sql;
 
@@ -28,7 +28,7 @@ module.exports = {
                         })
                     })                    
                     .catch(() => {
-                        message.channel.send('You did not provide any input!').then(m => m.delete(5000));
+                        message.channel.send('You did not provide any input!').then(m => m.delete( {timeout: 5000} ));
                     })
                     
             });
@@ -50,10 +50,10 @@ module.exports = {
                             b = chnl.slice(3, chnl.indexOf(">"))
                             var moderator = b.join("")
                         } else {
-                            var channel2 = message.guild.roles.find(r => r.name === chnl.join(""));                        
+                            var channel2 = message.guild.roles.cache.find(r => r.name === chnl.join(""));                        
                             var moderator = channel2.id;                                  
                         }
-                        msg = message.channel.send(`You've entered: \`${moderator}\``).then(m => m.delete(5000));
+                        msg = message.channel.send(`You've entered: \`${moderator}\``).then(m => m.delete( {timeout: 5000} ));
                         con.query(`SELECT * FROM servers WHERE id = '${message.guild.id}'`, (err, rows) => {
                             let sql;
     
@@ -86,11 +86,11 @@ module.exports = {
                             b = chnl.slice(2, chnl.indexOf(">"))
                             var channel = b.join("")
                         } else {
-                            var channel2 = message.guild.channels.find(channel => channel.name === chnl.join(""));                        
+                            var channel2 = message.guild.channels.cache.find(channel => channel.name === chnl.join(""));                        
                             var channel = channel2.id;                                  
                         }        
                                                
-                        message.channel.send(`You've entered: \`${channel}\``).then(m => m.delete(5000));
+                        message.channel.send(`You've entered: \`${channel}\``).then(m => m.delete( {timeout: 5000} ));
                         con.query(`SELECT * FROM servers WHERE id = '${message.guild.id}'`, (err, rows) => {
                             let sql;
                             sql = `UPDATE servers SET channel = '${channel}' WHERE id = '${message.guild.id}'`;
@@ -118,7 +118,7 @@ module.exports = {
                 message.channel.awaitMessages(filter, { time: 120000, max: 1, errors: ['time'] })
                     .then(messages => {
                         var greeting = messages.first().content
-                        msg = message.channel.send(`You've entered: \`${messages.first().content}\``).then(m => m.delete(5000));
+                        msg = message.channel.send(`You've entered: \`${messages.first().content}\``).then(m => m.delete( {timeout: 5000} ));
                         con.query(`SELECT * FROM servers WHERE id = '${message.guild.id}'`, (err, rows) => {
                             let sql;
 
@@ -150,10 +150,10 @@ module.exports = {
                             b = chnl.slice(3, chnl.indexOf(">"))
                             var approved = b.join("")
                         } else {
-                            var channel2 = message.guild.roles.find(r => r.name === chnl.join(""));                        
+                            var channel2 = message.guild.roles.cache.find(r => r.name === chnl.join(""));                        
                             var approved = channel2.id;                                  
                         }
-                        msg = message.channel.send(`You've entered: \`${approved}\``).then(m => m.delete(5000));
+                        msg = message.channel.send(`You've entered: \`${approved}\``).then(m => m.delete( {timeout: 5000} ));
                         con.query(`SELECT * FROM servers WHERE id = '${message.guild.id}'`, (err, rows) => {
                             let sql;
     
@@ -182,7 +182,7 @@ module.exports = {
                 message.channel.awaitMessages(filter, { time: 120000, max: 1, errors: ['time'] })
                     .then(messages => {
                         cmd = messages.first().content
-                        msg = message.channel.send(`You've entered: \`${cmd}\``).then(m => m.delete(5000));
+                        msg = message.channel.send(`You've entered: \`${cmd}\``).then(m => m.delete( {timeout: 5000} ));
                         con.query(`SELECT * FROM servers WHERE id = '${message.guild.id}'`, (err, rows) => {
                             let sql;
 

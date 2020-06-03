@@ -1,4 +1,4 @@
-const { RichEmbed } = require("discord.js");
+const Discord  = require("discord.js");
 const { promptMessage } = require("../../functions/functions.js");
 
 const chooseArr = ["🗻", "📰", "✂"];
@@ -11,9 +11,9 @@ module.exports = {
     run: async (client, message, args, con) => {
         if (message.deletable) message.delete();
 
-        const embed = new RichEmbed()
+        const embed = new Discord.MessageEmbed()
             .setColor("#ffffff")
-            .setFooter(message.guild.me.displayName, client.user.displayAvatarURL)
+            .setFooter(message.guild.me.displayName, client.user.displayAvatarURL())
             .setDescription("Add a reaction to one of these emojis to play the game!")
             .setTimestamp();
 

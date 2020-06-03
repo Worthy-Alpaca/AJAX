@@ -18,10 +18,10 @@ module.exports = {
             return message.channel.send("You need to set the role for moderator first. Do that by typing !setmod")
         }
 
-        if (!message.member.roles.has(message.guild.roles.find(r => r.id=== admin).id)) {
-            if (!message.member.roles.has(message.guild.roles.find(r => r.id=== moderator).id)) {
+        if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id=== admin).id)) {
+            if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id=== moderator).id)) {
                 return message.reply("You are not powerfull enough to do that.")
-                    .then(m => m.delete(5000));
+                    .then(m => m.delete( {timeout: 5000} ));
             }
         }        
 
@@ -40,8 +40,8 @@ module.exports = {
         var channel2a = args.slice(a)
         channel2a.shift();       
         
-        const channel1 = message.guild.channels.find(channel => channel.name === channel1a.join(" "));
-        const channel2 = message.guild.channels.find(channel => channel.name === channel2a.join(" "));
+        const channel1 = message.guild.channels.cache.find(channel => channel.name === channel1a.join(" "));
+        const channel2 = message.guild.channels.cache.find(channel => channel.name === channel2a.join(" "));
         
         if (!channel1) {
             return message.reply(`\`${channel1a.join(" ")}\` does not exist`)
@@ -58,7 +58,7 @@ module.exports = {
         }                
 
         for (const [memberID, member] of channel1.members) {
-            member.setVoiceChannel(channel2)
+            member.voice.setChannel(channel2)
               .catch(console.error);
         }
 

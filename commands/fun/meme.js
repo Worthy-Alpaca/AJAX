@@ -1,4 +1,4 @@
-const { RichEmbed } = require("discord.js");
+const Discord  = require("discord.js");
 const randomPuppy = require("random-puppy");
 
 module.exports = {
@@ -8,7 +8,7 @@ module.exports = {
     run: async (client, message, args, con) => {
 
         
-        const channel = message.guild.channels.find(channel => channel.name === "memes");
+        const channel = message.guild.channels.cache.find(channel => channel.name === "memes");
         if (!channel)
             return;
 
@@ -21,7 +21,7 @@ module.exports = {
 
         // Get a random image from the subreddit page
         const img = await randomPuppy(random);
-        const embed = new RichEmbed()
+        const embed = new Discord.MessageEmbed()
             .setColor("RANDOM")
             .setImage(img)
             .setTitle(`From /r/${random}`)

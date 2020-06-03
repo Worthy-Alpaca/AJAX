@@ -1,4 +1,4 @@
-const { RichEmbed } = require("discord.js");
+const Discord  = require("discord.js");
 const { stripIndents } = require("common-tags");
 const { getAdmin, getMod, getChnl, getMsg, getapproved, getstartcmd } = require("../../functions/functions.js");
 
@@ -18,17 +18,17 @@ module.exports = {
         const moderator2 = await getMod(message, con);
         const welcomechannel2 = await getChnl(member, con);
         const approvedrole2 = await getapproved(member, con);
-        const admin = message.guild.roles.find(r => r.id === admin2);
-        const moderator = message.guild.roles.find(r => r.id === moderator2);
-        const welcomechannel = message.guild.channels.find(c => c.id === welcomechannel2);
+        const admin = message.guild.roles.cache.find(r => r.id === admin2);
+        const moderator = message.guild.roles.cache.find(r => r.id === moderator2);
+        const welcomechannel = message.guild.channels.cache.find(c => c.id === welcomechannel2);
         const welcomemessage = await getMsg(member, con);
-        const approvedrole = message.guild.roles.find(r => r.id === approvedrole2);
+        const approvedrole = message.guild.roles.cache.find(r => r.id === approvedrole2);
         const startcmd = await getstartcmd(message, con);
-
-        const embed2= new RichEmbed()
-            .setColor(member.displayHexColor === "#000000" ? "#ffffff" : member.displayHexColor)
-            .setThumbnail(guild.displayAvatarURL)
+        
+        const embed2= new Discord.MessageEmbed()
+            .setColor(member.displayHexColor === "#000000" ? "#ffffff" : member.displayHexColor)            
             .setTimestamp()
+            .setThumbnail(guild.iconURL())
             .setFooter(message.guild.name)
             .setDescription(stripIndents`**This is what you entered**`)
             .addField(`\u200b`, stripIndents`**Admin role**

@@ -1,4 +1,4 @@
-const { RichEmbed } = require('discord.js');
+const Discord  = require("discord.js");
 const { stripIndents } = require("common-tags");
 const { getAdmin, getMod } = require("../../functions/functions.js"); 
 
@@ -26,10 +26,10 @@ module.exports = {
         }
 
         if (!rMember)
-            return message.reply("Couldn't find that person").then(m => m.delete(5000));
+            return message.reply("Couldn't find that person").then(m => m.delete( {timeout: 5000} ));
 
-        if (rMember.roles.has(message.guild.roles.find(r => r.name === admin).id) || rMember.user.bot)
-            return message.reply("Can't report that member").then(m => m.delete(5000));
+        if (rMember.roles.cache.has(message.guild.roles.cache.find(r => r.name === admin).id) || rMember.user.bot)
+            return message.reply("Can't report that member").then(m => m.delete( {timeout: 5000} ));
 
         if (args[0] === "good") {
             behavior = "Keep up the good work!"
@@ -38,22 +38,22 @@ module.exports = {
             behavior = "Please cease this behavior immediatly. If you think this is wrong, please contact a staff member."
             behavior2 = "bad"
         } else if ((args[0] !== "good") || (args[0] !== "bad")) {
-            return message.reply("You need to add a behavior type. (Good/Bad)").then(m => m.delete(5000));
+            return message.reply("You need to add a behavior type. (Good/Bad)").then(m => m.delete( {timeout: 5000} ));
         }
 
         if (!args[2])
             return message.channel.send("Please include a reason for the report").then(m => m.delete(10000));
 
-        const channel = message.guild.channels.find(channel => channel.name === "reports");
+        const channel = message.guild.channels.cache.find(channel => channel.name === "reports");
 
         if (!channel)
             return message.channel.send("I could not find a \`#reports\` channel").then(m => m.delete(10000));
 
-        const embed = new RichEmbed()
+        const embed = new Discord.MessageEmbed()
             .setColor("#ff0000")
             .setTimestamp()
             .setFooter(message.guild.name, message.guild.iconURL)
-            .setAuthor("**Reported member**", rMember.user.displayAvatarURL)
+            .setAuthor("**Reported member**", rMember.user.displayAvatarURL())
             .setDescription(stripIndents`**> Member: ${rMember} (${rMember.id})
             **> Behavior: ${behavior2}
             **> Reported by: ${message.member} (${message.member.id})

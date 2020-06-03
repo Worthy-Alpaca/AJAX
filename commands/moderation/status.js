@@ -13,7 +13,7 @@ module.exports = {
         
         
         if (message.author.id !== "595341356432621573")
-            return message.reply("YOU DARE COMMAND ME, MORTAL?").then(m => m.delete(5000));
+            return message.reply("YOU DARE COMMAND ME, MORTAL?").then(m => m.delete( {timeout: 5000} ));
        
 
         let newstatus;
@@ -53,9 +53,9 @@ module.exports = {
 
         client.user.setPresence({
             status: "online",
-            game: {
+            activity: {
                 name: `${newstatus}`,
-                type: `${type}`
+                type: `${type.toUpperCase()}`
             }
         });
 

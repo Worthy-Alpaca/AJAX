@@ -1,7 +1,7 @@
-const { RichEmbed } = require("discord.js");
+const Discord  = require("discord.js");
 const { stripIndents } = require("common-tags");
 const { setadm, setmd, setch, setms, setapr, setcmd, setDB } = require("../../functions/setupfunctions.js");
-const { getAdmin, getMod, getChnl, getMsg, getapproved } = require("../../functions/functions.js");
+const { getAdmin, getMod, getChnl, getMsg, getapproved, getstartcmd } = require("../../functions/functions.js");
 
 
 module.exports = {
@@ -25,7 +25,7 @@ module.exports = {
         
         
         //setup complete message
-        const embed = new RichEmbed()
+        const embed = new Discord.MessageEmbed()
             .setColor(member.displayHexColor === "#000000" ? "#ffffff" : member.displayHexColor)
             .setTimestamp()
             .setDescription(stripIndents`You have completed the setup process for this server. :partying_face:
@@ -64,18 +64,19 @@ module.exports = {
             const moderator2 = await getMod(message, con);
             const welcomechannel2 = await getChnl(member, con);
             const approvedrole2 = await getapproved(member, con);
-            admin = message.guild.roles.find(r => r.id === admin2);
-            moderator = message.guild.roles.find(r => r.id === moderator2);
-            welcomechannel = message.guild.channels.find(c => c.id === welcomechannel2);
+            admin = message.guild.roles.cache.find(r => r.id === admin2);
+            moderator = message.guild.roles.cache.find(r => r.id === moderator2);
+            welcomechannel = message.guild.channels.cache.find(c => c.id === welcomechannel2);
             welcomemessage = await getMsg(member, con);
-            approvedrole = message.guild.roles.find(r => r.id === approvedrole2);
+            approvedrole = message.guild.roles.cache.find(r => r.id === approvedrole2);
             startcmd = await getstartcmd(message, con);
         }
 
-        const embed2= new RichEmbed()
+        const embed2= new Discord.MessageEmbed()
             .setColor(member.displayHexColor === "#000000" ? "#ffffff" : member.displayHexColor)
             .setTimestamp()
-            .setDescription(stripIndents`This is what you entered`)
+            .setThumbnail(guild.iconURL())
+            .setDescription(stripIndents`**This is what you entered**`)
             .addField(`\u200b`, stripIndents`**Admin role**
             ${admin}`, true)
             .addField(`\u200b`, stripIndents`**Moderator role**

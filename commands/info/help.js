@@ -1,4 +1,4 @@
-const { RichEmbed } = require("discord.js");
+const Discord  = require("discord.js");
 const { stripIndents } = require("common-tags");
 const { prefix, version } = require("../../src/config.json");
 
@@ -24,12 +24,12 @@ module.exports = {
 
 
 function getAll(client, message) {   
-    const embed = new RichEmbed()
+    const embed = new Discord.MessageEmbed()
         .setColor("RANDOM")
         .setFooter(`Version: ${version}`)
         .setTimestamp()
         .setTitle("Help menu")
-        .setThumbnail(client.user.displayAvatarURL)
+        .setThumbnail(client.user.displayAvatarURL())
         
 
     const commands = (category) => {
@@ -48,7 +48,7 @@ function getAll(client, message) {
 }
 
 function getCMD(client, message, input) {
-    const embed = new RichEmbed()
+    const embed = new Discord.MessageEmbed()
 
     const cmd = client.commands.get(input.toLowerCase()) || client.commands.get(client.aliases.get(input.toLowerCase()));
 

@@ -1,7 +1,7 @@
 const querystring = require('querystring');
 const fetch = require('node-fetch');
 const trim = (str, max) => ((str.length > max) ? `${str.slice(0, max - 3)}...` : str);
-const { RichEmbed } = require("discord.js");
+const Discord  = require("discord.js");
 
 
 module.exports = {
@@ -14,7 +14,7 @@ module.exports = {
 
         if (!args.length) {
             return message.channel.send('You need to supply a search term!')
-                .then(m => m.delete(5000));
+                .then(m => m.delete( {timeout: 5000} ));
         }
         
         const query = querystring.stringify({ term: args.join(' ') });
@@ -24,12 +24,12 @@ module.exports = {
 
         if (!list.length) {
             return message.channel.send(`No results found for **${args.join(' ')}**.`)
-                .then(m => m.delete(5000));
+                .then(m => m.delete( {timeout: 5000} ));
         }
 
         const [answer] = list;
 
-        const embed = new RichEmbed()
+        const embed = new Discord.MessageEmbed()
             .setColor('RANDOM')
             .setTitle(answer.word)
             .setURL(answer.permalink)
