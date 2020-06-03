@@ -62,9 +62,9 @@ module.exports = {
             **> Reported in: ${message.channel}
             **> Reason: ${args.slice(2).join(" ")}`);
 
-        /*client.fetchUser(`${rMember.id}`, false).then(user => {
+        client.users.fetch(`${rMember.id}`, false).then(user => {
             user.send(`You have been reported by ${message.member} for "${args.slice(2).join(" ")}." ${behavior} This message was computer generated. Please do not answer to it.`)
-        });*/
+        });
 
         return channel.send(embed);
 

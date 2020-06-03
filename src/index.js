@@ -84,7 +84,7 @@ client.on("ready", () => {
 //on joining a new server
 client.on("guildCreate", guild => {
 
-  client.fetchUser(`595341356432621573`, false).then(user => {
+  client.users.fetch(`595341356432621573`, false).then(user => {
     user.send(`I was added to a new server: ${guild.name}, ${guild.id}`)
   });
 
