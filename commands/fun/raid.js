@@ -1,4 +1,4 @@
-const { RichEmbed } = require("discord.js");
+const Discord  = require("discord.js");
 const { stripIndents } = require("common-tags");
 const { promptMessage, getMember } = require("../../functions/functions.js");
 const { raid_channel, unfit_raid } = require("../../src/config.json");
@@ -9,14 +9,15 @@ module.exports = {
     description: "Enables you to take part in the raid",
     usage: "<id | mention>",
     run: async (client, message, args, con) => {
-        const logChannel = message.guild.channels.find(c => c.name === `${raid_channel}`) || message.channel;
+        const logChannel = message.guild.channels.cache.find(c => c.name === `${raid_channel}`) || message.channel;
 
         if (message.deletable) message.delete();
 
-        let unraid = (message.member.roles.find(p => p.name === `${unfit_raid}`)) 
+        let unraid = (message.member.roles.cache.find(p => p.name === `${unfit_raid}`)) 
         
-        const toKick = getMember(message, args.join(" "));
-        let role = message.guild.roles.find(r => r.name === "raid")
+        const toKick = message.author;
+        let role = message.guild.roles.cache.find(r => r.name === "raid");
+        let { cache } = message.guild.roles;
         if (!role) return message.reply("This role doesn't exist. Maybe add it??");
 
         
@@ -25,14 +26,14 @@ module.exports = {
         }
 
 
-        const embed = new RichEmbed()
+        const embed = new Discord.MessageEmbed()
             .setColor("#ff0000")
-            .setThumbnail(toKick.user.displayAvatarURL)
-            .setFooter(message.member.displayName, message.author.displayAvatarURL)
+            .setThumbnail(toKick.displayAvatarURL())
+            .setFooter(message.member.displayName, message.author.displayAvatarURL())
             .setTimestamp()
             .setDescription(stripIndents`${toKick} is ready for the raid`);
 
-        const promptEmbed = new RichEmbed()
+        const promptEmbed = new Discord.MessageEmbed()
             .setColor("GREEN")
             .setAuthor(`This verification becomes invalid after 30s.`)
             .setDescription(`Do you want to join the raid?`)
@@ -43,8 +44,8 @@ module.exports = {
 
                 // The verification stuffs
             if (emoji === "✔") {
-                msg.delete();
-                await toKick.addRole(role.id).catch(e => console.log(e.message))
+                msg.delete();                
+                message.member.roles.add(role.id).catch(e => console.log(e.message))
                 message.channel.send(`Welcome to the big boy league :grin:`)
 
                 logChannel.send(embed);

@@ -29,7 +29,7 @@ module.exports = {
             mRole.push(a)            
         }
         
-        const channel = message.guild.channels.find(channel => channel.name === mRole.join(" "));
+        const channel = message.guild.channels.cache.find(channel => channel.name === mRole.join(" "));
 
         if (!channel) {
             return message.reply("That channel does not exist")

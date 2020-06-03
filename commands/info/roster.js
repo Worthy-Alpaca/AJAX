@@ -1,4 +1,4 @@
-const { RichEmbed } = require("discord.js");
+const Discord  = require("discord.js");
 const { stripIndents } = require("common-tags");
 const { getAdmin, getMod } = require("../../functions/functions.js");
 
@@ -27,15 +27,15 @@ module.exports = {
             return message.channel.send("You need to set the role for moderator first. Do that by typing !setmod")
         }
         
-        guild.members.forEach(member => {
-            if (member.roles.has(message.guild.roles.find(r => r.id === admin).id)){
+        guild.members.cache.forEach(member => {
+            if (member.roles.cache.has(message.guild.roles.cache.find(r => r.id === admin).id)){
                 if (member.id === client.user.id) {
                     return
                 } else {
                     name = member.displayName
                     admins.push(name)
                 }
-            } else if(member.roles.has(message.guild.roles.find(r => r.id === moderator).id)) {
+            } else if(member.roles.cache.has(message.guild.roles.cache.find(r => r.id === moderator).id)) {
                 if (member.id === client.user.id) {
                     return
                 } else {
@@ -45,16 +45,15 @@ module.exports = {
             }
         })
 
-        const embed = new RichEmbed()
+        const embed = new Discord.MessageEmbed()
             .setColor("RANDOM")
             .setFooter(message.guild.name)
             .setTimestamp()
-            .setTitle("People who do stuff")
-            .setThumbnail(guild.displayAvatarURL);
+            .setTitle("People who do stuff");            
             
         
         if (admins.length > 0) {
-            embed.addField('**ADMINS**', stripIndents`${admins.join('\n')}`, true);
+            embed.addField(`**ADMINS**`, stripIndents`${admins.join('\n')}`, true);
         } else {
             embed.addField('**ADMINS**', stripIndents`It appears you either don't have any server admins or set the wrong role in the setup process... dumbass`, true);
         }

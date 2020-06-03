@@ -1,5 +1,4 @@
 const Discord = require("discord.js");
-const { RichEmbed } = require("discord.js");
 const fetch = require('node-fetch');
 const { stripIndents } = require("common-tags");
 const { version } = require("../../src/config.json");

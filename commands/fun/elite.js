@@ -1,5 +1,4 @@
 const Discord = require("discord.js");
-const { RichEmbed } = require("discord.js");
 const fetch = require('node-fetch');
 const { stripIndents } = require("common-tags");
 
@@ -16,7 +15,7 @@ module.exports = {
         
         if (!args.length) {
             return message.channel.send('You need to supply a search term!')
-                .then(m => m.delete(5000));
+                .then(m => m.delete( {timeout: 5000} ));
         }       
 
         const sys = args.slice(0).join("+")
@@ -117,7 +116,7 @@ module.exports = {
             }
         })
          
-        const embed = new RichEmbed()
+        const embed = new Discord.MessageEmbed()
             .setColor('RANDOM')
             .setFooter('EDSM Database')
             .setTimestamp()

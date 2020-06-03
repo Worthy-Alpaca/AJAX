@@ -2,6 +2,7 @@ const { Client, RichEmbed, Collection } = require("discord.js");
 const { prefix, version, status, welcome_channel, DIFF, LIMIT, TIME } = require('./config.json');
 const { token, password } = require('../token.json');
 const fs = require("fs");
+const Discord = require("discord.js")
 const { stripIndents } = require("common-tags");
 const { promptMessage, getChnl, getMsg, getapproved, getapproved2, getMember, getstartcmd } = require("../functions/functions.js");
 const { answers, replies, asks, help, positive, sassy, robot } = require("./answers.json");
@@ -45,7 +46,7 @@ client.on("ready", () => {
     var a = 0;
     console.log(`Logged in as ${client.user.username}`);
     
-    client.guilds.forEach(guild => {
+    client.guilds.cache.forEach(guild => {
       
       con.query(`SELECT * FROM servers WHERE id = '${guild.id}'`, (err, rows) => {
         if(err) throw err;
@@ -73,9 +74,9 @@ client.on("ready", () => {
 
     client.user.setPresence({
         status: "online",
-        game: {
+        activity: {
             name: `${status}`,
-            type: "listening"
+            type: "LISTENING"
         }
     });
 });
@@ -130,9 +131,9 @@ client.on("guildMemberAdd", async member => {
     greeting = await getMsg(member, con);
     rl = await getapproved(member, con);
 
-    const role = member.guild.roles.find(r => r.id === rl)
+    const role = member.guild.roles.cache.find(r => r.id === rl)
         
-    var channel = member.guild.channels.find(channel => channel.id === chnl); 
+    var channel = member.guild.channels.cache.find(channel => channel.id === chnl); 
 
     if (!role) {
       return message.reply("No role has been defined yet. You can fix that with !setapproved")
@@ -150,10 +151,10 @@ client.on("guildMemberAdd", async member => {
       channel = member.guild.channels.find(channel => channel.id === member.guild.systemChannelID);
     }
     
-    const embed = new RichEmbed() 
+    const embed = new Discord.MessageEmbed() 
         .setColor("RANDOM")
         .setTimestamp()
-        .setAuthor(`Hooray, ${member.displayName} just joined our merry band of misfits`, member.user.displayAvatarURL)
+        .setAuthor(`Hooray, ${member.displayName} just joined our merry band of misfits`, member.user.displayAvatarURL())
         .setDescription(stripIndents`${greeting}`);
     
     return channel.send(embed);
@@ -173,17 +174,17 @@ client.on("message", async message => {
     //automated spam detection and mute
     if(usersMap.has(message.author.id)) {
         let mutee = message.member;
-        const report = message.guild.channels.find(channel => channel.name === "reports");
+        const report = message.guild.channels.cache.find(channel => channel.name === "reports");
         const userData = usersMap.get(message.author.id);
         const { lastMessage, timer } = userData;
         const difference = message.createdTimestamp - lastMessage.createdTimestamp;
-        let muterole = message.guild.roles.find(r => r.name === "Muted")
+        let muterole = message.guild.roles.cache.find(r => r.name === "Muted")
 
-        const embed = new RichEmbed() 
+        const embed = new Discord.MessageEmbed() 
             .setColor("#ff0000")
             .setTimestamp()
             .setFooter(message.guild.name, message.guild.iconURL)
-            .setAuthor("Muted member", mutee.user.displayAvatarURL)
+            .setAuthor("Muted member", mutee.user.displayAvatarURL())
             .setDescription(stripIndents`**> Member: ${mutee} (${mutee.id})
             **> Automated Mute
             **> Muted in: ${message.channel}
@@ -228,7 +229,7 @@ client.on("message", async message => {
         else {
           ++msgCount;
           if(parseInt(msgCount) === LIMIT) {
-            mutee.addRole(muterole);
+            mutee.roles.add(muterole);
             message.channel.send(`${mutee} You have been muted. Please contact a staff member to get that reversed.`);
             report.send(`@here, someone has been auto-muted.`);
             report.send(embed);
@@ -284,13 +285,13 @@ client.on("message", async message => {
 
     if (message.content.startsWith(`${startcommand}`)) {
       
-      const member = getMember(message);
+      const member = message.author;
       guild = member.guild;
       rl = await getapproved2(message, con);
 
-      const role = message.guild.roles.find(r => r.id === rl);
+      const role = message.guild.roles.cache.find(r => r.id === rl);
       
-      member.addRole(role.id).catch(e => console.log(e.message));
+      message.member.roles.add(role.id).catch(e => console.log(e.message));
     }
 
     if (!message.content.startsWith(prefix)) return;

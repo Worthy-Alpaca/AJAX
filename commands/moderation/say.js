@@ -1,4 +1,4 @@
-const { RichEmbed } = require("discord.js");
+const Discord  = require("discord.js");
 const { getAdmin, getMod } = require("../../functions/functions.js")
 
 module.exports = {
@@ -13,14 +13,14 @@ module.exports = {
         var moderator = await getMod(message, con);
 
         if (admin === null) {
-            return message.channel.send("You need to set the role for admin first. Do that by typing !setadmin").then(m => m.delete(5000));
+            return message.channel.send("You need to set the role for admin first. Do that by typing !setadmin").then(m => m.delete( {timeout: 5000} ));
         }
         if (moderator === null) {
-            return message.channel.send("You need to set the role for moderator first. Do that by typing !setmod").then(m => m.delete(5000));
+            return message.channel.send("You need to set the role for moderator first. Do that by typing !setmod").then(m => m.delete( {timeout: 5000} ));
         }
 
-        if (!message.member.roles.has(message.guild.roles.find(r => r.id=== admin).id))
-            return message.reply("You don't have the required permissions to use this command.").then(m => m.delete(5000));
+        if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id=== admin).id))
+            return message.reply("You don't have the required permissions to use this command.").then(m => m.delete( {timeout: 5000} ));
 
         
 
@@ -33,9 +33,9 @@ module.exports = {
         
         if (chnl.includes("#")) {
             b = chnl.slice(2, chnl.indexOf(">"))           
-            var channel = message.guild.channels.find(channel => channel.id === b.join(""));       
+            var channel = message.guild.channels.cache.find(channel => channel.id === b.join(""));       
         } else {
-            var channel = message.guild.channels.find(channel => channel.name === chnl.join(""));
+            var channel = message.guild.channels.cache.find(channel => channel.name === chnl.join(""));
         }
                 
         if (channel) {
@@ -46,7 +46,7 @@ module.exports = {
 
         if (!channel) {
             if (args[0].toLowerCase() === "embed") {
-            const embed = new RichEmbed()
+            const embed = new Discord.MessageEmbed()
                 .setDescription(args.slice(1).join(" "))
                 .setColor(roleColor === "#000000" ? "#ffffff" : roleColor);
 
@@ -56,7 +56,7 @@ module.exports = {
             }
         } else {
             if (args[1].toLowerCase() === "embed") {
-                const embed = new RichEmbed()
+                const embed = new Discord.MessageEmbed()
                     .setDescription(args.slice(2).join(" "))
                     .setColor(roleColor === "#000000" ? "#ffffff" : roleColor);
     

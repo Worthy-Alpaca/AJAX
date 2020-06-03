@@ -1,5 +1,5 @@
 const { welcome_channel, version, status } = require("../../src/config.json");
-const { RichEmbed } = require("discord.js");
+const Discord  = require("discord.js");
 const { stripIndents } = require("common-tags");
 const { exec } = require("child_process");
 
@@ -12,11 +12,11 @@ module.exports = {
 
 
         if (message.author.id !== "595341356432621573")
-            return message.reply("You are not powerfull enough to command me in such a way!").then(m => m.delete(5000));
+            return message.reply("You are not powerfull enough to command me in such a way!").then(m => m.delete( {timeout: 5000} ));
             
             
         
-        var channel = message.guild.channels.find(channel => channel.name === `${welcome_channel}`);
+        var channel = message.guild.channels.cache.find(channel => channel.name === `${welcome_channel}`);
 
         
 
@@ -39,10 +39,10 @@ module.exports = {
         }, 5000)
         if (args[0] === "send") {
             setTimeout(() => {
-                const embed2 = new RichEmbed()
+                const embed2 = new Discord.MessageEmbed()
                     .setColor("Random")
                     .setTimestamp()
-                    .setAuthor("Update occured", client.user.displayAvatarURL)
+                    .setAuthor("Update occured", client.user.displayAvatarURL())
                     .setDescription(stripIndents`I have been updated. :grin: 
                     New version: **${version}**`);
 

@@ -1,4 +1,4 @@
-const { RichEmbed } = require("discord.js");
+const Discord  = require("discord.js");
 
 module.exports = {
     
@@ -7,10 +7,10 @@ module.exports = {
         if (!channel) return;
 
 
-        const embed = new RichEmbed()
+        const embed = new Discord.MessageEmbed()
             .setColor("RANDOM")
             .setTimestamp()
-            .setAuthor("New member", member.user.displayAvatarURL)
+            .setAuthor("New member", member.user.displayAvatarURL())
             .setDescription(stripIndents`Welcome to the idiotsatlarge discord server ${member}.
         We are a clan of friendly people who have fun and work together.
         You have any questions or need help? Just ask ingame or on this server. :grin:
@@ -23,7 +23,7 @@ module.exports = {
         
 
         if (reacted === "?") {
-            member.addRole("test-role").catch(e => console.log(e.message))
+            member.roles.add("test-role").catch(e => console.log(e.message))
         }
 
 
