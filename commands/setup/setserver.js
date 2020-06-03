@@ -58,8 +58,7 @@ module.exports = {
             cmd2 = await setcmd(message, con);
         }
         
-        if (cmd2) {
-            console.log("bingo")
+        if (cmd2) {            
             const admin2 = await getAdmin(message, con);
             const moderator2 = await getMod(message, con);
             const welcomechannel2 = await getChnl(member, con);

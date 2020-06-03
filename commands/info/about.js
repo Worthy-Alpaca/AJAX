@@ -2,6 +2,7 @@ const Discord  = require("discord.js");
 const { stripIndents } = require("common-tags");
 const { version } = require("../../src/config.json");
 const { getapproved2 } = require("../../functions/functions.js");
+const { homepage } = require("../../package.json");
 
 
 module.exports = {
@@ -33,7 +34,7 @@ module.exports = {
             .setTimestamp()
             .setThumbnail(client.user.displayAvatarURL())
             .setTitle(client.user.username)
-            .setURL("https://github.com/Worthy-Alpaca/AJAX")            
+            .setURL(homepage)            
             .addField(`\u200b`, stripIndents`**Bot Information**            
             > Version: \`${version}\``)
             .addField(`\u200b`, stripIndents`**Server Information**

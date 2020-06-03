@@ -9,15 +9,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Worthy-Alpaca/Botty.git"
+    "url": "git+https://github.com/Worthy-Alpaca/AJAX"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Worthy-Alpaca/Botty/issues"
+    "url": "https://github.com/Worthy-Alpaca/AJAX/issues"
   },
-  "homepage": "https://github.com/Worthy-Alpaca/Botty#readme",
+  "homepage": "https://github.com/Worthy-Alpaca/AJAX#readme",
   "dependencies": {
     "ascii-table": "0.0.9",
     "common-tags": "^1.8.0",
