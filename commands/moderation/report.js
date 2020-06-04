@@ -28,7 +28,7 @@ module.exports = {
         if (!rMember)
             return message.reply("Couldn't find that person").then(m => m.delete( {timeout: 5000} ));
 
-        if (rMember.roles.cache.has(message.guild.roles.cache.find(r => r.name === admin).id) || rMember.user.bot)
+        if (rMember.roles.cache.has(message.guild.roles.cache.find(r => r.id === admin).id) || rMember.user.bot)
             return message.reply("Can't report that member").then(m => m.delete( {timeout: 5000} ));
 
         if (args[0] === "good") {
@@ -42,14 +42,14 @@ module.exports = {
         }
 
         if (!args[2])
-            return message.channel.send("Please include a reason for the report").then(m => m.delete(10000));
+            return message.channel.send("Please include a reason for the report").then(m => m.delete({timeout: 10000}));
 
-        const reports = getreportschannel(message, con);
-
+        const reports = await getreportschannel(message, con);
+        console.log(reports)
         const channel = message.guild.channels.cache.find(channel => channel.id === reports);
-
+        console.log(channel)
         if (!channel)
-            return message.channel.send("I could not find a \`#reports\` channel").then(m => m.delete(10000));
+            return message.channel.send("I could not find a \`#reports\` channel").then(m => m.delete({timeout: 10000}));
 
         const embed = new Discord.MessageEmbed()
             .setColor("#ff0000")
@@ -62,7 +62,7 @@ module.exports = {
             **> Reported in: ${message.channel}
             **> Reason: ${args.slice(2).join(" ")}`);
 
-        client.fetchUser(`${rMember.id}`, false).then(user => {
+        client.users.fetch(`${rMember.id}`, false).then(user => {
             user.send(`You have been reported by ${message.member} for "${args.slice(2).join(" ")}." ${behavior} This message was computer generated. Please do not answer to it.`)
         });
 
