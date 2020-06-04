@@ -84,11 +84,11 @@ client.on("ready", () => {
 //on joining a new server
 client.on("guildCreate", guild => {
 
-  client.fetchUser(`595341356432621573`, false).then(user => {
+  client.users.fetch(`595341356432621573`, false).then(user => {
     user.send(`I was added to a new server: ${guild.name}, ${guild.id}`)
   });
 
-  channel = guild.channels.find(channel => channel.id === guild.systemChannelID);
+  channel = guild.channels.cache.find(channel => channel.id === guild.systemChannelID);
 
   channel.send(`Hi there, I'm ${client.user.username}. You can run !setserver to set everything up. See !help for all of my commands. Enjoy :grin:`);
   
@@ -146,9 +146,9 @@ client.on("guildMemberAdd", async member => {
     }
 
     if (typeof channel == 'undefined') {
-      channel = member.guild.channels.find(channel => channel.id === member.guild.systemChannelID);
+      channel = member.guild.channels.cache.find(channel => channel.id === member.guild.systemChannelID);
     } else if (channel === null) {
-      channel = member.guild.channels.find(channel => channel.id === member.guild.systemChannelID);
+      channel = member.guild.channels.cache.find(channel => channel.id === member.guild.systemChannelID);
     }
     
     const embed = new Discord.MessageEmbed() 

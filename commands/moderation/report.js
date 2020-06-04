@@ -45,9 +45,9 @@ module.exports = {
             return message.channel.send("Please include a reason for the report").then(m => m.delete({timeout: 10000}));
 
         const reports = await getreportschannel(message, con);
-        console.log(reports)
+        
         const channel = message.guild.channels.cache.find(channel => channel.id === reports);
-        console.log(channel)
+        
         if (!channel)
             return message.channel.send("I could not find a \`#reports\` channel").then(m => m.delete({timeout: 10000}));
 
