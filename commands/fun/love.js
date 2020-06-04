@@ -9,13 +9,13 @@ module.exports = {
     usage: "[mention | id | username]",
     run: async (client, message, args, con) => {
         // Get a member from mention, id, or username
-        let person = getMember(message, args[0]);
+        let person = message.mentions.members.first();
 
         if (message.deletable) message.delete();
 
 
         if (!person || message.author.id === person.id) {
-            person = message.guild.members
+            person = message.guild.members.cache
                 .filter(m => m.id !== message.author.id)
                 .random();
         }
