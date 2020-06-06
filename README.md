@@ -6,7 +6,9 @@
 
 AJAX is a discord moderation bot that also has an EDSM API connection so you can use it for Elite: Dangerous servers.
 
-You can add AJAX to your server [here](https://discord.com/api/oauth2/authorize?client_id=682255208125956128&permissions=8&redirect_uri=https%3A%2F%2Fworthyalpaca.de%2F&scope=bot)
+> As this project is under heavy development, I cannot offer support at this time.  However, please do report bugs or issues on my little project [here.](https://github.com/Worthy-Alpaca/AJAX/issues)
+
+You can add AJAX to your server [here.](https://discord.com/api/oauth2/authorize?client_id=682255208125956128&permissions=8&redirect_uri=https%3A%2F%2Fworthyalpaca.de%2F&scope=bot)
 
 ## Getting Started
 
