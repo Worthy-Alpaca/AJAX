@@ -1,6 +1,7 @@
 const Discord  = require("discord.js");
 const { stripIndents } = require("common-tags");
-const { getAdmin, getMod, getreportschannel } = require("../../functions/functions.js"); 
+const { getAdmin, getMod, getreportschannel, getinfractions } = require("../../functions/functions.js"); 
+const { ban_limit, kick_limit } = require("../../src/config.json")
 
 
 module.exports = {
@@ -11,10 +12,10 @@ module.exports = {
     run: async (client, message, args, con) => {
         if (message.deletable) message.delete();
 
-        let rMember = message.mentions.members.first() || message.guild.members.get(args[0]);
+        let rMember =  message.mentions.members.first() || message.guild.members.get(args[0]);
 
         let behavior;
-        let behavior2;
+        let behavior2;        
         var admin = await getAdmin(message, con);
         var moderator = await getMod(message, con);
 
@@ -37,16 +38,34 @@ module.exports = {
         } else if (args[0] === "bad") {
             behavior = "Please cease this behavior immediatly. If you think this is wrong, please contact a staff member."
             behavior2 = "bad"
+            
+            con.query(`SELECT * FROM reports WHERE member_id = '${rMember.id}'`, (err, rows) => {
+                if (err) throw err;
+                let sql;
+                
+                if (rows.length < 1 ) {
+                    sql = `INSERT INTO reports (member_id, member_name, infractions) VALUES ('${rMember.id}', '${rMember.displayName}', 1)`
+                } else if (rows[0].member_id === rMember.id) {
+                    infraction = rows[0].infractions + 1;
+                    sql = `UPDATE reports SET infractions = ${infraction} WHERE member_id = '${rMember.id}'`
+                }
+                con.query(sql)
+            });
+
         } else if ((args[0] !== "good") || (args[0] !== "bad")) {
             return message.reply("You need to add a behavior type. (Good/Bad)").then(m => m.delete( {timeout: 5000} ));
         }
-
+        
         if (!args[2])
             return message.channel.send("Please include a reason for the report").then(m => m.delete({timeout: 10000}));
 
         const reports = await getreportschannel(message, con);
+
+        const infractions = await getinfractions(rMember, con);
         
         const channel = message.guild.channels.cache.find(channel => channel.id === reports);
+
+        let msg = `You have been reported by ${message.member} for "${args.slice(2).join(" ")}." ${behavior} This message was computer generated. Please do not answer to it.`;
         
         if (!channel)
             return message.channel.send("I could not find a \`#reports\` channel").then(m => m.delete({timeout: 10000}));
@@ -55,15 +74,32 @@ module.exports = {
             .setColor("#ff0000")
             .setTimestamp()
             .setFooter(message.guild.name, message.guild.iconURL)
-            .setAuthor("**Reported member**", rMember.user.displayAvatarURL())
-            .setDescription(stripIndents`**> Member: ${rMember} (${rMember.id})
-            **> Behavior: ${behavior2}
-            **> Reported by: ${message.member} (${message.member.id})
-            **> Reported in: ${message.channel}
-            **> Reason: ${args.slice(2).join(" ")}`);
+            .setAuthor(`**Reported Member**`, rMember.user.displayAvatarURL())
+            .setDescription(stripIndents`**> Member:** ${rMember} (${rMember.id})
+            > Behavior: ${behavior2}
+            **> Reported by:** ${message.member} (${message.member.id})
+            > Reported in: ${message.channel}
+            **> Reason:** ${args.slice(2).join(" ")}
+            > Current Infractions: \`${infractions}\``);
+
+        if (infractions >= kick_limit && infractions < ban_limit) {
+            rMember.kick(`Reported infractions have reached ${kick_limit}`)
+                .catch(err => {
+                    if (err) return message.channel.send(`That didn't work`)
+                });
+            msg = `You have been kicked because you have been reported ${infractions} times for bad behavior. This message was computer generated. Please do not answer to it.`
+            embed.addField(`\u200b`, stripIndents`${rMember} has been kicked.`);
+        } else if (infractions >= ban_limit) {
+            rMember.ban({ days: infractions, reason: `Reported infractions have reached ${ban_limit}` })
+                .catch(err => {
+                    if (err) return message.channel.send(`That didn't work`)
+                });
+            msg = `You have been banned for ${infractions} days because you have been reported ${infractions} times for bad behavior. This message was computer generated. Please do not answer to it.`
+            embed.addField(`\u200b`, stripIndents`${rMember} has been banned for \`${infractions}\` days.`);
+        }
 
         client.users.fetch(`${rMember.id}`, false).then(user => {
-            user.send(`You have been reported by ${message.member} for "${args.slice(2).join(" ")}." ${behavior} This message was computer generated. Please do not answer to it.`)
+            user.send(msg)
         });
 
         return channel.send(embed);

@@ -8,6 +8,8 @@
   "unfit_raid":  "unraid",
   "DIFF": 3000,
   "LIMIT": 5,
-  "TIME": 7000
+  "TIME": 7000,
+  "kick_limit": 3,
+  "ban_limit": 6
 }
 
