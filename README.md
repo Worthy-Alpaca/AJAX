@@ -1,4 +1,6 @@
-<img src="https://github.com/Worthy-Alpaca/AJAX/blob/master/assets/AJAX.PNG?raw=true" width="50%" />
+[! [node](https://img.shields.io/badge/Node.js-v.12.X-brightgreen)](https://nodejs.org)
+[! [Discord](https://img.shields.io/badge/Discord-v.12-green)](https://discord.js.org/#/docs/main/stable/general/welcome)
+[! [MySQL](https://img.shields.io/badge/MySQL-v.8.0-blue)](https://www.mysql.com/)
 
 # AJAX
 
