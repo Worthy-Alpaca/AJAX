@@ -56,7 +56,7 @@ sudo mysql_secure_installation
 
 - Set up your database and make sure to name it 'servers'
 
-- Lastly you need to put both your Discord Bot token and your SQL root password into the included token.json
+- Lastly you need to put both your Discord Bot token and your SQL root password into the included token file and rename it to token.json
 
 Thats it
 
