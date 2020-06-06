@@ -1,6 +1,7 @@
 const Discord  = require("discord.js");
 const { stripIndents } = require("common-tags");
 const { getAdmin, getMod, getreportschannel, getinfractions } = require("../../functions/functions.js"); 
+const { ban_limit, kick_limit } = require("../../src/config.json")
 
 
 module.exports = {
@@ -11,7 +12,7 @@ module.exports = {
     run: async (client, message, args, con) => {
         if (message.deletable) message.delete();
 
-        let rMember = message.mentions.members.first() || message.guild.members.get(args[0]);
+        let rMember =  message.mentions.members.first() || message.guild.members.get(args[0]);
 
         let behavior;
         let behavior2;        
@@ -64,9 +65,7 @@ module.exports = {
         
         const channel = message.guild.channels.cache.find(channel => channel.id === reports);
 
-        if (infractions === 3) {
-            message.channel.send("This is the part where someone would get kicked");
-        }
+        let msg = `You have been reported by ${message.member} for "${args.slice(2).join(" ")}." ${behavior} This message was computer generated. Please do not answer to it.`;
         
         if (!channel)
             return message.channel.send("I could not find a \`#reports\` channel").then(m => m.delete({timeout: 10000}));
@@ -75,16 +74,32 @@ module.exports = {
             .setColor("#ff0000")
             .setTimestamp()
             .setFooter(message.guild.name, message.guild.iconURL)
-            .setAuthor("**Reported member**", rMember.user.displayAvatarURL())
-            .setDescription(stripIndents`**> Member: ${rMember} (${rMember.id})
-            **> Behavior: ${behavior2}
-            **> Reported by: ${message.member} (${message.member.id})
-            **> Reported in: ${message.channel}
-            **> Reason: ${args.slice(2).join(" ")}
-            **> Current Infractions: ${infractions}`);
+            .setAuthor(`**Reported Member**`, rMember.user.displayAvatarURL())
+            .setDescription(stripIndents`**> Member:** ${rMember} (${rMember.id})
+            > Behavior: ${behavior2}
+            **> Reported by:** ${message.member} (${message.member.id})
+            > Reported in: ${message.channel}
+            **> Reason:** ${args.slice(2).join(" ")}
+            > Current Infractions: \`${infractions}\``);
+
+        if (infractions >= kick_limit && infractions < ban_limit) {
+            rMember.kick(`Reported infractions have reached ${kick_limit}`)
+                .catch(err => {
+                    if (err) return message.channel.send(`That didn't work`)
+                });
+            msg = `You have been kicked because you have been reported ${infractions} times for bad behavior. This message was computer generated. Please do not answer to it.`
+            embed.addField(`\u200b`, stripIndents`${rMember} has been kicked.`);
+        } else if (infractions >= ban_limit) {
+            rMember.ban({ days: infractions, reason: `Reported infractions have reached ${ban_limit}` })
+                .catch(err => {
+                    if (err) return message.channel.send(`That didn't work`)
+                });
+            msg = `You have been banned for ${infractions} days because you have been reported ${infractions} times for bad behavior. This message was computer generated. Please do not answer to it.`
+            embed.addField(`\u200b`, stripIndents`${rMember} has been banned for \`${infractions}\` days.`);
+        }
 
         client.users.fetch(`${rMember.id}`, false).then(user => {
-            user.send(`You have been reported by ${message.member} for "${args.slice(2).join(" ")}." ${behavior} This message was computer generated. Please do not answer to it.`)
+            user.send(msg)
         });
 
         return channel.send(embed);
