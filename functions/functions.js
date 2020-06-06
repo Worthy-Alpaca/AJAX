@@ -126,6 +126,16 @@ module.exports = {
                 resolve(chnl);
             })
         })
+    },
+
+    getinfractions: function(rMember, con) {
+        var infractions;
+        return new Promise(function(resolve, reject) {
+            con.query(`SELECT * FROM reports WHERE member_id = '${rMember.id}'`, (err, rows) => {
+                infractions = rows[0].infractions;
+                resolve(infractions);
+            })
+        })
     }
 
     
