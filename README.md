@@ -20,7 +20,7 @@ These instructions will get you a copy of the project up and running on your loc
 ```
 sudo apt-get install nodejs
 ```
-* Download for Windows systems [here] (https://nodejs.org/en/download/)
+* Download for Windows systems [here](https://nodejs.org/en/download/)
 
 - Then you need to install the Node Package Manager (only on linux)
 ```
@@ -46,13 +46,13 @@ npm install
 
 - Next you need to install MySQL 
 
-* For linux systems follow [this] (https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-18-04) guide if you're unsure 
+* For linux systems follow [this](https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-18-04) guide if you're unsure 
 ```
 sudo apt update
 sudo apt install mysql-server
 sudo mysql_secure_installation
 ```
-* For Windows you can download it [here] (https://dev.mysql.com/downloads/windows/installer/8.0.html)
+* For Windows you can download it [here](https://dev.mysql.com/downloads/windows/installer/8.0.html)
 
 - Set up your database and make sure to name it 'servers'
 
