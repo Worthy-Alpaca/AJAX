@@ -1,8 +1,8 @@
+# AJAX
+
 [![node](https://img.shields.io/badge/Node.js-v.12.X-brightgreen)](https://nodejs.org)
 [![Discord](https://img.shields.io/badge/Discord-v.12-green)](https://discord.js.org/#/docs/main/stable/general/welcome)
 [![MySQL](https://img.shields.io/badge/MySQL-v.8.0-blue)](https://www.mysql.com/)
-
-# AJAX
 
 AJAX is a discord moderation bot that also has an EDSM API connection so you can use it for Elite: Dangerous servers.
 
