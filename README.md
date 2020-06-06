@@ -64,9 +64,4 @@ sudo mysql_secure_installation
 
 Thats it
 
-## Acknowledgments
-
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
 
