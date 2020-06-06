@@ -1,4 +1,4 @@
-
+<img src="https://github.com/Worthy-Alpaca/AJAX/blob/master/assets/AJAX.PNG?raw=true" width="50%" />
 # AJAX
 
 AJAX is a discord moderation bot that also has an EDSM API connection so you can use it for Elite: Dangerous servers.
