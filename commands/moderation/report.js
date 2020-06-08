@@ -20,7 +20,10 @@ module.exports = {
         var moderator = await getMod(message, con);
         const reports = await getreportschannel(message, con);
         const channel = message.guild.channels.cache.find(channel => channel.id === reports);
-
+        const tblid = Array.from(message.guild.name)
+        tblid.forEach(function(item, i) { if (item == " ") tblid[i] = "_"; });
+        
+        
         if (admin === null) {
             return message.channel.send("You need to set the role for admin first. Do that by typing !setadmin")
         }
@@ -43,17 +46,16 @@ module.exports = {
         } else if (args[0] === "bad") {
             behavior = "Please cease this behavior immediatly. If you think this is wrong, please contact a staff member."
             behavior2 = "bad"
-            
-            con.query(`SELECT * FROM reports WHERE server_id = '${message.guild.id}'`, (err, rows) => {
+            con.query(`CREATE TABLE IF NOT EXISTS ${tblid.join("")}(member_id VARCHAR(20) NOT NULL UNIQUE, member_name TEXT NOT NULL, infractions INT NOT NULL);`)
+            con.query(`SELECT * FROM ${tblid.join("")} WHERE member_id = '${rMember.id}'`, (err, rows) => {
                 if (err) throw err;
-                let sql;
-                
+                let sql;                
                 if (rows.length < 1 ) {
-                    sql = `INSERT INTO reports (server_id, member_id, member_name, infractions) VALUES ('${message.guild.id}','${rMember.id}', '${rMember.displayName}', 1)`
+                    sql = `INSERT INTO ${tblid.join("")} (member_id, member_name, infractions) VALUES ('${rMember.id}', '${rMember.displayName}', 1)`
                 } else if (rows[0].member_id === rMember.id) {
                     infraction = rows[0].infractions + 1;
-                    sql = `UPDATE reports SET infractions = ${infraction} WHERE server_id = '${message.guild.id}'`
-                }
+                    sql = `UPDATE ${tblid.join("")} SET infractions = ${infraction} WHERE member_id = '${rMember.id}'`
+                }        
                 con.query(sql)                
             });
 
@@ -66,7 +68,7 @@ module.exports = {
 
         
 
-        const infractions = await getinfractions(message, rMember, con);
+        const infractions = await getinfractions(tblid, rMember, con);
         
         
 
@@ -78,7 +80,7 @@ module.exports = {
             .setColor("#ff0000")
             .setTimestamp()
             .setFooter(message.guild.name, message.guild.iconURL)
-            .setAuthor(`**Reported Member**`, rMember.user.displayAvatarURL())
+            .setAuthor(`Reported Member`, rMember.user.displayAvatarURL())
             .setDescription(stripIndents`**> Member:** ${rMember} (${rMember.id})
             > Behavior: ${behavior2}
             **> Reported by:** ${message.member} (${message.member.id})

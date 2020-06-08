@@ -128,10 +128,11 @@ module.exports = {
         })
     },
 
-    getinfractions: function(message, rMember, con) {
+    getinfractions: function(tblid, rMember, con) {
         var infractions;
         return new Promise(function(resolve, reject) {
-            con.query(`SELECT * FROM reports WHERE server_id = '${message.guild.id}'`, (err, rows) => {
+            con.query(`SELECT * FROM ${tblid.join("")} WHERE member_id = '${rMember.id}'`, (err, rows) => {
+                if (err) throw err;
                 if (rows.length < 1) {                    
                     infractions = 0;
                     resolve(infractions)

@@ -8,7 +8,7 @@ module.exports = {
     name: "infractions",
     category: "info",
     description: "Tells you how often you have been reported",
-    usage: "[mention], [clear] (only admins)",
+    usage: "[mention], [clear](only admins)",
 
     run: async (client, message, args, con) => {
 
@@ -16,10 +16,13 @@ module.exports = {
         
         let rMember = message.mentions.members.first() || message.author;
         
-        const infractions = await getinfractions(message, rMember, con);    
+           
         var admin = await getAdmin(message, con);
         var moderator = await getMod(message, con);  
-        
+        const tblid = Array.from(message.guild.name)
+        tblid.forEach(function(item, i) { if (item == " ") tblid[i] = "_"; });
+        con.query(`CREATE TABLE IF NOT EXISTS ${tblid.join("")}(member_id VARCHAR(20) NOT NULL UNIQUE, member_name TEXT NOT NULL, infractions INT NOT NULL);`)
+        const infractions = await getinfractions(tblid, rMember, con); 
         if (!rMember) {
             return message.reply("This member does not exist on this server");
         }
@@ -43,12 +46,12 @@ module.exports = {
             if (infractions === 0) {
                 return message.reply("No infractions to clear");
             } else {
-                con.query(`SELECT * FROM reports WHERE server_id = '${message.guild.id}'`, (err, rows) => {
+                con.query(`SELECT * FROM ${tblid.join("")} WHERE member_id = '${rMember.id}'`, (err, rows) => {
                     if (err) throw err;
                     let sql;                   
                     
                     infraction = 0;
-                    sql = `UPDATE reports SET infractions = ${infraction} WHERE server_id = '${message.guild.id}'`
+                    sql = `UPDATE ${tblid.join("")} SET infractions = ${infraction} WHERE member_id = '${rMember.id}'`
                     
                     con.query(sql)
                 });
