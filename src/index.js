@@ -39,8 +39,7 @@ var con = mysql.createConnection({
 con.connect(err => {
   if(err) throw err;
   console.log("connected to database");
-  con.query("CREATE TABLE IF NOT EXISTS servers(id VARCHAR(20) NOT NULL UNIQUE, name TEXT NOT NULL, admin TEXT, moderator TEXT, greeting VARCHAR(512) CHARACTER SET utf8 COLLATE utf8_unicode_ci, channel TEXT, approved TEXT, startcmd TEXT, reports TEXT) CHARACTER SET utf8 COLLATE utf8_unicode_ci;")
-  con.query("CREATE TABLE IF NOT EXISTS reports(server_id VARCHAR(20) NOT NULL UNIQUE, member_id VARCHAR(20) NOT NULL, member_name TEXT NOT NULL, infractions INT NOT NULL);")
+  con.query("CREATE TABLE IF NOT EXISTS servers(id VARCHAR(20) NOT NULL UNIQUE, name TEXT NOT NULL, admin TEXT, moderator TEXT, greeting VARCHAR(512) CHARACTER SET utf8 COLLATE utf8_unicode_ci, channel TEXT, approved TEXT, startcmd TEXT, reports TEXT) CHARACTER SET utf8 COLLATE utf8_unicode_ci;")  
 })
 
 client.on("ready", () => {
@@ -136,9 +135,9 @@ client.on("guildMemberAdd", async member => {
         
     var channel = member.guild.channels.cache.find(channel => channel.id === chnl); 
 
-    if (!role) {
+    /* if (!role) {
       return message.reply("No role has been defined yet. You can fix that with !setapproved")
-    }
+    } */
     
     if (typeof greeting == 'undefined') {
       greeting = "Welcome to this generic server. The owner has not bothered with a custom welcome message so you get this one. :person_shrugging:"
