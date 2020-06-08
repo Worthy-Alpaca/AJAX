@@ -40,7 +40,7 @@ con.connect(err => {
   if(err) throw err;
   console.log("connected to database");
   con.query("CREATE TABLE IF NOT EXISTS servers(id VARCHAR(20) NOT NULL UNIQUE, name TEXT NOT NULL, admin TEXT, moderator TEXT, greeting VARCHAR(512) CHARACTER SET utf8 COLLATE utf8_unicode_ci, channel TEXT, approved TEXT, startcmd TEXT, reports TEXT) CHARACTER SET utf8 COLLATE utf8_unicode_ci;")
-  con.query("CREATE TABLE IF NOT EXISTS reports(member_id VARCHAR(20) NOT NULL UNIQUE, member_name TEXT NOT NULL, infractions INT NOT NULL);")
+  con.query("CREATE TABLE IF NOT EXISTS reports(server_id VARCHAR(20) NOT NULL UNIQUE, member_id VARCHAR(20) NOT NULL, member_name TEXT NOT NULL, infractions INT NOT NULL);")
 })
 
 client.on("ready", () => {
@@ -197,19 +197,24 @@ client.on("message", async message => {
 
         if(!muterole) {
             try{
-                muterole = await message.guild.createRole({
-                    name: "Muted",
-                    color: "#514f48",
-                    permissions: []
+                muterole = await message.guild.roles.create({
+                    data: {
+                      name: "Muted",
+                      color: "#514f48",
+                      permissions: []
+                    }
                 })
-            message.guild.channels.forEach(async (channel, id) => {
-                await channel.overwritePermissions(muterole, {
-                    SEND_MESSAGES: false,
-                    ADD_REACTIONS: false,
-                    SEND_TTS_MESSAGES: false,
-                    ATTACH_FILES: false,
-                    SPEAK: false
-                })
+            message.guild.channels.cache.forEach(async (channel, id) => {              
+                await channel.overwritePermissions([
+                  {
+                    id: muterole.id,
+                    deny: ['SEND_MESSAGES',
+                          'ADD_REACTIONS',
+                          'SEND_TTS_MESSAGES',
+                          'ATTACH_FILES',
+                          'SPEAK']
+                  }
+                ])
             })
             } catch(e) {
             console.log(e.stack);

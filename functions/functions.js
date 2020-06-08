@@ -128,11 +128,11 @@ module.exports = {
         })
     },
 
-    getinfractions: function(rMember, con) {
+    getinfractions: function(message, rMember, con) {
         var infractions;
         return new Promise(function(resolve, reject) {
-            con.query(`SELECT * FROM reports WHERE member_id = '${rMember.id}'`, (err, rows) => {
-                if (rows.length < 1) {
+            con.query(`SELECT * FROM reports WHERE server_id = '${message.guild.id}'`, (err, rows) => {
+                if (rows.length < 1) {                    
                     infractions = 0;
                     resolve(infractions)
                 } else if (rows[0].member_id === rMember.id) {                    

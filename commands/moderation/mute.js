@@ -52,19 +52,24 @@ module.exports = {
         let muterole = message.guild.roles.cache.find(r => r.name === "Muted")
         if(!muterole) {
             try{
-                muterole = await message.guild.createRole({
-                    name: "Muted",
-                    color: "#514f48",
-                    permissions: []
+                muterole = await message.guild.roles.create({
+                    data: {
+                      name: "Muted",
+                      color: "#514f48",
+                      permissions: []
+                    }
                 })
-            message.guild.channels.forEach(async (channel, id) => {
-                await channel.overwritePermissions(muterole, {
-                    SEND_MESSAGES: false,
-                    ADD_REACTIONS: false,
-                    SEND_TTS_MESSAGES: false,
-                    ATTACH_FILES: false,
-                    SPEAK: false
-                })
+            message.guild.channels.cache.forEach(async (channel, id) => {              
+                await channel.overwritePermissions([
+                  {
+                    id: muterole.id,
+                    deny: ['SEND_MESSAGES',
+                          'ADD_REACTIONS',
+                          'SEND_TTS_MESSAGES',
+                          'ATTACH_FILES',
+                          'SPEAK']
+                  }
+                ])
             })
             } catch(e) {
             console.log(e.stack);
