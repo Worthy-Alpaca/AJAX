@@ -16,7 +16,7 @@ module.exports = {
         
         let rMember = message.mentions.members.first() || message.author;
         
-        const infractions = await getinfractions(rMember, con);    
+        const infractions = await getinfractions(message, rMember, con);    
         var admin = await getAdmin(message, con);
         var moderator = await getMod(message, con);  
         
@@ -43,12 +43,12 @@ module.exports = {
             if (infractions === 0) {
                 return message.reply("No infractions to clear");
             } else {
-                con.query(`SELECT * FROM reports WHERE member_id = '${rMember.id}'`, (err, rows) => {
+                con.query(`SELECT * FROM reports WHERE server_id = '${message.guild.id}'`, (err, rows) => {
                     if (err) throw err;
                     let sql;                   
                     
                     infraction = 0;
-                    sql = `UPDATE reports SET infractions = ${infraction} WHERE member_id = '${rMember.id}'`
+                    sql = `UPDATE reports SET infractions = ${infraction} WHERE server_id = '${message.guild.id}'`
                     
                     con.query(sql)
                 });
