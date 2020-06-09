@@ -155,7 +155,11 @@ client.on("guildMemberAdd", async member => {
         .setColor("RANDOM")
         .setTimestamp()
         .setAuthor(`Hooray, ${member.displayName} just joined our merry band of misfits`, member.user.displayAvatarURL())
-        .setDescription(stripIndents`${greeting}`);
+        
+    
+    client.users.fetch(member.id, false).then(user => {
+      user.send(`Welcome to **${member.guild.name}**. ${greeting}`)
+    })
     
     return channel.send(embed);
         
