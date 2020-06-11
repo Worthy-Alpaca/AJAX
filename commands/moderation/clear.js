@@ -1,8 +1,7 @@
 const { getAdmin, getMod } = require("../../functions/functions.js");
 
 module.exports = {
-    name: "clear",
-    aliases: ["purge", "nuke"],
+    name: "clear",    
     category: "moderation",
     description: "Clears the chat",
     run: async (client, message, args, con) => {

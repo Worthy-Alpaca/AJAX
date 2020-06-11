@@ -133,11 +133,7 @@ client.on("guildMemberAdd", async member => {
 
     const role = member.guild.roles.cache.find(r => r.id === rl)
         
-    var channel = member.guild.channels.cache.find(channel => channel.id === chnl); 
-
-    /* if (!role) {
-      return message.reply("No role has been defined yet. You can fix that with !setapproved")
-    } */
+    var channel = member.guild.channels.cache.find(channel => channel.id === chnl);     
     
     if (typeof greeting == 'undefined') {
       greeting = "Welcome to this generic server. The owner has not bothered with a custom welcome message so you get this one. :person_shrugging:"
@@ -155,7 +151,11 @@ client.on("guildMemberAdd", async member => {
         .setColor("RANDOM")
         .setTimestamp()
         .setAuthor(`Hooray, ${member.displayName} just joined our merry band of misfits`, member.user.displayAvatarURL())
-        .setDescription(stripIndents`${greeting}`);
+        
+    
+    client.users.fetch(member.id, false).then(user => {
+      user.send(`Welcome to **${member.guild.name}**. ${greeting}`)
+    })
     
     return channel.send(embed);
         
