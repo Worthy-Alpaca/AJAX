@@ -28,10 +28,7 @@ module.exports = {
             client.users.fetch(member.id, false).then(user => {
                 user.send(`You have been kicked because you did not consent to the rules of this server. You can use this invite ${invite} to come back.`)
             })
-        }
-       
-        
-        
+        }       
         
         guild.members.cache.forEach(member => {
             if (member.user.bot) return;
@@ -49,14 +46,18 @@ module.exports = {
             .setColor("RANDOM")
             .setFooter(message.guild.name)
             .setTimestamp()
-            .setTitle("Purging the member list")          
+            .setTitle("Purging the member list")   
             
         
         if (kicked.length > 0) {
-            embed.addField(`**Purged members**`, stripIndents`${kicked.join('\n')}`, true);
+            embed.setDescription(`I purged ${kicked.length} members`)
+            .addField(`\u200b`, stripIndents`**Purged members**
+            - ${kicked.join('\n- ')}`, true);
         } else {
-            embed.addField(`**Purged members**`, stripIndents`No members purged`, true);
+            embed.addField(`\u200b`, stripIndents`**Purged members**
+            No members purged`, true);
         }
+
         return message.channel.send(embed);
         
     }
