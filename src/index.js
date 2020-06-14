@@ -39,7 +39,7 @@ var con = mysql.createConnection({
 con.connect(err => {
   if(err) throw err;
   console.log("connected to database");
-  con.query("CREATE TABLE IF NOT EXISTS servers(id VARCHAR(20) NOT NULL UNIQUE, name TEXT NOT NULL, admin TEXT, moderator TEXT, greeting VARCHAR(512) CHARACTER SET utf8 COLLATE utf8_unicode_ci, channel TEXT, approved TEXT, startcmd TEXT, reports TEXT) CHARACTER SET utf8 COLLATE utf8_unicode_ci;")
+  con.query("CREATE TABLE IF NOT EXISTS servers(id VARCHAR(20) NOT NULL UNIQUE, name TEXT NOT NULL, admin TEXT, moderator TEXT, greeting VARCHAR(512) CHARACTER SET utf8 COLLATE utf8_unicode_ci, channel TEXT, approved TEXT, startcmd TEXT, reports TEXT) CHARACTER SET utf8 COLLATE utf8_unicode_ci;")  
 })
 
 client.on("ready", () => {
@@ -88,7 +88,7 @@ client.on("guildCreate", guild => {
     user.send(`I was added to a new server: ${guild.name}, ${guild.id}`)
   });
 
-  channel = guild.channels.find(channel => channel.id === guild.systemChannelID);
+  channel = guild.channels.cache.find(channel => channel.id === guild.systemChannelID);
 
   channel.send(`Hi there, I'm ${client.user.username}. You can run !setserver to set everything up. See !help for all of my commands. Enjoy :grin:`);
   
@@ -133,11 +133,7 @@ client.on("guildMemberAdd", async member => {
 
     const role = member.guild.roles.cache.find(r => r.id === rl)
         
-    var channel = member.guild.channels.cache.find(channel => channel.id === chnl); 
-
-    if (!role) {
-      return message.reply("No role has been defined yet. You can fix that with !setapproved")
-    }
+    var channel = member.guild.channels.cache.find(channel => channel.id === chnl);     
     
     if (typeof greeting == 'undefined') {
       greeting = "Welcome to this generic server. The owner has not bothered with a custom welcome message so you get this one. :person_shrugging:"
@@ -146,16 +142,20 @@ client.on("guildMemberAdd", async member => {
     }
 
     if (typeof channel == 'undefined') {
-      channel = member.guild.channels.find(channel => channel.id === member.guild.systemChannelID);
+      channel = member.guild.channels.cache.find(channel => channel.id === member.guild.systemChannelID);
     } else if (channel === null) {
-      channel = member.guild.channels.find(channel => channel.id === member.guild.systemChannelID);
+      channel = member.guild.channels.cache.find(channel => channel.id === member.guild.systemChannelID);
     }
     
     const embed = new Discord.MessageEmbed() 
         .setColor("RANDOM")
         .setTimestamp()
         .setAuthor(`Hooray, ${member.displayName} just joined our merry band of misfits`, member.user.displayAvatarURL())
-        .setDescription(stripIndents`${greeting}`);
+        
+    
+    client.users.fetch(member.id, false).then(user => {
+      user.send(`Welcome to **${member.guild.name}**. ${greeting}`)
+    })
     
     return channel.send(embed);
         
@@ -196,19 +196,24 @@ client.on("message", async message => {
 
         if(!muterole) {
             try{
-                muterole = await message.guild.createRole({
-                    name: "Muted",
-                    color: "#514f48",
-                    permissions: []
+                muterole = await message.guild.roles.create({
+                    data: {
+                      name: "Muted",
+                      color: "#514f48",
+                      permissions: []
+                    }
                 })
-            message.guild.channels.forEach(async (channel, id) => {
-                await channel.overwritePermissions(muterole, {
-                    SEND_MESSAGES: false,
-                    ADD_REACTIONS: false,
-                    SEND_TTS_MESSAGES: false,
-                    ATTACH_FILES: false,
-                    SPEAK: false
-                })
+            message.guild.channels.cache.forEach(async (channel, id) => {              
+                await channel.overwritePermissions([
+                  {
+                    id: muterole.id,
+                    deny: ['SEND_MESSAGES',
+                          'ADD_REACTIONS',
+                          'SEND_TTS_MESSAGES',
+                          'ATTACH_FILES',
+                          'SPEAK']
+                  }
+                ])
             })
             } catch(e) {
             console.log(e.stack);

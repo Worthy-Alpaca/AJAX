@@ -1,6 +1,6 @@
 const Discord  = require("discord.js");
 const { stripIndents } = require("common-tags");
-const { setadm, setmd, setch, setms, setapr, setcmd, setreports } = require("../../functions/setupfunctions.js");
+const { setadm, setmd, setch, setms, setapr, setcmd, setreports, user_ready } = require("../../functions/setupfunctions.js");
 const { getAdmin, getMod, getChnl, getMsg, getapproved, getstartcmd, getreportschannel } = require("../../functions/functions.js");
 
 
@@ -12,11 +12,13 @@ module.exports = {
         
         if (!message.member.hasPermission("ADMINISTRATOR")){
             return message.reply("You are not powerfull enough to do that");
-        }       
+        }     
+        
         
         //declaring stuff
         const member = message.member;
-        const guild = message.member.guild;                    
+        const guild = message.member.guild;          
+        var adm2;                 
         var md2;
         var ch2;
         var ms2;
@@ -25,6 +27,7 @@ module.exports = {
         var rpt2;        
         
         
+
         //setup complete message
         const embed = new Discord.MessageEmbed()
             .setColor(member.displayHexColor === "#000000" ? "#ffffff" : member.displayHexColor)
@@ -34,10 +37,12 @@ module.exports = {
             If you wish to change any of this in the future, you can use one of the other commands in the \`setup\` category.`)
         
         
-        
-        
-        //set admin role        
-        const adm2 = await setadm(message, con);        
+        //getting user ready
+        const rdy = await user_ready(message);
+        //set admin role  
+        if (rdy) {
+            adm2 = await setadm(message, con);
+        }
         //set moderator role
         if (adm2) {
             md2 = await setmd(message, con);
@@ -78,7 +83,7 @@ module.exports = {
             reportschannel = message.guild.channels.cache.find(c => c.id === reportschannel2);
         }
 
-        const embed2= new Discord.MessageEmbed()
+        const embed2 = new Discord.MessageEmbed()
             .setColor(member.displayHexColor === "#000000" ? "#ffffff" : member.displayHexColor)
             .setTimestamp()
             .setThumbnail(guild.iconURL())

@@ -121,9 +121,26 @@ module.exports = {
     getreportschannel: function(message, con) {
         var chnl;
         return new Promise(function(resolve, reject) {
-            con.query(`SELECT * FROM servers WHERE id = '${message.guild.id}'`, (err, rows) => {
+            con.query(`SELECT * FROM servers WHERE id = '${message.guild.id}'`, (err, rows) => {                
                 chnl = rows[0].reports;
                 resolve(chnl);
+            })
+        })
+    },
+
+    getinfractions: function(tblid, rMember, con) {
+        var infractions;
+        return new Promise(function(resolve, reject) {
+            con.query(`SELECT * FROM ${tblid.join("")} WHERE member_id = '${rMember.id}'`, (err, rows) => {
+                if (err) throw err;
+                if (rows.length < 1) {                    
+                    infractions = 0;
+                    resolve(infractions)
+                } else if (rows[0].member_id === rMember.id) {                    
+                    infractions = rows[0].infractions;
+                    resolve(infractions);   
+                }
+                
             })
         })
     }

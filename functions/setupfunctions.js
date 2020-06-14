@@ -265,5 +265,27 @@ module.exports = {
                       
             });
         })
-    },
+    }, 
+
+    user_ready: function(message) {
+        return new Promise(function(resolve, reject) {
+            message.channel.send("With this command you will set up the entire server. It needs the Administrator, Moderator and approved member Roles, the welcome channel and message as well as the command for approving new members and a channel for your report filings. All of this can be changed afterwards. Ready? (y/n)").then(() => {
+                const filter = m => message.author.id === m.author.id;
+                var rdy;
+                message.channel.awaitMessages(filter, { time: 240000, max: 1, errors: ['time'] })
+                    .then(messages => {
+                        var message2 = messages.first().content.toLowerCase();
+                        if (message2 === "y") {
+                            rdy = true;
+                            return resolve(rdy);
+                        } else {
+                            return message.channel.send('Aborting setup process').then(m => m.delete( {timeout: 5000} ));
+                        }
+                    })
+                    .catch(() => {
+                        return message.channel.send('Aborting setup process').then(m => m.delete( {timeout: 5000} ));
+                    })
+            })     
+        })
+    }
 };
