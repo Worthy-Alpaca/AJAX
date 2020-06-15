@@ -1,5 +1,5 @@
 const { Client, RichEmbed, Collection } = require("discord.js");
-const { prefix, version, status, welcome_channel, DIFF, LIMIT, TIME } = require('./config.json');
+const { prefix, version, status, welcome_channel, DIFF, LIMIT, TIME, database } = require('./config.json');
 const { token, password } = require('../token.json');
 const fs = require("fs");
 const Discord = require("discord.js")
@@ -27,18 +27,18 @@ client.categories = fs.readdirSync("./commands/");
     require(`../handler/${handler}`)(client);
 });
 
-
+//creating the database connection
 var con = mysql.createConnection({
   host: "localhost",
   user: "root",
   password: password,
-  database: "servers",
+  database: database,
   encoding: "utf8mb4_unicode_ci"
 });
 
 con.connect(err => {
   if(err) throw err;
-  console.log("connected to database");
+  console.log("Connected to Database");
   con.query("CREATE TABLE IF NOT EXISTS servers(id VARCHAR(20) NOT NULL UNIQUE, name TEXT NOT NULL, admin TEXT, moderator TEXT, greeting VARCHAR(512) CHARACTER SET utf8 COLLATE utf8_unicode_ci, channel TEXT, approved TEXT, startcmd TEXT, reports TEXT) CHARACTER SET utf8 COLLATE utf8_unicode_ci;")  
 })
 
