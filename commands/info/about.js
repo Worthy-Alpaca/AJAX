@@ -17,10 +17,15 @@ module.exports = {
         var count = [];
 
         approvedR = await getapproved2(message, con);
+        role = message.guild.roles.cache.find(r => r.id === approvedR);
+
+        if (!role) {
+            return message.reply("No role for approved members found. You can change that with !setapproved")
+        }
         
         guild.members.cache.forEach(member => {
             if (member.user.bot) return;
-            if (member.roles.cache.has(message.guild.roles.cache.find(r => r.id === approvedR).id)){
+            if (member.roles.cache.has(role.id)){
                 if (member.id === client.user.id) {
                     return
                 } else {
