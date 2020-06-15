@@ -63,7 +63,8 @@ sudo mysql_secure_installation
 ```
 * For Windows you can download it [here](https://dev.mysql.com/downloads/windows/installer/8.0.html)
 
-- Set up your database and make sure to name it 'servers'
+- Set up your database and make sure to name it 'discord'
+    - if you wish to use another database you'll have to change it in /src/config.json
 
 - Lastly you need to put both your Discord Bot token and your SQL root password into the included token file and rename it to token.json
 

@@ -1,5 +1,5 @@
 const { Client, RichEmbed, Collection } = require("discord.js");
-const { prefix, version, status, welcome_channel, DIFF, LIMIT, TIME } = require('./config.json');
+const { prefix, version, status, welcome_channel, DIFF, LIMIT, TIME, database } = require('./config.json');
 const { token, password } = require('../token.json');
 const fs = require("fs");
 const Discord = require("discord.js")
@@ -27,18 +27,18 @@ client.categories = fs.readdirSync("./commands/");
     require(`../handler/${handler}`)(client);
 });
 
-
+//creating the database connection
 var con = mysql.createConnection({
   host: "localhost",
   user: "root",
   password: password,
-  database: "servers",
+  database: database,
   encoding: "utf8mb4_unicode_ci"
 });
 
 con.connect(err => {
   if(err) throw err;
-  console.log("connected to database");
+  console.log("Connected to Database");
   con.query("CREATE TABLE IF NOT EXISTS servers(id VARCHAR(20) NOT NULL UNIQUE, name TEXT NOT NULL, admin TEXT, moderator TEXT, greeting VARCHAR(512) CHARACTER SET utf8 COLLATE utf8_unicode_ci, channel TEXT, approved TEXT, startcmd TEXT, reports TEXT) CHARACTER SET utf8 COLLATE utf8_unicode_ci;")  
 })
 
@@ -90,7 +90,19 @@ client.on("guildCreate", guild => {
 
   channel = guild.channels.cache.find(channel => channel.id === guild.systemChannelID);
 
-  channel.send(`Hi there, I'm ${client.user.username}. You can run !setserver to set everything up. See !help for all of my commands. Enjoy :grin:`);
+  //checking for systemmessage channel
+  if (!channel) {
+    guild.members.cache.forEach(member => {
+      if (member.hasPermission("ADMINISTRATOR")) {
+        client.users.fetch(member.id, false).then(user => {
+          user.send(`Hi there, I'm ${client.user.username}. You can run !setserver to set everything up. See !help for all of my commands. Enjoy :grin:`)
+        })
+      }
+    })
+  } else {
+    channel.send(`Hi there, I'm ${client.user.username}. You can run !setserver to set everything up. See !help for all of my commands. Enjoy :grin:`);
+  }
+
   
   con.query(`SELECT * FROM servers WHERE id = '${guild.id}'`, (err, rows) => {
     if(err) throw err;

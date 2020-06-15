@@ -6,6 +6,7 @@
   "welcome_channel": "general-chat",
   "raid_channel": "division2-chat",
   "unfit_raid":  "unraid",
+  "database": "discord",
   "DIFF": 3000,
   "LIMIT": 5,
   "TIME": 7000,
