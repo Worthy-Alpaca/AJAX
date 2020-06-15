@@ -90,7 +90,19 @@ client.on("guildCreate", guild => {
 
   channel = guild.channels.cache.find(channel => channel.id === guild.systemChannelID);
 
-  channel.send(`Hi there, I'm ${client.user.username}. You can run !setserver to set everything up. See !help for all of my commands. Enjoy :grin:`);
+  //checking for systemmessage channel
+  if (!channel) {
+    guild.members.cache.forEach(member => {
+      if (member.hasPermission("ADMINISTRATOR")) {
+        client.users.fetch(member.id, false).then(user => {
+          user.send(`Hi there, I'm ${client.user.username}. You can run !setserver to set everything up. See !help for all of my commands. Enjoy :grin:`)
+        })
+      }
+    })
+  } else {
+    channel.send(`Hi there, I'm ${client.user.username}. You can run !setserver to set everything up. See !help for all of my commands. Enjoy :grin:`);
+  }
+
   
   con.query(`SELECT * FROM servers WHERE id = '${guild.id}'`, (err, rows) => {
     if(err) throw err;
