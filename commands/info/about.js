@@ -19,6 +19,7 @@ module.exports = {
         approvedR = await getapproved2(message, con);
         
         guild.members.cache.forEach(member => {
+            if (member.user.bot) return;
             if (member.roles.cache.has(message.guild.roles.cache.find(r => r.id === approvedR).id)){
                 if (member.id === client.user.id) {
                     return
