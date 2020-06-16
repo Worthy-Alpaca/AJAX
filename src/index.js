@@ -39,7 +39,8 @@ var con = mysql.createConnection({
 con.connect(err => {
   if(err) throw err;
   console.log("Connected to Database");
-  con.query("CREATE TABLE IF NOT EXISTS servers(id VARCHAR(20) NOT NULL UNIQUE, name TEXT NOT NULL, admin TEXT, moderator TEXT, greeting VARCHAR(512) CHARACTER SET utf8 COLLATE utf8_unicode_ci, channel TEXT, approved TEXT, startcmd TEXT, reports TEXT) CHARACTER SET utf8 COLLATE utf8_unicode_ci;")  
+  con.query("CREATE TABLE IF NOT EXISTS servers(id VARCHAR(20) NOT NULL UNIQUE, name TEXT NOT NULL, admin TEXT, moderator TEXT, greeting VARCHAR(512) CHARACTER SET utf8 COLLATE utf8_unicode_ci, channel TEXT, approved TEXT, startcmd TEXT, reports TEXT) CHARACTER SET utf8 COLLATE utf8_unicode_ci;") 
+  con.query("CREATE TABLE IF NOT EXISTS ranks(rank_id VARCHAR(20) NOT NULL UNIQUE, server_id VARCHAR(20) NOT NULL, rank_name TEXT NOT NULL);") 
 })
 
 client.on("ready", () => {
@@ -132,16 +133,12 @@ client.on("guildCreate", guild => {
 
 
 //welcome message
-client.on("guildMemberAdd", async member => {
-    var channel;
+client.on("guildMemberAdd", async member => {    
     var greeting;  
     
-    if (member.bot) return; 
-    
-    //getting welcome channel/message
-    chnl = await getChnl(member, con);
-    greeting = await getMsg(member, con);
-    rl = await getapproved(member, con);
+    if (member.bot) return;     
+       
+    greeting = await getMsg(member, con);    
 
     const role = member.guild.roles.cache.find(r => r.id === rl)
         
@@ -151,25 +148,13 @@ client.on("guildMemberAdd", async member => {
       greeting = "Welcome to this generic server. The owner has not bothered with a custom welcome message so you get this one. :person_shrugging:"
     } else if (greeting === null) {
       greeting = "Welcome to this generic server. The owner has not bothered with a custom welcome message so you get this one. :person_shrugging:"
-    }
-
-    if (typeof channel == 'undefined') {
-      channel = member.guild.channels.cache.find(channel => channel.id === member.guild.systemChannelID);
-    } else if (channel === null) {
-      channel = member.guild.channels.cache.find(channel => channel.id === member.guild.systemChannelID);
-    }
-    
-    const embed = new Discord.MessageEmbed() 
-        .setColor("RANDOM")
-        .setTimestamp()
-        .setAuthor(`Hooray, ${member.displayName} just joined our merry band of misfits`, member.user.displayAvatarURL())
-        
+    }      
     
     client.users.fetch(member.id, false).then(user => {
-      user.send(`Welcome to **${member.guild.name}**. ${greeting}`)
+      return user.send(`Welcome to **${member.guild.name}**. ${greeting}`)
     })
     
-    return channel.send(embed);
+    
         
 });
 
@@ -299,19 +284,38 @@ client.on("message", async message => {
       }  
     } 
 
+    //listening for the approved command
     const startcommand = await getstartcmd(message, con);
 
     if (message.content.startsWith(`${startcommand}`)) {
+      var chnl;
+      var rl;
       
       const member = message.author;
       guild = member.guild;
       rl = await getapproved2(message, con);
+      chnl = await getChnl(member, con);
 
       const role = message.guild.roles.cache.find(r => r.id === rl);
+      var channel = member.guild.channels.cache.find(channel => channel.id === chnl);  
+
+      if (typeof channel == 'undefined') {
+        channel = member.guild.channels.cache.find(channel => channel.id === member.guild.systemChannelID);
+      } else if (channel === null) {
+        channel = member.guild.channels.cache.find(channel => channel.id === member.guild.systemChannelID);
+      }
+
+      const embed = new Discord.MessageEmbed() 
+        .setColor("RANDOM")
+        .setTimestamp()
+        .setAuthor(`Hooray, ${member.displayName} just joined our merry band of misfits`, member.user.displayAvatarURL())
       
       message.member.roles.add(role.id).catch(e => console.log(e.message));
+
+      return channel.send(embed);
     }
 
+    //command parser
     if (!message.content.startsWith(prefix)) return;
 
     if (!message.member) message.member = await message.guild.fetchMember(message);

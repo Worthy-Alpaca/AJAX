@@ -17,10 +17,15 @@ module.exports = {
         var count = [];
 
         approvedR = await getapproved2(message, con);
+        role = message.guild.roles.cache.find(r => r.id === approvedR);
+
+        if (!role) {
+            return message.reply("No role for approved members found. You can change that with !setapproved")
+        }
         
         guild.members.cache.forEach(member => {
             if (member.user.bot) return;
-            if (member.roles.cache.has(message.guild.roles.cache.find(r => r.id === approvedR).id)){
+            if (member.roles.cache.has(role.id)){
                 if (member.id === client.user.id) {
                     return
                 } else {
@@ -41,7 +46,9 @@ module.exports = {
             .addField(`\u200b`, stripIndents`**Server Information**
             > Server name: ${message.guild.name}
             > Current Member amount: \`${message.guild.memberCount}\`
-            > Approved Member amount: \`${count.length}\``);
+            > Approved Member amount: \`${count.length}\``)
+            .addField(`\u200b`, stripIndents`You have a server where you want to deploy this bot?
+            You can do so [here.](https://discord.com/api/oauth2/authorize?client_id=682255208125956128&permissions=8&redirect_uri=https%3A%2F%2Fworthyalpaca.de%2F&scope=bot)`);
             
 
         
