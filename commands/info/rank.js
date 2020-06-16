@@ -42,8 +42,14 @@ module.exports = {
 
             const ranktoadd = await getrank(message, rank, con);
             if (ranktoadd) {
-                message.member.roles.add(rank.id).catch(e => console.log(e.message))
-                message.channel.send(`\`${rank.name}\` has been added to you.`)
+                if (message.member.roles.cache.has(rank.id)) {
+                    message.member.roles.remove(rank.id).catch(e => console.log(e.message))
+                    message.reply(`\`${rank.name}\` has been taken from you.`)
+                } else {
+                    message.member.roles.add(rank.id).catch(e => console.log(e.message))
+                    message.reply(`\`${rank.name}\` has been added to you.`)
+                }
+                
             }
         }
 

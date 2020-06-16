@@ -148,7 +148,7 @@ module.exports = {
     getranks: function(message, con) {
         var ranks = []
         return new Promise(function(resolve, reject) {
-            con.query(`SELECT * FROM ranks WHERE id = '${message.guild.id}'`, (err, rows) => {
+            con.query(`SELECT * FROM ranks WHERE server_id = '${message.guild.id}'`, (err, rows) => {
                 if (rows.length < 1) {
                     name = "No ranks on this server yet. Do you have suggestions for ranks? Contact the admin nearest to you."
                     ranks.push(name)
@@ -170,7 +170,7 @@ module.exports = {
     getrank: function(message, rank, con) {
         var r;
         return new Promise(function(resolve, reject) {
-            con.query(`SELECT * FROM ranks WHERE id = '${message.guild.id}' AND rank_id = '${rank.id}'`, (err, rows) => {
+            con.query(`SELECT * FROM ranks WHERE server_id = '${message.guild.id}' AND rank_id = '${rank.id}'`, (err, rows) => {
                 if (rows[0].rank_id === rank.id) {
                     r = true;
                     resolve(r)
@@ -186,9 +186,9 @@ module.exports = {
         let sql;
         var success;
         return new Promise(function(resolve, reject) {
-            con.query(`SELECT * FROM ranks WHERE id = '${message.guild.id}' AND rank_id = '${rank.id}'`, (err, rows) => {
+            con.query(`SELECT * FROM ranks WHERE server_id = '${message.guild.id}' AND rank_id = '${rank.id}'`, (err, rows) => {
                 if (rows.length < 1) {
-                    sql = `INSERT INTO ranks (rank_id, id, rank_name) VALUES ('${rank.id}','${message.guild.id}', '${rank.name}')`
+                    sql = `INSERT INTO ranks (rank_id, server_id, rank_name) VALUES ('${rank.id}','${message.guild.id}', '${rank.name}')`
                     success = true;
                     resolve(success)
                     return con.query(sql);
