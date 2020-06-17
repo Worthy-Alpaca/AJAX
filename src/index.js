@@ -291,7 +291,7 @@ client.on("message", async message => {
       var chnl;
       var rl;
       
-      const member = message.author;
+      const member = message.member;
       guild = member.guild;
       rl = await getapproved2(message, con);
       chnl = await getChnl(member, con);
