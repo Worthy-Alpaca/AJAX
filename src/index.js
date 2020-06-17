@@ -138,11 +138,7 @@ client.on("guildMemberAdd", async member => {
     
     if (member.bot) return;     
        
-    greeting = await getMsg(member, con);    
-
-    const role = member.guild.roles.cache.find(r => r.id === rl)
-        
-    var channel = member.guild.channels.cache.find(channel => channel.id === chnl);     
+    greeting = await getMsg(member, con);                      
     
     if (typeof greeting == 'undefined') {
       greeting = "Welcome to this generic server. The owner has not bothered with a custom welcome message so you get this one. :person_shrugging:"
