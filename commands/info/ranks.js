@@ -19,6 +19,7 @@ module.exports = {
             .setThumbnail(message.guild.iconURL())
             .setTimestamp()
             .setTitle("Available ranks")
+            .setDescription("Don't see a game you play? Let us know!")
             .addField(`\u200b`, stripIndents`- ${ranks.join('\n- ')}`, true);  
         
         return message.channel.send(embed)
