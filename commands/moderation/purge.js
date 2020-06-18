@@ -25,13 +25,15 @@ module.exports = {
         var kicked = [];
         async function crtInvite(channel, member) {
             let invite = await channel.createInvite({uses: 1})
-            client.users.fetch(member.id, false).then(user => {
-                user.send(`You have been kicked because you did not consent to the rules of this server. You can use this invite ${invite} to come back.`)
-            })
-            member.kick(reason)
+            
+            await member.kick(reason)
                 .catch(err => {
                     if (err) return message.channel.send(`I couldn't kick ${member.displayName}. Here's the error ${err}`)
-                });
+                })
+                
+            client.users.fetch(member.id, false).then(user => {
+                user.send(`You have been kicked because you did not consent to the rules of this server. You can use this invite ${invite} to come back.`)
+            })    
         }       
         
         guild.members.cache.forEach(member => {
