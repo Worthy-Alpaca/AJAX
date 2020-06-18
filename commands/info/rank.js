@@ -1,5 +1,5 @@
 const Discord  = require("discord.js");
-const { getrank, getAdmin, setrank } = require("../../functions/functions.js");
+const { getrank, getAdmin, setrank, delrank } = require("../../functions/functions.js");
 const { stripIndents } = require("common-tags");
 
 
@@ -34,6 +34,23 @@ module.exports = {
                 return message.reply("Rank already exists for this server").then(m => m.delete( {timeout: 5000} ));
             }
 
+        } else if (args[0] === "del") {
+            var admin = await getAdmin(message, con);
+            if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id=== admin).id)) {
+                return message.reply("You don't have the required permissions to do this.").then(m => m.delete( {timeout: 5000} ));
+            }
+            rank = message.guild.roles.cache.find(r => r.name === args.slice(1).join(" "))
+            if (!rank) {
+                return message.reply("This rank doesn't exist").then(m => m.delete( {timeout: 5000} ));
+            }
+
+            const done = await delrank(message, rank, con)
+
+            if (done) {
+                return message.reply("Rank was deleted successfully").then(m => m.delete( {timeout: 5000} ));
+            } else {
+                return message.reply("This rank doesn't exist in my database").then(m => m.delete( {timeout: 5000} ));
+            }
         } else {
             rank = message.guild.roles.cache.find(r => r.name === args.slice(0).join(" "))
             if (!rank) {

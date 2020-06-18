@@ -200,6 +200,24 @@ module.exports = {
         })
     },
 
+    delrank: function(message, rank, con) {
+        let sql;
+        var success;
+        return new Promise(function(resolve,reject) {
+            con.query(`SELECT * FROM ranks WHERE server_id = '${message.guild.id}' AND rank_id = '${rank.id}'`, (err, rows) => {
+                if (rows.length < 1) {
+                    success = false;
+                    return resolve(success);
+                } else {
+                    sql = `DELETE FROM ranks WHERE server_id = '${message.guild.id}' AND rank_id = '${rank.id}'`
+                    success = true;
+                    resolve(success);
+                    return con.query(sql);
+                }
+            })
+        })
+    }
+
     
 
     
