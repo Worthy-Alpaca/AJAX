@@ -1,6 +1,7 @@
 const Discord  = require("discord.js");
 const { stripIndents } = require("common-tags");
 const { prefix, version } = require("../../src/config.json");
+const {getAdmin, getMod} = require("../../functions/functions.js")
 
 module.exports = {
     name: "help",
@@ -10,6 +11,9 @@ module.exports = {
     usage: "[command | alias]",
     run: async (client, message, args, con) => {
         if (message.deletable) message.delete();
+
+        const admin = await getAdmin(message, con);
+        const moderator = await getMod(message, con);
 
         if (args[0]) {
             return getCMD(client, message, args[0]);
@@ -23,28 +27,32 @@ module.exports = {
 }
 
 
-function getAll(client, message) {   
-    const embed = new Discord.MessageEmbed()
-        .setColor("RANDOM")
-        .setFooter(`Version: ${version}`)
-        .setTimestamp()
-        .setTitle("Help menu")
-        .setThumbnail(client.user.displayAvatarURL())
-        
+function getAll(client, message) {
+    
 
-    const commands = (category) => {
-        return client.commands
-            .filter(cmd => cmd.category === category)
-            .map(cmd => `- \`${prefix}${cmd.name}\`=> \`${cmd.description}\``)
-            .join("\n");
+        const embed = new Discord.MessageEmbed()
+            .setColor("RANDOM")
+            .setFooter(`Version: ${version}`)
+            .setTimestamp()
+            .setTitle("Help menu")
+            .setThumbnail(client.user.displayAvatarURL())
+            
 
-    }
+        const commands = (category) => {
+            return client.commands
+                .filter(cmd => cmd.category === category)
+                .map(cmd => `- \`${prefix}${cmd.name}\`=> \`${cmd.description}\``)
+                .join("\n");
 
-    const info = client.categories
-        .map(cat => stripIndents`**${cat[0].toUpperCase() + cat.slice(1)}** \n${commands(cat)}`)
-        .reduce((string, category) => string + "\n" + category);
+        }
 
-    return message.channel.send(embed.setDescription(info));
+        const info = client.categories
+            .map(cat => stripIndents`**${cat[0].toUpperCase() + cat.slice(1)}** \n${commands(cat)}`)
+            .reduce((string, category) => string + "\n" + category);
+
+        return message.channel.send(embed.setDescription(info));
+    
+    
 }
 
 function getCMD(client, message, input) {
@@ -70,3 +78,26 @@ function getCMD(client, message, input) {
 
     return message.channel.send(embed.setColor("GREEN").setDescription(info));
 }
+
+/* if (message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id=== moderator).id)) {
+    const embed = new Discord.MessageEmbed()
+        .setColor("RANDOM")
+        .setFooter(`Version: ${version}`)
+        .setTimestamp()
+        .setTitle("Help menu")
+        .setThumbnail(client.user.displayAvatarURL())
+
+    const commands = (permissions) => {
+        return client.commands
+            .filter(cmd => cmd.permissions === permissions)
+            .map(cmd => `- \`${prefix}${cmd.name}\`=> \`${cmd.description}\``)
+            .join("\n");
+
+    }
+
+    const info = client.categories
+        .map(cat => stripIndents`**${cat[0].toUpperCase() + cat.slice(1)}** \n${commands(cat)}`)
+        .reduce((string, category) => string + "\n" + category);
+
+    return message.channel.send(embed.setDescription(info));    
+} */
