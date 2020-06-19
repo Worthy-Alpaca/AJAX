@@ -16,9 +16,9 @@ You can add AJAX to your server [here.](https://discord.com/api/oauth2/authorize
 These instructions will get you a copy of the project up and running on your local machine for development and also on a deployment server.
 
 ## Stuff you'll need
-* Node.js version 12.X or higher
+* Node.js version 12 or higher
 * Node Package Manager
-* Discord.js version 12 or higher
+* Discord.js version 12 
 * MySQL version 8.0 or higher
 
 ### How to install
@@ -55,7 +55,7 @@ npm install
 
 - Next you need to install MySQL 
 
-    - For linux systems follow [this](https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-18-04) guide if you're unsure 
+    - For linux systems follow [this](https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-18-04) guide if you're unsure otherwise just do this
     ```
     sudo apt update
     sudo apt install mysql-server
