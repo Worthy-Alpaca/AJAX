@@ -66,7 +66,7 @@ npm install
 - Set up your database and make sure to name it 'discord'
     - if you wish to use another database you'll have to change it in /src/config.json
 
-- Lastly you need to put both your Discord Bot token and your SQL root password into the included token file and rename it to token.json
+- Lastly you need to put both your Discord Bot token and your SQL password into the included token file and rename it to token.json
 
 Thats it
 
