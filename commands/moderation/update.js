@@ -6,6 +6,7 @@ const { exec } = require("child_process");
 module.exports = {
     name: "update",
     category: "moderation",
+    permission: ["null"],
     description: "Updates the bot",
     run: async (client, message, args, con) => {
         message.delete();

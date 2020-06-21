@@ -6,6 +6,7 @@ const { getAdmin, getMod } = require("../../functions/functions.js");
 module.exports = {
     name: "roster",
     category: "info",
+    permission: ["none", "moderator", "admin"],
     description: "People who do stuff",
     
 

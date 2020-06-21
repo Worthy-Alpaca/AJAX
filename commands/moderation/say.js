@@ -4,6 +4,8 @@ const { getAdmin, getMod } = require("../../functions/functions.js")
 module.exports = {
     name: "say",
     aliases: ["bc", "broadcast"],
+    category: "moderation",
+    permission: ["admin"],
     description: "Bot says stuff",
     usage: "[channel], <input>",
     run: async (client, message, args, con) => {

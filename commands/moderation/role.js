@@ -4,6 +4,7 @@ const { getAdmin, getMod } = require("../../functions/functions.js");
 module.exports = {
     name: "role",
     category: "moderation",
+    permission: ["moderator", "admin"],
     description: "adds/removes roles",
     usage: "<add | remove, id | mention, role(case sensitive)>",
     run: async (client, message, args, con) => {

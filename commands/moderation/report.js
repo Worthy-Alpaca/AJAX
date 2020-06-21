@@ -7,6 +7,7 @@ const { ban_limit, kick_limit } = require("../../src/config.json")
 module.exports = {
     name: "report",
     category: "moderation",
+    permission: ["none", "moderator", "admin"],
     description: "reports a member",
     usage: "<good/bad, mention | id, reason>",
     run: async (client, message, args, con) => {

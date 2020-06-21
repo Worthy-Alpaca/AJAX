@@ -5,6 +5,7 @@ const { getAdmin, getMod, promptMessage, getreportschannel } = require("../../fu
 module.exports = {
     name: "remove",
     category: "moderation",
+    permission: ["moderator", "admin"],
     description: "removes the member",
     usage: "<kick | ban, id | mention, reason>",
     run: async (client, message, args, con) => {

@@ -6,6 +6,7 @@ const { version } = require("../../src/config.json");
 module.exports = {
     name: "cmdr",
     category: "fun",
+    permission: ["none", "moderator", "admin"],
     description: "Gets your CMDR stats from inara",
     run: async (client, message, args, con) => {
         if (message.deletable) message.delete();

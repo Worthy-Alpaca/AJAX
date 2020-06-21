@@ -3,6 +3,7 @@ const { getAdmin, getMod } = require("../../functions/functions.js");
 module.exports = {
     name: "move",
     category: "moderation",
+    permission: ["moderator", "admin"],
     description: "Moves all members from one channel to the other",
     usage: "<channel1 -> channel2>",
     run: async (client, message, args, con) => {

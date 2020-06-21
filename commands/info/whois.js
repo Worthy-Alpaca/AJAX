@@ -7,6 +7,7 @@ module.exports = {
     name: "whois",
     aliases: ["userinfo", "user", "who"],
     category: "info",
+    permission: ["none", "moderator", "admin"],
     description: "Returns user information",
     usage: "[username | id, | mention]",
 

@@ -3,6 +3,7 @@ const { setch } = require("../../functions/setupfunctions");
 module.exports = {
     name: "setchannel",
     category: "setup",
+    permission: ["admin"],
     description: "Set the greeting channel. If no channel is set I'll use the default one",
     run: async (client, message, args, con) => {
         

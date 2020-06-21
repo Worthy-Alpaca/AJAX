@@ -7,6 +7,7 @@ const { stripIndents } = require("common-tags");
 module.exports = {
     name: "elite",
     category: "fun",
+    permission: ["none", "moderator", "admin"],
     description: "Displays information about a system",
     usage: "<System>",
     run: async (client, message, args, con) => {

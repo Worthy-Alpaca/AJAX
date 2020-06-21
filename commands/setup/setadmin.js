@@ -3,6 +3,7 @@ const { setadm } = require("../../functions/setupfunctions");
 module.exports = {
     name: "setadmin",
     category: "setup",
+    permission: ["admin"],
     description: "Set the admin role",
     run: async (client, message, args, con) => {
         

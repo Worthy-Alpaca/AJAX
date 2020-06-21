@@ -6,6 +6,7 @@ const { raid_channel, unfit_raid } = require("../../src/config.json");
 module.exports = {
     name: "raid",
     category: "fun",
+    permission: ["none", "moderator", "admin"],
     description: "Enables you to take part in the raid",
     usage: "<id | mention>",
     run: async (client, message, args, con) => {

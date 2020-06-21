@@ -6,6 +6,7 @@ const { stripIndents } = require("common-tags");
 module.exports = {
     name: "welcome",
     category: "info",
+    permission: ["none", "moderator", "admin"],
     description: "Give the welcome message",
     usage: "<mention>",
 

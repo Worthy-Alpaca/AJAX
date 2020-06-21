@@ -3,6 +3,7 @@ const { getAdmin, getMod } = require("../../functions/functions.js");
 module.exports = {
     name: "clear",    
     category: "moderation",
+    permission: ["moderator", "admin"],
     description: "Clears the chat",
     run: async (client, message, args, con) => {
         if (message.deletable) {

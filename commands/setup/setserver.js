@@ -7,6 +7,7 @@ const { getAdmin, getMod, getChnl, getMsg, getapproved, getstartcmd, getreportsc
 module.exports = {
     name: "setserver",
     category: "setup",
+    permission: ["admin"],
     description: "Set up the entire server",
     run: async (client, message, args, con) => {
         

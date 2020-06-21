@@ -5,6 +5,7 @@ const { getAdmin, getMod } = require("../../functions/functions.js");
 module.exports = {
     name: "status",
     category: "moderation",
+    permission: ["null"],
     description: "Changes the status of the bot",
     usage: "<action> <'game'>",
     run: async (client, message, args, con) => {

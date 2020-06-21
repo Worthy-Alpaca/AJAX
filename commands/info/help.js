@@ -1,24 +1,35 @@
 const Discord  = require("discord.js");
 const { stripIndents } = require("common-tags");
 const { prefix, version } = require("../../src/config.json");
-const {getAdmin, getMod} = require("../../functions/functions.js")
+const {getAdmin, getMod} = require("../../functions/functions.js");
+const cat = require("../fun/cat");
 
 module.exports = {
     name: "help",
     aliases: ["info"],
     category: "info",
+    permission: ["none", "moderator", "admin"],
     description: "Returns all commands, or one specific command info",
     usage: "[command | alias]",
     run: async (client, message, args, con) => {
         if (message.deletable) message.delete();
-
-        const admin = await getAdmin(message, con);
-        const moderator = await getMod(message, con);
-
+        //console.log(client.commands)
+        const adm = await getAdmin(message, con);
+        const mod = await getMod(message, con);
+        var perms;
+        
+        if (message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id=== adm).id)) {
+            perms = "admin"
+        } else if (message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id=== mod).id)) {
+            perms = "moderator"
+        } else {
+            perms = "none"
+        }
+        
         if (args[0]) {
             return getCMD(client, message, args[0]);
         } else {
-            return getAll(client, message);
+            return getAll(client, message, perms);
         }
 
     }
@@ -27,7 +38,7 @@ module.exports = {
 }
 
 
-function getAll(client, message) {
+function getAll(client, message, perms) {
     
 
         const embed = new Discord.MessageEmbed()
@@ -38,17 +49,18 @@ function getAll(client, message) {
             .setThumbnail(client.user.displayAvatarURL())
             
 
-        const commands = (category) => {
+        const commands = (category, perms) => {
             return client.commands
-                .filter(cmd => cmd.category === category)
+                .filter(cmd => cmd.category === category && cmd.permission.includes(perms))
                 .map(cmd => `- \`${prefix}${cmd.name}\`=> \`${cmd.description}\``)
                 .join("\n");
 
         }
-
-        const info = client.categories
-            .map(cat => stripIndents`**${cat[0].toUpperCase() + cat.slice(1)}** \n${commands(cat)}`)
+        
+        const info = client.categories                      
+            .map(cat => stripIndents`**${cat[0].toUpperCase() + cat.slice(1)}** \n${commands(cat, perms)}`)
             .reduce((string, category) => string + "\n" + category);
+        
 
         return message.channel.send(embed.setDescription(info));
     

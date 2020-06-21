@@ -4,7 +4,8 @@ const fetch = require('node-fetch');
 
 module.exports = {
   name: "cat",
-  category: "fun",
+  category: "fun",  
+  permission: ["none", "moderator", "admin"],
   description: "Sends a random cat",
   run: async (client, message, args, con) => {
     if (message.deletable) message.delete();

@@ -7,6 +7,7 @@ const {kick_limit, ban_limit, version} = require("../../src/config.json");
 module.exports = {
     name: "infractions",
     category: "info",
+    permission: ["none", "moderator", "admin"],
     description: "Tells you how often you have been reported",
     usage: "[mention], [clear](only admins)",
 
