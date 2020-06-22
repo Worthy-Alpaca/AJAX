@@ -61,8 +61,13 @@ function getAll(client, message, perms) {
             .map(cat => stripIndents`**${cat[0].toUpperCase() + cat.slice(1)}** \n${commands(cat, perms)}`)
             .reduce((string, category) => string + "\n" + category);
         
-
-        return message.channel.send(embed.setDescription(info));
+        
+        if (perms === "none" || perms === "moderator") {
+            return message.channel.send(embed.setDescription(`${info}
+            - \`No commands in this category\``)).then(m => m.delete( {timeout: 120000} ));
+        } else {
+            return message.channel.send(embed.setDescription(info)).then(m => m.delete( {timeout: 120000} ));
+        }
     
     
 }
