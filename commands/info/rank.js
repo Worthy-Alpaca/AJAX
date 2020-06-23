@@ -7,6 +7,7 @@ const { stripIndents } = require("common-tags");
 module.exports = {
     name: "rank",
     category: "info",
+    permission: ["none", "moderator", "admin"],
     description: "Applies the given rank", 
     usage: "<rank>",   
 

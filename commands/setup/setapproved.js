@@ -3,6 +3,7 @@ const { setapr } = require("../../functions/setupfunctions");
 module.exports = {
     name: "setapproved",
     category: "setup",
+    permission: ["admin"],
     description: "Set the approved role",
     run: async (client, message, args, con) => {
         

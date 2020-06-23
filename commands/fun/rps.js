@@ -6,6 +6,7 @@ const chooseArr = ["🗻", "📰", "✂"];
 module.exports = {
     name: "rps",
     category: "fun",
+    permission: ["none", "moderator", "admin"],
     description: "Rock Paper Scissors game.",
     usage: "rps",
     run: async (client, message, args, con) => {

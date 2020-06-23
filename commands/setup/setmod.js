@@ -3,6 +3,7 @@ const { setmd } = require("../../functions/setupfunctions");
 module.exports = {
     name: "setmod",
     category: "setup",
+    permission: ["admin"],
     description: "Set the moderator role",
     run: async (client, message, args, con) => {
         

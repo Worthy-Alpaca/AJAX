@@ -8,6 +8,7 @@ const { homepage } = require("../../package.json");
 module.exports = {
     name: "about",
     category: "info",
+    permission: ["none", "moderator", "admin"],
     description: "Gives information about the bot and the server",   
     run: async (client, message, args, con) => {
 

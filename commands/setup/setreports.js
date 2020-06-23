@@ -3,6 +3,7 @@ const { setreports } = require("../../functions/setupfunctions");
 module.exports = {
     name: "setreports",
     category: "setup",
+    permission: ["admin"],
     description: "Set the reports channel",
     run: async (client, message, args, con) => {
         

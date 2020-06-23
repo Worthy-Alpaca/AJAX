@@ -5,6 +5,7 @@ const { getAdmin, getMod, getreportschannel } = require("../../functions/functio
 module.exports = {
     name: "mute",
     category: "moderation",
+    permission: ["moderator", "admin"],
     description: "mutes a person",
     usage: "<id | mention>",
     run: async (client, message, args, con) => {

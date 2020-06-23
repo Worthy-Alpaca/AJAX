@@ -4,6 +4,7 @@ const randomPuppy = require("random-puppy");
 module.exports = {
     name: "meme",
     category: "fun",
+    permission: ["none", "moderator", "admin"],
     description: "Sends an epic meme",
     run: async (client, message, args, con) => {
 

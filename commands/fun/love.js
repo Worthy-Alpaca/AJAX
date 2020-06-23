@@ -5,6 +5,7 @@ module.exports = {
     name: "love",
     aliases: ["affinity"],
     category: "fun",
+    permission: ["none", "moderator", "admin"],
     description: "Calculates the love affinity you have for another person.",
     usage: "[mention | id | username]",
     run: async (client, message, args, con) => {

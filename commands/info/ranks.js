@@ -7,6 +7,7 @@ const { get } = require("superagent");
 module.exports = {
     name: "ranks",
     category: "info",
+    permission: ["none", "moderator", "admin"],
     description: "Shows available ranks",    
 
     run: async (client, message, args, con) => {

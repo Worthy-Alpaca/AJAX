@@ -3,6 +3,7 @@ const { getAdmin, getMod } = require("../../functions/functions.js");
 module.exports = {
     name: "lock",
     category: "moderation",
+    permission: ["none", "moderator", "admin"],
     description: "Locks a voice channel",
     usage: "<channel>, [amount]",
     run: async (client, message, args, con) => {

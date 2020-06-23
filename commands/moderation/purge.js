@@ -6,6 +6,7 @@ const { getapproved2, getChnl } = require("../../functions/functions.js");
 module.exports = {
     name: "purge",
     category: "moderation",
+    permission: ["moderator", "admin"],
     description: "Kicks all members who don't have the approved role",    
 
     run: async (client, message, args, con) => {

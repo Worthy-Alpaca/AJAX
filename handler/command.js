@@ -20,11 +20,11 @@ module.exports = (client) => {
         for (let file of commands) {
             let pull = require(`../commands/${dir}/${file}`);
     
-            if (pull.name) {
+            if (pull.name && pull.category && pull.description && pull.permission) {
                 client.commands.set(pull.name, pull);
                 table.addRow(file, 'operational ✅');
             } else {
-                table.addRow(file, `❌  -> missing a help.name, or help.name is not a string.`);
+                table.addRow(file, `❌  -> missing a neccessary header`);
                 a++;
                 continue;
             }
@@ -37,7 +37,7 @@ module.exports = (client) => {
     // Log the table
     console.log(table.toString());
     if (a > 0) {
-        console.log("Something went wrong")
+        console.log(`${a} system(s) are not operational`)
     } else {
         console.log("All systems are operational")
     }
