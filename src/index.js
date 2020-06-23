@@ -8,6 +8,7 @@ const { promptMessage, getChnl, getMsg, getapproved, getapproved2, getMember, ge
 const { answers, replies, asks, help, positive, sassy, robot } = require("./answers.json");
 const usersMap = new Map();
 const mysql = require("mysql");
+const {bugs} = require("../package.json")
 
 
 const client = new Client({
@@ -70,7 +71,7 @@ client.on("ready", () => {
                 
       });
     })
-
+    
     if(a > 0) console.log("No new servers")
 
     client.user.setPresence({
@@ -91,17 +92,23 @@ client.on("guildCreate", guild => {
 
   channel = guild.channels.cache.find(channel => channel.id === guild.systemChannelID);
 
+  const embed = new Discord.MessageEmbed()
+    .setColor("RANDOM")
+    .setTimestamp()
+    .setFooter(`Version: ${version}`)
+    .setThumbnail(client.user.displayAvatarURL())
+    .setDescription(stripIndents`Hello there I'm ${client.user.username}`)
+    .addField(`\u200b`, stripIndents`You should run !setserver to set everything up.
+    See !help for all of my commands. Enjoy :grin:`)
+    .addField(`\u200b`, stripIndents`If you have any issues please report them [here.](${bugs.url})`)
+
   //checking for systemmessage channel
-  if (!channel) {
-    guild.members.cache.forEach(member => {
-      if (member.hasPermission("ADMINISTRATOR")) {
-        client.users.fetch(member.id, false).then(user => {
-          user.send(`Hi there, I'm ${client.user.username}. You can run !setserver to set everything up. See !help for all of my commands. Enjoy :grin:`)
-        })
-      }
-    })
+  if (!channel) {    
+      client.users.fetch(message.guild.owner.id, false).then(user => {
+        user.send(embed)
+      })          
   } else {
-    channel.send(`Hi there, I'm ${client.user.username}. You can run !setserver to set everything up. See !help for all of my commands. Enjoy :grin:`);
+    channel.send(embed);
   }
 
   
