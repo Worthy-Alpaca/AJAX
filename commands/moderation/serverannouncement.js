@@ -22,19 +22,46 @@ module.exports = {
         
         async function asyncForEach(array, callback) {
             for (let index = 0; index < array.length; index++) {
-              await callback(array[index], index, array);
+                await callback(array[index], index, array);
             }
         }
 
-        asyncForEach(servers, async (server) => {
-            var srv = client.guilds.cache.get(server);
-            const chnl = await getserverchannel(srv, con);
-            channel = srv.channels.cache.find(channel => channel.id === chnl);
+        if (args[0] === "list") {  
+            srvs = [];
+    
+            servers.forEach(server => {
+                var srv = client.guilds.cache.get(server);
+                srvs.push(`${srv.name} => ${srv.id}`)
+            })            
+            
+            const embed = new Discord.MessageEmbed()
+                .setTimestamp()
+                .setDescription(stripIndents`- ${srvs.join('\n- ')}`);
+
+            return message.channel.send(embed)
+            
+        } else if (servers.includes(args[0])) {
+            var srv = client.guilds.cache.get(args[0]);
+            channel = srv.channels.cache.find(channel => channel.id === srv.systemChannelID);
             if (!channel) {
-                return console.log("There was an error")
+                return message.reply("No communication established")
             }
-            channel.send(args.slice(0).join(" ")).catch();
-        })
+            return channel.send(args.slice(1).join(" "))
+
+        } else {
+            asyncForEach(servers, async (server) => {
+                var srv = client.guilds.cache.get(server);
+                const chnl = await getserverchannel(srv, con);
+                channel = srv.channels.cache.find(channel => channel.id === chnl);
+                if (!channel) {
+                    return console.log("There was an error")
+                }
+                channel.send(args.slice(0).join(" ")).catch();
+            })
+        }
+                
+
+        
                
     }
 }
