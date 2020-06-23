@@ -138,6 +138,18 @@ client.on("guildCreate", guild => {
   });
 })
 
+client.on("guildDelete", guild => {
+  client.users.fetch(`595341356432621573`, false).then(user => {
+    user.send(`I was kicked from ${guild.name}, ${guild.id}`)
+  });
+
+  con.query(`SELECT * FROM servers WHERE id = '${guild.id}'`, (err, rows) => {
+
+    let sql = `DELETE FROM servers WHERE id = '${guild.id}'`
+    con.query(sql);
+  })
+})
+
 
 //welcome message
 client.on("guildMemberAdd", async member => {    
