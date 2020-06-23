@@ -216,9 +216,39 @@ module.exports = {
                 }
             })
         })
-    }
+    },
 
-    
+    getservers: function(message, con) {
+        var servers = []
+        return new Promise(function(resolve, reject) {
+            con.query(`SELECT * FROM servers`, (err, rows) => {
+                if (rows.length < 1) {
+                    name = "No ranks on this server yet. Do you have suggestions for ranks? Contact the admin nearest to you."
+                    ranks.push(name)
+                    resolve(ranks)
+                } else {
+                    a = 0;
+                    while(a !== rows.length) {
+                        name = rows[a].id
+                        servers.push(name) 
+                        a++;
+                    }                   
+                    
+                    resolve(servers)
+                }
+            })
+        })
+    },
+
+    getserverchannel: function(srv, con) {
+        var chnl;
+        return new Promise(function(resolve, reject) {
+            con.query(`SELECT * FROM servers WHERE id = '${srv.id}'`, (err, rows) => {                
+                chnl = rows[0].reports;
+                resolve(chnl);
+            })
+        })
+    },
 
     
 };
