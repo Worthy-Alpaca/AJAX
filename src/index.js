@@ -8,6 +8,7 @@ const { promptMessage, getChnl, getMsg, getapproved, getapproved2, getMember, ge
 const { answers, replies, asks, help, positive, sassy, robot } = require("./answers.json");
 const usersMap = new Map();
 const mysql = require("mysql");
+const {bugs} = require("../package.json")
 
 
 const client = new Client({
@@ -70,7 +71,7 @@ client.on("ready", () => {
                 
       });
     })
-
+    
     if(a > 0) console.log("No new servers")
 
     client.user.setPresence({
@@ -91,17 +92,23 @@ client.on("guildCreate", guild => {
 
   channel = guild.channels.cache.find(channel => channel.id === guild.systemChannelID);
 
+  const embed = new Discord.MessageEmbed()
+    .setColor("RANDOM")
+    .setTimestamp()
+    .setFooter(`Version: ${version}`)
+    .setThumbnail(client.user.displayAvatarURL())
+    .setDescription(stripIndents`Hello there I'm ${client.user.username}`)
+    .addField(`\u200b`, stripIndents`You should run !setserver to set everything up.
+    See !help for all of my commands. Enjoy :grin:`)
+    .addField(`\u200b`, stripIndents`If you have any issues please report them [here.](${bugs.url})`)
+
   //checking for systemmessage channel
-  if (!channel) {
-    guild.members.cache.forEach(member => {
-      if (member.hasPermission("ADMINISTRATOR")) {
-        client.users.fetch(member.id, false).then(user => {
-          user.send(`Hi there, I'm ${client.user.username}. You can run !setserver to set everything up. See !help for all of my commands. Enjoy :grin:`)
-        })
-      }
-    })
+  if (!channel) {    
+      client.users.fetch(message.guild.owner.id, false).then(user => {
+        user.send(embed)
+      })          
   } else {
-    channel.send(`Hi there, I'm ${client.user.username}. You can run !setserver to set everything up. See !help for all of my commands. Enjoy :grin:`);
+    channel.send(embed);
   }
 
   
@@ -256,30 +263,7 @@ client.on("message", async message => {
                   
 
     if (!message.guild) return;
-
-    //reply function
-    if (message.content.endsWith("?") || message.content.endsWith("?!")) {
-      if (message.isMemberMentioned(client.user)) {
-        if (message.content.toLowerCase().includes("how") && message.content.toLowerCase().includes("are") && message.content.toLowerCase().includes("you")) {
-          return message.channel.send(asks[Math.floor(Math.random() * asks.length)] );
-        } else if (message.content.toLowerCase().includes("can" && "you" && "help" && "me")) { 
-          return message.reply("I might. Why don't you try out !help? :wink:");
-        } else if (message.content.toLowerCase().includes("skynet") || message.content.toLowerCase().includes("jugdement day")) {
-          return message.channel.send(sassy[Math.floor(Math.random() * sassy.length)] );
-        } else if (message.content.toLowerCase().includes("usefull") || message.content.toLowerCase().includes("sleep") || message.content.toLowerCase().includes("well")) {
-          return message.channel.send(positive[Math.floor(Math.random() * positive.length)]);
-        } else if (message.content.toLowerCase().includes("robot")){
-          return message.channel.send(robot[Math.floor(Math.random() * robot.length)]);
-        } else {
-          return message.channel.send(replies[Math.floor(Math.random() * replies.length)]);  
-        } 
-      } else if (message.content.toLowerCase().includes(message.content.toLowerCase().includes("can" && "help" && "me"))) {
-          return message.channel.send(help[Math.floor(Math.random() * help.length)] );
-      }else {
-        return message.channel.send(answers[Math.floor(Math.random() * answers.length)]);
-      }  
-    } 
-
+    
     //listening for the approved command
     const startcommand = await getstartcmd(message, con);
 
