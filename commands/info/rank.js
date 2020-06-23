@@ -8,7 +8,8 @@ module.exports = {
     name: "rank",
     category: "info",
     permission: ["none", "moderator", "admin"],
-    description: "Applies the given rank", 
+    description: "Applies the given rank.", 
+    descriptionlong: "Applies the given rank. If you have admin rights you can add/del ranks like so: !rank add/del <rank>",
     usage: "<rank>",   
 
     run: async (client, message, args, con) => {
