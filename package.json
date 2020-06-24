@@ -1,6 +1,6 @@
 {
   "name": "idiotic-bot",
-  "version": "1.0.0",
+  "version": "3.0.2a",
   "description": "",
   "main": "./src/index.js",
   "scripts": {
@@ -11,9 +11,9 @@
     "type": "git",
     "url": "git+https://github.com/Worthy-Alpaca/AJAX"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["Discord", "Discord-Bot", "moderation"],
+  "author": "Worthy Alpaca",
+  "license": "BSD 3-Clause",
   "bugs": {
     "url": "https://github.com/Worthy-Alpaca/AJAX/issues"
   },
