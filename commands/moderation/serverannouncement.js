@@ -70,7 +70,17 @@ module.exports = {
                 if (!channel) {
                     return console.log("There was an error")
                 }
-                channel.send(args.slice(0).join(" ")).catch();
+
+                const embed = new Discord.MessageEmbed()
+                    .setColor("RANDOM")
+                    .setFooter(`Version: ${version}`)
+                    .setTimestamp()
+                    .setTitle("**Greetings**")
+                    .setThumbnail(client.user.displayAvatarURL())
+                    .setDescription(stripIndents`${args.slice(0).join(" ")}
+                    -Worthy Alpaca`);
+
+                return channel.send(embed).catch();
             })
         }
                 
