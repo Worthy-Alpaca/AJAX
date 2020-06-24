@@ -18,7 +18,7 @@ module.exports = {
         const mod = await getMod(message, con);
         var perms;
         
-        if (message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id=== adm).id)) {
+        if (message.member.hasPermission("ADMINISTRATOR")) {
             perms = "admin"
         } else if (message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id=== mod).id)) {
             perms = "moderator"
@@ -64,7 +64,7 @@ function getAll(client, message, perms) {
         
         if (perms === "none" || perms === "moderator") {
             return message.channel.send(embed.setDescription(`${info}
-            - \`No commands in this category\``)).then(m => m.delete( {timeout: 120000} ));
+            - \`You don't have permission for this category\``)).then(m => m.delete( {timeout: 120000} ));
         } else {
             return message.channel.send(embed.setDescription(info)).then(m => m.delete( {timeout: 120000} ));
         }
@@ -99,26 +99,3 @@ function getCMD(client, message, input) {
 
     return message.channel.send(embed.setColor("GREEN").setDescription(info));
 }
-
-/* if (message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id=== moderator).id)) {
-    const embed = new Discord.MessageEmbed()
-        .setColor("RANDOM")
-        .setFooter(`Version: ${version}`)
-        .setTimestamp()
-        .setTitle("Help menu")
-        .setThumbnail(client.user.displayAvatarURL())
-
-    const commands = (permissions) => {
-        return client.commands
-            .filter(cmd => cmd.permissions === permissions)
-            .map(cmd => `- \`${prefix}${cmd.name}\`=> \`${cmd.description}\``)
-            .join("\n");
-
-    }
-
-    const info = client.categories
-        .map(cat => stripIndents`**${cat[0].toUpperCase() + cat.slice(1)}** \n${commands(cat)}`)
-        .reduce((string, category) => string + "\n" + category);
-
-    return message.channel.send(embed.setDescription(info));    
-} */
