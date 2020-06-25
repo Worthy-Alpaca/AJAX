@@ -9,7 +9,8 @@ module.exports = {
     aliases: ["info"],
     category: "info",
     permission: ["none", "moderator", "admin"],
-    description: "Returns all commands, or one specific command info",
+    description: "Returns this list",
+    descriptionlong: "Returns all commands, or one specific command info",
     usage: "[command | alias]",
     run: async (client, message, args, con) => {
         if (message.deletable) message.delete();
@@ -82,6 +83,8 @@ function getAll(client, message, perms) {
 
 function getCMD(client, message, input) {
     const embed = new Discord.MessageEmbed()
+        .setTimestamp()
+        .setThumbnail(client.user.displayAvatarURL())
 
     const cmd = client.commands.get(input.toLowerCase()) || client.commands.get(client.aliases.get(input.toLowerCase()));
 
@@ -105,5 +108,5 @@ function getCMD(client, message, input) {
 
     }
 
-    return message.channel.send(embed.setColor("GREEN").setDescription(info));
+    return message.channel.send(embed.setColor("GREEN").setDescription(info)).then(m => m.delete( {timeout: 120000} ));
 }
