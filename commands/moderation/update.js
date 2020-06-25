@@ -17,7 +17,7 @@ module.exports = {
             
             
         
-        var channel = message.guild.channels.cache.find(channel => channel.name === `${welcome_channel}`);
+        //var channel = message.guild.channels.cache.find(channel => channel.name === `${welcome_channel}`);
 
         
 
@@ -39,17 +39,27 @@ module.exports = {
             })
         }, 5000)
         if (args[0] === "send") {
-            setTimeout(() => {
-                const embed2 = new Discord.MessageEmbed()
-                    .setColor("Random")
-                    .setTimestamp()
-                    .setAuthor("Update occured", client.user.displayAvatarURL())
-                    .setDescription(stripIndents`I have been updated. :grin: 
-                    New version: **${version}**`);
+            
+            const embed2 = new Discord.MessageEmbed()
+                .setColor("Random")
+                .setTimestamp()
+                .setAuthor("Update occured", client.user.displayAvatarURL())
+                .setDescription(stripIndents`I have been updated. :grin: 
+                New version: **${version}**`);
+            
+            client.guilds.cache.forEach(server => {
+                channel = server.channels.cache.find(channel => channel.id === server.systemChannelID);
 
-                return channel.send(embed2);
+                if (!channel) {
+                    return message.reply(`\`${server.name}\` did not receive update notification.`)
+                }
+
+                return channel.send(embed2).catch();
+            })
+
+            
  
-            }, 7000)
+            
         } else return
 
         
