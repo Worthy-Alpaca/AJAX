@@ -2,6 +2,7 @@ const Discord = require("discord.js");
 const fetch = require('node-fetch');
 const { stripIndents } = require("common-tags");
 const { version } = require("../../src/config.json");
+const { apikey_inara } =require("../../token.json");
 
 module.exports = {
     name: "cmdr",
@@ -18,7 +19,7 @@ module.exports = {
             "appName": "AJAX",
             "appVersion": `${version}`,
             "isDeveloped": true,
-            "APIkey": "bckzq90dgzwo444k44g0gss08csoks4w84ogw8k",
+            "APIkey": apikey_inara,
             "commanderName": "Worthy Alpaca",
             "commanderFrontierID": "3298136"
         },
