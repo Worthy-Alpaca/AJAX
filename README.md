@@ -17,7 +17,7 @@ You can add AJAX to your server [here.](https://discord.com/api/oauth2/authorize
 - Information
 - Fun
 
-> check out my commands [here.](commands.md)
+> check out my commands [here.](my_commands)
 
 ## Getting Started
 
