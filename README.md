@@ -11,6 +11,14 @@ AJAX is a discord moderation bot that also has an EDSM API connection so you can
 
 You can add AJAX to your server [here.](https://discord.com/api/oauth2/authorize?client_id=682255208125956128&permissions=8&redirect_uri=https%3A%2F%2Fworthyalpaca.de%2F&scope=bot)
 
+## What I can do
+
+- Moderation 
+- Information
+- Fun
+
+> check out my commands [here.][commands.md]
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and also on a deployment server.
