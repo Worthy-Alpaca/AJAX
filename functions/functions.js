@@ -250,5 +250,15 @@ module.exports = {
         })
     },
 
+    getautoapproved: function(member, con) {
+        var bolean;
+        return new Promise(function(resolve, reject) {
+            con.query(`SELECT * FROM servers WHERE id = '${member.guild.id}'`, (err, rows) => {
+                bolean = rows[0].auto_approved;
+                resolve(bolean);
+            })
+        })
+    }
+
     
 };

@@ -4,7 +4,7 @@ const { token, password } = require('../token.json');
 const fs = require("fs");
 const Discord = require("discord.js")
 const { stripIndents } = require("common-tags");
-const { promptMessage, getChnl, getMsg, getapproved, getapproved2, getMember, getstartcmd, getreportschannel } = require("../functions/functions.js");
+const { promptMessage, getChnl, getMsg, getapproved, getapproved2, getMember, getstartcmd, getreportschannel, getautoapproved } = require("../functions/functions.js");
 const { answers, replies, asks, help, positive, sassy, robot } = require("./answers.json");
 const usersMap = new Map();
 const mysql = require("mysql");
@@ -40,7 +40,7 @@ var con = mysql.createConnection({
 con.connect(err => {
   if(err) throw err;
   console.log("Connected to Database");
-  con.query("CREATE TABLE IF NOT EXISTS servers(id VARCHAR(20) NOT NULL UNIQUE, name TEXT NOT NULL, admin TEXT, moderator TEXT, greeting VARCHAR(512) CHARACTER SET utf8 COLLATE utf8_unicode_ci, channel TEXT, approved TEXT, startcmd TEXT, reports TEXT) CHARACTER SET utf8 COLLATE utf8_unicode_ci;")  
+  con.query("CREATE TABLE IF NOT EXISTS servers(id VARCHAR(20) NOT NULL UNIQUE, name TEXT NOT NULL, admin TEXT, moderator TEXT, greeting VARCHAR(512) CHARACTER SET utf8 COLLATE utf8_unicode_ci, channel TEXT, approved TEXT, startcmd TEXT, reports TEXT, auto_approved TEXT) CHARACTER SET utf8 COLLATE utf8_unicode_ci;")  
   con.query("CREATE TABLE IF NOT EXISTS ranks(rank_id VARCHAR(20) NOT NULL UNIQUE, server_id VARCHAR(20) NOT NULL, rank_name TEXT NOT NULL);")
 })
 
@@ -157,13 +157,20 @@ client.on("guildMemberAdd", async member => {
     
     if (member.bot) return;     
        
-    greeting = await getMsg(member, con);                      
+    greeting = await getMsg(member, con);   
+    bolean = await getautoapproved(member, con);
+    rl = await getapproved(member, con);
+    const role = member.guild.roles.cache.find(r => r.id === rl);
     
     if (typeof greeting == 'undefined') {
       greeting = "Welcome to this generic server. The owner has not bothered with a custom welcome message so you get this one. :person_shrugging:"
     } else if (greeting === null) {
       greeting = "Welcome to this generic server. The owner has not bothered with a custom welcome message so you get this one. :person_shrugging:"
     }      
+
+    if (bolean === "true") {
+      member.roles.add(role.id).catch(e => console.log(e.message));
+    }
     
     client.users.fetch(member.id, false).then(user => {
       return user.send(`Welcome to **${member.guild.name}**. ${greeting}`)

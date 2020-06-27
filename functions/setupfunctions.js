@@ -287,5 +287,33 @@ module.exports = {
                     })
             })     
         })
+    },
+
+    setautomatic_approved: function(message, con) {
+        return new Promise(function(resolve, reject) {
+            message.channel.send('Do you want new members to get approved immediatly? (y/n)').then(() => {
+                const filter = m => message.author.id === m.author.id;
+                let sql;
+                message.channel.awaitMessages(filter, { time: 120000, max: 1, errors: ['time']})
+                    .then(messages => {
+                        answer = messages.first().content.toLowerCase();
+                        msg = message.channel.send(`You've entered: \`${answer}\``).then(m => m.delete( {timeout: 5000} ));
+
+                        if (answer === "y") {
+                            ch = true;
+                            sql = `UPDATE servers SET auto_approved = 'true' WHERE id = '${message.guild.id}'`;
+                        } else {
+                            ch = false;
+                            sql = `UPDATE servers SET auto_approved = 'false' WHERE id = '${message.guild.id}'`;
+                        } 
+
+                        con.query(`SELECT * FROM servers WHERE id = '${message.guild.id}'`, (err, rows) => {                            
+                            
+                            resolve(ch);
+                            return con.query(sql);
+                        })
+                    })
+            })
+        })
     }
 };

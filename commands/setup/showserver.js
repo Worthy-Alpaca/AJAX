@@ -1,6 +1,6 @@
 const Discord  = require("discord.js");
 const { stripIndents } = require("common-tags");
-const { getAdmin, getMod, getChnl, getMsg, getapproved, getstartcmd, getreportschannel } = require("../../functions/functions.js");
+const { getAdmin, getMod, getChnl, getMsg, getapproved, getstartcmd, getreportschannel, getautoapproved } = require("../../functions/functions.js");
 
 module.exports = {
     name: "showserver",
@@ -25,8 +25,13 @@ module.exports = {
         const welcomechannel = message.guild.channels.cache.find(c => c.id === welcomechannel2);
         const welcomemessage = await getMsg(member, con);
         const approvedrole = message.guild.roles.cache.find(r => r.id === approvedrole2);
-        const startcmd = await getstartcmd(message, con);
+        var startcmd = await getstartcmd(message, con);
         reportschannel = message.guild.channels.cache.find(c => c.id === reportschannel2);
+        const bolean = await getautoapproved(member, con);
+
+        if (bolean === "true") {
+            startcmd = "Members get role automatically"
+        }
         
         const embed2= new Discord.MessageEmbed()
             .setColor(member.displayHexColor === "#000000" ? "#ffffff" : member.displayHexColor)            

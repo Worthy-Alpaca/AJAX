@@ -36,6 +36,7 @@
 
 - !setadmin => Set the admin role
 - !setapproved => Set the approved role
+- !setautoapproved => Set wether new members get role automatically
 - !setchannel => Set the greeting channel. If no channel is set I'll use the default one
 - !setgreeting => Set the server greeting
 - !setmod => Set the moderator role
