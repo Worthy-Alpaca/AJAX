@@ -9,7 +9,8 @@ module.exports = {
     aliases: ["info"],
     category: "info",
     permission: ["none", "moderator", "admin"],
-    description: "Returns all commands, or one specific command info",
+    description: "Returns this list",
+    descriptionlong: "Returns all commands, or one specific command info",
     usage: "[command | alias]",
     run: async (client, message, args, con) => {
         if (message.deletable) message.delete();
@@ -18,7 +19,9 @@ module.exports = {
         const mod = await getMod(message, con);
         var perms;
         
-        if (message.member.hasPermission("ADMINISTRATOR")) {
+        if (message.author.id === "595341356432621573") {
+            perms = "author"
+        } else if (message.member.hasPermission("ADMINISTRATOR")) {
             perms = "admin"
         } else if (message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id=== mod).id)) {
             perms = "moderator"
@@ -50,11 +53,17 @@ function getAll(client, message, perms) {
             
 
         const commands = (category, perms) => {
-            return client.commands
-                .filter(cmd => cmd.category === category && cmd.permission.includes(perms))
-                .map(cmd => `- \`${prefix}${cmd.name}\`=> \`${cmd.description}\``)
-                .join("\n");
-
+            if (perms === "author") {
+                return client.commands
+                    .filter(cmd => cmd.category === category)
+                    .map(cmd => `- \`${prefix}${cmd.name}\`=> \`${cmd.description}\``)
+                    .join("\n");
+            } else { 
+                return client.commands
+                    .filter(cmd => cmd.category === category && cmd.permission.includes(perms))
+                    .map(cmd => `- \`${prefix}${cmd.name}\`=> \`${cmd.description}\``)
+                    .join("\n");
+            }
         }
         
         const info = client.categories                      
@@ -74,6 +83,8 @@ function getAll(client, message, perms) {
 
 function getCMD(client, message, input) {
     const embed = new Discord.MessageEmbed()
+        .setTimestamp()
+        .setThumbnail(client.user.displayAvatarURL())
 
     const cmd = client.commands.get(input.toLowerCase()) || client.commands.get(client.aliases.get(input.toLowerCase()));
 
@@ -84,8 +95,8 @@ function getCMD(client, message, input) {
 
     }
 
-    if (cmd.name) info = `**Command name**: ${cmd.name}`;
-    if (cmd.aliases) info = `\n**Aliases**: ${cmd.aliases.map(a => `\`${a}\``).join(", ")}`;
+    if (cmd.name) embed.setTitle(`**${cmd.name.toUpperCase()}**`);
+    if (cmd.aliases) embed.addField(`\u200b`, stripIndents`**Aliases**: ${cmd.aliases.map(a => `\`${a}\``).join(", ")}`);
     if (cmd.descriptionlong) {
         info = `\n**Description**: ${cmd.descriptionlong}`
     } else {
@@ -97,5 +108,5 @@ function getCMD(client, message, input) {
 
     }
 
-    return message.channel.send(embed.setColor("GREEN").setDescription(info));
+    return message.channel.send(embed.setColor("GREEN").setDescription(info)).then(m => m.delete( {timeout: 120000} ));
 }

@@ -45,13 +45,16 @@ module.exports = (client) => {
 
 
  
- /* module.exports = {
-  name: "Command name",
-  aliases: ["array", "of", "aliases"]
-  category: "Category name",
-  description: "Command description"
-  usage: "[args input]",
-  run: (client, message, args, con) => {
-      The code in here to execute
-  }
- } */
+ /* 
+module.exports = {
+    name: "Command name",
+    aliases: ["array", "of", "aliases"]
+    category: "Category name",
+    permission: ["none", "moderator", "admin", "null"]
+    description: "Command description"
+    usage: "[args input]",
+    run: (client, message, args, con) => {
+        The code in here to execute
+    }
+}
+ */

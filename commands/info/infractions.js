@@ -9,7 +9,7 @@ module.exports = {
     category: "info",
     permission: ["none", "moderator", "admin"],
     description: "Tells you how often you have been reported",
-    usage: "[mention], [clear](only admins)",
+    usage: "[clear](only admins), [mention]",
 
     run: async (client, message, args, con) => {
 
@@ -50,10 +50,9 @@ module.exports = {
                 con.query(`SELECT * FROM ${tblid.join("")} WHERE member_id = '${rMember.id}'`, (err, rows) => {
                     if (err) throw err;
                     let sql;                   
-                    
-                    infraction = 0;
-                    sql = `UPDATE ${tblid.join("")} SET infractions = ${infraction} WHERE member_id = '${rMember.id}'`
-                    
+                                    
+                    sql = `DELETE FROM ${tblid.join("")} WHERE member_id = '${rMember.id}'`
+
                     con.query(sql)
                 });
                 return message.reply(`Infractions for ${rMember} have been cleared`);

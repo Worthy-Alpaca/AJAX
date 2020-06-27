@@ -1,7 +1,7 @@
 const Discord  = require("discord.js");
 const { stripIndents } = require("common-tags");
-const { setadm, setmd, setch, setms, setapr, setcmd, setreports, user_ready } = require("../../functions/setupfunctions.js");
-const { getAdmin, getMod, getChnl, getMsg, getapproved, getstartcmd, getreportschannel } = require("../../functions/functions.js");
+const { setadm, setmd, setch, setms, setapr, setcmd, setreports, user_ready, setautomatic_approved } = require("../../functions/setupfunctions.js");
+const { getAdmin, getMod, getChnl, getMsg, getapproved, getstartcmd, getreportschannel, getautoapproved } = require("../../functions/functions.js");
 
 
 module.exports = {
@@ -25,7 +25,9 @@ module.exports = {
         var ms2;
         var apr2;
         var cmd2;
-        var rpt2;        
+        var rpt2; 
+        var setimmediatly;   
+        var bolean;    
         
         
 
@@ -56,18 +58,33 @@ module.exports = {
         if (ch2) {
             ms2 = await setms(message, con);
         }
-        //set approved role
-        if (ms2) {
-            apr2 = await setapr(message, con);
+        //set approved immediatly
+        if (ms2){
+            setimmediatly = await setautomatic_approved(message, con);
         }
-        //set approving command
-        if (apr2) {
-            cmd2 = await setcmd(message, con);
+        if (setimmediatly) {
+            //set approved role
+            if (setimmediatly) {
+                apr2 = await setapr(message, con);
+            }
+            if (apr2) {
+                rpt2 = await setreports(message, con);
+            }
+        } else {   
+            //set approved role
+            if (setimmediatly) {
+                apr2 = await setapr(message, con);
+            }         
+            //set approving command
+            if (apr2) {
+                cmd2 = await setcmd(message, con);
+            }
+            //set report channel
+            if (cmd2) {
+                rpt2 = await setreports(message, con);
+            }  
         }
-        //set report channel
-        if (cmd2) {
-            rpt2 = await setreports(message, con);
-        }
+        
         
         if (rpt2) {            
             const admin2 = await getAdmin(message, con);
@@ -75,6 +92,7 @@ module.exports = {
             const welcomechannel2 = await getChnl(member, con);
             const approvedrole2 = await getapproved(member, con);
             const reportschannel2 = await getreportschannel(message, con);
+            bolean = await getautoapproved(member, con);
             admin = message.guild.roles.cache.find(r => r.id === admin2);
             moderator = message.guild.roles.cache.find(r => r.id === moderator2);
             welcomechannel = message.guild.channels.cache.find(c => c.id === welcomechannel2);
@@ -82,6 +100,10 @@ module.exports = {
             approvedrole = message.guild.roles.cache.find(r => r.id === approvedrole2);
             startcmd = await getstartcmd(message, con);
             reportschannel = message.guild.channels.cache.find(c => c.id === reportschannel2);
+        }
+
+        if (bolean === "true") {
+            startcmd = "Members get role automatically"
         }
 
         const embed2 = new Discord.MessageEmbed()

@@ -1,4 +1,5 @@
 {
     "token": "Your Bot token here",
-    "password": "Your MySQL root password here"
+    "password": "Your MySQL root password here",
+    "apikey_inara": "your token here"
 }
