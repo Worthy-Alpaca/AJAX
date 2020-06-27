@@ -44,6 +44,7 @@ module.exports = {
             .setColor(member.displayHexColor === "#000000" ? "#ffffff" : member.displayHexColor)
             .setTimestamp()
             .setDescription(`This command allows me to get everything I need to work. 
+            Please **always** mention the role or channel i.e. #channel, @role
             The following is required:`)
             .addField(`\u200b`, stripIndents`- Administrator role
             - Moderator role 
