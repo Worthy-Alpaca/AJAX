@@ -267,9 +267,10 @@ module.exports = {
         })
     }, 
 
-    user_ready: function(message) {
+    user_ready: function(message, embed2) {        
+            
         return new Promise(function(resolve, reject) {
-            message.channel.send("With this command you will set up the entire server. It needs the Administrator, Moderator and approved member Roles, the welcome channel and message as well as the command for approving new members and a channel for your report filings. All of this can be changed afterwards. Ready? (y/n)").then(() => {
+            message.channel.send(embed2).then(() => {
                 const filter = m => message.author.id === m.author.id;
                 var rdy;
                 message.channel.awaitMessages(filter, { time: 240000, max: 1, errors: ['time'] })
