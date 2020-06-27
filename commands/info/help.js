@@ -56,12 +56,12 @@ function getAll(client, message, perms) {
             if (perms === "author") {
                 return client.commands
                     .filter(cmd => cmd.category === category)
-                    .map(cmd => `- \`${prefix}${cmd.name}\`=> \`${cmd.description}\``)
+                    .map(cmd => `- \`${prefix}${cmd.name}\` => \`${cmd.description}\``)
                     .join("\n");
             } else { 
                 return client.commands
                     .filter(cmd => cmd.category === category && cmd.permission.includes(perms))
-                    .map(cmd => `- \`${prefix}${cmd.name}\`=> \`${cmd.description}\``)
+                    .map(cmd => `- \`${prefix}${cmd.name}\` => \`${cmd.description}\``)
                     .join("\n");
             }
         }
