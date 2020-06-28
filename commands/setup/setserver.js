@@ -39,9 +39,26 @@ module.exports = {
             Hopefully nothing broke :sweat_smile:
             If you wish to change any of this in the future, you can use one of the other commands in the \`setup\` category.`)
         
+        //starting message
+        const embed2 = new Discord.MessageEmbed()
+            .setColor(member.displayHexColor === "#000000" ? "#ffffff" : member.displayHexColor)
+            .setTimestamp()
+            .setDescription(`This command allows me to get everything I need to work. 
+            Please **always** mention the role or channel i.e. #channel, @role
+            The following is required:`)
+            .addField(`\u200b`, stripIndents`- Administrator role
+            - Moderator role 
+            - approved member role`, true)
+            .addField(`\u200b`, stripIndents`- Welcome channel
+            - Welcome message`, true)
+            .addField(`\u200b`, stripIndents`- Command to approve new members
+            - channel for your report filings`, true)
+            .addField(`\u200b`, stripIndents`All of this can be changed afterwards.
+            **Ready?** (y/n)`);
+        
         
         //getting user ready
-        const rdy = await user_ready(message);
+        const rdy = await user_ready(message, embed2);
         //set admin role  
         if (rdy) {
             adm2 = await setadm(message, con);
@@ -103,10 +120,10 @@ module.exports = {
         }
 
         if (bolean === "true") {
-            startcmd = "Members get role automatically"
+            startcmd = "Members are approved automatically"
         }
 
-        const embed2 = new Discord.MessageEmbed()
+        const embed3 = new Discord.MessageEmbed()
             .setColor(member.displayHexColor === "#000000" ? "#ffffff" : member.displayHexColor)
             .setTimestamp()
             .setThumbnail(guild.iconURL())
@@ -129,7 +146,7 @@ module.exports = {
         if (rpt2) {
             message.channel.bulkDelete(14, true)
                 .then(message.channel.send(embed))
-                .then(message.channel.send(embed2));
+                .then(message.channel.send(embed3));
         }
         
 

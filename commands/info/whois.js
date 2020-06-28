@@ -12,11 +12,11 @@ module.exports = {
     usage: "[username | id, | mention]",
 
     run: async (client, message, args, con) => {
-        const member = getMember(message, args.join(" "));
+        const member = message.mentions.members.first() || message.member;
 
         //member variables
         const joined = formatDate(member.joinedAt);
-        const roles = member.roles
+        const roles = member.roles.cache
             .filter(r => r.id !== message.guild.id)
             .map(r => r)
             .join(", ") || "none";
