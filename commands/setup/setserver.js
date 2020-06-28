@@ -120,7 +120,7 @@ module.exports = {
         }
 
         if (bolean === "true") {
-            startcmd = "Members get role automatically"
+            startcmd = "Members are approved automatically"
         }
 
         const embed3 = new Discord.MessageEmbed()
