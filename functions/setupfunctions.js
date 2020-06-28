@@ -297,10 +297,9 @@ module.exports = {
                 let sql;
                 message.channel.awaitMessages(filter, { time: 120000, max: 1, errors: ['time']})
                     .then(messages => {
-                        answer = messages.first().content.toLowerCase();
-                        msg = message.channel.send(`You've entered: \`${answer}\``).then(m => m.delete( {timeout: 5000} ));
+                        answer = messages.first().content.toLowerCase();                        
 
-                        if (answer === "y") {
+                        if (answer === "y") {                            
                             ch = true;
                             sql = `UPDATE servers SET auto_approved = 'true' WHERE id = '${message.guild.id}'`;
                         } else {
