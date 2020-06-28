@@ -14,6 +14,8 @@
 ## Information
 
 - !about => Gives information about the bot and the server
+- !addrank => Adds a rank to the database
+- !delrank => Deletes a rank from the database
 - !help => Returns all commands, or one specific command info
 - !infractions => Tells you how often you have been reported
 - !rank => Applies the given rank
