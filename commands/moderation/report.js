@@ -81,13 +81,23 @@ module.exports = {
             .setColor("#ff0000")
             .setTimestamp()
             .setFooter(message.guild.name, message.guild.iconURL)
-            .setAuthor(`Reported Member`, rMember.user.displayAvatarURL())
-            .setDescription(stripIndents`**> Member:** ${rMember} (${rMember.id})
+            .setAuthor(`Reported Member`, rMember.user.displayAvatarURL());            
+
+        if (args[0] === "good") {            
+            embed.setDescription(stripIndents`**> Member:** ${rMember} (${rMember.id})
+            > Behavior: ${behavior2}
+            **> Reported by:** ${message.member} (${message.member.id})
+            > Reported in: ${message.channel}
+            **> Reason:** ${args.slice(2).join(" ")}
+            > Current Infractions: \`${infractions}\``);
+        } else {
+            embed.setDescription(stripIndents`**> Member:** ${rMember} (${rMember.id})
             > Behavior: ${behavior2}
             **> Reported by:** ${message.member} (${message.member.id})
             > Reported in: ${message.channel}
             **> Reason:** ${args.slice(2).join(" ")}
             > Current Infractions: \`${infractions + 1}\``);
+        }
 
         if (infractions+1 >= kick_limit && infractions+1 < ban_limit) {
             rMember.kick(`Reported infractions have reached ${kick_limit}`)

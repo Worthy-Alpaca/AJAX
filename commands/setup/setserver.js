@@ -80,18 +80,16 @@ module.exports = {
             setimmediatly = await setautomatic_approved(message, con);
         }
         if (setimmediatly) {
-            //set approved role
-            if (setimmediatly) {
-                apr2 = await setapr(message, con);
-            }
+            //set approved role            
+            apr2 = await setapr(message, con);
+            
             if (apr2) {
                 rpt2 = await setreports(message, con);
             }
         } else {   
-            //set approved role
-            if (setimmediatly) {
-                apr2 = await setapr(message, con);
-            }         
+            //set approved role            
+            apr2 = await setapr(message, con);
+                
             //set approving command
             if (apr2) {
                 cmd2 = await setcmd(message, con);

@@ -97,9 +97,9 @@ client.on("guildCreate", guild => {
     .setTimestamp()
     .setFooter(`Version: ${version}`)
     .setThumbnail(client.user.displayAvatarURL())
-    .setDescription(stripIndents`Hello there I'm ${client.user.username}`)
-    .addField(`\u200b`, stripIndents`You should run !setserver to set everything up.
-    See !help for all of my commands. Enjoy :grin:`)
+    .setDescription(stripIndents`**Hello there I'm ${client.user.username}**`)
+    .addField(`\u200b`, stripIndents`You should run **!setserver** to set everything up.
+    See [!help](https://github.com/Worthy-Alpaca/AJAX/blob/develop/MY_COMMANDS.md) for all of my commands. Enjoy :grin:`)
     .addField(`\u200b`, stripIndents`If you have any issues please report them [here.](${bugs.url})`)
 
   //checking for systemmessage channel

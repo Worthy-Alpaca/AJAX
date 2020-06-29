@@ -9,9 +9,10 @@ module.exports = {
     run: async (client, message, args, con) => {
 
         
-        const channel = message.guild.channels.cache.find(channel => channel.name === "memes");
-        if (!channel)
-            return;
+        var channel = message.guild.channels.cache.find(channel => channel.name === "memes");
+        if (!channel) {
+            channel = message.channel;
+        }
 
         if (message.deletable) message.delete();
         // In this array, 
