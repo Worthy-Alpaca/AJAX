@@ -83,9 +83,5 @@ module.exports = {
                 return channel.send(embed).catch();
             })
         }
-                
-
-        
-               
     }
 }
