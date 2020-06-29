@@ -17,7 +17,7 @@ module.exports = {
                             var channel2 = message.guild.roles.cache.find(r => r.name === chnl.join(""));                        
                             var admin = channel2.id;                                  
                         }
-                        msg = message.channel.send(`You've entered: \`${admin}\``).then(m => m.delete( {timeout: 5000} ));
+                        msg = message.channel.send(`You've entered: \`${message.guild.roles.cache.find(r => r.id === admin).name}\``).then(m => m.delete( {timeout: 5000} ));
                         con.query(`SELECT * FROM servers WHERE id = '${message.guild.id}'`, (err, rows) => {
                             let sql;
 
@@ -53,7 +53,7 @@ module.exports = {
                             var channel2 = message.guild.roles.cache.find(r => r.name === chnl.join(""));                        
                             var moderator = channel2.id;                                  
                         }
-                        msg = message.channel.send(`You've entered: \`${moderator}\``).then(m => m.delete( {timeout: 5000} ));
+                        msg = message.channel.send(`You've entered: \`${message.guild.roles.cache.find(r => r.id === moderator).name}\``).then(m => m.delete( {timeout: 5000} ));
                         con.query(`SELECT * FROM servers WHERE id = '${message.guild.id}'`, (err, rows) => {
                             let sql;
     
@@ -90,7 +90,7 @@ module.exports = {
                             var channel = channel2.id;                                  
                         }        
                                                
-                        message.channel.send(`You've entered: \`${channel}\``).then(m => m.delete( {timeout: 5000} ));
+                        message.channel.send(`You've entered: \`${message.guild.channels.cache.find(r => r.id === channel).name}\``).then(m => m.delete( {timeout: 5000} ));
                         con.query(`SELECT * FROM servers WHERE id = '${message.guild.id}'`, (err, rows) => {
                             let sql;
                             sql = `UPDATE servers SET channel = '${channel}' WHERE id = '${message.guild.id}'`;
@@ -153,7 +153,7 @@ module.exports = {
                             var channel2 = message.guild.roles.cache.find(r => r.name === chnl.join(""));                        
                             var approved = channel2.id;                                  
                         }
-                        msg = message.channel.send(`You've entered: \`${approved}\``).then(m => m.delete( {timeout: 5000} ));
+                        msg = message.channel.send(`You've entered: \`${message.guild.roles.cache.find(r => r.id === approved).name}\``).then(m => m.delete( {timeout: 5000} ));
                         con.query(`SELECT * FROM servers WHERE id = '${message.guild.id}'`, (err, rows) => {
                             let sql;
     
@@ -250,7 +250,7 @@ module.exports = {
                             var channel = channel2.id;                                  
                         }        
                                                
-                        message.channel.send(`You've entered: \`${channel}\``).then(m => m.delete( {timeout: 5000} ));
+                        message.channel.send(`You've entered: \`${message.guild.channels.cache.find(r => r.id === channel).name}\``).then(m => m.delete( {timeout: 5000} ));
                         con.query(`SELECT * FROM servers WHERE id = '${message.guild.id}'`, (err, rows) => {
                             let sql;
                             sql = `UPDATE servers SET reports = '${channel}' WHERE id = '${message.guild.id}'`;
