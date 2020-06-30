@@ -6,7 +6,7 @@ const { stripIndents } = require("common-tags");
 
 
 module.exports = {
-    name: "elite",
+    name: "edsystem",
     category: "fun",
     permission: ["none", "moderator", "admin"],
     description: "Displays information about a system",
@@ -55,6 +55,7 @@ module.exports = {
         var landables = [];
         var nonlandables = [];
         var stars = [];
+        var services = [];
         var permit;
         var uninhabitated;
         var thumbnail;
@@ -97,7 +98,25 @@ module.exports = {
             }
         })
 
-        response2.stations.forEach(function (stations) {
+        response2.stations.forEach(function (stations) {            
+            if (stations.government === "Workshop (Engineer)") {
+                services.push(`Has engineer *${stations.controllingFaction.name}*`)
+            }
+            if (stations.otherServices.includes("Interstellar Factors Contact")) {
+                if (!services.includes("Interstellar Factors Contact")) {
+                    services.push("Interstellar Factors Contact")
+                }             
+            }
+            if (stations.otherServices.includes("Material Trader")) {
+                if (!services.includes("Material Trader")) {
+                    services.push("Material Trader")
+                }
+            }
+            if (stations.otherServices.includes("Technology Broker")) {
+                if (!services.includes("Technology Broker")) {
+                    services.push("Technology Broker")
+                }
+            }
             if (stations.type === "Orbis Starport") {
                 info = `${stations.name}  (${Math.round(stations.distanceToArrival)} ls)`
                 station.push(info)
@@ -132,7 +151,8 @@ module.exports = {
             **Government:** ${response4.information.government} 
             **State:** ${response4.information.factionState}
             **Allegiance:** ${response4.information.allegiance} 
-            **Population:** ${response4.information.population}`)
+            **Population:** ${response4.information.population}
+            **Noteable services:** ${services.join(", ")}`)
             .addField(`\u200b`, stripIndents`**Main Star** 
             Star Class: ${response1.bodies[0].subType}
             Scoopable: ${response1.bodies[0].isScoopable}`, true)
