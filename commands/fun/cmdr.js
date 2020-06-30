@@ -32,18 +32,26 @@ module.exports = {
             },            
         ] };
         
-        fetch('https://inara.cz/inapi/v1/', {
+        const commander = await fetch('https://inara.cz/inapi/v1/', {
             method: 'POST', // or 'PUT'            
             body: JSON.stringify(data),
+        }).then(function (response) {
+            return response.json();
         })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Success:', data);
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
         
+        const embed = new Discord.MessageEmbed()
+            .setColor('RANDOM')
+            .setFooter('INARA profile')
+            .setTitle(commander.eventData.commanderName)
+            .setDescription(`**Ranks**`)
+            .addField(`\u200b`, stripIndents`Combat: 
+            Trade:
+            Exploration:
+            CQC:`, true)
+            .addField(`\u200b`, stripIndents`Empire:
+            Federation:`, true);
+
+        return message.channel.send(embed);
       
     }
    }
