@@ -27,6 +27,7 @@
 ## Fun stuff
 
 - !cat => Sends a random cat
+- !edcmdr => Gets CMDR stats from INARA
 - !edsystem => Displays information about a system
 - !love => Calculates the love affinity you have for another person.
 - !meme => Sends an epic meme

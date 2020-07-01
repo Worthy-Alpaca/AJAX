@@ -5,10 +5,10 @@ const { version } = require("../../src/config.json");
 const { apikey_inara } =require("../../src/config.json");
 
 module.exports = {
-    name: "cmdr",
+    name: "edcmdr",
     category: "fun",
     permission: ["none", "moderator", "admin"],
-    description: "Gets CMDR stats from inara",
+    description: "Gets CMDR stats from INARA",
     descriptionlong: "Gets your CMDR stats from inara. If you don't provide a name I'll try your discord name.",
     usage: "[Commander name]",
     run: async (client, message, args, con) => {

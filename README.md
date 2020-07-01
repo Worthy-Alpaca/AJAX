@@ -5,7 +5,7 @@
 [![MySQL](https://img.shields.io/badge/MySQL-v.8.0-9cf)](https://www.mysql.com/)
 ![requirements](https://img.shields.io/badge/requirements-up%20to%20date-brightgreen)
 
-AJAX is a discord moderation bot that also has an EDSM API connection so you can use it for Elite: Dangerous servers.
+AJAX is a discord moderation bot that also has an EDSM and INARA API connection so you can use it for Elite: Dangerous servers.
 
 > As this project is under heavy development, I cannot offer support at this time.  However, please do report bugs or issues on my little project [here.](https://github.com/Worthy-Alpaca/AJAX/issues)
 
