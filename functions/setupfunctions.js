@@ -299,10 +299,12 @@ module.exports = {
                     .then(messages => {
                         answer = messages.first().content.toLowerCase();                        
 
-                        if (answer === "y") {                            
+                        if (answer === "y") { 
+                            message.channel.send(`New members \`will\` receive approved role automatically`)                           
                             ch = true;
                             sql = `UPDATE servers SET auto_approved = 'true' WHERE id = '${message.guild.id}'`;
                         } else {
+                            message.channel.send(`New members \`will not\` receive approved role automatically`)
                             ch = false;
                             sql = `UPDATE servers SET auto_approved = 'false' WHERE id = '${message.guild.id}'`;
                         } 
