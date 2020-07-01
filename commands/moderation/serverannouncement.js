@@ -8,7 +8,7 @@ module.exports = {
     category: "moderation",
     permission: ["null"],
     description: "Sends a message to all servers",
-    usage: "<message>",
+    usage: "[list|server id], <message>",
     run: async (client, message, args, con) => {
         message.delete();
         //console.log(client.guilds)
