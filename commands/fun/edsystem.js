@@ -140,7 +140,7 @@ module.exports = {
 
         const embed = new Discord.MessageEmbed()
             .setColor('RANDOM')
-            .setFooter('EDSM Database')
+            .setFooter('EDSM Database', 'https://www.edsm.net/img/miniLogo.svg')
             .setTimestamp()
             .attachFiles([`./assets/elite/${thumbnail}`])
             .setThumbnail(`attachment://${thumbnail}`)
