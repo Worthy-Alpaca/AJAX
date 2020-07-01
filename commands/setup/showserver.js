@@ -1,6 +1,6 @@
 const Discord  = require("discord.js");
 const { stripIndents } = require("common-tags");
-const { getAdmin, getMod, getChnl, getMsg, getapproved, getstartcmd, getreportschannel, getautoapproved } = require("../../functions/functions.js");
+const { getAdmin, getMod, getChnl, getMsg, getapproved, getstartcmd, getreportschannel, getautoapproved, getservergreeting } = require("../../functions/functions.js");
 
 module.exports = {
     name: "showserver",
@@ -24,6 +24,7 @@ module.exports = {
         const moderator = message.guild.roles.cache.find(r => r.id === moderator2);
         const welcomechannel = message.guild.channels.cache.find(c => c.id === welcomechannel2);
         const welcomemessage = await getMsg(member, con);
+        const servergreeting = await getservergreeting(member, con);
         const approvedrole = message.guild.roles.cache.find(r => r.id === approvedrole2);
         var startcmd = await getstartcmd(message, con);
         reportschannel = message.guild.channels.cache.find(c => c.id === reportschannel2);
@@ -47,6 +48,8 @@ module.exports = {
             ${welcomechannel}`, true)
             .addField(`\u200b`, stripIndents`**Welcome message**
             ${welcomemessage}`)
+            .addField(`\u200b`, stripIndents`**Servergreeting**
+            ${servergreeting}`)
             .addField(`\u200b`, stripIndents`**Role for approved members**
             ${approvedrole}`, true)
             .addField(`\u200b`, stripIndents`**command for approving new members**

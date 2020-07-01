@@ -45,5 +45,6 @@
 - !setmod => Set the moderator role
 - !setreports => Set the reports channel
 - !setserver => Set up the entire server
+- !setservergreeting => Sets the message that is to be displayed to the rest of the server
 - !setstartcmd => Set the approving command
 - !showserver => Shows the server setup result

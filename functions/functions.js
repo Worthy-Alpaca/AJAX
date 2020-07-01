@@ -258,6 +258,16 @@ module.exports = {
                 resolve(bolean);
             })
         })
+    },
+
+    getservergreeting: function (member, con) {
+        var msg
+        return new Promise(function (resolve, reject) {
+            con.query(`SELECT * FROM servers WHERE id = '${member.guild.id}'`, (err, rows) => {
+                msg = rows[0].server_greeting;
+                resolve(msg);
+            })
+        })
     }
 
     
