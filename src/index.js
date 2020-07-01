@@ -5,7 +5,6 @@ const fs = require("fs");
 const Discord = require("discord.js")
 const { stripIndents } = require("common-tags");
 const { promptMessage, getChnl, getMsg, getapproved, getapproved2, getservergreeting, getstartcmd, getreportschannel, getautoapproved } = require("../functions/functions.js");
-const { answers, replies, asks, help, positive, sassy, robot } = require("./answers.json");
 const usersMap = new Map();
 const mysql = require("mysql");
 const { bugs } = require("../package.json")
