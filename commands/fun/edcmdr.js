@@ -3,7 +3,7 @@ const fetch = require('node-fetch');
 const { stripIndents } = require("common-tags");
 const { version } = require("../../src/config.json");
 const { apikey_inara } =require("../../src/config.json");
-const { combat, explo, trade, cqc, empire, fedaration } = require("../../assets/elite/ranks.json");
+const { combat, exploration, trade, cqc, empire, fedaration } = require("../../assets/elite/ranks.json");
 
 module.exports = {
     name: "edcmdr",
@@ -52,7 +52,7 @@ module.exports = {
             } else if (rankName === "trade") {
                 return rnk = trade[rankValue];
             } else if (rankName === "exploration") {
-                return rnk = explo[rankValue];
+                return rnk = exploration[rankValue];
             } else if ( rankName === "cqc") {
                 return rnk = cqc[rankValue];
             } else if ( rankName === "empire") {
@@ -83,7 +83,7 @@ module.exports = {
         API_ranks.forEach(function (rank) {
             ranks.push(getrank(rank.rankName, rank.rankValue))
         })
-
+        
         const embed = new Discord.MessageEmbed()
             .setColor('RANDOM')
             .setTimestamp()
@@ -94,8 +94,8 @@ module.exports = {
             .setDescription(`**Profile**`)
             .addField(`\u200b`, stripIndents`**Ranks**
                     Combat: ${ranks[0]}
-                    Trade: ${ranks[2]}
-                    Exploration: ${ranks[1]}
+                    Trade: ${ranks[1]}
+                    Exploration: ${ranks[2]}
                     CQC: ${ranks[3]}`, true)
             .addField(`\u200b`, stripIndents`**Reputation**
                     Empire: ${ranks[4]}

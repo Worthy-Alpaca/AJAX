@@ -10,7 +10,7 @@
         "Deadly",
         "Elite"
     ],
-    "explo": [
+    "trade": [
         "Penniless",
         "Mostly Penniless",
         "Peddler",
@@ -21,7 +21,7 @@
         "Tycoon",
         "Elite"
     ],
-    "trade": [
+    "exploration": [
         "Aimless",
         "Mostly Aimless",
         "Scout",
