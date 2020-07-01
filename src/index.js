@@ -4,7 +4,7 @@ const { token, password } = require('../token.json');
 const fs = require("fs");
 const Discord = require("discord.js")
 const { stripIndents } = require("common-tags");
-const { promptMessage, getChnl, getMsg, getapproved, getapproved2, getMember, getstartcmd, getreportschannel, getautoapproved } = require("../functions/functions.js");
+const { promptMessage, getChnl, getMsg, getapproved, getapproved2, getservergreeting, getstartcmd, getreportschannel, getautoapproved } = require("../functions/functions.js");
 const { answers, replies, asks, help, positive, sassy, robot } = require("./answers.json");
 const usersMap = new Map();
 const mysql = require("mysql");
@@ -40,7 +40,7 @@ var con = mysql.createConnection({
 con.connect(err => {
   if (err) throw err;
   console.log("Connected to Database");
-  con.query("CREATE TABLE IF NOT EXISTS servers(id VARCHAR(20) NOT NULL UNIQUE, name TEXT NOT NULL, admin TEXT, moderator TEXT, greeting VARCHAR(512) CHARACTER SET utf8 COLLATE utf8_unicode_ci, channel TEXT, approved TEXT, startcmd TEXT, reports TEXT, auto_approved TEXT) CHARACTER SET utf8 COLLATE utf8_unicode_ci;")
+  con.query("CREATE TABLE IF NOT EXISTS servers(id VARCHAR(20) NOT NULL UNIQUE, name TEXT NOT NULL, admin TEXT, moderator TEXT, greeting VARCHAR(512) CHARACTER SET utf8 COLLATE utf8_unicode_ci, channel TEXT, approved TEXT, startcmd TEXT, reports TEXT, auto_approved TEXT, server_greeting TEXT) CHARACTER SET utf8 COLLATE utf8_unicode_ci;")
   con.query("CREATE TABLE IF NOT EXISTS ranks(rank_id VARCHAR(20) NOT NULL UNIQUE, server_id VARCHAR(20) NOT NULL, rank_name TEXT NOT NULL);")
 })
 
@@ -160,7 +160,10 @@ client.on("guildMemberAdd", async member => {
   greeting = await getMsg(member, con);
   bolean = await getautoapproved(member, con);
   rl = await getapproved(member, con);
+  chnl = await getChnl(member, con);
   const role = member.guild.roles.cache.find(r => r.id === rl);
+  var msg = await getservergreeting(member, con);
+  var channel = member.guild.channels.cache.find(channel => channel.id === chnl);
 
   if (typeof greeting == 'undefined') {
     greeting = "Welcome to this generic server. The owner has not bothered with a custom welcome message so you get this one. :person_shrugging:"
@@ -168,8 +171,28 @@ client.on("guildMemberAdd", async member => {
     greeting = "Welcome to this generic server. The owner has not bothered with a custom welcome message so you get this one. :person_shrugging:"
   }
 
+  if (typeof channel == 'undefined') {
+    channel = member.guild.channels.cache.find(channel => channel.id === member.guild.systemChannelID);
+  } else if (channel === null) {
+    channel = member.guild.channels.cache.find(channel => channel.id === member.guild.systemChannelID);
+  }
+
   if (bolean === "true") {
     member.roles.add(role.id).catch(e => console.log(e.message));
+    if (msg === null) {
+      msg = "welcome to this generic server :grin:"
+    }
+    
+    const embed = new Discord.MessageEmbed()
+      .setColor("RANDOM")
+      .setTimestamp()
+      .setAuthor(`${member.displayName}, ${msg}`, member.user.displayAvatarURL());
+
+    client.users.fetch(member.id, false).then(user => {
+      user.send(`Welcome to **${member.guild.name}**. ${greeting}`)
+    })
+    
+    return channel.send(embed);
   }
 
   client.users.fetch(member.id, false).then(user => {
@@ -294,6 +317,7 @@ client.on("message", async message => {
     guild = member.guild;
     rl = await getapproved2(message, con);
     chnl = await getChnl(member, con);
+    var msg = await getservergreeting(member, con);
 
     const role = message.guild.roles.cache.find(r => r.id === rl);
     var channel = member.guild.channels.cache.find(channel => channel.id === chnl);
@@ -304,10 +328,14 @@ client.on("message", async message => {
       channel = member.guild.channels.cache.find(channel => channel.id === member.guild.systemChannelID);
     }
 
+    if (msg === null) {
+      msg = "welcome to this generic server :grin:"
+    }
+
     const embed = new Discord.MessageEmbed()
       .setColor("RANDOM")
       .setTimestamp()
-      .setAuthor(`Hooray, ${member.displayName} just joined our merry band of misfits`, member.user.displayAvatarURL())
+      .setAuthor(`${member.displayName}, ${msg}`, member.user.displayAvatarURL());
 
     message.member.roles.add(role.id).catch(e => console.log(e.message));
 

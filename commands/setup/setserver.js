@@ -1,7 +1,7 @@
 const Discord  = require("discord.js");
 const { stripIndents } = require("common-tags");
-const { setadm, setmd, setch, setms, setapr, setcmd, setreports, user_ready, setautomatic_approved } = require("../../functions/setupfunctions.js");
-const { getAdmin, getMod, getChnl, getMsg, getapproved, getstartcmd, getreportschannel, getautoapproved } = require("../../functions/functions.js");
+const { setadm, setmd, setch, setms, setapr, setcmd, setreports, user_ready, setautomatic_approved, setservergreeting } = require("../../functions/setupfunctions.js");
+const { getAdmin, getMod, getChnl, getMsg, getapproved, getstartcmd, getreportschannel, getautoapproved, getservergreeting } = require("../../functions/functions.js");
 
 
 module.exports = {
@@ -23,6 +23,7 @@ module.exports = {
         var md2;
         var ch2;
         var ms2;
+        var ms3;
         var apr2;
         var cmd2;
         var rpt2; 
@@ -50,11 +51,18 @@ module.exports = {
             - Moderator role 
             - approved member role`, true)
             .addField(`\u200b`, stripIndents`- Welcome channel
-            - Welcome message`, true)
+            - Welcome message
+            - Welcome message that is to be displayed to the entire server`, true)
             .addField(`\u200b`, stripIndents`- Command to approve new members
             - channel for your report filings`, true)
             .addField(`\u200b`, stripIndents`All of this can be changed afterwards.
             **Ready?** (y/n)`);
+        
+        const embed4 = new Discord.MessageEmbed()
+            .setColor(member.displayHexColor === "#000000" ? "#ffffff" : member.displayHexColor)
+            .setTimestamp()
+            .setDescription(`Please enter the greeting that is to be displayed to the server.`)
+            .addField(`**Example**`, stripIndents`<Member> [Your message here]`);
         
         
         //getting user ready
@@ -75,8 +83,12 @@ module.exports = {
         if (ch2) {
             ms2 = await setms(message, con);
         }
+        //set server welcome message
+        if (ms2) {
+            ms3 = await setservergreeting(message, con, embed4);
+        }
         //set approved immediatly
-        if (ms2){
+        if (ms3){
             setimmediatly = await setautomatic_approved(message, con);
         }
         if (setimmediatly) {
@@ -112,6 +124,7 @@ module.exports = {
             moderator = message.guild.roles.cache.find(r => r.id === moderator2);
             welcomechannel = message.guild.channels.cache.find(c => c.id === welcomechannel2);
             welcomemessage = await getMsg(member, con);
+            servergreeting = await getservergreeting(member, con);
             approvedrole = message.guild.roles.cache.find(r => r.id === approvedrole2);
             startcmd = await getstartcmd(message, con);
             reportschannel = message.guild.channels.cache.find(c => c.id === reportschannel2);
@@ -134,6 +147,8 @@ module.exports = {
             ${welcomechannel}`, true)
             .addField(`\u200b`, stripIndents`**Welcome message**
             ${welcomemessage}`)
+            .addField(`\u200b`, stripIndents`**Servergreeting message**
+            ${servergreeting}`)
             .addField(`\u200b`, stripIndents`**Role for approved members**
             ${approvedrole}`, true)
             .addField(`\u200b`, stripIndents`**Command for approving new members**
