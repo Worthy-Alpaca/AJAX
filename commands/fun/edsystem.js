@@ -138,6 +138,10 @@ module.exports = {
             }
         })
 
+        if (!services.length) {
+            services.push("None")
+        }
+
         const embed = new Discord.MessageEmbed()
             .setColor('RANDOM')
             .setFooter('EDSM Database', 'https://www.edsm.net/img/guilds/1.png?v=1545042798')
