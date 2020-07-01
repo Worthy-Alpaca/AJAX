@@ -3,12 +3,13 @@ const fetch = require('node-fetch');
 const { stripIndents } = require("common-tags");
 const { version } = require("../../src/config.json");
 const { apikey_inara } =require("../../src/config.json");
+const { combat, exploration, trade, cqc, empire, fedaration } = require("../../assets/elite/ranks.json");
 
 module.exports = {
-    name: "cmdr",
+    name: "edcmdr",
     category: "fun",
     permission: ["none", "moderator", "admin"],
-    description: "Gets CMDR stats from inara",
+    description: "Gets CMDR stats from INARA",
     descriptionlong: "Gets your CMDR stats from inara. If you don't provide a name I'll try your discord name.",
     usage: "[Commander name]",
     run: async (client, message, args, con) => {
@@ -22,13 +23,7 @@ module.exports = {
         }
 
         var date = new Date();
-        var timestamp = date.getTime();
-        combat = ["Harmless", "Mostly Harmless", "Novice", "Competent", "Expert", "Master", "Dangerous", "Deadly", "Elite"];
-        explo = ["Penniless", "Mostly Penniless", "Peddler", "Dealer", "Merchant", "Broker", "Entrepreneur", "Tycoon", "Elite"];
-        trade = ["Aimless", "Mostly Aimless", "Scout", "Surveyor", "Trailblazer", "Pathfinder", "Ranger", "Pioneer", "Elite"];
-        cqc = ["Helpless", "Mostly Helpless", "Amateur", "Semi Professional", "Professional", "Champion", "Hero", "Legend", "Elite"];
-        empire = ["None", "Outsider", "Serf", "Master", "Squire", "Knight", "Lord", "Baron", "Viscount", "Count", "Marquis", "Marquis", "Duke", "Prince", "King",];
-        fedaration = ["None", "Recruit", "Cadet", "Midshipman", "Petty Officer", "Chief Petty Officer ", "Warrant Officer", "Ensign", "Lieutenant", "Lieutenant Commander", "Post Commander", "Post Captain", "Rear Admiral", "Vice Admiral", "Admiral",]
+        var timestamp = date.getTime();        
         ranks = [];
 
         const data = { 
@@ -57,7 +52,7 @@ module.exports = {
             } else if (rankName === "trade") {
                 return rnk = trade[rankValue];
             } else if (rankName === "exploration") {
-                return rnk = explo[rankValue];
+                return rnk = exploration[rankValue];
             } else if ( rankName === "cqc") {
                 return rnk = cqc[rankValue];
             } else if ( rankName === "empire") {
@@ -88,7 +83,7 @@ module.exports = {
         API_ranks.forEach(function (rank) {
             ranks.push(getrank(rank.rankName, rank.rankValue))
         })
-
+        
         const embed = new Discord.MessageEmbed()
             .setColor('RANDOM')
             .setTimestamp()
@@ -99,8 +94,8 @@ module.exports = {
             .setDescription(`**Profile**`)
             .addField(`\u200b`, stripIndents`**Ranks**
                     Combat: ${ranks[0]}
-                    Trade: ${ranks[2]}
-                    Exploration: ${ranks[1]}
+                    Trade: ${ranks[1]}
+                    Exploration: ${ranks[2]}
                     CQC: ${ranks[3]}`, true)
             .addField(`\u200b`, stripIndents`**Reputation**
                     Empire: ${ranks[4]}
@@ -114,7 +109,7 @@ module.exports = {
             embed.addField(`\u200b`, stripIndents`**Squadron**
             [${squadron.squadronName}](${squadron.inaraURL})
             Current rank: ${squadron.squadronMemberRank}
-            ${squadron.squadronMemberCount} other Squadron members`);
+            ${squadron.squadronMembersCount} other Squadron members`);
         }
         
         return message.channel.send(embed);
