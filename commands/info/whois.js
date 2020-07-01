@@ -1,4 +1,3 @@
-const { getMember, formatDate } = require("../../functions/functions.js");
 const Discord  = require("discord.js");
 const { stripIndents } = require("common-tags");
 

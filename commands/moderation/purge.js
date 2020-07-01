@@ -1,6 +1,6 @@
 const Discord  = require("discord.js");
 const { stripIndents } = require("common-tags");
-const { getapproved2, getChnl } = require("../../functions/functions.js");
+const { getapproved2, getChnl } = require("../../functions/db_queries.js");
 
 
 module.exports = {

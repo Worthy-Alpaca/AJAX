@@ -1,7 +1,7 @@
 const { welcome_channel, version, status } = require("../../src/config.json");
 const Discord  = require("discord.js");
 const { stripIndents } = require("common-tags");
-const { exec } = require("child_process");
+
 
 module.exports = {
     name: "update",

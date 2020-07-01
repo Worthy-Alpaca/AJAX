@@ -1,6 +1,6 @@
 const Discord  = require("discord.js");
 const { stripIndents } = require("common-tags");
-const { getservers, getserverchannel } = require("../../functions/functions.js");
+const { getservers, getserverchannel } = require("../../functions/db_queries.js");
 const { version } = require("../../src/config.json");
 
 module.exports = {

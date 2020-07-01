@@ -1,7 +1,6 @@
 const Discord  = require("discord.js");
-const { getranks } = require("../../functions/functions.js");
+const { getranks } = require("../../functions/db_queries.js");
 const { stripIndents } = require("common-tags");
-const { get } = require("superagent");
 
 
 module.exports = {

@@ -1,5 +1,5 @@
 const Discord  = require("discord.js");
-const { getAdmin, delrank } = require("../../functions/functions.js");
+const { getAdmin, delrank } = require("../../functions/db_queries.js");
 const { stripIndents } = require("common-tags");
 
 module.exports = {

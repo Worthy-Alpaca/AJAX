@@ -1,7 +1,7 @@
 const Discord  = require("discord.js");
 const { stripIndents } = require("common-tags");
 const { version } = require("../../src/config.json");
-const { getapproved2 } = require("../../functions/functions.js");
+const { getapproved2 } = require("../../functions/db_queries.js");
 const { homepage, bugs } = require("../../package.json");
 
 

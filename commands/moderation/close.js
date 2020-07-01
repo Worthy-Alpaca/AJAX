@@ -1,4 +1,4 @@
-const { getAdmin, getMod } = require("../../functions/functions.js");
+const { getAdmin, getMod } = require("../../functions/db_queries.js");
 
 module.exports = {
     name: "close",

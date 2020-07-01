@@ -1,5 +1,5 @@
 const Discord  = require("discord.js");
-const { getMember } = require("../../functions/functions.js");
+
 
 module.exports = {
     name: "love",

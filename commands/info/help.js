@@ -1,7 +1,7 @@
 const Discord  = require("discord.js");
 const { stripIndents } = require("common-tags");
 const { prefix, version } = require("../../src/config.json");
-const {getAdmin, getMod} = require("../../functions/functions.js");
+const {getAdmin, getMod} = require("../../functions/db_queries.js");
 const cat = require("../fun/cat");
 
 module.exports = {
