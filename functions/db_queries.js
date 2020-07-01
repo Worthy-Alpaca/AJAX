@@ -198,7 +198,7 @@ module.exports = {
         return new Promise(function(resolve, reject) {
             con.query(`SELECT * FROM servers`, (err, rows) => {
                 if (rows.length < 1) {
-                    name = "No ranks on this server yet. Do you have suggestions for ranks? Contact the admin nearest to you."
+                    name = "I'm not deployed on any servers :frowning2:"
                     ranks.push(name)
                     resolve(ranks)
                 } else {
