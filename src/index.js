@@ -92,13 +92,15 @@ client.on("guildCreate", guild => {
 
   channel = guild.channels.cache.find(channel => channel.id === guild.systemChannelID);
 
+  guild.channels.create('bot-setup');
+
   const embed = new Discord.MessageEmbed()
     .setColor("RANDOM")
     .setTimestamp()
     .setFooter(`Version: ${version}`)
     .setThumbnail(client.user.displayAvatarURL())
     .setDescription(stripIndents`**Hello there I'm ${client.user.username}**`)
-    .addField(`\u200b`, stripIndents`You should run **!setserver** to set everything up.
+    .addField(`\u200b`, stripIndents`I have created #bot-setup for you to run **!setserver** in order set everything up.
     See [!help](https://github.com/Worthy-Alpaca/AJAX/blob/develop/MY_COMMANDS.md) for all of my commands. Enjoy :grin:`)
     .addField(`\u200b`, stripIndents`If you have any issues please report them [here.](${bugs.url})`)
 

@@ -14,11 +14,14 @@ module.exports = {
         if (!message.member.hasPermission("ADMINISTRATOR")){
             return message.reply("You are not powerfull enough to do that");
         }     
+
+        
         
         
         //declaring stuff
         const member = message.member;
-        const guild = message.member.guild;          
+        const guild = message.member.guild;   
+        const delchannel = message.guild.channels.cache.find(channel => channel.name === "bot-setup");       
         var adm2;                 
         var md2;
         var ch2;
@@ -157,10 +160,12 @@ module.exports = {
             .addField(`\u200b`, stripIndents`**Channel for your reports**
             ${reportschannel}`, true);
 
-        if (rpt2) {
-            message.channel.bulkDelete(14, true)
-                .then(message.channel.send(embed))
-                .then(message.channel.send(embed3));
+        if (rpt2) {            
+            message.channel.send(embed)
+            message.channel.send(embed3)
+            setTimeout(() => {
+                delchannel.delete();
+            }, 120000);
         }
         
 
