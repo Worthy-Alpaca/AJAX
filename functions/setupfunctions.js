@@ -28,7 +28,7 @@ module.exports = {
                         })
                     })                    
                     .catch(() => {
-                        message.channel.send('You did not provide any input!').then(m => m.delete( {timeout: 5000} ));
+                        message.channel.send(`This role doesn't exist!`).then(m => m.delete( {timeout: 5000} ));
                     })
                     
             });
@@ -64,7 +64,7 @@ module.exports = {
                         })
                     })
                     .catch(() => {
-                        message.channel.send('You did not provide any input!');
+                        message.channel.send(`This role doesn't exist!`);
                     })
                       
             });
@@ -73,7 +73,7 @@ module.exports = {
 
     setch: function(message, con) {
         return new Promise(function(resolve, reject) {
-            message.channel.send('Please enter the greeting channel (please use with a tag, e.g. #channel)').then(() => {
+            message.channel.send('Please enter the greeting channel').then(() => {
                 const filter = m => message.author.id === m.author.id;
                 var ch;
                 
@@ -100,7 +100,7 @@ module.exports = {
                         })
                     })
                     .catch(() => {
-                        message.channel.send('You did not provide any input!');
+                        message.channel.send(`This channel doesn't exist!`);
                     })
                       
             });
@@ -111,7 +111,7 @@ module.exports = {
         return new Promise(function(resolve, reject) {
             
             
-            message.channel.send('Please enter the server greeting (currently no emoji support). This message will be sent to the new person in a PM.').then(() => {
+            message.channel.send('Welcome message that is to be displayed to the new member (currently no emoji support). This message will be sent to the new member in a PM.').then(() => {
                 const filter = m => message.author.id === m.author.id;
                 var ms;
             
@@ -164,7 +164,7 @@ module.exports = {
                         })
                     })
                     .catch(() => {
-                        message.channel.send('You did not provide any input!');
+                        message.channel.send(`This role doesn't exist!`);
                     })
                       
             });
@@ -260,7 +260,7 @@ module.exports = {
                         })
                     })
                     .catch(() => {
-                        message.channel.send('You did not provide any input!');
+                        message.channel.send(`This channel doesn't exist!`);
                     })
                       
             });
@@ -312,6 +312,9 @@ module.exports = {
                             resolve(ch);
                             return con.query(sql);
                         })
+                    })
+                    .catch(() => {
+                        message.channel.send('You did not provide any input!');
                     })
             })
         })

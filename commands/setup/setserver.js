@@ -45,13 +45,13 @@ module.exports = {
             .setColor(member.displayHexColor === "#000000" ? "#ffffff" : member.displayHexColor)
             .setTimestamp()
             .setDescription(`This command allows me to get everything I need to work. 
-            Please **always** mention the role or channel i.e. #channel, @role
-            The following is required:`)
+            To simplify please **always** mention the role or channel i.e. #channel, @role
+            The following is **required:**`)
             .addField(`\u200b`, stripIndents`- Administrator role
             - Moderator role 
             - approved member role`, true)
             .addField(`\u200b`, stripIndents`- Welcome channel
-            - Welcome message
+            - Welcome message that is to be displayed to the new member
             - Welcome message that is to be displayed to the entire server`, true)
             .addField(`\u200b`, stripIndents`- Command to approve new members
             - channel for your report filings`, true)
@@ -61,7 +61,8 @@ module.exports = {
         const embed4 = new Discord.MessageEmbed()
             .setColor(member.displayHexColor === "#000000" ? "#ffffff" : member.displayHexColor)
             .setTimestamp()
-            .setDescription(`Please enter the greeting that is to be displayed to the server.`)
+            .setDescription(`Please enter the greeting that is to be displayed to the server.
+            This message will be send into the welcome channel that you set earlier`)
             .addField(`**Example**`, stripIndents`<Member> [Your message here]`);
         
         
