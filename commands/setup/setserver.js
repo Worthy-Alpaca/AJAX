@@ -46,7 +46,7 @@ module.exports = {
             .setTimestamp()
             .setDescription(`This command allows me to get everything I need to work. 
             To simplify please **always** mention the role or channel i.e. #channel, @role
-            The following is **required:**`)
+            **The following is required:**`)
             .addField(`\u200b`, stripIndents`- Administrator role
             - Moderator role 
             - approved member role`, true)
