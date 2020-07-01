@@ -111,7 +111,7 @@ module.exports = {
         return new Promise(function(resolve, reject) {
             
             
-            message.channel.send('Please enter the server greeting (currently no emoji support)').then(() => {
+            message.channel.send('Please enter the server greeting (currently no emoji support). This message will be sent to the new person in a PM.').then(() => {
                 const filter = m => message.author.id === m.author.id;
                 var ms;
             
