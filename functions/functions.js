@@ -203,19 +203,36 @@ module.exports = {
     delrank: function(message, rank, con) {
         let sql;
         var success;
-        return new Promise(function(resolve,reject) {
-            con.query(`SELECT * FROM ranks WHERE server_id = '${message.guild.id}' AND rank_id = '${rank.id}'`, (err, rows) => {
-                if (rows.length < 1) {
-                    success = false;
-                    return resolve(success);
-                } else {
-                    sql = `DELETE FROM ranks WHERE server_id = '${message.guild.id}' AND rank_id = '${rank.id}'`
-                    success = true;
-                    resolve(success);
-                    return con.query(sql);
-                }
+        if  (Number.isInteger(+rank)) {
+            return new Promise(function (resolve, reject) {
+                con.query(`SELECT * FROM ranks WHERE server_id = '${message.guild.id}' AND rank_id = '${rank.id}'`, (err, rows) => {
+                    if (rows.length < 1) {
+                        success = false;
+                        return resolve(success);
+                    } else {
+                        sql = `DELETE FROM ranks WHERE server_id = '${message.guild.id}' AND rank_id = '${rank.id}'`
+                        success = true;
+                        resolve(success);
+                        return con.query(sql);
+                    }
+                })
             })
-        })
+        } else {
+            return new Promise(function (resolve, reject) {
+                con.query(`SELECT * FROM ranks WHERE server_id = '${message.guild.id}' AND rank_name = '${rank}'`, (err, rows) => {
+                    if (rows.length < 1) {
+                        success = false;
+                        return resolve(success);
+                    } else {
+                        sql = `DELETE FROM ranks WHERE server_id = '${message.guild.id}' AND rank_name = '${rank}'`
+                        success = true;
+                        resolve(success);
+                        return con.query(sql);
+                    }
+                })
+            })
+        }
+        
     },
 
     getservers: function(message, con) {
