@@ -2,7 +2,7 @@ const Discord = require("discord.js");
 const fetch = require('node-fetch');
 const { stripIndents } = require("common-tags");
 const { version } = require("../../src/config.json");
-const { apikey_inara } =require("../../token.json");
+const { apikey_inara } =require("../../src/config.json");
 
 module.exports = {
     name: "cmdr",
