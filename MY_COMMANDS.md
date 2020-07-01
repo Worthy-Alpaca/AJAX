@@ -27,7 +27,7 @@
 ## Fun stuff
 
 - !cat => Sends a random cat
-- !elite => Displays information about a system
+- !edsystem => Displays information about a system
 - !love => Calculates the love affinity you have for another person.
 - !meme => Sends an epic meme
 - !raid => Enables you to take part in the raid
