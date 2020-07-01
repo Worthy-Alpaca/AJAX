@@ -3,6 +3,7 @@ const fetch = require('node-fetch');
 const { stripIndents } = require("common-tags");
 const { version } = require("../../src/config.json");
 const { apikey_inara } =require("../../src/config.json");
+const { combat, explo, trade, cqc, empire, fedaration } = require("../../assets/elite/ranks.json");
 
 module.exports = {
     name: "edcmdr",
@@ -22,13 +23,7 @@ module.exports = {
         }
 
         var date = new Date();
-        var timestamp = date.getTime();
-        combat = ["Harmless", "Mostly Harmless", "Novice", "Competent", "Expert", "Master", "Dangerous", "Deadly", "Elite"];
-        explo = ["Penniless", "Mostly Penniless", "Peddler", "Dealer", "Merchant", "Broker", "Entrepreneur", "Tycoon", "Elite"];
-        trade = ["Aimless", "Mostly Aimless", "Scout", "Surveyor", "Trailblazer", "Pathfinder", "Ranger", "Pioneer", "Elite"];
-        cqc = ["Helpless", "Mostly Helpless", "Amateur", "Semi Professional", "Professional", "Champion", "Hero", "Legend", "Elite"];
-        empire = ["None", "Outsider", "Serf", "Master", "Squire", "Knight", "Lord", "Baron", "Viscount", "Count", "Marquis", "Marquis", "Duke", "Prince", "King",];
-        fedaration = ["None", "Recruit", "Cadet", "Midshipman", "Petty Officer", "Chief Petty Officer ", "Warrant Officer", "Ensign", "Lieutenant", "Lieutenant Commander", "Post Commander", "Post Captain", "Rear Admiral", "Vice Admiral", "Admiral",]
+        var timestamp = date.getTime();        
         ranks = [];
 
         const data = { 
