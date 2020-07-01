@@ -114,7 +114,7 @@ module.exports = {
             embed.addField(`\u200b`, stripIndents`**Squadron**
             [${squadron.squadronName}](${squadron.inaraURL})
             Current rank: ${squadron.squadronMemberRank}
-            ${squadron.squadronMemberCount} other Squadron members`);
+            ${squadron.squadronMembersCount} other Squadron members`);
         }
         
         return message.channel.send(embed);
