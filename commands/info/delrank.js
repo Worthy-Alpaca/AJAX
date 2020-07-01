@@ -23,7 +23,7 @@ module.exports = {
         if (!rank) {
             rank = args.slice(0).join(" ")
         }
-
+        console.log(rank.id)
         const done = await delrank(message, rank, con);
 
         if (done) {

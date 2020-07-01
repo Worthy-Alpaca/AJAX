@@ -203,7 +203,7 @@ module.exports = {
     delrank: function(message, rank, con) {
         let sql;
         var success;
-        if  (Number.isInteger(+rank)) {
+        if  (typeof rank.id != 'undefined') {            
             return new Promise(function (resolve, reject) {
                 con.query(`SELECT * FROM ranks WHERE server_id = '${message.guild.id}' AND rank_id = '${rank.id}'`, (err, rows) => {
                     if (rows.length < 1) {
