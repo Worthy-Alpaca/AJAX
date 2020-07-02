@@ -1,6 +1,6 @@
 const Discord  = require("discord.js");
 const { stripIndents } = require("common-tags");
-const { getAdmin, getMod, getChnl, getMsg, getapproved, getstartcmd, getreportschannel, getautoapproved, getservergreeting } = require("../../functions/db_queries.js");
+const { getAdmin, getMod, getChnl, getMsg, getapproved, getstartcmd, getreportschannel, getautoapproved, getservergreeting, getprefix } = require("../../functions/db_queries.js");
 
 module.exports = {
     name: "showserver",
@@ -29,6 +29,7 @@ module.exports = {
         var startcmd = await getstartcmd(message, con);
         reportschannel = message.guild.channels.cache.find(c => c.id === reportschannel2);
         const bolean = await getautoapproved(member, con);
+        const prefix = await getprefix(message, con);
 
         if (bolean === "true") {
             startcmd = "Members get role automatically"
@@ -55,7 +56,9 @@ module.exports = {
             .addField(`\u200b`, stripIndents`**command for approving new members**
             ${startcmd}`, true)
             .addField(`\u200b`, stripIndents`**Channel for your reports**
-            ${reportschannel}`, true);
+            ${reportschannel}`, true)
+            .addField(`\u200b`, stripIndents`**Your prefix**
+            ${prefix}`, true);
 
         return message.channel.send(embed2);
         

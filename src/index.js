@@ -1,10 +1,11 @@
 const { Client, RichEmbed, Collection } = require("discord.js");
-const { prefix, version, status, welcome_channel, DIFF, LIMIT, TIME, database } = require('./config.json');
+const { version, status, welcome_channel, DIFF, LIMIT, TIME, database } = require('./config.json');
+var { prefix } = require('./config.json');
 const { token, password } = require('../token.json');
 const fs = require("fs");
 const Discord = require("discord.js")
 const { stripIndents } = require("common-tags");
-const { getChnl, getMsg, getapproved, getapproved2, getservergreeting, getstartcmd, getreportschannel, getautoapproved } = require("../functions/db_queries.js");
+const { getChnl, getMsg, getapproved, getapproved2, getservergreeting, getstartcmd, getreportschannel, getautoapproved, getprefix } = require("../functions/db_queries.js");
 const usersMap = new Map();
 const mysql = require("mysql");
 const { bugs } = require("../package.json")
@@ -39,7 +40,7 @@ var con = mysql.createConnection({
 con.connect(err => {
   if (err) throw err;
   console.log("Connected to Database");
-  con.query("CREATE TABLE IF NOT EXISTS servers(id VARCHAR(20) NOT NULL UNIQUE, name TEXT NOT NULL, admin TEXT, moderator TEXT, greeting VARCHAR(512) CHARACTER SET utf8 COLLATE utf8_unicode_ci, channel TEXT, approved TEXT, startcmd TEXT, reports TEXT, auto_approved TEXT, server_greeting TEXT) CHARACTER SET utf8 COLLATE utf8_unicode_ci;")
+  con.query("CREATE TABLE IF NOT EXISTS servers(id VARCHAR(20) NOT NULL UNIQUE, name TEXT NOT NULL, admin TEXT, moderator TEXT, greeting VARCHAR(512) CHARACTER SET utf8 COLLATE utf8_unicode_ci, channel TEXT, approved TEXT, startcmd TEXT, reports TEXT, auto_approved TEXT, server_greeting TEXT, prefix TEXT) CHARACTER SET utf8 COLLATE utf8_unicode_ci;")
   con.query("CREATE TABLE IF NOT EXISTS ranks(rank_id VARCHAR(20) NOT NULL UNIQUE, server_id VARCHAR(20) NOT NULL, rank_name TEXT NOT NULL);")
 })
 
@@ -209,7 +210,11 @@ client.on("guildMemberAdd", async member => {
 //message handler
 client.on("message", async message => {
 
+  const custom_prefix = await getprefix(message, con);
 
+  if (custom_prefix !== null) {
+    prefix = custom_prefix;
+  }
 
   if (message.author.bot) return;
 
