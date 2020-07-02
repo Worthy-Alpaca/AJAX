@@ -8,7 +8,7 @@ module.exports = {
     run: async (client, message, args, con) => {
         
         if (!message.member.hasPermission("ADMINISTRATOR")){
-            return message.reply("You are not powerfull enough to do that");
+            return message.reply("You are not powerful enough to do that");
         }
        
         return setapr(message, con);

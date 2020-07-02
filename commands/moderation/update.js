@@ -13,7 +13,7 @@ module.exports = {
 
 
         if (message.author.id !== "595341356432621573")
-            return message.reply("You are not powerfull enough to command me in such a way!").then(m => m.delete( {timeout: 5000} ));
+            return message.reply("You are not powerful enough to command me in such a way!").then(m => m.delete( {timeout: 5000} ));
             
             
         

@@ -9,7 +9,7 @@ module.exports = {
     description: "Sets the message that is to be displayed to the rest of the server",    
     run: async (client, message, args, con) => {
         if (!message.member.hasPermission("ADMINISTRATOR")){
-            return message.reply("You are not powerfull enough to do that");
+            return message.reply("You are not powerful enough to do that");
         }
         member = message.member;
 

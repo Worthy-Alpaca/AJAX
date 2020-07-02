@@ -13,7 +13,7 @@ module.exports = {
         if (message.deletable) message.delete();
 
         if (!message.member.hasPermission("ADMINISTRATOR")){
-            return message.reply("You are not powerfull enough to do that");
+            return message.reply("You are not powerful enough to do that");
         }
 
         const guild = message.channel.guild;
