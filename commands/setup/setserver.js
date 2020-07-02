@@ -41,6 +41,7 @@ module.exports = {
             .setTimestamp()
             .setDescription(stripIndents`You have completed the setup process for this server. :partying_face:
             Hopefully nothing broke :sweat_smile:
+            **Important:** For me to work properly you need to put the @AJAX role at the highest possible point in your role list
             If you wish to change any of this in the future, you can use one of the other commands in the \`setup\` category.`)
         
         //starting message
