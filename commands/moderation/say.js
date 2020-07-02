@@ -6,8 +6,9 @@ module.exports = {
     aliases: ["bc", "broadcast"],
     category: "moderation",
     permission: ["admin"],
-    description: "Bot says stuff",
-    usage: "[channel], <input>",
+    description: "Let the bot speak on your behalf",
+    descriptionlong: "Let the bot speak on your behalf. Can be used across channels and also send an embed",
+    usage: "[channel] [embed] <input>",
     run: async (client, message, args, con) => {
         message.delete();
 
