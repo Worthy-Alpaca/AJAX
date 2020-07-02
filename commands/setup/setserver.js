@@ -68,7 +68,7 @@ module.exports = {
             .setTimestamp()
             .setDescription(`Please enter the greeting that is to be displayed to the server.
             This message will be send into the welcome channel that you set earlier`)
-            .addField(`**Example**`, stripIndents`<Member> [Your message here]`);
+            .addField(`**Example**`, stripIndents`<Member>, [Your message here]`);
         
         
         //getting user ready
