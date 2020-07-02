@@ -27,4 +27,4 @@ Check out all of my commands [here.](https://github.com/Worthy-Alpaca/AJAX/blob/
 
 ## Want to customize me yourself or contribute to this project?
 
-If you want to contribute or customize AJAX yourself, make sure to check out my [contributing guide]()!
+If you want to contribute or customize AJAX yourself, make sure to check out my [contributing guide](https://github.com/Worthy-Alpaca/AJAX/blob/master/CONTRIBUTING.md#contributing)!
