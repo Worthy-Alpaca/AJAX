@@ -1,5 +1,6 @@
 const Discord  = require("discord.js");
 const { stripIndents } = require("common-tags");
+var { prefix } = require("../../src/config.json")
 const { getAdmin, getMod, getChnl, getMsg, getapproved, getstartcmd, getreportschannel, getautoapproved, getservergreeting, getprefix } = require("../../functions/db_queries.js");
 
 module.exports = {
@@ -29,7 +30,11 @@ module.exports = {
         var startcmd = await getstartcmd(message, con);
         reportschannel = message.guild.channels.cache.find(c => c.id === reportschannel2);
         const bolean = await getautoapproved(member, con);
-        const prefix = await getprefix(message, con);
+        const custom_prefix = await getprefix(message, con);
+
+        if (custom_prefix !== null) {
+            prefix = custom_prefix;
+        }
 
         if (bolean === "true") {
             startcmd = "Members get role automatically"
