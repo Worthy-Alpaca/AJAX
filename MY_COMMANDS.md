@@ -2,13 +2,14 @@
 
 ## Moderation
 
+- !ban => Bans the person mentioned
 - !clear => Clears the chat
 - !close => Clears a voice channel
+- !kick => Kicks all the members you mention
 - !lock => Locks a voice channel
 - !move => Moves all members from one channel to the other
 - !mute => mutes a person
 - !purge => Kicks all members who don't have the approved role
-- !remove => removes the member
 - !report => reports a member
 
 ## Information
