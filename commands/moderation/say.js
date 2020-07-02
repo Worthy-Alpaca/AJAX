@@ -25,9 +25,6 @@ module.exports = {
         if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id=== admin).id))
             return message.reply("You don't have the required permissions to use this command.").then(m => m.delete( {timeout: 5000} ));
 
-        
-
-        const roleColor = message.guild.me.highestRole.hexColor;
         if (typeof args[0] == 'undefined') {
             return message.channel.send("Maybe include something :wink:")
         } 
@@ -51,7 +48,7 @@ module.exports = {
             if (args[0].toLowerCase() === "embed") {
             const embed = new Discord.MessageEmbed()
                 .setDescription(args.slice(1).join(" "))
-                .setColor(roleColor === "#000000" ? "#ffffff" : roleColor);
+                .setColor('RANDOM');
 
                 message.channel.send(embed);
              } else {
@@ -61,7 +58,7 @@ module.exports = {
             if (args[1].toLowerCase() === "embed") {
                 const embed = new Discord.MessageEmbed()
                     .setDescription(args.slice(2).join(" "))
-                    .setColor(roleColor === "#000000" ? "#ffffff" : roleColor);
+                    .setColor('RANDOM');
     
                     channel.send(embed);
             } else {
