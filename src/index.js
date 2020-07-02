@@ -311,6 +311,7 @@ client.on("message", async message => {
   const startcommand = await getstartcmd(message, con);
 
   if (message.content.startsWith(`${startcommand}`)) {
+    message.delete();
     var chnl;
     var rl;
 
@@ -327,6 +328,10 @@ client.on("message", async message => {
       channel = member.guild.channels.cache.find(channel => channel.id === member.guild.systemChannelID);
     } else if (channel === null) {
       channel = member.guild.channels.cache.find(channel => channel.id === member.guild.systemChannelID);
+    }
+
+    if (message.member.roles.cache.has(role.id)) {
+      return
     }
 
     if (msg === null) {
