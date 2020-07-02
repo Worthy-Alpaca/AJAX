@@ -11,6 +11,7 @@
 - !mute => mutes a person
 - !purge => Kicks all members who don't have the approved role
 - !report => reports a member
+- !role => adds/removes role to all mentioned members
 
 ## Information
 

@@ -48,6 +48,10 @@ client.on("ready", () => {
   var a = 0;
   console.log(`Logged in as ${client.user.username}`);
 
+  client.users.fetch(`595341356432621573`, false).then(user => {
+    user.send(`I restarted, hopefully because of an update :stuck_out_tongue_winking_eye:`)
+  });
+
   client.guilds.cache.forEach(guild => {
 
     con.query(`SELECT * FROM servers WHERE id = '${guild.id}'`, (err, rows) => {
@@ -209,16 +213,14 @@ client.on("guildMemberAdd", async member => {
 
 //message handler
 client.on("message", async message => {
-
-  const custom_prefix = await getprefix(message, con);
+  if (message.author.bot) return;
+  
+  const custom_prefix = await getprefix(message, con).catch(err => console.log(err));
 
   if (custom_prefix !== null) {
     prefix = custom_prefix;
   }
-
-  if (message.author.bot) return;
-
-
+  
   //automated spam detection and mute
   if (usersMap.has(message.author.id)) {
     let mutee = message.member;
