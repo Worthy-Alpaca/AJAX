@@ -23,7 +23,9 @@ module.exports = {
         var i = 0;
         var a = true;
         const custom_prefix = await getprefix(message, con);
-        const chooseArr = ["◀", "▶"]
+        const chooseArr = ["◀", "⏹", "▶"]
+        const chooseArrfirst = [chooseArr[1], chooseArr[2]]
+        const chooseArrlast = [chooseArr[0], chooseArr[1]]
 
         if (custom_prefix !== null) {
             prefix = custom_prefix;
@@ -49,38 +51,50 @@ module.exports = {
                 await getAll(client, message, perms, cats).then(async msg => {
 
                     if (i === 0) {
-                        var reaction = await promptMessage(msg, message.author, 240000, chooseArr[1]);
+                        var reaction = await promptMessage(msg, message.author, 240000, chooseArrfirst);
 
-                        if (reaction === chooseArr[1]) {
+                        if (reaction === chooseArr[2]) {
                             msg.delete();
                             i++;
                             return
+                        } else if (reaction === chooseArr[1]) {
+                            i = client.categories.length +1;
+                            msg.delete();
+                            return
                         }
                     } else if (i === client.categories.length -1) {
-                        var reaction = await promptMessage(msg, message.author, 240000, chooseArr[0]);
+                        var reaction = await promptMessage(msg, message.author, 240000, chooseArrlast);
 
                         if (reaction === chooseArr[0]) {
                             msg.delete();
                             i--;
                             return
+                        } else if (reaction === chooseArr[1]) {
+                            i = client.categories.length +1;
+                            msg.delete();
+                            return
                         }
                     } else {
                         var reaction = await promptMessage(msg, message.author, 240000, chooseArr);
 
-                        if (reaction === "◀") {
+                        if (reaction === chooseArr[0]) {
                             msg.delete();
                             i--;
                             return
-                        } else if (reaction === "▶") {
+                        } else if (reaction === chooseArr[2]) {
                             msg.delete();
                             i++;
+                            return
+                        } else if (reaction === chooseArr[1]) {
+                            i = client.categories.length +1;
+                            msg.delete();
                             return
                         }
                     }
 
 
                 })
-            }
+            } return;
 
         }
 
@@ -98,6 +112,7 @@ async function getAll(client, message, perms, cats) {
         .setFooter(`Version: ${version}`)
         .setTimestamp()
         .setTitle("Help menu")
+        .setURL("https://github.com/Worthy-Alpaca/AJAX/blob/develop/MY_COMMANDS.md")
         .setThumbnail(client.user.displayAvatarURL())
 
 
