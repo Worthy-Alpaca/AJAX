@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
 const { getAdmin, getMod } = require("../../functions/db_queries.js");
+const { filter_integer } = require("../../functions/functions.js");
 
 module.exports = {
     name: "role",
@@ -46,18 +47,12 @@ module.exports = {
         }
 
         const toadd_collection = args.slice(1)
+        console.log(toadd_collection)
         //loop over all members mentioned and add/remove the role mentioned
-        toadd_collection.forEach(function (person) {
-            var chnl = Array.from(person)
-
-            if (chnl.includes("@")) {
-                b = chnl.slice(3, chnl.indexOf(">"))
-                var mbr = b.join("")
-            } else {
-                var mbr2 = message.guild.roles.cache.find(r => r.name === chnl.join(""));
-                var mbr = mbr2.id;
-            }
-
+        toadd_collection.forEach(async function (person) {
+            
+            const mbr = await filter_integer(message, person);
+            
             const toadd = message.guild.members.cache.find(m => m.id === mbr);
 
             if (!toadd) {
