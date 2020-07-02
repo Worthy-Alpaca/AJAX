@@ -1,6 +1,7 @@
 const Discord = require("discord.js");
 const { stripIndents } = require("common-tags");
 const { getAdmin, getMod, getreportschannel } = require("../../functions/db_queries.js");
+const { filter_integer } = require("../../functions/functions.js");
 
 module.exports = {
     name: "mute",
@@ -10,10 +11,8 @@ module.exports = {
     usage: "<id | mention>",
     run: async (client, message, args, con) => {
 
-
         if (message.deletable) message.delete();
         
-        const mutee = message.mentions.members.first();
         var admin = await getAdmin(message, con);
         var moderator = await getMod(message, con);
         var reports = await getreportschannel(message, con);
@@ -33,22 +32,12 @@ module.exports = {
             }
         }
 
-        if (!args[0]) {
+        if (!args[0] || !message.mentions.members.first()) {
             return message.reply("You need to tag someone.")
                 .then(m => m.delete( {timeout: 5000} ));
         }
-
-        const embed = new Discord.MessageEmbed() 
-            .setColor("#ff0000")
-            .setTimestamp()
-            .setFooter(message.guild.name, message.guild.iconURL)
-            .setAuthor("Muted member", mutee.user.displayAvatarURL())
-            .setDescription(stripIndents`**> Member: ${mutee} (${mutee.id})
-            **> Automated Mute
-            **> Muted in: ${message.channel}
-            **> Reason: SPAM
-            MUTE needs to be manually removed`);
-
+        
+        const toMute_collection = args.slice(0);                 
         
         let muterole = message.guild.roles.cache.find(r => r.name === "Muted")
         if(!muterole) {
@@ -76,26 +65,43 @@ module.exports = {
             console.log(e.stack);
             }   
         }
-        const unmuted = new Discord.MessageEmbed()
-                .setDescription(`${mutee} you have been unmuted`)
-                .setColor("RANDOM");
-
-        const muted = new Discord.MessageEmbed()
-                .setDescription(`${mutee} you have been muted`)
-                .setColor("RANDOM");
         
+        toMute_collection.forEach( async function(person) {
+            const mbr = await filter_integer(message, person);
 
+            const mutee = message.guild.members.cache.find(m => m.id === mbr);
+
+            if (!mutee) {
+                return message.reply("Couldn't find that member, try again")
+                    .then(m => m.delete({ timeout: 5000 }));
+            }
+
+            const embed = new Discord.MessageEmbed() 
+                .setColor("#ff0000")
+                .setTimestamp()
+                .setFooter(message.guild.name, message.guild.iconURL)
+                .setAuthor("Muted member", mutee.user.displayAvatarURL())
+                .setDescription(stripIndents`**> Member: ${mutee} (${mutee.id})
+                **> Automated Mute
+                **> Muted in: ${message.channel}
+                **> Reason: probably a good one
+                MUTE needs to be manually removed`);
+            
+                       
+
+            if (mutee.roles.cache.has(muterole.id)) {
+                message.channel.send(`${mutee} you have been unmuted`);
+                await mutee.roles.remove(muterole)                
+                return report.send(`${mutee} has been unmuted`);
+            } else {
+                message.channel.send(`${mutee} you have been muted`);
+                await mutee.roles.add(muterole)                
+                report.send("@here someone has been muted");
+                return report.send(embed);
+            }
+        })
                
-        if (mutee.roles.cache.has(muterole.id)) {
-            await mutee.roles.remove(muterole)
-            message.channel.send(unmuted);
-            report.send(`${mutee} has been unmuted`);
-        } else {
-            await mutee.roles.add(muterole)
-            message.channel.send(muted);
-            report.send("@here someone has been muted");
-            report.send(embed);
-        }
+        
 
 
 

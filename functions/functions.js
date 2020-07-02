@@ -40,5 +40,23 @@ module.exports = {
             .awaitReactions(filter, { max: 1, time: time})
             .then(collected => collected.first() && collected.first().emoji.name);
     },
+
+    filter_integer: function (message, mention) {
+        return new Promise(function (resolve, reject) {
+            var person = Array.from(mention)
+            if (person.includes("@")) {                
+                var mbr = []
+                person.forEach(function(letter) {
+                    if (Number.isInteger(+letter)) {
+                        mbr.push(letter)
+                    }                    
+                })
+                return resolve(mbr.join(""))
+            } else {
+                var mbr2 = message.guild.roles.cache.find(r => r.name === person.join(""));
+                return resolve(mbr2.id);
+            }
+        })
+    }
         
 };

@@ -1,6 +1,7 @@
 const Discord  = require("discord.js");
 const { stripIndents } = require("common-tags");
 const { getAdmin, getMod, getreportschannel } = require("../../functions/db_queries.js");
+const { filter_integer } = require("../../functions/functions.js");
 
 
 module.exports = {
@@ -40,17 +41,9 @@ module.exports = {
         }
 
         const toKick_collection = args.slice(0);
-        toKick_collection.forEach(function(person) {            
+        toKick_collection.forEach( async function(person) {            
 
-            var chnl = Array.from(person)                      
-                
-            if (chnl.includes("@")) {
-                b = chnl.slice(3, chnl.indexOf(">"))
-                var mbr = b.join("")
-            } else {
-                var mbr2 = message.guild.roles.cache.find(r => r.name === chnl.join(""));
-                var mbr = mbr2.id;
-            }
+            const mbr = await filter_integer(message, person);
 
             const toKick = message.guild.members.cache.find(m => m.id === mbr)
             
