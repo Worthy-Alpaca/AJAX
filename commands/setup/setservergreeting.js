@@ -17,7 +17,7 @@ module.exports = {
             .setColor(member.displayHexColor === "#000000" ? "#ffffff" : member.displayHexColor)
             .setTimestamp()
             .setDescription(`Please enter the greeting that is to be displayed to the server.`)
-            .addField(`**Example**`, stripIndents`<Member> [Your message here]`);
+            .addField(`**Example**`, stripIndents`<Member>, [Your message here]`);
 
         return setservergreeting(message, con, embed4);
 
