@@ -1,7 +1,7 @@
 const { getAdmin, getMod } = require("../../functions/db_queries.js");
 
 module.exports = {
-    name: "clearVC",
+    name: "clearvc",
     category: "moderation",
     permission: ["moderator", "admin"],
     description: "Clears a voice channel",
