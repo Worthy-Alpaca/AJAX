@@ -13,15 +13,21 @@ AJAX is a discord moderation bot that also has an EDSM and INARA API connection 
 
 ## What I can do
 
-- Moderation 
-- Information
-- Fun
+- I have build in spam protection and can be used to multi-kick. I also have the ability to add/remove roles to multiple members at once. Furthermore I feature a customizable rank system that allows users to show what they like to play/do.
+- I have a database at my back that allows you to use your own admin, moderator etc. roles.
+- Once you invite me to your server I will set up a bot-setup channel that can be used to configure me, using my built in !setserver command. Once all has been configured I will delete the channel after 2min. 
+- In the configurtion you also have the option to set a custom prefix. My default prefix is **!**.
 
-Check out my commands [here.](https://github.com/Worthy-Alpaca/AJAX/blob/develop/MY_COMMANDS.md)
+> I feature three categories
+> - fun
+> - moderation
+> - info
 
-## Getting Started
+Check out all of my commands [here.](https://github.com/Worthy-Alpaca/AJAX/blob/develop/MY_COMMANDS.md)
 
-These instructions will get you a copy of the project up and running on your local machine for development and also on a deployment server.
+## Want to customize me yourself?
+
+The following instructions will get you a copy of the project up and running on your local machine for development and also on a deployment server.
 
 ## Stuff you'll need
 * Node.js version 12 or higher
