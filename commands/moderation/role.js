@@ -1,12 +1,13 @@
-const Discord  = require("discord.js");
+const Discord = require("discord.js");
 const { getAdmin, getMod } = require("../../functions/db_queries.js");
 
 module.exports = {
     name: "role",
     category: "moderation",
     permission: ["moderator", "admin"],
-    description: "adds/removes roles",
-    usage: "<add | remove, id | mention, role(case sensitive)>",
+    description: "adds/removes role to all mentioned members",
+    descriptionlong: "adds/removes role to all mentioned members depending wether they already have the role",
+    usage: "<role> <member> [member] etc.",
     run: async (client, message, args, con) => {
 
         var admin = await getAdmin(message, con);
@@ -18,70 +19,59 @@ module.exports = {
         if (moderator === null) {
             return message.channel.send("You need to set the role for moderator first. Do that by typing !setmod")
         }
-        
-        if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id=== admin).id)) {
-            if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id=== moderator).id)) {
+
+        if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === admin).id)) {
+            if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === moderator).id)) {
                 return message.reply("You can't do that. Please contact a staff member!")
-                    .then(m => m.delete( {timeout: 5000} ));
+                    .then(m => m.delete({ timeout: 5000 }));
             }
         }
-        
-        if (!args[0]) {
-            return message.reply("Please tell me what to do.")
-                .then(m => m.delete( {timeout: 5000} ));
-        }
-        
+
         if (!args[1]) {
             return message.reply("You need to tag someone.")
-                .then(m => m.delete( {timeout: 5000} ));
-        }
-        let rMember = message.guild.member(message.mentions.users.first()) || message.guild.members.get(args[1]);
-
-        if (!args[2]) {
-            return message.reply("You need to specify a role.")
-                .then(m => m.delete( {timeout: 5000} ));
+                .then(m => m.delete({ timeout: 5000 }));
         }
 
-        
-        const mRole = args.slice(1);
-        mRole.shift();   
-        
         let role = message.mentions.roles.first();
 
         if (!role) {
-            role = message.guild.roles.cache.find(r => r.name === mRole.join(" ")) || message.guild.roles.cache.find(r => r.id === args[2]);
+            return message.reply("You did not mention a role for me to add")
         }
-        
-        
-        if ((args[0] === "add") || (args[0] === "remove")) {
-            
-        } else {
-            return message.reply("You did not provide a valid action.")
-                .then(m => m.delete( {timeout: 5000} ));
-        }
-
-        if (!role) {
-            return message.reply(`\`${mRole}\` does not exist. Maybe check your spelling?`)
-        }        
-
-        if (!message.guild.me.hasPermission("MANAGE_ROLES")) return message.reply("I don't have permission to do that. Go fix it!!");
-
-        
-
-        if (args[0].toLowerCase() === "add") {
-            if (rMember.roles.cache.has(role.id)) {
-                return message.channel.send(`${rMember} already has this role`)
+        //check if role is one of the staff roles
+        if (role.id === message.guild.roles.cache.find(r => r.id === admin).id || role.id === message.guild.roles.cache.find(r => r.id === moderator).id) {
+            if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === admin).id)) {
+                return message.reply("You can't do that. Please contact an admin!")
+                    .then(m => m.delete({ timeout: 5000 }));    
             }
-            await rMember.roles.add(role.id).catch(e => console.log(e.message))
-            return message.channel.send(`\`${role.name}\` has been added to ${rMember}.`)
-        } else if (args[0].toLowerCase() === "remove") {
-            await rMember.roles.remove(role.id).catch(e => console.log(e.message))
-            return message.channel.send(`\`${role.name}\` has been removed from ${rMember}.`)
-        } else if ((args[0] !== "add") || (args[0] !== "remove")) {
-            return message.reply("You did not provide a valid action.")
-                .then(m => m.delete( {timeout: 5000} ));
-        } 
+        }
 
+        const toadd_collection = args.slice(1)
+        //loop over all members mentioned and add/remove the role mentioned
+        toadd_collection.forEach(function (person) {
+            var chnl = Array.from(person)
 
+            if (chnl.includes("@")) {
+                b = chnl.slice(3, chnl.indexOf(">"))
+                var mbr = b.join("")
+            } else {
+                var mbr2 = message.guild.roles.cache.find(r => r.name === chnl.join(""));
+                var mbr = mbr2.id;
+            }
+
+            const toadd = message.guild.members.cache.find(m => m.id === mbr);
+
+            if (!toadd) {
+                return message.reply(`Couldn't find ${toadd}. Try again`)
+                    .then(m => m.delete({ timeout: 5000 }));
+            }
+
+            if (toadd.roles.cache.has(role.id)) {
+                toadd.roles.remove(role.id).catch(e => console.log(e.message))
+                return message.channel.send(`\`${role.name}\` has been removed from ${toadd}.`)
+            } else {
+                toadd.roles.add(role.id).catch(e => console.log(e.message))
+                return message.channel.send(`\`${role.name}\` has been added to ${toadd}.`)
+            }
+        })
     }
 }
