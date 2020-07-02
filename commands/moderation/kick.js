@@ -8,7 +8,7 @@ module.exports = {
     category: "moderation",
     permission: ["moderator", "admin"],
     description: "Kicks all the members you mention",
-    usage: "<member>...",
+    usage: "<member> [member] etc.",
     run: async (client, message, args, con) => {
         const reports = await getreportschannel(message, con);
         const logChannel = message.guild.channels.cache.find(c => c.id === reports) || message.channel;

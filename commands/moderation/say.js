@@ -6,8 +6,9 @@ module.exports = {
     aliases: ["bc", "broadcast"],
     category: "moderation",
     permission: ["admin"],
-    description: "Bot says stuff",
-    usage: "[channel], <input>",
+    description: "Let the bot speak on your behalf",
+    descriptionlong: "Let the bot speak on your behalf. Can be used across channels and also send an embed",
+    usage: "[channel] [embed] <input>",
     run: async (client, message, args, con) => {
         message.delete();
 
@@ -24,9 +25,6 @@ module.exports = {
         if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id=== admin).id))
             return message.reply("You don't have the required permissions to use this command.").then(m => m.delete( {timeout: 5000} ));
 
-        
-
-        const roleColor = message.guild.me.highestRole.hexColor;
         if (typeof args[0] == 'undefined') {
             return message.channel.send("Maybe include something :wink:")
         } 
@@ -50,7 +48,7 @@ module.exports = {
             if (args[0].toLowerCase() === "embed") {
             const embed = new Discord.MessageEmbed()
                 .setDescription(args.slice(1).join(" "))
-                .setColor(roleColor === "#000000" ? "#ffffff" : roleColor);
+                .setColor('RANDOM');
 
                 message.channel.send(embed);
              } else {
@@ -60,7 +58,7 @@ module.exports = {
             if (args[1].toLowerCase() === "embed") {
                 const embed = new Discord.MessageEmbed()
                     .setDescription(args.slice(2).join(" "))
-                    .setColor(roleColor === "#000000" ? "#ffffff" : roleColor);
+                    .setColor('RANDOM');
     
                     channel.send(embed);
             } else {
