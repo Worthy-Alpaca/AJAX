@@ -100,7 +100,7 @@ client.on("guildCreate", guild => {
     .setFooter(`Version: ${version}`)
     .setThumbnail(client.user.displayAvatarURL())
     .setDescription(stripIndents`**Hello there I'm ${client.user.username}**`)
-    .addField(`\u200b`, stripIndents`I have created #bot-setup for you to run **!setserver** in order set everything up.
+    .addField(`\u200b`, stripIndents`I have created #bot-setup for you to run **!setserver** in. That will set everything up.
     See [!help](https://github.com/Worthy-Alpaca/AJAX/blob/develop/MY_COMMANDS.md) for all of my commands. Enjoy :grin:`)
     .addField(`\u200b`, stripIndents`If you have any issues please report them [here.](${bugs.url})`)
 

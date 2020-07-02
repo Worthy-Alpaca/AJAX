@@ -1,7 +1,8 @@
 const Discord  = require("discord.js");
 const { stripIndents } = require("common-tags");
-const { prefix, version } = require("../../src/config.json");
-const {getAdmin, getMod} = require("../../functions/db_queries.js");
+const { version } = require("../../src/config.json");
+var { prefix } = require("../../src/config.json");
+const {getAdmin, getMod, getprefix} = require("../../functions/db_queries.js");
 const cat = require("../fun/cat");
 
 module.exports = {
@@ -18,6 +19,11 @@ module.exports = {
         const adm = await getAdmin(message, con);
         const mod = await getMod(message, con);
         var perms;
+        const custom_prefix = await getprefix(message, con);
+
+        if (custom_prefix !== null) {
+            prefix = custom_prefix;
+        }
         
         if (message.author.id === "595341356432621573") {
             perms = "author"
