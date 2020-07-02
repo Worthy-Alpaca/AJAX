@@ -347,5 +347,32 @@ module.exports = {
                     
             });
         })
+    },
+
+    setprefix: function (message, con) {
+        return new Promise(function (resolve, reject) {
+            message.channel.send("Please enter your desired prefix").then(() => {
+                const filter = m => message.author.id === m.author.id;
+                var ms;
+            
+                message.channel.awaitMessages(filter, { time: 120000, max: 1, errors: ['time'] })
+                    .then(messages => {
+                        var prefix = messages.first().content
+                        msg = message.channel.send(`Prefix changed to: \`${messages.first().content}\``).then(m => m.delete( {timeout: 5000} ));
+                        con.query(`SELECT * FROM servers WHERE id = '${message.guild.id}'`, (err, rows) => {
+                            let sql;
+
+                            sql = `UPDATE servers SET prefix = '${prefix}' WHERE id = '${message.guild.id}'`;
+                            ms = true;
+                            resolve(ms);
+                            return con.query(sql);
+                        })
+                    })
+                    .catch(() => {
+                        message.channel.send('You did not provide any input! Aborting setup process!');
+                    })
+                    
+            });
+        })
     }
 };

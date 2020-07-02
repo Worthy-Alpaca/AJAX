@@ -243,5 +243,15 @@ module.exports = {
                 resolve(msg);
             })
         })
+    },
+
+    getprefix: function (message, con) {
+        var prefix
+        return new Promise(function (resolve, reject) {
+            con.query(`SELECT * FROM servers WHERE id = '${message.guild.id}'`, (err, rows) => {
+                prefix = rows[0].prefix;
+                resolve(prefix);
+            })
+        })
     }
 }

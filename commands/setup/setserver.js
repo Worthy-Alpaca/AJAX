@@ -1,7 +1,7 @@
 const Discord  = require("discord.js");
 const { stripIndents } = require("common-tags");
-const { setadm, setmd, setch, setms, setapr, setcmd, setreports, user_ready, setautomatic_approved, setservergreeting } = require("../../functions/setupfunctions.js");
-const { getAdmin, getMod, getChnl, getMsg, getapproved, getstartcmd, getreportschannel, getautoapproved, getservergreeting } = require("../../functions/db_queries.js");
+const { setadm, setmd, setch, setms, setapr, setcmd, setreports, user_ready, setautomatic_approved, setservergreeting, setprefix } = require("../../functions/setupfunctions.js");
+const { getAdmin, getMod, getChnl, getMsg, getapproved, getstartcmd, getreportschannel, getautoapproved, getservergreeting, getprefix } = require("../../functions/db_queries.js");
 
 
 module.exports = {
@@ -30,6 +30,7 @@ module.exports = {
         var apr2;
         var cmd2;
         var rpt2; 
+        var prefix2;
         var setimmediatly;   
         var bolean;    
         
@@ -101,7 +102,11 @@ module.exports = {
             apr2 = await setapr(message, con);
             
             if (apr2) {
-                rpt2 = await setreports(message, con);
+                prefix2 = await setreports(message, con);
+            }
+            //set prefix
+            if (prefix2) {
+                rpt2 = await setprefix(message, con);
             }
         } else {   
             //set approved role            
@@ -113,8 +118,12 @@ module.exports = {
             }
             //set report channel
             if (cmd2) {
-                rpt2 = await setreports(message, con);
+                prefix2 = await setreports(message, con);
             }  
+            //set prefix
+            if (prefix2) {
+                rpt2 = await setprefix(message, con);
+            }
         }
         
         
@@ -132,6 +141,7 @@ module.exports = {
             servergreeting = await getservergreeting(member, con);
             approvedrole = message.guild.roles.cache.find(r => r.id === approvedrole2);
             startcmd = await getstartcmd(message, con);
+            prefix = await getprefix(message, con);
             reportschannel = message.guild.channels.cache.find(c => c.id === reportschannel2);
         }
 
@@ -159,7 +169,9 @@ module.exports = {
             .addField(`\u200b`, stripIndents`**Command for approving new members**
             ${startcmd}`, true)
             .addField(`\u200b`, stripIndents`**Channel for your reports**
-            ${reportschannel}`, true);
+            ${reportschannel}`, true)
+            .addField(`\u200b`, stripIndents`**Your prefix**
+            ${prefix}`, true);
 
         if (rpt2) {            
             message.channel.send(embed)
