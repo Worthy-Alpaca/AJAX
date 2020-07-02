@@ -6,7 +6,7 @@ You want to contribute to the project? Amazing!
 
 By contributing to this repository, you are expected to know and follow the rules of general conduct outlined in the [Code of Conduct.](https://github.com/Worthy-Alpaca/AJAX/blob/master/CODE_OF_CONDUCT.md#contributor-covenant-code-of-conduct)
 
-**Working on your first Pull Request?**[How to Contribute to an Open Source Project on GitHub](https://egghead.io/courses/how-to-contribute-to-an-open-source-project-on-github)
+**Working on your first Pull Request?** [How to Contribute to an Open Source Project on GitHub](https://egghead.io/courses/how-to-contribute-to-an-open-source-project-on-github)
 
 ## How to
 
