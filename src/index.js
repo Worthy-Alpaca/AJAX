@@ -213,16 +213,14 @@ client.on("guildMemberAdd", async member => {
 
 //message handler
 client.on("message", async message => {
-
-  const custom_prefix = await getprefix(message, con);
+  if (message.author.bot) return;
+  
+  const custom_prefix = await getprefix(message, con).catch(err => console.log(err));
 
   if (custom_prefix !== null) {
     prefix = custom_prefix;
   }
-
-  if (message.author.bot) return;
-
-
+  
   //automated spam detection and mute
   if (usersMap.has(message.author.id)) {
     let mutee = message.member;
