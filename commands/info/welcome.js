@@ -1,5 +1,5 @@
 const Discord  = require("discord.js");
-const { getMember, formatDate, getMsg, getChnl, getapproved, promptMessage } = require("../../functions/functions.js");
+const { getMsg, getChnl, getapproved } = require("../../functions/db_queries.js");
 const { stripIndents } = require("common-tags");
 
 

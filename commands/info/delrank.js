@@ -1,5 +1,5 @@
 const Discord  = require("discord.js");
-const { getAdmin, delrank } = require("../../functions/functions.js");
+const { getAdmin, delrank } = require("../../functions/db_queries.js");
 const { stripIndents } = require("common-tags");
 
 module.exports = {
@@ -16,15 +16,14 @@ module.exports = {
         if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === admin).id)) {
             return message.reply("You don't have the required permissions to do this.").then(m => m.delete({ timeout: 5000 }));
         }
-        rank = message.guild.roles.cache.find(r => r.name === args.slice(0).join(" "))
+        var rank = message.guild.roles.cache.find(r => r.name === args.slice(0).join(" "))
 
         const embed = new Discord.MessageEmbed()
-
+        
         if (!rank) {
-            embed.setColor("RED").setDescription("❌ This rank does not exist");
-            return message.channel.send(embed).then(m => m.delete({ timeout: 5000 }));
+            rank = args.slice(0).join(" ")
         }
-
+        console.log(rank.id)
         const done = await delrank(message, rank, con);
 
         if (done) {

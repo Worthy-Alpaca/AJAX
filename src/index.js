@@ -4,8 +4,7 @@ const { token, password } = require('../token.json');
 const fs = require("fs");
 const Discord = require("discord.js")
 const { stripIndents } = require("common-tags");
-const { promptMessage, getChnl, getMsg, getapproved, getapproved2, getservergreeting, getstartcmd, getreportschannel, getautoapproved } = require("../functions/functions.js");
-const { answers, replies, asks, help, positive, sassy, robot } = require("./answers.json");
+const { getChnl, getMsg, getapproved, getapproved2, getservergreeting, getstartcmd, getreportschannel, getautoapproved } = require("../functions/db_queries.js");
 const usersMap = new Map();
 const mysql = require("mysql");
 const { bugs } = require("../package.json")
@@ -92,13 +91,15 @@ client.on("guildCreate", guild => {
 
   channel = guild.channels.cache.find(channel => channel.id === guild.systemChannelID);
 
+  guild.channels.create('bot-setup');
+
   const embed = new Discord.MessageEmbed()
     .setColor("RANDOM")
     .setTimestamp()
     .setFooter(`Version: ${version}`)
     .setThumbnail(client.user.displayAvatarURL())
     .setDescription(stripIndents`**Hello there I'm ${client.user.username}**`)
-    .addField(`\u200b`, stripIndents`You should run **!setserver** to set everything up.
+    .addField(`\u200b`, stripIndents`I have created #bot-setup for you to run **!setserver** in order set everything up.
     See [!help](https://github.com/Worthy-Alpaca/AJAX/blob/develop/MY_COMMANDS.md) for all of my commands. Enjoy :grin:`)
     .addField(`\u200b`, stripIndents`If you have any issues please report them [here.](${bugs.url})`)
 
@@ -310,6 +311,7 @@ client.on("message", async message => {
   const startcommand = await getstartcmd(message, con);
 
   if (message.content.startsWith(`${startcommand}`)) {
+    message.delete();
     var chnl;
     var rl;
 
@@ -326,6 +328,10 @@ client.on("message", async message => {
       channel = member.guild.channels.cache.find(channel => channel.id === member.guild.systemChannelID);
     } else if (channel === null) {
       channel = member.guild.channels.cache.find(channel => channel.id === member.guild.systemChannelID);
+    }
+
+    if (message.member.roles.cache.has(role.id)) {
+      return
     }
 
     if (msg === null) {

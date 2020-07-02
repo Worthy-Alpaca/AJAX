@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
 const { stripIndents } = require("common-tags");
-const { getAdmin, getMod, getreportschannel } = require("../../functions/functions.js");
+const { getAdmin, getMod, getreportschannel } = require("../../functions/db_queries.js");
 
 module.exports = {
     name: "mute",

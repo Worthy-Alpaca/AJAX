@@ -1,6 +1,3 @@
-//const { admin } = require("../../src/config.json")
-const { getAdmin, getMod } = require("../../functions/functions.js");
-
 
 module.exports = {
     name: "status",

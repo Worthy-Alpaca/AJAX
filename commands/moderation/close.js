@@ -1,4 +1,4 @@
-const { getAdmin, getMod } = require("../../functions/functions.js");
+const { getAdmin, getMod } = require("../../functions/db_queries.js");
 
 module.exports = {
     name: "close",
@@ -21,7 +21,7 @@ module.exports = {
 
         if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id=== admin).id)) {
             if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id=== moderator).id)) {
-                return message.reply("You are not powerfull enough to do that.")
+                return message.reply("You are not powerful enough to do that.")
                     .then(m => m.delete( {timeout: 5000} ));
             } 
         }

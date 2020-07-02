@@ -9,7 +9,7 @@ module.exports = {
     run: async (client, message, args, con) => {
 
         
-        var channel = message.guild.channels.cache.find(channel => channel.name === "memes");
+        var channel = message.guild.channels.cache.find(channel => channel.name.includes("memes"));
         if (!channel) {
             channel = message.channel;
         }

@@ -1,6 +1,6 @@
 const Discord  = require("discord.js");
 const { stripIndents } = require("common-tags");
-const { getAdmin, getMod, getChnl, getMsg, getapproved, getstartcmd, getreportschannel, getautoapproved, getservergreeting } = require("../../functions/functions.js");
+const { getAdmin, getMod, getChnl, getMsg, getapproved, getstartcmd, getreportschannel, getautoapproved, getservergreeting } = require("../../functions/db_queries.js");
 
 module.exports = {
     name: "showserver",
@@ -10,7 +10,7 @@ module.exports = {
     run: async (client, message, args, con) => {
         
         if (!message.member.hasPermission("ADMINISTRATOR")){
-            return message.reply("You are not powerfull enough to do that");
+            return message.reply("You are not powerful enough to do that");
         }
                 
         const member = message.member; 

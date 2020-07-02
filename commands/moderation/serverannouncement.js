@@ -1,6 +1,6 @@
 const Discord  = require("discord.js");
 const { stripIndents } = require("common-tags");
-const { getservers, getserverchannel } = require("../../functions/functions.js");
+const { getservers, getserverchannel } = require("../../functions/db_queries.js");
 const { version } = require("../../src/config.json");
 
 module.exports = {
@@ -8,12 +8,12 @@ module.exports = {
     category: "moderation",
     permission: ["null"],
     description: "Sends a message to all servers",
-    usage: "<message>",
+    usage: "[list|server id], <message>",
     run: async (client, message, args, con) => {
         message.delete();
         //console.log(client.guilds)
         if (message.author.id !== "595341356432621573")
-            return message.reply("You are not powerfull enough to command me in such a way!").then(m => m.delete( {timeout: 5000} ));
+            return message.reply("You are not powerful enough to command me in such a way!").then(m => m.delete( {timeout: 5000} ));
             
         const servers = await getservers(message, con);    
         

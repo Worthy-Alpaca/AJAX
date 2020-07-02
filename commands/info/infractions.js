@@ -1,5 +1,5 @@
 const Discord  = require("discord.js");
-const { getinfractions, getAdmin, getMod } = require("../../functions/functions.js");
+const { getinfractions, getAdmin, getMod } = require("../../functions/db_queries.js");
 const { stripIndents } = require("common-tags");
 const {kick_limit, ban_limit, version} = require("../../src/config.json");
 

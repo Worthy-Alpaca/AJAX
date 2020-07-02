@@ -1,7 +1,7 @@
 const Discord  = require("discord.js");
 const { stripIndents } = require("common-tags");
 const { version } = require("../../src/config.json");
-const { getapproved2 } = require("../../functions/functions.js");
+const { getapproved2 } = require("../../functions/db_queries.js");
 const { homepage, bugs } = require("../../package.json");
 
 
@@ -16,6 +16,7 @@ module.exports = {
 
         const guild = message.channel.guild;
         var count = [];
+        var bots = [];
 
         approvedR = await getapproved2(message, con);
         role = message.guild.roles.cache.find(r => r.id === approvedR);
@@ -25,7 +26,7 @@ module.exports = {
         }
         
         guild.members.cache.forEach(member => {
-            if (member.user.bot) return;
+            if (member.user.bot) return bots.push(member.displayName);
             if (member.roles.cache.has(role.id)){
                 if (member.id === client.user.id) {
                     return
@@ -46,8 +47,9 @@ module.exports = {
             > Version: \`${version}\``)
             .addField(`\u200b`, stripIndents`**Server Information**
             > Server name: ${message.guild.name}
-            > Current Member amount: \`${message.guild.memberCount}\`
-            > Approved Member amount: \`${count.length}\``)
+            > Current Member amount: \`${message.guild.memberCount - bots.length}\`
+            > Approved Member amount: \`${count.length}\`
+            > Bots: \`${bots.length}\``)
             .addField(`\u200b`, stripIndents`You have a server where you want to deploy this bot?
             You can do so [here.](https://discord.com/api/oauth2/authorize?client_id=682255208125956128&permissions=8&redirect_uri=https%3A%2F%2Fworthyalpaca.de%2F&scope=bot)`)
             .addField(`\u200b`, stripIndents`If you have any issues please report them [here.](${bugs.url})`);
