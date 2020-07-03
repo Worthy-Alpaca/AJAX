@@ -16,6 +16,7 @@ AJAX is a discord moderation bot that also has an EDSM and INARA API connection 
 - I have build in spam protection and can be used to multi-kick. I also have the ability to add/remove roles to multiple members at once. Furthermore I feature a customizable rank system that allows users to show what they like to play/do.
 - I have a database at my back that allows you to use your own admin, moderator etc. roles.
 - Once you invite me to your server I will set up a bot-setup channel that can be used to configure me, using my built in !setserver command. Once all has been configured I will delete the channel after 2min. 
+- The most important executive commands (kick, ban, mute, role) get logged in the reports channel that you set in the setup process.
 - In the configurtion you also have the option to set a custom prefix. My default prefix is **!**.
 
 I feature three categories
