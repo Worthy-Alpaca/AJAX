@@ -90,11 +90,11 @@ module.exports = {
                        
 
             if (mutee.roles.cache.has(muterole.id)) {
-                message.channel.send(`${mutee} you have been unmuted`);
+                message.channel.send(`${mutee} you have been unmuted`).then(m => m.delete( {timeout: 5000} ));
                 await mutee.roles.remove(muterole)                
                 return report.send(`${mutee} has been unmuted`);
             } else {
-                message.channel.send(`${mutee} you have been muted`);
+                message.channel.send(`${mutee} you have been muted`).then(m => m.delete( {timeout: 5000} ));
                 await mutee.roles.add(muterole)                
                 report.send("@here someone has been muted");
                 return report.send(embed);
