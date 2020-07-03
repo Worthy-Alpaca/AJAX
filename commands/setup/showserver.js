@@ -9,6 +9,7 @@ module.exports = {
     permission: ["admin"],
     description: "Shows the server setup result",
     run: async (client, message, args, con) => {
+        message.delete();
         
         if (!message.member.hasPermission("ADMINISTRATOR")){
             return message.reply("You are not powerful enough to do that");
