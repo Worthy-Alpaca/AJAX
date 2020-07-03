@@ -54,18 +54,18 @@ module.exports = {
             ${welcomechannel}`, true)
             .addField(`\u200b`, stripIndents`**Welcome message**
             ${welcomemessage}`)
-            .addField(`\u200b`, stripIndents`**Servergreeting**
+            .addField(`\u200b`, stripIndents`**Servergreeting message**
             ${servergreeting}`)
             .addField(`\u200b`, stripIndents`**Role for approved members**
             ${approvedrole}`, true)
-            .addField(`\u200b`, stripIndents`**command for approving new members**
-            ${startcmd}`, true)
+            .addField(`\u200b`, stripIndents`**Command for approving new members**
+            \`${startcmd}\``, true)
             .addField(`\u200b`, stripIndents`**Channel for your reports**
             ${reportschannel}`, true)
             .addField(`\u200b`, stripIndents`**Your prefix**
-            ${prefix}`, true);
+            \`${prefix}\``, true);
 
-        return message.channel.send(embed2);
+        return message.channel.send(embed2).then(m => m.delete( {timeout: 120000} ));
         
     }
 }

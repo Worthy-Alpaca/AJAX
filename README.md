@@ -11,20 +11,22 @@ AJAX is a discord moderation bot that also has an EDSM and INARA API connection 
 
 **You can add AJAX to your server [here.](https://discord.com/api/oauth2/authorize?client_id=682255208125956128&permissions=8&redirect_uri=https%3A%2F%2Fworthyalpaca.de%2F&scope=bot)**
 
-## What I can do
+## What it can do
 
-- I have build in spam protection and can be used to multi-kick. I also have the ability to add/remove roles to multiple members at once. Furthermore I feature a customizable rank system that allows users to show what they like to play/do.
-- I have a database at my back that allows you to use your own admin, moderator etc. roles.
-- Once you invite me to your server I will set up a bot-setup channel that can be used to configure me, using my built in !setserver command. Once all has been configured I will delete the channel after 2min. 
-- In the configurtion you also have the option to set a custom prefix. My default prefix is **!**.
+- AJAX has build in spam protection and can be used to multi-kick. It also has the ability to add/remove roles to multiple members at once. Furthermore it features a customizable rank system that allows users to show what they like to play/do.
+- AJAX has a database at his back that allows you to customize the way it works on your server.
+- Once you invite AJAX to your server it will set up a bot-setup channel that can be used to configure me, using the built in !setserver command. Once all has been configured  that channel will be deleted after 2 minutes. 
+- The most important executive commands (kick, ban, mute, role) get logged in the reports channel that you set in the setup process.
+- In the configurtion you also have the option to set a custom prefix. The default prefix is **!**.
+- The help menu is customized to the permission of the user who calls it and features a multi page setup.
 
-I feature three categories
+AJAX features three categories
 > - fun
 > - moderation
 > - info
 
-Check out all of my commands [here.](https://github.com/Worthy-Alpaca/AJAX/blob/develop/MY_COMMANDS.md)
+Check out all of its commands [here.](https://github.com/Worthy-Alpaca/AJAX/blob/develop/MY_COMMANDS.md)
 
-## Want to customize me yourself or contribute to this project?
+## Want to customize AJAX yourself or contribute to this project?
 
-If you want to contribute or customize AJAX yourself, make sure to check out my [contributing guide](https://github.com/Worthy-Alpaca/AJAX/blob/master/CONTRIBUTING.md#contributing)!
+If you want to contribute or customize AJAX yourself, make sure to check out the [contributing guide](https://github.com/Worthy-Alpaca/AJAX/blob/master/CONTRIBUTING.md#contributing)!
