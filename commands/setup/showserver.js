@@ -47,25 +47,25 @@ module.exports = {
             .setFooter(message.guild.name)
             .setDescription(stripIndents`**This is what you entered**`)
             .addField(`\u200b`, stripIndents`**Admin role**
-            \`${admin}\``, true)
+            ${admin}`, true)
             .addField(`\u200b`, stripIndents`**Moderator role**
-            \`${moderator}\``, true)
+            ${moderator}`, true)
             .addField(`\u200b`, stripIndents`**Welcome channel**
-            \`${welcomechannel}\``, true)
+            ${welcomechannel}`, true)
             .addField(`\u200b`, stripIndents`**Welcome message**
-            \`${welcomemessage}\``)
+            ${welcomemessage}`)
             .addField(`\u200b`, stripIndents`**Servergreeting message**
-            \`${servergreeting}\``)
+            ${servergreeting}`)
             .addField(`\u200b`, stripIndents`**Role for approved members**
-            \`${approvedrole}\``, true)
+            ${approvedrole}`, true)
             .addField(`\u200b`, stripIndents`**Command for approving new members**
             \`${startcmd}\``, true)
             .addField(`\u200b`, stripIndents`**Channel for your reports**
-            \`${reportschannel}\``, true)
+            ${reportschannel}`, true)
             .addField(`\u200b`, stripIndents`**Your prefix**
             \`${prefix}\``, true);
 
-        return message.channel.send(embed2);
+        return message.channel.send(embed2).then(m => m.delete( {timeout: 120000} ));
         
     }
 }
