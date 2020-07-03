@@ -22,17 +22,17 @@ module.exports = {
         const member = message.member;
         const guild = message.member.guild;   
         const delchannel = message.guild.channels.cache.find(channel => channel.name === "bot-setup");       
-        var adm2;                 
-        var md2;
-        var ch2;
-        var ms2;
-        var ms3;
-        var apr2;
-        var cmd2;
-        var rpt2; 
-        var prefix2;
-        var setimmediatly;   
-        var bolean;    
+        var adm2 = false;               
+        var md2 = false;
+        var ch2 = false;
+        var ms2 = false;
+        var ms3 = false;
+        var apr2 = false;
+        var cmd2 = false;
+        var rpt2 = false; 
+        var prefix2 = false;
+        var setimmediatly = false;   
+        var bolean = false;    
         
         
 
@@ -75,54 +75,77 @@ module.exports = {
         const rdy = await user_ready(message, embed2);
         //set admin role  
         if (rdy) {
-            adm2 = await setadm(message, con);
+            while (adm2 === false) {
+                adm2 = await setadm(message, con);
+            }            
         }
         //set moderator role
         if (adm2) {
-            md2 = await setmd(message, con);
+            while (md2 === false) {
+                md2 = await setmd(message, con);
+            }            
         }
         //set welcome channel
         if (md2) {
-            ch2 = await setch(message, con);
+            while (ch2 === false) {
+                ch2 = await setch(message, con);
+            }            
         }
         //set welcome message
         if (ch2) {
-            ms2 = await setms(message, con);
+            while (ms2 === false) {
+                ms2 = await setms(message, con);
+            }            
         }
         //set server welcome message
         if (ms2) {
-            ms3 = await setservergreeting(message, con, embed4);
+            while (ms3 === false) {
+                ms3 = await setservergreeting(message, con, embed4);
+            }            
         }
         //set approved immediatly
-        if (ms3){
-            setimmediatly = await setautomatic_approved(message, con);
+        if (ms3){            
+            setimmediatly = await setautomatic_approved(message, con);                     
         }
         if (setimmediatly) {
-            //set approved role            
-            apr2 = await setapr(message, con);
-            
+            //set approved role    
+            while (apr2 === false) {
+                apr2 = await setapr(message, con);
+            }                 
+            //set report channel
             if (apr2) {
-                prefix2 = await setreports(message, con);
+                while (prefix2 === false) {
+                    prefix2 = await setreports(message, con);
+                }                
             }
             //set prefix
             if (prefix2) {
-                rpt2 = await setprefix(message, con);
+                while (rpt2 === false) {
+                    rpt2 = await setprefix(message, con);
+                }                
             }
         } else {   
-            //set approved role            
-            apr2 = await setapr(message, con);
-                
+            //set approved role  
+            while (apr2 === false) {
+                apr2 = await setapr(message, con);
+            }                  
             //set approving command
             if (apr2) {
-                cmd2 = await setcmd(message, con);
+                while (cmd2 === false) {
+                    cmd2 = await setcmd(message, con);
+                }               
             }
             //set report channel
             if (cmd2) {
-                prefix2 = await setreports(message, con);
-            }  
+                while (prefix2 === false) {
+                    prefix2 = await setreports(message, con);
+                }                
+            }
             //set prefix
             if (prefix2) {
-                rpt2 = await setprefix(message, con);
+                while (rpt2 === false) {
+                    rpt2 = await setprefix(message, con);
+                }                
             }
         }
         
@@ -155,23 +178,23 @@ module.exports = {
             .setThumbnail(guild.iconURL())
             .setDescription(stripIndents`**This is what you entered**`)
             .addField(`\u200b`, stripIndents`**Admin role**
-            ${admin}`, true)
+            \`${admin}\``, true)
             .addField(`\u200b`, stripIndents`**Moderator role**
-            ${moderator}`, true)
+            \`${moderator}\``, true)
             .addField(`\u200b`, stripIndents`**Welcome channel**
-            ${welcomechannel}`, true)
+            \`${welcomechannel}\``, true)
             .addField(`\u200b`, stripIndents`**Welcome message**
-            ${welcomemessage}`)
+            \`${welcomemessage}\``)
             .addField(`\u200b`, stripIndents`**Servergreeting message**
-            ${servergreeting}`)
+            \`${servergreeting}\``)
             .addField(`\u200b`, stripIndents`**Role for approved members**
-            ${approvedrole}`, true)
+            \`${approvedrole}\``, true)
             .addField(`\u200b`, stripIndents`**Command for approving new members**
-            ${startcmd}`, true)
+            \`${startcmd}\``, true)
             .addField(`\u200b`, stripIndents`**Channel for your reports**
-            ${reportschannel}`, true)
+            \`${reportschannel}\``, true)
             .addField(`\u200b`, stripIndents`**Your prefix**
-            ${prefix}`, true);
+            \`${prefix}\``, true);
 
         if (rpt2) {            
             message.channel.send(embed)

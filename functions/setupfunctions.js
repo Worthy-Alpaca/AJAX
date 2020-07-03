@@ -28,7 +28,9 @@ module.exports = {
                         })
                     })                    
                     .catch(() => {
-                        message.channel.send(`This role doesn't exist! Aborting setup process!`).then(m => m.delete( {timeout: 5000} ));
+                        adm = false;
+                        resolve(adm);
+                        message.channel.send(`This role doesn't exist! Please try again!`).then(m => m.delete( {timeout: 5000} ));
                     })
                     
             });
@@ -64,7 +66,9 @@ module.exports = {
                         })
                     })
                     .catch(() => {
-                        message.channel.send(`This role doesn't exist! Aborting setup process!`);
+                        md = false;
+                        resolve(md)
+                        message.channel.send(`This role doesn't exist! Please try again!`);
                     })
                       
             });
@@ -100,7 +104,9 @@ module.exports = {
                         })
                     })
                     .catch(() => {
-                        message.channel.send(`This channel doesn't exist! Aborting setup process!`);
+                        ch = false;
+                        resolve(ch)
+                        message.channel.send(`This channel doesn't exist! Please try again!`);
                     })
                       
             });
@@ -129,7 +135,9 @@ module.exports = {
                         })
                     })
                     .catch(() => {
-                        message.channel.send('You did not provide any input! Aborting setup process!');
+                        ms = false;
+                        resolve(ms);
+                        message.channel.send('You did not provide any input! Please try again!');
                     })
                     
             });
@@ -164,7 +172,9 @@ module.exports = {
                         })
                     })
                     .catch(() => {
-                        message.channel.send(`This role doesn't exist! Aborting setup process!`);
+                        apr = false;
+                        resolve(apr);
+                        message.channel.send(`This role doesn't exist! Please try again!`);
                     })
                       
             });
@@ -193,7 +203,9 @@ module.exports = {
                         })
                     })
                     .catch(() => {
-                        message.channel.send('You did not provide any input! Aborting setup process!');
+                        cmd = false;
+                        resolve(cmd);
+                        message.channel.send('You did not provide any input! Please try again!');
                     })
                     
             });
@@ -260,7 +272,9 @@ module.exports = {
                         })
                     })
                     .catch(() => {
-                        message.channel.send(`This channel doesn't exist! Aborting setup process!`);
+                        ch = false;
+                        resolve(ch);
+                        message.channel.send(`This channel doesn't exist! Please try again!`);
                     })
                       
             });
@@ -316,7 +330,9 @@ module.exports = {
                         })
                     })
                     .catch(() => {
-                        message.channel.send('You did not provide any input! Aborting setup process!');
+                        ch = false;
+                        resolve(ch)
+                        message.channel.send('You did not provide any input! Using default!');
                     })
             })
         })
@@ -342,7 +358,9 @@ module.exports = {
                         })
                     })
                     .catch(() => {
-                        message.channel.send('You did not provide any input! Aborting setup process!');
+                        ms = false;
+                        resolve(ms);
+                        message.channel.send('You did not provide any input! Please try again!');
                     })
                     
             });
@@ -369,7 +387,9 @@ module.exports = {
                         })
                     })
                     .catch(() => {
-                        message.channel.send('You did not provide any input! Aborting setup process!');
+                        ms = true;
+                        resolve(ms);
+                        message.channel.send('You did not provide any input! Using default prefix!');
                     })
                     
             });
