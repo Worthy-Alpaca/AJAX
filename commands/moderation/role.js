@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
-const { getAdmin, getMod } = require("../../functions/db_queries.js");
+const { stripIndents } = require("common-tags");
+const { getAdmin, getMod, getreportschannel } = require("../../functions/db_queries.js");
 const { filter_integer } = require("../../functions/functions.js");
 
 module.exports = {
@@ -10,6 +11,10 @@ module.exports = {
     descriptionlong: "adds/removes role to all mentioned members depending wether they already have the role",
     usage: "<role> <member> [member] etc.",
     run: async (client, message, args, con) => {
+        message.delete();
+
+        const reports = await getreportschannel(message, con);
+        const logChannel = message.guild.channels.cache.find(c => c.id === reports) || message.channel;
 
         var admin = await getAdmin(message, con);
         var moderator = await getMod(message, con);
@@ -55,17 +60,29 @@ module.exports = {
             
             const toadd = message.guild.members.cache.find(m => m.id === mbr);
 
+            const embed = new Discord.MessageEmbed()
+                .setColor("#ff0000")
+                .setThumbnail(toadd.user.displayAvatarURL())                
+                .setTimestamp()
+                .setFooter(message.guild.name, message.guild.iconURL)
+                .setTitle("**Role added**")
+                .setDescription(stripIndents`${role} added to ${toadd} by ${message.member}`);
+
             if (!toadd) {
                 return message.reply(`Couldn't find ${toadd}. Try again`)
                     .then(m => m.delete({ timeout: 5000 }));
             }
 
             if (toadd.roles.cache.has(role.id)) {
+                embed.setDescription(stripIndents`${role} removed from ${toadd} by ${message.member}`);
+                logChannel.send(embed)
                 toadd.roles.remove(role.id).catch(e => console.log(e.message))
-                return message.channel.send(`\`${role.name}\` has been removed from ${toadd}.`)
+                return message.channel.send(`\`${role.name}\` has been removed from ${toadd}.`).then(m => m.delete( {timeout: 5000} ));
             } else {
+                embed.setDescription(stripIndents`${role} added to ${toadd} by ${message.member}`);
+                logChannel.send(embed)
                 toadd.roles.add(role.id).catch(e => console.log(e.message))
-                return message.channel.send(`\`${role.name}\` has been added to ${toadd}.`)
+                return message.channel.send(`\`${role.name}\` has been added to ${toadd}.`).then(m => m.delete( {timeout: 5000} ));
             }
         })
     }
