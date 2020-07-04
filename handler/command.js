@@ -15,8 +15,7 @@ module.exports = (client) => {
         
     
         // Loop over the commands, and add all of them to a collection
-        // If there's no name found, prevent it from returning an error,
-        // By using a cross in the table.
+        // If there's no name found, prevent it from returning an error        
         for (let file of commands) {
             let pull = require(`../commands/${dir}/${file}`);
     
