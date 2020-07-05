@@ -41,7 +41,7 @@ module.exports = {
         let role = message.mentions.roles.first();
 
         if (!role) {
-            return message.reply("You did not mention a role for me to add")
+            return message.reply("You did not mention a role for me to add").then(m => m.delete( {timeout: 5000} ));
         }
         //check if role is one of the staff roles
         if (role.id === message.guild.roles.cache.find(r => r.id === admin).id || role.id === message.guild.roles.cache.find(r => r.id === moderator).id) {
