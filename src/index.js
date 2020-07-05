@@ -110,7 +110,7 @@ client.on("guildCreate", guild => {
 
   //checking for systemmessage channel
   if (!channel) {
-    client.users.fetch(message.guild.owner.id, false).then(user => {
+    client.users.fetch(guild.owner.id, false).then(user => {
       user.send(embed)
     })
   } else {
