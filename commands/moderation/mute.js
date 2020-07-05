@@ -76,6 +76,10 @@ module.exports = {
                     .then(m => m.delete({ timeout: 5000 }));
             }
 
+            if (mutee.roles.cache.has(admin.id)) {
+                return message.reply("You cannot mute a server admin")
+            }
+
             const embed = new Discord.MessageEmbed() 
                 .setColor("#ff0000")
                 .setTimestamp()
