@@ -82,7 +82,7 @@ module.exports = {
                 .setFooter(message.guild.name, message.guild.iconURL)
                 .setAuthor("Muted member", mutee.user.displayAvatarURL())
                 .setDescription(stripIndents`**> Member: ${mutee} (${mutee.id})
-                **> Automated Mute
+                **> Manual Mute
                 **> Muted in: ${message.channel}
                 **> Reason: probably a good one
                 MUTE needs to be manually removed`);
