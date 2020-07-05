@@ -5,7 +5,7 @@ const { token, password } = require('../token.json');
 const fs = require("fs");
 const Discord = require("discord.js")
 const { stripIndents } = require("common-tags");
-const { getChnl, getMsg, getapproved, getapproved2, getservergreeting, getstartcmd, getreportschannel, getautoapproved, getprefix } = require("../functions/db_queries.js");
+const { getChnl, getAdmin, getMsg, getapproved, getapproved2, getservergreeting, getstartcmd, getreportschannel, getautoapproved, getprefix } = require("../functions/db_queries.js");
 const usersMap = new Map();
 const mysql = require("mysql");
 const { bugs } = require("../package.json")
@@ -225,6 +225,8 @@ client.on("message", async message => {
   if (usersMap.has(message.author.id)) {
     let mutee = message.member;
     const reports = await getreportschannel(message, con);
+    const adm = await getAdmin(message, con);
+    const admin = message.guild.roles.cache.find(r => r.id === adm)
     const report = message.guild.channels.cache.find(channel => channel.id === reports);
     const userData = usersMap.get(message.author.id);
     const { lastMessage, timer } = userData;
@@ -241,8 +243,6 @@ client.on("message", async message => {
             **> Muted in: ${message.channel}
             **> Reason: SPAM
             MUTE needs to be manually removed`);
-
-
 
     if (!muterole) {
       try {
@@ -285,10 +285,12 @@ client.on("message", async message => {
     else {
       ++msgCount;
       if (parseInt(msgCount) === LIMIT) {
-        mutee.roles.add(muterole);
-        message.channel.send(`${mutee} You have been muted. Please contact a staff member to get that reversed.`);
-        report.send(`@here, someone has been auto-muted.`);
-        report.send(embed);
+        if (!mutee.roles.cache.has(admin.id)) {          
+          mutee.roles.add(muterole);
+          message.channel.send(`${mutee} You have been muted. Please contact a staff member to get that reversed.`);
+          report.send(`@here, someone has been auto-muted.`);
+          report.send(embed);
+        } 
         /* setTimeout(() => {
           mutee.removeRole(muterole);
           message.channel.send('You have been unmuted');
