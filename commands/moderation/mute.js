@@ -76,6 +76,10 @@ module.exports = {
                     .then(m => m.delete({ timeout: 5000 }));
             }
 
+            if (member.user.bot) {
+                return message.reply("You cannot mute a bot")
+            }
+
             if (mutee.roles.cache.has(message.guild.roles.cache.find(r => r.id === admin).id)) {
                 return message.reply("You cannot mute a server admin")
             }
