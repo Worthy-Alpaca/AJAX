@@ -57,6 +57,55 @@ module.exports = {
                 return resolve(mbr2.id);
             }
         })
+    },
+
+    pageparser: function (message, msg, i, time, chooseArr, promptMessage, array_length) {
+        
+        return new Promise(async function (resolve, reject) {
+            const chooseArrfirst = [chooseArr[1], chooseArr[2]]
+            const chooseArrlast = [chooseArr[0], chooseArr[1]]
+            if (i === 0) {
+                var reaction = await promptMessage(msg, message.author, time, chooseArrfirst);
+
+                if (reaction === chooseArr[2]) {
+                    msg.delete();  
+                    i++;                    
+                    return resolve(i);
+                } else if (reaction === chooseArr[1]) {
+                    i = array_length + 1;
+                    msg.delete();
+                    return;
+                }
+            } else if (i === array_length - 1) {
+                var reaction = await promptMessage(msg, message.author, time, chooseArrlast);
+
+                if (reaction === chooseArr[0]) {
+                    msg.delete();
+                    i--;                    
+                    return resolve(i);                  
+                } else if (reaction === chooseArr[1]) {
+                    i = array_length + 1;
+                    msg.delete();
+                    return;
+                }
+            } else {
+                var reaction = await promptMessage(msg, message.author, time, chooseArr);
+
+                if (reaction === chooseArr[0]) {
+                    msg.delete();
+                    i--;                    
+                    return resolve(i);                    
+                } else if (reaction === chooseArr[2]) {
+                    msg.delete();
+                    i++;                    
+                    return resolve(i);
+                } else if (reaction === chooseArr[1]) {
+                    i = array_length + 1;
+                    msg.delete();
+                    return;
+                }
+            }
+        })
     }
         
 };
