@@ -4,7 +4,7 @@ const { version } = require("../../src/config.json");
 var { prefix } = require("../../src/config.json");
 const { getAdmin, getMod, getprefix } = require("../../functions/db_queries.js");
 const cat = require("../fun/cat");
-const { promptMessage } = require("../../functions/functions.js");
+const { promptMessage, pageparser } = require("../../functions/functions.js");
 
 module.exports = {
     name: "help",
@@ -48,52 +48,7 @@ module.exports = {
                 }
 
                 cats = [client.categories[i]];
-                await getAll(client, message, perms, cats).then(async msg => {
-
-                    if (i === 0) {
-                        var reaction = await promptMessage(msg, message.author, 240000, chooseArrfirst);
-
-                        if (reaction === chooseArr[2]) {
-                            msg.delete();
-                            i++;
-                            return
-                        } else if (reaction === chooseArr[1]) {
-                            i = client.categories.length +1;
-                            msg.delete();
-                            return
-                        }
-                    } else if (i === client.categories.length -1) {
-                        var reaction = await promptMessage(msg, message.author, 240000, chooseArrlast);
-
-                        if (reaction === chooseArr[0]) {
-                            msg.delete();
-                            i--;
-                            return
-                        } else if (reaction === chooseArr[1]) {
-                            i = client.categories.length +1;
-                            msg.delete();
-                            return
-                        }
-                    } else {
-                        var reaction = await promptMessage(msg, message.author, 240000, chooseArr);
-
-                        if (reaction === chooseArr[0]) {
-                            msg.delete();
-                            i--;
-                            return
-                        } else if (reaction === chooseArr[2]) {
-                            msg.delete();
-                            i++;
-                            return
-                        } else if (reaction === chooseArr[1]) {
-                            i = client.categories.length +1;
-                            msg.delete();
-                            return
-                        }
-                    }
-
-
-                })
+                i = await getAll(client, message, perms, cats).then(msg => pageparser(message, msg, i, 240000, chooseArr, promptMessage, client.categories.length));
             } return;
 
         }

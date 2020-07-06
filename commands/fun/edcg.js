@@ -4,7 +4,7 @@ const { stripIndents } = require("common-tags");
 const { version } = require("../../src/config.json");
 const { apikey_inara } =require("../../src/config.json");
 const { combat, exploration, trade, cqc, empire, fedaration } = require("../../assets/elite/ranks.json");
-const { promptMessage } = require("../../functions/functions.js");
+const { promptMessage, pageparser } = require("../../functions/functions.js");
 
 module.exports = {
     name: "edcg",
@@ -58,7 +58,7 @@ module.exports = {
         
         while (a && i < response.events[0].eventData.length) {
             const community_goal = response.events[0].eventData[i];
-
+            console.log(i, "before function")
             const embed = new Discord.MessageEmbed()
                 .setColor('RANDOM')
                 .setTimestamp()
@@ -74,51 +74,7 @@ module.exports = {
             Tier: ${community_goal.tierReached}/${community_goal.tierMax}
             Contributions: ${community_goal.contributionsTotal}`, true);
 
-
-            await message.channel.send(embed).then(async msg => {
-
-                if (i === 0) {
-                    var reaction = await promptMessage(msg, message.author, 240000, chooseArrfirst);
-
-                    if (reaction === chooseArr[2]) {
-                        msg.delete();
-                        i++;
-                        return
-                    } else if (reaction === chooseArr[1]) {
-                        i = response.events[0].eventData.length +1;
-                        msg.delete();
-                        return
-                    }
-                } else if (i === response.events[0].eventData.length -1) {
-                    var reaction = await promptMessage(msg, message.author, 240000, chooseArrlast);
-
-                    if (reaction === chooseArr[0]) {
-                        msg.delete();
-                        i--;
-                        return
-                    } else if (reaction === chooseArr[1]) {
-                        i = response.events[0].eventData.length +1;
-                        msg.delete();
-                        return
-                    }
-                } else {
-                    var reaction = await promptMessage(msg, message.author, 240000, chooseArr);
-
-                    if (reaction === chooseArr[0]) {
-                        msg.delete();
-                        i--;
-                        return
-                    } else if (reaction === chooseArr[2]) {
-                        msg.delete();
-                        i++;
-                        return
-                    } else if (reaction === chooseArr[1]) {
-                        i = response.events[0].eventData.length +1;
-                        msg.delete();
-                        return
-                    }
-                }
-            })
+            i = await message.channel.send(embed).then(msg => pageparser(message, msg, i, 240000, chooseArr, promptMessage, response.events[0].eventData.length));                        
         }
 
         
