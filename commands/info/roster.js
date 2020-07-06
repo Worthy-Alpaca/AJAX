@@ -16,10 +16,10 @@ module.exports = {
         const guild = message.channel.guild;
 
         var admin = await getAdmin(message, con);
-        var moderator = await getMod(message, con);
-        var name
+        var moderator = await getMod(message, con);        
         var admins = [];
         var moderators = [];
+        var bots = [];
         
         if (admin === null) {
             return message.channel.send("You need to set the role for admin first. Do that by typing !setadmin")
@@ -30,19 +30,19 @@ module.exports = {
         
         guild.members.cache.forEach(member => {
             if (member.roles.cache.has(message.guild.roles.cache.find(r => r.id === admin).id)){
-                if (member.id === client.user.id) {
+                if (member.user.bot) {                    
                     return
-                } else {
-                    name = member.displayName
-                    admins.push(name)
+                } else {                    
+                    admins.push(member.displayName)
                 }
             } else if(member.roles.cache.has(message.guild.roles.cache.find(r => r.id === moderator).id)) {
-                if (member.id === client.user.id) {
+                if (member.user.bot) {
                     return
-                } else {
-                    name = member.displayName
-                    moderators.push(name)
+                } else {                    
+                    moderators.push(member.displayName)
                 }
+            } else if (member.user.bot) {
+                bots.push(member.displayName);
             }
         })
 
@@ -50,7 +50,8 @@ module.exports = {
             .setColor("RANDOM")
             .setFooter(message.guild.name)
             .setTimestamp()
-            .setTitle("People who do stuff");            
+            .setTitle("People who do stuff")
+            .addField(`**BOTS**`, stripIndents`${bots.join('\n')}`);
             
         
         if (admins.length > 0) {
