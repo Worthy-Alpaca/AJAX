@@ -19,9 +19,7 @@ module.exports = {
         var timestamp = date.getTime();        
         var a = true;
         var i = 0;
-        const chooseArr = ["◀", "⏹", "▶"]
-        const chooseArrfirst = [chooseArr[1], chooseArr[2]]
-        const chooseArrlast = [chooseArr[0], chooseArr[1]]
+        const chooseArr = ["◀", "⏹", "▶"];        
 
         const data = { 
         "header": {

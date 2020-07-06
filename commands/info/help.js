@@ -23,9 +23,7 @@ module.exports = {
         var i = 0;
         var a = true;
         const custom_prefix = await getprefix(message, con);
-        const chooseArr = ["◀", "⏹", "▶"]
-        const chooseArrfirst = [chooseArr[1], chooseArr[2]]
-        const chooseArrlast = [chooseArr[0], chooseArr[1]]
+        const chooseArr = ["◀", "⏹", "▶"];
 
         if (custom_prefix !== null) {
             prefix = custom_prefix;
