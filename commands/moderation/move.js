@@ -4,7 +4,7 @@ module.exports = {
     name: "move",
     category: "moderation",
     permission: ["moderator", "admin"],
-    description: "Moves all members from one channel to the other",
+    description: "Moves all members from one channel to the other. Case sensitive.",
     usage: "<channel1 -> channel2>",
     run: async (client, message, args, con) => {
         message.delete();
