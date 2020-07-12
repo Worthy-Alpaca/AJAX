@@ -108,10 +108,6 @@ module.exports = {
                 return report.send(embed);
             }
         })
-               
-        
-
-
-
+       
     }
 }
