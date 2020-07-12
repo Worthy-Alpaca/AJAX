@@ -44,7 +44,7 @@ module.exports = {
     filter_integer: function (message, mention) {
         return new Promise(function (resolve, reject) {
             var person = Array.from(mention)
-            if (person.includes("@")) {                
+            if (person.includes("@") || person.includes("#")) {                
                 var mbr = []
                 person.forEach(function(letter) {
                     if (Number.isInteger(+letter)) {
@@ -54,6 +54,9 @@ module.exports = {
                 return resolve(mbr.join(""))
             } else {
                 var mbr2 = message.guild.roles.cache.find(r => r.name === person.join(""));
+                if (!mbr2) {
+                    mbr2 = message.guild.channels.cache.find(r => r.name === person.join(""));
+                }
                 return resolve(mbr2.id);
             }
         })
