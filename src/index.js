@@ -209,7 +209,7 @@ client.on("message", async message => {
   
   const custom_prefix = await getprefix(message, con).catch(err => console.log(err));
 
-  if (custom_prefix === null) {
+  if (custom_prefix !== null) {
     prefix = custom_prefix;
   }
   
