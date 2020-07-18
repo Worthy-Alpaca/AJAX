@@ -23,7 +23,8 @@ module.exports = (client) => {
                 client.commands.set(pull.name, pull);
                 table.addRow(file, 'operational ✅');
             } else {
-                table.addRow(file, `❌  -> missing a neccessary header`);
+                // mandatory headers are: name, category, description, permission
+                table.addRow(file, `❌  -> missing a mandatory header`);
                 a++;
                 continue;
             }
