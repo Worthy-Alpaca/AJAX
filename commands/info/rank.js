@@ -8,7 +8,7 @@ module.exports = {
     name: "rank",
     category: "info",
     permission: ["none", "moderator", "admin"],
-    description: "Applies the given rank.",     
+    description: "Applies the given rank. No mention needed.",     
     usage: "<rank>",   
 
     run: async (client, message, args, con) => {

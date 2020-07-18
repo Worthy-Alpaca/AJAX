@@ -1,5 +1,6 @@
 const Discord  = require("discord.js");
 const { getAdmin, getMod } = require("../../functions/db_queries.js")
+const { filter_integer } = require("../../functions/functions.js")
 
 module.exports = {
     name: "say",
@@ -27,22 +28,17 @@ module.exports = {
 
         if (typeof args[0] == 'undefined') {
             return message.channel.send("Maybe include something :wink:")
-        } 
-            
-        var chnl = Array.from(args[0])
-        
-        if (chnl.includes("#")) {
-            b = chnl.slice(2, chnl.indexOf(">"))           
-            var channel = message.guild.channels.cache.find(channel => channel.id === b.join(""));       
-        } else {
-            var channel = message.guild.channels.cache.find(channel => channel.name === chnl.join(""));
         }
-                
+        
+        const chnl = await filter_integer(message, args[0]);
+        
+        const channel = message.guild.channels.cache.find(channel => channel.id === chnl);
+             
         if (channel) {
             if (typeof args[1] == 'undefined') {
                 return message.channel.send("Maybe include a message :wink:")
             } 
-        }       
+        }           
 
         if (!channel) {
             if (args[0].toLowerCase() === "embed") {

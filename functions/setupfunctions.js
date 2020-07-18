@@ -1,3 +1,5 @@
+const { filter_integer } = require("./functions.js");
+
 module.exports = {
 
     setadm: function(message, con) { 
@@ -7,20 +9,13 @@ module.exports = {
                 const filter = m => message.author.id === m.author.id;                
             
                 message.channel.awaitMessages(filter, { time: 120000, max: 1, errors: ['time'] })
-                    .then(messages => {                        
-                        var chnl = Array.from(messages.first().content)                      
-                
-                        if (chnl.includes("@")) {
-                            b = chnl.slice(3, chnl.indexOf(">"))
-                            var admin = b.join("")
-                        } else {
-                            var channel2 = message.guild.roles.cache.find(r => r.name === chnl.join(""));                        
-                            var admin = channel2.id;                                  
-                        }
+                    .then(async messages => {                        
+                        
+                        var admin = await filter_integer(message, messages.first().content);
+                        
                         msg = message.channel.send(`You've entered: \`${message.guild.roles.cache.find(r => r.id === admin).name}\``).then(m => m.delete( {timeout: 5000} ));
                         con.query(`SELECT * FROM servers WHERE id = '${message.guild.id}'`, (err, rows) => {
                             let sql;
-
                             sql = `UPDATE servers SET admin = '${admin}' WHERE id = '${message.guild.id}'`;
                             adm = true;
                             resolve(adm);
@@ -45,20 +40,13 @@ module.exports = {
                 
             
                 message.channel.awaitMessages(filter, { time: 120000, max: 1, errors: ['time'] })
-                    .then(messages => {
-                        var chnl = Array.from(messages.first().content)
-                
-                        if (chnl.includes("@")) {
-                            b = chnl.slice(3, chnl.indexOf(">"))
-                            var moderator = b.join("")
-                        } else {
-                            var channel2 = message.guild.roles.cache.find(r => r.name === chnl.join(""));                        
-                            var moderator = channel2.id;                                  
-                        }
+                    .then(async messages => {
+                        
+                        var moderator = await filter_integer(message, messages.first().content);
+
                         msg = message.channel.send(`You've entered: \`${message.guild.roles.cache.find(r => r.id === moderator).name}\``).then(m => m.delete( {timeout: 5000} ));
                         con.query(`SELECT * FROM servers WHERE id = '${message.guild.id}'`, (err, rows) => {
-                            let sql;
-    
+                            let sql;    
                             sql = `UPDATE servers SET moderator = '${moderator}' WHERE id = '${message.guild.id}'`;
                             md = true;
                             resolve(md);
@@ -83,16 +71,8 @@ module.exports = {
                 
             
                 message.channel.awaitMessages(filter, { time: 120000, max: 1, errors: ['time'] })
-                    .then(messages => {
-                        var chnl = Array.from(messages.first().content)
-
-                        if (chnl.includes("#")) {
-                            b = chnl.slice(2, chnl.indexOf(">"))
-                            var channel = b.join("")
-                        } else {
-                            var channel2 = message.guild.channels.cache.find(channel => channel.name === chnl.join(""));                        
-                            var channel = channel2.id;                                  
-                        }        
+                    .then(async messages => {
+                        var channel = await filter_integer(message, messages.first().content);        
                                                
                         message.channel.send(`You've entered: \`${message.guild.channels.cache.find(r => r.id === channel).name}\``).then(m => m.delete( {timeout: 5000} ));
                         con.query(`SELECT * FROM servers WHERE id = '${message.guild.id}'`, (err, rows) => {
@@ -127,7 +107,6 @@ module.exports = {
                         msg = message.channel.send(`You've entered: \`${messages.first().content}\``).then(m => m.delete( {timeout: 5000} ));
                         con.query(`SELECT * FROM servers WHERE id = '${message.guild.id}'`, (err, rows) => {
                             let sql;
-
                             sql = `UPDATE servers SET greeting = '${greeting}' WHERE id = '${message.guild.id}'`;
                             ms = true;
                             resolve(ms);
@@ -151,20 +130,13 @@ module.exports = {
                 var apr;
             
                 message.channel.awaitMessages(filter, { time: 120000, max: 1, errors: ['time'] })
-                    .then(messages => {
-                        var chnl = Array.from(messages.first().content)
-                
-                        if (chnl.includes("@")) {
-                            b = chnl.slice(3, chnl.indexOf(">"))
-                            var approved = b.join("")
-                        } else {
-                            var channel2 = message.guild.roles.cache.find(r => r.name === chnl.join(""));                        
-                            var approved = channel2.id;                                  
-                        }
+                    .then(async messages => {
+
+                        var approved = await filter_integer(message, messages.first().content);
+
                         msg = message.channel.send(`You've entered: \`${message.guild.roles.cache.find(r => r.id === approved).name}\``).then(m => m.delete( {timeout: 5000} ));
                         con.query(`SELECT * FROM servers WHERE id = '${message.guild.id}'`, (err, rows) => {
-                            let sql;
-    
+                            let sql;    
                             sql = `UPDATE servers SET approved = '${approved}' WHERE id = '${message.guild.id}'`;
                             apr = true;
                             resolve(apr);
@@ -195,7 +167,6 @@ module.exports = {
                         msg = message.channel.send(`You've entered: \`${cmd}\``).then(m => m.delete( {timeout: 5000} ));
                         con.query(`SELECT * FROM servers WHERE id = '${message.guild.id}'`, (err, rows) => {
                             let sql;
-
                             sql = `UPDATE servers SET startcmd = '${cmd}' WHERE id = '${message.guild.id}'`;
                             cmd = true;
                             resolve(cmd);
@@ -249,18 +220,9 @@ module.exports = {
                 const filter = m => message.author.id === m.author.id;
                 var ch;
                 
-            
                 message.channel.awaitMessages(filter, { time: 120000, max: 1, errors: ['time'] })
-                    .then(messages => {
-                        var chnl = Array.from(messages.first().content)
-
-                        if (chnl.includes("#")) {
-                            b = chnl.slice(2, chnl.indexOf(">"))
-                            var channel = b.join("")
-                        } else {
-                            var channel2 = message.guild.channels.cache.find(channel => channel.name === chnl.join(""));                        
-                            var channel = channel2.id;                                  
-                        }        
+                    .then(async messages => {
+                        var channel = await filter_integer(message, messages.first().content);       
                                                
                         message.channel.send(`You've entered: \`${message.guild.channels.cache.find(r => r.id === channel).name}\``).then(m => m.delete( {timeout: 5000} ));
                         con.query(`SELECT * FROM servers WHERE id = '${message.guild.id}'`, (err, rows) => {
@@ -350,7 +312,6 @@ module.exports = {
                         msg = message.channel.send(`You've entered: \`${messages.first().content}\``).then(m => m.delete( {timeout: 5000} ));
                         con.query(`SELECT * FROM servers WHERE id = '${message.guild.id}'`, (err, rows) => {
                             let sql;
-
                             sql = `UPDATE servers SET server_greeting = '${greeting}' WHERE id = '${message.guild.id}'`;
                             ms = true;
                             resolve(ms);
@@ -379,7 +340,6 @@ module.exports = {
                         msg = message.channel.send(`Prefix changed to: \`${messages.first().content}\``).then(m => m.delete( {timeout: 5000} ));
                         con.query(`SELECT * FROM servers WHERE id = '${message.guild.id}'`, (err, rows) => {
                             let sql;
-
                             sql = `UPDATE servers SET prefix = '${prefix}' WHERE id = '${message.guild.id}'`;
                             ms = true;
                             resolve(ms);

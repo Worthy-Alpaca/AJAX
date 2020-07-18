@@ -3,13 +3,12 @@ const { version, status, welcome_channel, DIFF, LIMIT, TIME, database } = requir
 var { prefix } = require('./config.json');
 const { token, password } = require('../token.json');
 const fs = require("fs");
-const Discord = require("discord.js")
+const Discord = require("discord.js");
 const { stripIndents } = require("common-tags");
 const { getChnl, getAdmin, getMsg, getapproved, getapproved2, getservergreeting, getstartcmd, getreportschannel, getautoapproved, getprefix } = require("../functions/db_queries.js");
 const usersMap = new Map();
 const mysql = require("mysql");
-const { bugs } = require("../package.json")
-
+const { bugs } = require("../package.json");
 
 const client = new Client({
   disableEveryone: false
@@ -19,10 +18,6 @@ client.reply = new Collection();
 client.commands = new Collection();
 client.aliases = new Collection();
 client.categories = fs.readdirSync("./commands/");
-
-
-
-
 
 ["command"].forEach(handler => {
   require(`../handler/${handler}`)(client);
@@ -156,7 +151,6 @@ client.on("guildDelete", guild => {
   })
 })
 
-
 //welcome message
 client.on("guildMemberAdd", async member => {
   var greeting;
@@ -208,8 +202,6 @@ client.on("guildMemberAdd", async member => {
 
 
 });
-
-
 
 //message handler
 client.on("message", async message => {
@@ -312,8 +304,6 @@ client.on("message", async message => {
     });
   }
 
-
-
   if (!message.guild) return;
 
   //listening for the approved command
@@ -370,15 +360,7 @@ client.on("message", async message => {
   let command = client.commands.get(cmd);
   if (!command) command = client.commands.get(client.aliases.get(cmd));
 
-  if (command)
-    command.run(client, message, args, con);
-
-
-
+  if (command) command.run(client, message, args, con);
 })
 
-
-
 client.login(token);
-
-
