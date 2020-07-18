@@ -76,7 +76,7 @@ module.exports = {
                     .then(m => m.delete({ timeout: 5000 }));
             }
 
-            if (member.user.bot) {
+            if (mutee.user.bot) {
                 return message.reply("You cannot mute a bot")
             }
 
