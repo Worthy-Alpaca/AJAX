@@ -2,7 +2,7 @@ const Discord = require("discord.js");
 const fetch = require('node-fetch');
 const { stripIndents } = require("common-tags");
 const { version } = require("../../src/config.json");
-const { apikey_inara } =require("../../src/config.json");
+const { apikey_inara } = require("../../src/config.json");
 const { combat, exploration, trade, cqc, empire, fedaration } = require("../../assets/elite/ranks.json");
 
 module.exports = {
@@ -14,7 +14,7 @@ module.exports = {
     usage: "[Commander name]",
     run: async (client, message, args, con) => {
         if (message.deletable) message.delete();
-        
+
         var cmdr = args.slice(0).join(" ")
 
         if (!cmdr) {
@@ -23,27 +23,28 @@ module.exports = {
         }
 
         var date = new Date();
-        var timestamp = date.getTime();        
+        var timestamp = date.getTime();
         ranks = [];
 
-        const data = { 
-        "header": {
-            "appName": "Aiax",
-            "appVersion": `${version}`,
-            "isDeveloped": true,
-            "APIkey": apikey_inara,
-            "commanderName": "Worthy Alpaca",
-            "commanderFrontierID": "3298136"
-        },
-        "events": [
-            {
-                "eventName": "getCommanderProfile",
-                "eventTimestamp": timestamp,                
-                "eventData": {
-                    "searchName": `${cmdr}`
-                }
-            },            
-        ] };
+        const data = {
+            "header": {
+                "appName": "Aiax",
+                "appVersion": `${version}`,
+                "isDeveloped": true,
+                "APIkey": apikey_inara,
+                "commanderName": "Worthy Alpaca",
+                "commanderFrontierID": "3298136"
+            },
+            "events": [
+                {
+                    "eventName": "getCommanderProfile",
+                    "eventTimestamp": timestamp,
+                    "eventData": {
+                        "searchName": `${cmdr}`
+                    }
+                },
+            ]
+        };
 
         //converting rank number to name
         function getrank(rankName, rankValue) {
@@ -53,21 +54,21 @@ module.exports = {
                 return rnk = trade[rankValue];
             } else if (rankName === "exploration") {
                 return rnk = exploration[rankValue];
-            } else if ( rankName === "cqc") {
+            } else if (rankName === "cqc") {
                 return rnk = cqc[rankValue];
-            } else if ( rankName === "empire") {
+            } else if (rankName === "empire") {
                 return rnk = empire[rankValue];
-            } else if ( rankName === "federation") {
+            } else if (rankName === "federation") {
                 return rnk = fedaration[rankValue];
             }
         }
-                
+
         const response = await fetch('https://inara.cz/inapi/v1/', {
-            method: 'POST',           
+            method: 'POST',
             body: JSON.stringify(data),
         }).then(function (response) {
             return response.json();
-        }) 
+        })
         //console.log(response) 
         if (response.events[0].eventStatus === 202) {
             return message.reply(`\`${cmdr}\` returned multiple results.`)
@@ -83,7 +84,7 @@ module.exports = {
         API_ranks.forEach(function (rank) {
             ranks.push(getrank(rank.rankName, rank.rankValue))
         })
-        
+
         const embed = new Discord.MessageEmbed()
             .setColor('RANDOM')
             .setTimestamp()
@@ -111,8 +112,8 @@ module.exports = {
             Current rank: ${squadron.squadronMemberRank}
             ${squadron.squadronMembersCount} other Squadron members`);
         }
-        
+
         return message.channel.send(embed);
-      
+
     }
-   }
+}

@@ -38,9 +38,7 @@ module.exports = {
             .addField('Example', trim(answer.example, 1024) )
             .addField('Rating', `${answer.thumbs_up} thumbs up. ${answer.thumbs_down} thumbs down.`);
 
-        message.channel.send(embed);
-
-        
+        return message.channel.send(embed);
 
     }
    }

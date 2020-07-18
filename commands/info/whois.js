@@ -1,4 +1,4 @@
-const Discord  = require("discord.js");
+const Discord = require("discord.js");
 const { stripIndents } = require("common-tags");
 const { formatDate } = require("../../functions/functions.js");
 
@@ -20,7 +20,7 @@ module.exports = {
             .filter(r => r.id !== message.guild.id)
             .map(r => r)
             .join(", ") || "none";
-    
+
         //user variables
         const created = formatDate(member.user.createdAt);
 

@@ -1,4 +1,4 @@
-const Discord  = require("discord.js");
+const Discord = require("discord.js");
 
 
 module.exports = {
@@ -28,7 +28,7 @@ module.exports = {
         const embed = new Discord.MessageEmbed()
             .setColor("#ffb6c1")
             .addField(`☁ **${person.displayName}** loves **${message.member.displayName}** this much:`,
-            `💟 ${Math.floor(love)}%\n\n${loveLevel}`);
+                `💟 ${Math.floor(love)}%\n\n${loveLevel}`);
 
         message.channel.send(embed);
     }

@@ -1,7 +1,7 @@
-const Discord  = require("discord.js");
+const Discord = require("discord.js");
 const { getinfractions, getAdmin, getMod } = require("../../functions/db_queries.js");
 const { stripIndents } = require("common-tags");
-const {kick_limit, ban_limit, version} = require("../../src/config.json");
+const { kick_limit, ban_limit, version } = require("../../src/config.json");
 
 
 module.exports = {
@@ -14,21 +14,20 @@ module.exports = {
     run: async (client, message, args, con) => {
 
         if (message.deletable) message.delete();
-        
+
         let rMember = message.mentions.members.first() || message.author;
-        
-           
+
         var admin = await getAdmin(message, con);
-        var moderator = await getMod(message, con);  
+        var moderator = await getMod(message, con);
         const tblid = Array.from(message.guild.name)
-        tblid.forEach(function(item, i) { if (item == " ") tblid[i] = "_"; });
+        tblid.forEach(function (item, i) { if (item == " ") tblid[i] = "_"; });
         con.query(`CREATE TABLE IF NOT EXISTS ${tblid.join("")}(member_id VARCHAR(20) NOT NULL UNIQUE, member_name TEXT NOT NULL, infractions INT NOT NULL);`)
-        const infractions = await getinfractions(tblid, rMember, con); 
+        const infractions = await getinfractions(tblid, rMember, con);
         if (!rMember) {
             return message.reply("This member does not exist on this server");
         }
-                
-        const embed = new Discord.MessageEmbed() 
+
+        const embed = new Discord.MessageEmbed()
             .setColor("RANDOM")
             .setTimestamp()
             .setThumbnail(message.guild.iconURL())
@@ -36,12 +35,12 @@ module.exports = {
             .setDescription(`**Current infractions of ${rMember.username}**`)
             .addField(`\u200b`, stripIndents`Currently you have **${infractions}** infractions.
             You will get **kicked at ${kick_limit}** infractions and **banned at ${ban_limit}** infractions`);
-            
-        
+
+
         if (args[0] === "clear") {
-            if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id=== admin).id)) {
+            if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === admin).id)) {
                 return message.reply("You can't do that. Please contact a staff member!")
-                    .then(m => m.delete( {timeout: 5000} ));
+                    .then(m => m.delete({ timeout: 5000 }));
             }
 
             if (infractions === 0) {
@@ -49,8 +48,8 @@ module.exports = {
             } else {
                 con.query(`SELECT * FROM ${tblid.join("")} WHERE member_id = '${rMember.id}'`, (err, rows) => {
                     if (err) throw err;
-                    let sql;                   
-                                    
+                    let sql;
+
                     sql = `DELETE FROM ${tblid.join("")} WHERE member_id = '${rMember.id}'`
 
                     con.query(sql)
@@ -61,7 +60,7 @@ module.exports = {
         }
 
         return message.channel.send(embed);
-                 
+
     }
-    
+
 }

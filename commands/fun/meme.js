@@ -1,4 +1,4 @@
-const Discord  = require("discord.js");
+const Discord = require("discord.js");
 const randomPuppy = require("random-puppy");
 
 module.exports = {
@@ -8,7 +8,7 @@ module.exports = {
     description: "Sends an epic meme",
     run: async (client, message, args, con) => {
 
-        
+
         var channel = message.guild.channels.cache.find(channel => channel.name.includes("memes"));
         if (!channel) {
             channel = message.channel;
@@ -30,6 +30,6 @@ module.exports = {
             .setURL(`https://reddit.com/r/${random}`);
 
         return channel.send(embed);
-        
+
     }
 }

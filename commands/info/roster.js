@@ -2,14 +2,12 @@ const Discord  = require("discord.js");
 const { stripIndents } = require("common-tags");
 const { getAdmin, getMod } = require("../../functions/db_queries.js");
 
-
 module.exports = {
     name: "roster",
     category: "info",
     permission: ["none", "moderator", "admin"],
     description: "People who do stuff",
     
-
     run: async (client, message, args, con) => {
         if (message.deletable) message.delete();
 

@@ -15,9 +15,6 @@ module.exports = {
             return message.reply("You are not powerful enough to do that");
         }     
 
-        
-        
-        
         //declaring stuff
         const member = message.member;
         const guild = message.member.guild;   
@@ -34,8 +31,6 @@ module.exports = {
         var setimmediatly = false;   
         var bolean = false;    
         
-        
-
         //setup complete message
         const embed = new Discord.MessageEmbed()
             .setColor(member.displayHexColor === "#000000" ? "#ffffff" : member.displayHexColor)

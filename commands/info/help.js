@@ -59,7 +59,6 @@ module.exports = {
 
 async function getAll(client, message, perms, cats) {
 
-
     const embed = new Discord.MessageEmbed()
         .setColor("RANDOM")
         .setFooter(`Version: ${version}`)
@@ -94,8 +93,6 @@ async function getAll(client, message, perms, cats) {
     } else {
         return message.channel.send(embed.setDescription(info))
     }
-
-
 
 }
 

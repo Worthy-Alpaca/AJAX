@@ -1,11 +1,11 @@
-const Discord  = require("discord.js");
+const Discord = require("discord.js");
 const { stripIndents } = require("common-tags");
 const { getAdmin, getMod, getreportschannel } = require("../../functions/db_queries.js");
 const { filter_integer } = require("../../functions/functions.js");
 
 
 module.exports = {
-    name: "kick",   
+    name: "kick",
     category: "moderation",
     permission: ["moderator", "admin"],
     description: "Kicks all the members you mention",
@@ -24,12 +24,12 @@ module.exports = {
         }
         if (moderator === null) {
             return message.channel.send("You need to set the role for moderator first. Do that by typing !setmod")
-        }       
+        }
 
         // No args
         if (!args[0] || !message.mentions.members.first()) {
             return message.reply("Please always mention whomever you want to kick")
-                .then(m => m.delete( {timeout: 5000} ));
+                .then(m => m.delete({ timeout: 5000 }));
         }
 
         // No author permissions
@@ -41,12 +41,12 @@ module.exports = {
         }
 
         const toKick_collection = args.slice(0);
-        toKick_collection.forEach( async function(person) {            
+        toKick_collection.forEach(async function (person) {
 
             const mbr = await filter_integer(message, person);
 
             const toKick = message.guild.members.cache.find(m => m.id === mbr)
-            
+
             // No member found
             if (!toKick) {
                 return message.reply("Couldn't find that member, try again")
@@ -86,8 +86,8 @@ module.exports = {
 
             return logChannel.send(embed);
         })
-        
 
-        
+
+
     }
 }
