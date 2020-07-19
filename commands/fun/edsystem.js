@@ -25,9 +25,6 @@ module.exports = {
         const stations = `https://www.edsm.net/api-system-v1/stations?sysname=${sys}`
         const factions = `https://www.edsm.net/api-system-v1/factions?sysname=${sys}`
         const sysinfo = `https://www.edsm.net/api-v1/system?sysname=${sys}&showPermit=1&showInformation=1`
-        
-
-
 
         const response1 = await fetch(system).then(function (response) {
             return response.json();
@@ -98,14 +95,14 @@ module.exports = {
             }
         })
 
-        response2.stations.forEach(function (stations) {            
+        response2.stations.forEach(function (stations) {
             if (stations.government === "Workshop (Engineer)") {
                 services.push(`Has engineer *${stations.controllingFaction.name}*`)
             }
             if (stations.otherServices.includes("Interstellar Factors Contact")) {
                 if (!services.includes("Interstellar Factors Contact")) {
                     services.push("Interstellar Factors Contact")
-                }             
+                }
             }
             if (stations.otherServices.includes("Material Trader")) {
                 if (!services.includes("Material Trader")) {

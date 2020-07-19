@@ -1,9 +1,9 @@
-const Discord  = require("discord.js");
+const Discord = require("discord.js");
 const { getAdmin, setrank } = require("../../functions/db_queries.js");
 const { stripIndents } = require("common-tags");
 
 module.exports = {
-    name: "addrank",    
+    name: "addrank",
     category: "info",
     permission: ["admin"],
     description: "Adds a rank to the database",

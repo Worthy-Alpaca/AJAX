@@ -1,6 +1,6 @@
 const Discord  = require("discord.js");
 const { stripIndents } = require("common-tags");
-var { prefix } = require("../../src/config.json")
+var { prefix } = require("../../src/config.json");
 const { getAdmin, getMod, getChnl, getMsg, getapproved, getstartcmd, getreportschannel, getautoapproved, getservergreeting, getprefix } = require("../../functions/db_queries.js");
 
 module.exports = {

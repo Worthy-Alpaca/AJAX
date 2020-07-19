@@ -11,15 +11,8 @@ module.exports = {
     run: async (client, message, args, con) => {
         message.delete();
 
-
         if (message.author.id !== "595341356432621573")
             return message.reply("You are not powerful enough to command me in such a way!").then(m => m.delete( {timeout: 5000} ));
-            
-            
-        
-        //var channel = message.guild.channels.cache.find(channel => channel.name === `${welcome_channel}`);
-
-        
 
         client.user.setPresence({
             status: "invisible",
@@ -55,15 +48,9 @@ module.exports = {
                 }
 
                 return channel.send(embed2).catch();
-            })
-
-            
- 
+            })            
             
         } else return
-
-        
-        
-
+               
     }
 }

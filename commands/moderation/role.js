@@ -41,13 +41,13 @@ module.exports = {
         let role = message.mentions.roles.first();
 
         if (!role) {
-            return message.reply("You did not mention a role for me to add").then(m => m.delete( {timeout: 5000} ));
+            return message.reply("You did not mention a role for me to add").then(m => m.delete({ timeout: 5000 }));
         }
         //check if role is one of the staff roles
         if (role.id === message.guild.roles.cache.find(r => r.id === admin).id || role.id === message.guild.roles.cache.find(r => r.id === moderator).id) {
             if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === admin).id)) {
                 return message.reply("You can't do that. Please contact an admin!")
-                    .then(m => m.delete({ timeout: 5000 }));    
+                    .then(m => m.delete({ timeout: 5000 }));
             }
         }
 
@@ -55,14 +55,14 @@ module.exports = {
         console.log(toadd_collection)
         //loop over all members mentioned and add/remove the role mentioned
         toadd_collection.forEach(async function (person) {
-            
+
             const mbr = await filter_integer(message, person);
-            
+
             const toadd = message.guild.members.cache.find(m => m.id === mbr);
 
             const embed = new Discord.MessageEmbed()
                 .setColor("#ff0000")
-                .setThumbnail(toadd.user.displayAvatarURL())                
+                .setThumbnail(toadd.user.displayAvatarURL())
                 .setTimestamp()
                 .setFooter(message.guild.name, message.guild.iconURL)
                 .setTitle("**Role added**")
@@ -77,12 +77,12 @@ module.exports = {
                 embed.setDescription(stripIndents`${role} removed from ${toadd} by ${message.member}`);
                 logChannel.send(embed)
                 toadd.roles.remove(role.id).catch(e => console.log(e.message))
-                return message.channel.send(`\`${role.name}\` has been removed from ${toadd}.`).then(m => m.delete( {timeout: 5000} ));
+                return message.channel.send(`\`${role.name}\` has been removed from ${toadd}.`).then(m => m.delete({ timeout: 5000 }));
             } else {
                 embed.setDescription(stripIndents`${role} added to ${toadd} by ${message.member}`);
                 logChannel.send(embed)
                 toadd.roles.add(role.id).catch(e => console.log(e.message))
-                return message.channel.send(`\`${role.name}\` has been added to ${toadd}.`).then(m => m.delete( {timeout: 5000} ));
+                return message.channel.send(`\`${role.name}\` has been added to ${toadd}.`).then(m => m.delete({ timeout: 5000 }));
             }
         })
     }

@@ -8,11 +8,11 @@ module.exports = {
     run: async (client, message, args, con) => {
         message.delete();
 
-        
-        
+
+
         if (message.author.id !== "595341356432621573")
-            return message.reply("YOU DARE COMMAND ME, MORTAL?").then(m => m.delete( {timeout: 5000} ));
-       
+            return message.reply("YOU DARE COMMAND ME, MORTAL?").then(m => m.delete({ timeout: 5000 }));
+
 
         let newstatus;
         let type;
@@ -20,7 +20,7 @@ module.exports = {
         if (args.length < 1) {
             return message.reply("Nothing for me to do?");
         }
-    
+
         if (args[0] === "watching") {
             type = args[0]
             newstatus = args.slice(1).join(" ");
@@ -33,13 +33,13 @@ module.exports = {
             if (args.length < 2) {
                 return message.reply("Maybe add an action.")
             }
-        } else if (args [0] === "streaming") {
+        } else if (args[0] === "streaming") {
             type = args[0]
             newstatus = args.slice(1).join(" ");
             if (args.length < 2) {
                 return message.reply("Maybe add an action.")
             }
-        } else if (args [0] === "listening") {
+        } else if (args[0] === "listening") {
             type = args[0]
             newstatus = args.slice(1).join(" ");
             if (args.length < 2) {
@@ -57,6 +57,6 @@ module.exports = {
             }
         });
 
-        
+
     }
 }

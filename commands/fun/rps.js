@@ -1,4 +1,4 @@
-const Discord  = require("discord.js");
+const Discord = require("discord.js");
 const { promptMessage } = require("../../functions/functions.js");
 
 const chooseArr = ["🗻", "📰", "✂"];
@@ -36,7 +36,7 @@ module.exports = {
             if ((me === "🗻" && clientChosen === "✂") ||
                 (me === "📰" && clientChosen === "🗻") ||
                 (me === "✂" && clientChosen === "📰")) {
-                    return "You won!";
+                return "You won!";
             } else if (me === clientChosen) {
                 return "It's a tie!";
             } else {

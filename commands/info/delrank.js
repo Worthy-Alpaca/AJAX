@@ -1,9 +1,9 @@
-const Discord  = require("discord.js");
+const Discord = require("discord.js");
 const { getAdmin, delrank } = require("../../functions/db_queries.js");
 const { stripIndents } = require("common-tags");
 
 module.exports = {
-    name: "delrank",    
+    name: "delrank",
     category: "info",
     permission: ["admin"],
     description: "Deletes a rank from the database",
@@ -19,7 +19,7 @@ module.exports = {
         var rank = message.guild.roles.cache.find(r => r.name === args.slice(0).join(" "))
 
         const embed = new Discord.MessageEmbed()
-        
+
         if (!rank) {
             rank = args.slice(0).join(" ")
         }

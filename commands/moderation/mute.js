@@ -12,7 +12,7 @@ module.exports = {
     run: async (client, message, args, con) => {
 
         if (message.deletable) message.delete();
-        
+
         var admin = await getAdmin(message, con);
         var moderator = await getMod(message, con);
         var reports = await getreportschannel(message, con);
@@ -24,49 +24,49 @@ module.exports = {
         if (moderator === null) {
             return message.channel.send("You need to set the role for moderator first. Do that by typing !setmod")
         }
-                 
-        if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id=== admin).id)) {
-            if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id=== moderator).id)) {
+
+        if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === admin).id)) {
+            if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === moderator).id)) {
                 return message.reply("You can't do that. Please contact a staff member!")
-                    .then(m => m.delete( {timeout: 5000} ));
+                    .then(m => m.delete({ timeout: 5000 }));
             }
         }
 
         if (!args[0] || !message.mentions.members.first()) {
             return message.reply("You need to tag someone.")
-                .then(m => m.delete( {timeout: 5000} ));
+                .then(m => m.delete({ timeout: 5000 }));
         }
-        
-        const toMute_collection = args.slice(0);                 
-        
+
+        const toMute_collection = args.slice(0);
+
         let muterole = message.guild.roles.cache.find(r => r.name === "Muted")
-        if(!muterole) {
-            try{
+        if (!muterole) {
+            try {
                 muterole = await message.guild.roles.create({
                     data: {
-                      name: "Muted",
-                      color: "#514f48",
-                      permissions: []
+                        name: "Muted",
+                        color: "#514f48",
+                        permissions: []
                     }
                 })
-            message.guild.channels.cache.forEach(async (channel, id) => {              
-                await channel.overwritePermissions([
-                  {
-                    id: muterole.id,
-                    deny: ['SEND_MESSAGES',
-                          'ADD_REACTIONS',
-                          'SEND_TTS_MESSAGES',
-                          'ATTACH_FILES',
-                          'SPEAK']
-                  }
-                ])
-            })
-            } catch(e) {
-            console.log(e.stack);
-            }   
+                message.guild.channels.cache.forEach(async (channel, id) => {
+                    await channel.overwritePermissions([
+                        {
+                            id: muterole.id,
+                            deny: ['SEND_MESSAGES',
+                                'ADD_REACTIONS',
+                                'SEND_TTS_MESSAGES',
+                                'ATTACH_FILES',
+                                'SPEAK']
+                        }
+                    ])
+                })
+            } catch (e) {
+                console.log(e.stack);
+            }
         }
-        
-        toMute_collection.forEach( async function(person) {
+
+        toMute_collection.forEach(async function (person) {
             const mbr = await filter_integer(message, person);
 
             const mutee = message.guild.members.cache.find(m => m.id === mbr);
@@ -84,7 +84,7 @@ module.exports = {
                 return message.reply("You cannot mute a server admin")
             }
 
-            const embed = new Discord.MessageEmbed() 
+            const embed = new Discord.MessageEmbed()
                 .setColor("#ff0000")
                 .setTimestamp()
                 .setFooter(message.guild.name, message.guild.iconURL)
@@ -94,20 +94,20 @@ module.exports = {
                 **> Muted in: ${message.channel}
                 **> Reason: probably a good one
                 MUTE needs to be manually removed`);
-            
-                       
+
+
 
             if (mutee.roles.cache.has(muterole.id)) {
-                message.channel.send(`${mutee} you have been unmuted`).then(m => m.delete( {timeout: 5000} ));
-                await mutee.roles.remove(muterole)                
+                message.channel.send(`${mutee} you have been unmuted`).then(m => m.delete({ timeout: 5000 }));
+                await mutee.roles.remove(muterole)
                 return report.send(`${mutee} has been unmuted`);
             } else {
-                message.channel.send(`${mutee} you have been muted`).then(m => m.delete( {timeout: 5000} ));
-                await mutee.roles.add(muterole)                
+                message.channel.send(`${mutee} you have been muted`).then(m => m.delete({ timeout: 5000 }));
+                await mutee.roles.add(muterole)
                 report.send("@here someone has been muted");
                 return report.send(embed);
             }
         })
-       
+
     }
 }

@@ -1,4 +1,4 @@
-const Discord  = require("discord.js");
+const Discord = require("discord.js");
 const { getAdmin, getMod } = require("../../functions/db_queries.js")
 const { filter_integer } = require("../../functions/functions.js")
 
@@ -17,37 +17,37 @@ module.exports = {
         var moderator = await getMod(message, con);
 
         if (admin === null) {
-            return message.channel.send("You need to set the role for admin first. Do that by typing !setadmin").then(m => m.delete( {timeout: 5000} ));
+            return message.channel.send("You need to set the role for admin first. Do that by typing !setadmin").then(m => m.delete({ timeout: 5000 }));
         }
         if (moderator === null) {
-            return message.channel.send("You need to set the role for moderator first. Do that by typing !setmod").then(m => m.delete( {timeout: 5000} ));
+            return message.channel.send("You need to set the role for moderator first. Do that by typing !setmod").then(m => m.delete({ timeout: 5000 }));
         }
 
-        if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id=== admin).id))
-            return message.reply("You don't have the required permissions to use this command.").then(m => m.delete( {timeout: 5000} ));
+        if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === admin).id))
+            return message.reply("You don't have the required permissions to use this command.").then(m => m.delete({ timeout: 5000 }));
 
         if (typeof args[0] == 'undefined') {
             return message.channel.send("Maybe include something :wink:")
         }
-        
+
         const chnl = await filter_integer(message, args[0]);
-        
+
         const channel = message.guild.channels.cache.find(channel => channel.id === chnl);
-             
+
         if (channel) {
             if (typeof args[1] == 'undefined') {
                 return message.channel.send("Maybe include a message :wink:")
-            } 
-        }           
+            }
+        }
 
         if (!channel) {
             if (args[0].toLowerCase() === "embed") {
-            const embed = new Discord.MessageEmbed()
-                .setDescription(args.slice(1).join(" "))
-                .setColor('RANDOM');
+                const embed = new Discord.MessageEmbed()
+                    .setDescription(args.slice(1).join(" "))
+                    .setColor('RANDOM');
 
                 message.channel.send(embed);
-             } else {
+            } else {
                 message.channel.send(args.slice(0).join(" "));
             }
         } else {
@@ -55,8 +55,8 @@ module.exports = {
                 const embed = new Discord.MessageEmbed()
                     .setDescription(args.slice(2).join(" "))
                     .setColor('RANDOM');
-    
-                    channel.send(embed);
+
+                channel.send(embed);
             } else {
                 channel.send(args.slice(1).join(" "));
             }
