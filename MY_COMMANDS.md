@@ -28,12 +28,14 @@
 
 ## Fun stuff
 
-- !cat => Sends a random cat
+- !addreddit => Adds a subreddit to be used with !meme
+- !delreddit => Deletes a subreddit from the database.
+- !edcg => Returns latest community goal details
 - !edcmdr => Gets CMDR stats from INARA
 - !edsystem => Displays information about a system
 - !love => Calculates the love affinity you have for another person.
 - !meme => Sends an epic meme
-- !raid => Enables you to take part in the raid
+- !reddits => Shows available subreddits
 - !rps => Rock Paper Scissors game.
 - !urban => Sends an urban dictonary entry
 

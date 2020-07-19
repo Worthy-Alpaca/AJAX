@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
 const randomPuppy = require("random-puppy");
+const { getreddits, addreddit } = require("../../functions/db_queries.js")
 
 module.exports = {
     name: "meme",
@@ -13,16 +14,39 @@ module.exports = {
         if (!channel) {
             channel = message.channel;
         }
-
+        var mp4 = false;
         if (message.deletable) message.delete();
-        // In this array, 
-        // you can put the subreddits you want to grab memes from
-        const subReddits = ["dankmeme", "meme", "me_irl", "funny"];
-        // Grab a random property from the array
-        const random = subReddits[Math.floor(Math.random() * subReddits.length)];
+        
+        
+        const reddits = await getreddits(message, con);
 
-        // Get a random image from the subreddit page
-        const img = await randomPuppy(random);
+        /* if (reddits) {
+            subReddits = subReddits.concat(reddits);
+        } */
+        if (!reddits) {
+            var subReddits = ["dankmeme", "meme", "me_irl", "funny"];
+            subReddits.forEach(async reddit => {
+                console.log(reddit, "added")
+                await addreddit(message, reddit, con);
+            })
+        } else {
+            var subReddits = reddits;
+        }
+                
+        //check if file ends in .mp4 and get a new one if it does
+        while (mp4 === false) {
+            var random = subReddits[Math.floor(Math.random() * subReddits.length)];
+            var img = await randomPuppy(random);  
+            
+            if (typeof img == 'undefined') {
+                mp4 = false;
+                continue;
+            }
+            
+            if (!img.endsWith(".mp4")) {
+                mp4 = true;
+            }
+        }
         const embed = new Discord.MessageEmbed()
             .setColor("RANDOM")
             .setImage(img)

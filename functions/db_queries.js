@@ -253,5 +253,60 @@ module.exports = {
                 resolve(prefix);
             })
         })
+    },
+
+    addreddit: function (message, reddit, con) {
+        var sql;
+        var success;
+        return new Promise(function (resolve, reject) {
+            con.query(`SELECT * FROM reddits WHERE server_id = '${message.guild.id}' AND reddit = '${reddit}'`, (err, rows) => {
+                if (rows.length < 1) {
+                    sql = `INSERT INTO reddits (server_id, reddit) VALUES ('${message.guild.id}', '${reddit}')`
+                    success = true;
+                    resolve(success)
+                    return con.query(sql);
+                } else {
+                    success = false;
+                    return resolve(success)
+                }
+            })
+        })
+    },
+    
+    getreddits: function (message, con) {
+        var reddits = []
+        return new Promise(function (resolve, reject) {
+            con.query(`SELECT * FROM reddits WHERE server_id = '${message.guild.id}'`, (err, rows) => {
+                if (rows.length < 1) {
+                    reddit_none = false;
+                    resolve(reddit_none);
+                } else {
+                    a = 0;
+                    while (a !== rows.length) {
+                        name = rows[a].reddit;
+                        reddits.push(name);
+                        a++;
+                    }
+
+                    resolve(reddits);
+                }
+            })
+        })
+    },
+
+    delreddit: function (message, reddit, con) {
+        return new Promise(function (resolve, reject) {
+            con.query(`SELECT * FROM reddits WHERE server_id = '${message.guild.id}' AND reddit = '${reddit}'`, (err, rows) => {
+                if (rows.length < 1) {
+                    success = false;
+                    return resolve(success);
+                } else {
+                    sql = `DELETE FROM reddits WHERE server_id = '${message.guild.id}' AND reddit = '${reddit}'`
+                    success = true;
+                    resolve(success);
+                    return con.query(sql);
+                }
+            })
+        })
     }
 }
