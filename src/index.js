@@ -348,6 +348,15 @@ client.on("message", async message => {
     return channel.send(embed);
   }
 
+  if (message.mentions.has(client.user)) {
+    if (message.content.toLowerCase().includes("help") || message.content.toLowerCase().includes("prefix")) {
+      return message.reply(`My prefix for this server is \`${prefix}\`. You can use \`${prefix}help\` to get all the commands available to you.`)
+    }
+    if (message.content.toLowerCase().includes("version")) {
+      return message.reply(`Current version is \`${version}\``)
+    }
+  }
+
   //command parser
   if (!message.content.startsWith(prefix)) return;
 
