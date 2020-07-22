@@ -1,4 +1,4 @@
-# AJAX
+# [AJAX](https://ajax-discord.com/)
 
 [![node](https://img.shields.io/badge/Node.js-v.12.X-brightgreen)](https://nodejs.org)
 [![Discord](https://img.shields.io/badge/Discord-v.12-blue)](https://discord.js.org/#/docs/main/stable/general/welcome)
