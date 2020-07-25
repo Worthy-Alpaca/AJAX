@@ -29,7 +29,8 @@ var con = mysql.createConnection({
   user: "root",
   password: password,
   database: database,
-  encoding: "utf8mb4_unicode_ci"
+  encoding: "utf8mb4_unicode_ci",
+  acquireTimeout: 1000000
 });
 
 con.connect(err => {
@@ -37,7 +38,7 @@ con.connect(err => {
   console.log("Connected to Database");
   con.query("CREATE TABLE IF NOT EXISTS servers(id VARCHAR(20) NOT NULL UNIQUE, name TEXT NOT NULL, admin TEXT, moderator TEXT, greeting VARCHAR(512) CHARACTER SET utf8 COLLATE utf8_unicode_ci, channel TEXT, approved TEXT, startcmd TEXT, reports TEXT, auto_approved TEXT, server_greeting TEXT, prefix TEXT) CHARACTER SET utf8 COLLATE utf8_unicode_ci;")
   con.query("CREATE TABLE IF NOT EXISTS ranks(rank_id VARCHAR(20) NOT NULL UNIQUE, server_id VARCHAR(20) NOT NULL, rank_name TEXT NOT NULL);")
-  con.query("CREATE TABLE IF NOT EXISTS reddits(server_id VARCHAR(20) NOT NULL, reddit TEXT NOT NULL);")
+  con.query("CREATE TABLE IF NOT EXISTS reddits(server_id VARCHAR(20) NOT NULL, reddit TEXT NOT NULL);");
 })
 
 client.on("ready", () => {
