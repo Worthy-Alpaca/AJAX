@@ -9,6 +9,7 @@ const { getChnl, getAdmin, getMsg, getapproved, getapproved2, getservergreeting,
 const usersMap = new Map();
 const mysql = require("mysql");
 const { bugs } = require("../package.json");
+const { password_generator } = require('../functions/functions.js');
 
 const client = new Client({
   disableEveryone: false
@@ -91,7 +92,7 @@ client.on("guildCreate", guild => {
     user.send(`I was added to a new server: ${guild.name}, ${guild.id}`)
   });
 
-  channel = guild.channels.cache.find(channel => channel.id === guild.systemChannelID);
+  let password = password_generator(8);
 
   guild.channels.create('bot-setup');
 
@@ -102,18 +103,22 @@ client.on("guildCreate", guild => {
     .setThumbnail(client.user.displayAvatarURL())
     .setDescription(stripIndents`**Hello there I'm ${client.user.username}**`)
     .addField(`\u200b`, stripIndents`I have created #bot-setup for you to run **!setserver** in. That will set everything up.
-    See [!help](https://github.com/Worthy-Alpaca/AJAX/blob/develop/MY_COMMANDS.md) for all of my commands. Enjoy :grin:`)
-    .addField(`\u200b`, stripIndents`If you have any issues please report them [here.](${bugs.url})`)
+    See [!help](https://ajax-discord.com/commands) for all of my commands. Enjoy :grin:
+    You can also log into the [dashboard](https://ajax-discord.com/login).
+    Username: \`${guild.id}\`
+    Password: \`${password}\``)
+    .addField(`\u200b`, stripIndents`If you have any issues please report them [here.](${bugs.url})`);
+  
+  client.users.fetch(guild.owner.id, false).then(user => {
+    user.send(embed);
+  })
 
-  //checking for systemmessage channel
-  if (!channel) {
-    client.users.fetch(guild.owner.id, false).then(user => {
-      user.send(embed)
-    })
-  } else {
-    channel.send(embed);
-  }
-
+  con.query(`SELECT * FROM login WHERE server_id = '${guild.id}'`, (err, rows) => {
+    if (!rows.length) {      
+      sql = `INSERT INTO login (server_id, password) VALUES ('${guild.id}', '${password}')`
+      return con.query(sql);
+    }
+  })
 
   con.query(`SELECT * FROM servers WHERE id = '${guild.id}'`, (err, rows) => {
     if (err) throw err;
