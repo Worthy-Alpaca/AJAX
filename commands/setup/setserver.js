@@ -195,8 +195,13 @@ module.exports = {
             message.channel.send(embed)
             message.channel.send(embed3)
             setTimeout(() => {
-                delchannel.delete();
-            }, 120000);
+                if (message.guild.channels.cache.find(channel => channel.name === delchannel)) {
+                    return delchannel.delete();
+                } else {
+                    return;
+                }
+                
+            }, 60000);
         }
         
 
