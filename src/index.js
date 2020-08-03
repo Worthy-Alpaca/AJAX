@@ -47,7 +47,7 @@ client.on("ready", () => {
   console.log(`Logged in as ${client.user.username}`);
 
   client.users.fetch(`595341356432621573`, false).then(user => {
-    user.send(`I restarted, hopefully because of an update :stuck_out_tongue_winking_eye:`)
+    user.send(`I restarted`)
   });
 
   client.guilds.cache.forEach(guild => {
