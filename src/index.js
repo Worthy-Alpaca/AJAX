@@ -58,7 +58,7 @@ client.on("ready", () => {
 
       if (!rows.length) {
         console.log(guild.name, "added")
-        sql = `INSERT INTO servers (id, name) VALUES ('${guild.id}', '${guild.name}')`
+        sql = `INSERT INTO servers (id, name) VALUES ('${guild.id}', "${guild.name}")`
         return con.query(sql);
       }
 
@@ -67,7 +67,7 @@ client.on("ready", () => {
         return;
       } else {
         console.log("b")
-        sql = `INSERT INTO servers (id, name) VALUES ('${guild.id}', '${guild.name}')`
+        sql = `INSERT INTO servers (id, name) VALUES ('${guild.id}', "${guild.name}")`
         con.query(sql);
       }
 
@@ -127,7 +127,7 @@ client.on("guildCreate", guild => {
 
     if (!rows.length) {
       console.log(guild.name, "added")
-      sql = `INSERT INTO servers (id, name) VALUES ('${guild.id}', '${guild.name}')`
+      sql = `INSERT INTO servers (id, name) VALUES ('${guild.id}', "${guild.name}")`
       return con.query(sql);
     }
 
@@ -137,7 +137,7 @@ client.on("guildCreate", guild => {
       return;
     } else {
       console.log("b")
-      sql = `INSERT INTO servers (id, name) VALUES ('${guild.id}', '${guild.name}')`
+      sql = `INSERT INTO servers (id, name) VALUES ('${guild.id}', "${guild.name}")`
       db = true;
 
       con.query(sql);

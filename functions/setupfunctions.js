@@ -107,7 +107,7 @@ module.exports = {
                         msg = message.channel.send(`You've entered: \`${messages.first().content}\``).then(m => m.delete( {timeout: 5000} ));
                         con.query(`SELECT * FROM servers WHERE id = '${message.guild.id}'`, (err, rows) => {
                             let sql;
-                            sql = `UPDATE servers SET greeting = '${greeting}' WHERE id = '${message.guild.id}'`;
+                            sql = `UPDATE servers SET greeting = "${greeting}" WHERE id = '${message.guild.id}'`;
                             ms = true;
                             resolve(ms);
                             return con.query(sql);
@@ -312,7 +312,7 @@ module.exports = {
                         msg = message.channel.send(`You've entered: \`${messages.first().content}\``).then(m => m.delete( {timeout: 5000} ));
                         con.query(`SELECT * FROM servers WHERE id = '${message.guild.id}'`, (err, rows) => {
                             let sql;
-                            sql = `UPDATE servers SET server_greeting = '${greeting}' WHERE id = '${message.guild.id}'`;
+                            sql = `UPDATE servers SET server_greeting = "${greeting}" WHERE id = '${message.guild.id}'`;
                             ms = true;
                             resolve(ms);
                             return con.query(sql);
