@@ -1,5 +1,5 @@
 const { Client, RichEmbed, Collection } = require("discord.js");
-const { version, status, welcome_channel, DIFF, LIMIT, TIME, database } = require('./config.json');
+const { version, status, welcome_channel, DIFF, LIMIT, TIME, database, owner } = require('./config.json');
 var { prefix } = require('./config.json');
 const { token, password } = require('../token.json');
 const fs = require("fs");
@@ -46,7 +46,7 @@ client.on("ready", () => {
   var a = 0;
   console.log(`Logged in as ${client.user.username}`);
 
-  client.users.fetch(`595341356432621573`, false).then(user => {
+  client.users.fetch(owner, false).then(user => {
     user.send(`I restarted`)
   });
 
@@ -88,7 +88,7 @@ client.on("ready", () => {
 //on joining a new server
 client.on("guildCreate", guild => {
 
-  client.users.fetch(`595341356432621573`, false).then(user => {
+  client.users.fetch(owner, false).then(user => {
     user.send(`I was added to a new server: ${guild.name}, ${guild.id}`)
   });
 
@@ -147,7 +147,7 @@ client.on("guildCreate", guild => {
 })
 
 client.on("guildDelete", guild => {
-  client.users.fetch(`595341356432621573`, false).then(user => {
+  client.users.fetch(owner, false).then(user => {
     user.send(`I was kicked from ${guild.name}, ${guild.id}`)
   });
 

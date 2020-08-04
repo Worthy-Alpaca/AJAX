@@ -1,4 +1,4 @@
-const { welcome_channel, version, status } = require("../../src/config.json");
+const { owner, version, status } = require("../../src/config.json");
 const Discord  = require("discord.js");
 const { stripIndents } = require("common-tags");
 
@@ -11,7 +11,7 @@ module.exports = {
     run: async (client, message, args, con) => {
         message.delete();
 
-        if (message.author.id !== "595341356432621573")
+        if (message.author.id !== owner)
             return message.reply("You are not powerful enough to command me in such a way!").then(m => m.delete( {timeout: 5000} ));
 
         client.user.setPresence({

@@ -1,3 +1,4 @@
+const { owner } = require("../../src/config.json");
 
 module.exports = {
     name: "status",
@@ -8,11 +9,9 @@ module.exports = {
     run: async (client, message, args, con) => {
         message.delete();
 
-
-
-        if (message.author.id !== "595341356432621573")
+        if (message.author.id !== owner) {
             return message.reply("YOU DARE COMMAND ME, MORTAL?").then(m => m.delete({ timeout: 5000 }));
-
+        }
 
         let newstatus;
         let type;
