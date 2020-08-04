@@ -1,7 +1,7 @@
 const Discord = require("discord.js");
 const { stripIndents } = require("common-tags");
 const { version } = require("../../src/config.json");
-var { prefix } = require("../../src/config.json");
+var { prefix, owner } = require("../../src/config.json");
 const { getAdmin, getMod, getprefix } = require("../../functions/db_queries.js");
 const cat = require("../fun/cat");
 const { promptMessage, pageparser } = require("../../functions/functions.js");
@@ -35,7 +35,7 @@ module.exports = {
         } else {
             while (a && i < client.categories.length) {
 
-                if (message.author.id === "595341356432621573") {
+                if (message.author.id === owner) {
                     perms = "author"
                 } else if (message.member.hasPermission("ADMINISTRATOR")) {
                     perms = "admin"

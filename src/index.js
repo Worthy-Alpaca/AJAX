@@ -1,5 +1,5 @@
 const { Client, RichEmbed, Collection } = require("discord.js");
-const { version, status, welcome_channel, DIFF, LIMIT, TIME, database } = require('./config.json');
+const { version, status, welcome_channel, DIFF, LIMIT, TIME, database, owner } = require('./config.json');
 var { prefix } = require('./config.json');
 const { token, password } = require('../token.json');
 const fs = require("fs");
@@ -46,8 +46,8 @@ client.on("ready", () => {
   var a = 0;
   console.log(`Logged in as ${client.user.username}`);
 
-  client.users.fetch(`595341356432621573`, false).then(user => {
-    user.send(`I restarted, hopefully because of an update :stuck_out_tongue_winking_eye:`)
+  client.users.fetch(owner, false).then(user => {
+    user.send(`I restarted`)
   });
 
   client.guilds.cache.forEach(guild => {
@@ -58,7 +58,7 @@ client.on("ready", () => {
 
       if (!rows.length) {
         console.log(guild.name, "added")
-        sql = `INSERT INTO servers (id, name) VALUES ('${guild.id}', '${guild.name}')`
+        sql = `INSERT INTO servers (id, name) VALUES ('${guild.id}', "${guild.name}")`
         return con.query(sql);
       }
 
@@ -67,7 +67,7 @@ client.on("ready", () => {
         return;
       } else {
         console.log("b")
-        sql = `INSERT INTO servers (id, name) VALUES ('${guild.id}', '${guild.name}')`
+        sql = `INSERT INTO servers (id, name) VALUES ('${guild.id}', "${guild.name}")`
         con.query(sql);
       }
 
@@ -88,7 +88,7 @@ client.on("ready", () => {
 //on joining a new server
 client.on("guildCreate", guild => {
 
-  client.users.fetch(`595341356432621573`, false).then(user => {
+  client.users.fetch(owner, false).then(user => {
     user.send(`I was added to a new server: ${guild.name}, ${guild.id}`)
   });
 
@@ -127,7 +127,7 @@ client.on("guildCreate", guild => {
 
     if (!rows.length) {
       console.log(guild.name, "added")
-      sql = `INSERT INTO servers (id, name) VALUES ('${guild.id}', '${guild.name}')`
+      sql = `INSERT INTO servers (id, name) VALUES ('${guild.id}', "${guild.name}")`
       return con.query(sql);
     }
 
@@ -137,7 +137,7 @@ client.on("guildCreate", guild => {
       return;
     } else {
       console.log("b")
-      sql = `INSERT INTO servers (id, name) VALUES ('${guild.id}', '${guild.name}')`
+      sql = `INSERT INTO servers (id, name) VALUES ('${guild.id}', "${guild.name}")`
       db = true;
 
       con.query(sql);
@@ -147,7 +147,7 @@ client.on("guildCreate", guild => {
 })
 
 client.on("guildDelete", guild => {
-  client.users.fetch(`595341356432621573`, false).then(user => {
+  client.users.fetch(owner, false).then(user => {
     user.send(`I was kicked from ${guild.name}, ${guild.id}`)
   });
 

@@ -1,7 +1,7 @@
 const Discord = require("discord.js");
 const { stripIndents } = require("common-tags");
 const { getservers, getserverchannel } = require("../../functions/db_queries.js");
-const { version } = require("../../src/config.json");
+const { version, owner } = require("../../src/config.json");
 
 module.exports = {
     name: "cross-server",
@@ -12,7 +12,7 @@ module.exports = {
     run: async (client, message, args, con) => {
         message.delete();
         //console.log(client.guilds)
-        if (message.author.id !== "595341356432621573")
+        if (message.author.id !== owner)
             return message.reply("You are not powerful enough to command me in such a way!").then(m => m.delete({ timeout: 5000 }));
 
         const servers = await getservers(message, con);
