@@ -3,7 +3,6 @@ const { stripIndents } = require("common-tags");
 const { version } = require("../../src/config.json");
 var { prefix, owner } = require("../../src/config.json");
 const { getAdmin, getMod, getprefix } = require("../../functions/db_queries.js");
-const cat = require("../fun/cat");
 const { promptMessage, pageparser } = require("../../functions/functions.js");
 
 module.exports = {
