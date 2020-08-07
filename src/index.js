@@ -1,13 +1,15 @@
 const { Client, Collection } = require("discord.js");
 const { version, status, DIFF, LIMIT, TIME, database, owner } = require('./config.json');
 var { prefix } = require('./config.json');
-const { token, password } = require('../token.json');
+const { token, password, API_ADDRESS, TOKEN_SECRET } = require('../token.json');
+const fetch = require('node-fetch');
 const fs = require("fs");
 const Discord = require("discord.js");
 const { stripIndents } = require("common-tags");
 const { getChnl, getAdmin, getMsg, getapproved, getapproved2, getservergreeting, getstartcmd, getreportschannel, getautoapproved, getprefix } = require("../functions/db_queries.js");
 const usersMap = new Map();
 const mysql = require("mysql");
+const jwt = require('jsonwebtoken');
 const { bugs } = require("../package.json");
 const { password_generator } = require('../functions/functions.js');
 
@@ -86,13 +88,29 @@ client.on("ready", () => {
 });
 
 //on joining a new server
-client.on("guildCreate", guild => {
+client.on("guildCreate", async guild => {
 
   client.users.fetch(owner, false).then(user => {
     user.send(`I was added to a new server: ${guild.name}, ${guild.id}`)
   });
 
   let password = password_generator(8);
+  /* let username = guild.id;
+  const token = jwt.sign({ _id: username }, TOKEN_SECRET);
+
+  await fetch(API_ADDRESS + '/user/register', {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+      'auth-token': token
+    },
+    body: {
+      username: "guild.id",
+      password: "password"
+    }
+  }).then(res => {
+    console.log(res);
+  }) */
 
   guild.channels.create('bot-setup');
 
