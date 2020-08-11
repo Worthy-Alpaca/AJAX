@@ -95,22 +95,40 @@ client.on("guildCreate", async guild => {
   });
 
   let password = password_generator(8);
-  /* let username = guild.id;
+  let username = guild.id;
   const token = jwt.sign({ _id: username }, TOKEN_SECRET);
 
-  await fetch(API_ADDRESS + '/user/register', {
-    method: 'POST',
-    headers: {
-      'content-type': 'application/json',
-      'auth-token': token
-    },
-    body: {
-      username: "guild.id",
-      password: "password"
+  con.query(`SELECT * FROM login WHERE server_id = '${username}'`, async (err, rows) => {
+    if (!rows.length) {
+      try {
+        await fetch(API_ADDRESS + '/user/register', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'content-type': 'application/json',
+            'auth-token': token
+          },
+          body: JSON.stringify({
+            username: username,
+            password: password
+          })
+        }).then(res => {
+          console.log(res)
+          if (res.status === 200) {
+            console.log("test successfull")
+          }
+        })
+      } catch {
+        client.users.fetch(owner, false).then(user => {
+          return user.send(`There has been an error. ${guild.id}, ${guild.name} already exists in the database and caused an issue.`)
+        });
+      }
+    } else {
+      client.users.fetch(owner, false).then(user => {
+        user.send(`There has been an error. ${guild.id}, ${guild.name} already exists in the database and caused an issue.`)
+      });
     }
-  }).then(res => {
-    console.log(res);
-  }) */
+  })
 
   guild.channels.create('bot-setup');
 
@@ -123,7 +141,7 @@ client.on("guildCreate", async guild => {
     .addField(`\u200b`, stripIndents`I have created #bot-setup for you to run **!setserver** in. That will set everything up.
     See [!help](https://ajax-discord.com/commands) for all of my commands. Enjoy :grin:
     You can also log into the [dashboard](https://ajax-discord.com/login).
-    Username: \`${guild.id}\`
+    Username: \`${username}\`
     Password: \`${password}\``)
     .addField(`\u200b`, stripIndents`If you have any issues please report them [here.](${bugs.url})`);
   
@@ -131,12 +149,7 @@ client.on("guildCreate", async guild => {
     user.send(embed);
   })
 
-  con.query(`SELECT * FROM login WHERE server_id = '${guild.id}'`, (err, rows) => {
-    if (!rows.length) {      
-      sql = `INSERT INTO login (server_id, password) VALUES ('${guild.id}', '${password}')`
-      return con.query(sql);
-    }
-  })
+  
 
   con.query(`SELECT * FROM servers WHERE id = '${guild.id}'`, (err, rows) => {
     if (err) throw err;
@@ -172,6 +185,11 @@ client.on("guildDelete", guild => {
   con.query(`SELECT * FROM servers WHERE id = '${guild.id}'`, (err, rows) => {
 
     let sql = `DELETE FROM servers WHERE id = '${guild.id}'`
+    con.query(sql);
+  })
+
+  con.query(`SELECT * FROM login WHERE server_id = '${guild.id}'`, (err, rows) => {
+    let sql = `DELETE FROM login WHERE server_id = '${guild.id}'`
     con.query(sql);
   })
 })
