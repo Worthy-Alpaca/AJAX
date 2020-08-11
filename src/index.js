@@ -1,13 +1,15 @@
-const { Client, RichEmbed, Collection } = require("discord.js");
-const { version, status, welcome_channel, DIFF, LIMIT, TIME, database, owner } = require('./config.json');
+const { Client, Collection } = require("discord.js");
+const { version, status, DIFF, LIMIT, TIME, database, owner } = require('./config.json');
 var { prefix } = require('./config.json');
-const { token, password } = require('../token.json');
+const { token, password, API_ADDRESS, TOKEN_SECRET } = require('../token.json');
+const fetch = require('node-fetch');
 const fs = require("fs");
 const Discord = require("discord.js");
 const { stripIndents } = require("common-tags");
 const { getChnl, getAdmin, getMsg, getapproved, getapproved2, getservergreeting, getstartcmd, getreportschannel, getautoapproved, getprefix } = require("../functions/db_queries.js");
 const usersMap = new Map();
 const mysql = require("mysql");
+const jwt = require('jsonwebtoken');
 const { bugs } = require("../package.json");
 const { password_generator } = require('../functions/functions.js');
 
@@ -39,7 +41,7 @@ con.connect(err => {
   console.log("Connected to Database");
   con.query("CREATE TABLE IF NOT EXISTS servers(id VARCHAR(20) NOT NULL UNIQUE, name TEXT NOT NULL, admin TEXT, moderator TEXT, greeting VARCHAR(512) CHARACTER SET utf8 COLLATE utf8_unicode_ci, channel TEXT, approved TEXT, startcmd TEXT, reports TEXT, auto_approved TEXT, server_greeting TEXT, prefix TEXT) CHARACTER SET utf8 COLLATE utf8_unicode_ci;")
   con.query("CREATE TABLE IF NOT EXISTS ranks(rank_id VARCHAR(20) NOT NULL UNIQUE, server_id VARCHAR(20) NOT NULL, rank_name TEXT NOT NULL);")
-  con.query("CREATE TABLE IF NOT EXISTS reddits(server_id VARCHAR(20) NOT NULL, reddit TEXT NOT NULL);");
+  con.query("CREATE TABLE IF NOT EXISTS login(server_id VARCHAR(255) NOT NULL UNIQUE, password TEXT NOT NULL);");
 })
 
 client.on("ready", () => {
@@ -86,13 +88,47 @@ client.on("ready", () => {
 });
 
 //on joining a new server
-client.on("guildCreate", guild => {
+client.on("guildCreate", async guild => {
 
   client.users.fetch(owner, false).then(user => {
     user.send(`I was added to a new server: ${guild.name}, ${guild.id}`)
   });
 
   let password = password_generator(8);
+  let username = guild.id;
+  const token = jwt.sign({ _id: username }, TOKEN_SECRET);
+
+  con.query(`SELECT * FROM login WHERE server_id = '${username}'`, async (err, rows) => {
+    if (!rows.length) {
+      try {
+        await fetch(API_ADDRESS + '/user/register', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'content-type': 'application/json',
+            'auth-token': token
+          },
+          body: JSON.stringify({
+            username: username,
+            password: password
+          })
+        }).then(res => {
+          console.log(res)
+          if (res.status === 200) {
+            console.log("test successfull")
+          }
+        })
+      } catch {
+        client.users.fetch(owner, false).then(user => {
+          return user.send(`There has been an error. ${guild.id}, ${guild.name} already exists in the database and caused an issue.`)
+        });
+      }
+    } else {
+      client.users.fetch(owner, false).then(user => {
+        user.send(`There has been an error. ${guild.id}, ${guild.name} already exists in the database and caused an issue.`)
+      });
+    }
+  })
 
   guild.channels.create('bot-setup');
 
@@ -105,7 +141,7 @@ client.on("guildCreate", guild => {
     .addField(`\u200b`, stripIndents`I have created #bot-setup for you to run **!setserver** in. That will set everything up.
     See [!help](https://ajax-discord.com/commands) for all of my commands. Enjoy :grin:
     You can also log into the [dashboard](https://ajax-discord.com/login).
-    Username: \`${guild.id}\`
+    Username: \`${username}\`
     Password: \`${password}\``)
     .addField(`\u200b`, stripIndents`If you have any issues please report them [here.](${bugs.url})`);
   
@@ -113,12 +149,7 @@ client.on("guildCreate", guild => {
     user.send(embed);
   })
 
-  con.query(`SELECT * FROM login WHERE server_id = '${guild.id}'`, (err, rows) => {
-    if (!rows.length) {      
-      sql = `INSERT INTO login (server_id, password) VALUES ('${guild.id}', '${password}')`
-      return con.query(sql);
-    }
-  })
+  
 
   con.query(`SELECT * FROM servers WHERE id = '${guild.id}'`, (err, rows) => {
     if (err) throw err;
@@ -154,6 +185,11 @@ client.on("guildDelete", guild => {
   con.query(`SELECT * FROM servers WHERE id = '${guild.id}'`, (err, rows) => {
 
     let sql = `DELETE FROM servers WHERE id = '${guild.id}'`
+    con.query(sql);
+  })
+
+  con.query(`SELECT * FROM login WHERE server_id = '${guild.id}'`, (err, rows) => {
+    let sql = `DELETE FROM login WHERE server_id = '${guild.id}'`
     con.query(sql);
   })
 })
