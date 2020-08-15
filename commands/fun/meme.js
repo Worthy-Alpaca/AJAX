@@ -17,12 +17,8 @@ module.exports = {
         var mp4 = false;
         if (message.deletable) message.delete();
         
-        
         const reddits = await getreddits(message, con);
 
-        /* if (reddits) {
-            subReddits = subReddits.concat(reddits);
-        } */
         if (!reddits) {
             var subReddits = ["dankmeme", "meme", "me_irl", "funny"];
             subReddits.forEach(async reddit => {
@@ -47,6 +43,7 @@ module.exports = {
                 mp4 = true;
             }
         }
+
         const embed = new Discord.MessageEmbed()
             .setColor("RANDOM")
             .setImage(img)
