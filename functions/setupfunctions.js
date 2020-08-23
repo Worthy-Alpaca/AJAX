@@ -97,7 +97,7 @@ module.exports = {
         return new Promise(function(resolve, reject) {
             
             
-            message.channel.send('Welcome message that is to be displayed to the new member (currently no emoji support). This message will be sent to the new member in a PM.').then(() => {
+            message.channel.send('Welcome message that is to be displayed to the new member (max 512 Chars.). This message will be sent to the new member in a PM.').then(() => {
                 const filter = m => message.author.id === m.author.id;
                 var ms;
             
