@@ -195,7 +195,7 @@ module.exports = {
             message.channel.send(embed)
             message.channel.send(embed3)
             setTimeout(() => {
-                if (message.guild.channels.cache.find(channel => channel.name === delchannel)) {
+                if (message.guild.channels.cache.find(channel => channel.name === "bot-setup")) {
                     return delchannel.delete();
                 } else {
                     return;
