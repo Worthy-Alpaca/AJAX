@@ -128,6 +128,25 @@ module.exports = {
         }
         password = password.split('').sort(function () { return 0.5 - Math.random() }).join('');
         return password.substr(0, len);
+    },
+
+    gather_channels: function (client, con) {
+        client.guilds.cache.forEach(server => {
+            server.channels.cache.forEach(channel => {
+
+                con.query(`SELECT * FROM channels WHERE server_id = '${server.id}' AND channel_id = '${channel.id}'`, (err, rows) => {
+                    if (err) throw err;
+                    let sql;
+
+                    if (!rows.length) {
+                        console.log(channel.name, "added")
+                        sql = `INSERT INTO channels (server_id, channel_id, channel_name) VALUES ('${server.id}', "${channel.id}", "${channel.name}")`
+                        return con.query(sql);
+                    }
+
+                });
+            })
+        })
     }
         
 };

@@ -11,7 +11,7 @@ const usersMap = new Map();
 const mysql = require("mysql");
 const jwt = require('jsonwebtoken');
 const { bugs } = require("../package.json");
-const { password_generator } = require('../functions/functions.js');
+const { password_generator, gather_channels } = require('../functions/functions.js');
 
 const client = new Client({
   disableEveryone: false
@@ -54,6 +54,8 @@ client.on("ready", () => {
     user.send(`I restarted`)
   });
 
+  gather_channels(client, con);
+
   client.guilds.cache.forEach(guild => {
 
     con.query(`SELECT * FROM servers WHERE id = '${guild.id}'`, (err, rows) => {
@@ -88,6 +90,34 @@ client.on("ready", () => {
     }
   });
 });
+
+//handling channel additions and deletions
+client.on("channelDelete", async channel => {
+  console.log(channel.name, 'deleted')
+  con.query(`SELECT * FROM channels WHERE channel_name = '${channel.name}' AND channel_id = '${channel.id}'`, (err, rows) => {
+    if (rows.length === 1) {
+      let sql = `DELETE FROM channels WHERE channel_name = '${channel.name}' AND channel_id = '${channel.id}'`
+      con.query(sql);
+    }
+  });
+})
+
+client.on('channelCreate', async channel => {
+  if (channel.type === 'dm') {
+    return;
+  } 
+  con.query(`SELECT * FROM channels WHERE server_id = '${channel.guild.id}' AND channel_id = '${channel.id}'`, (err, rows) => {
+    if (err) throw err;
+    let sql;
+
+    if (!rows.length) {
+      console.log(channel.name, "added")
+      sql = `INSERT INTO channels (server_id, channel_id, channel_name) VALUES ('${channel.guild.id}', "${channel.id}", "${channel.name}")`
+      return con.query(sql);
+    }
+
+  });
+})
 
 //on joining a new server
 client.on("guildCreate", async guild => {
@@ -251,6 +281,10 @@ client.on("guildMemberAdd", async member => {
 //message handler
 client.on("message", async message => {
   if (message.author.bot) return;
+
+  if (message.guild === null) {
+    return message.reply("Hey there, no reason to DM me anything. I won't answer anyway :wink:");
+  }
   
   const custom_prefix = await getprefix(message, con).catch(err => console.log(err));
 
