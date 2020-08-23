@@ -63,7 +63,7 @@ async function getAll(client, message, perms, cats) {
         .setFooter(`Version: ${version}`)
         .setTimestamp()
         .setTitle("Help menu")
-        .setURL("https://github.com/Worthy-Alpaca/AJAX/blob/develop/MY_COMMANDS.md")
+        .setURL("https://ajax-discord.com/commands")
         .setThumbnail(client.user.displayAvatarURL())
 
 
