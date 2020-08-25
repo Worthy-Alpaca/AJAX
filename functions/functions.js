@@ -147,6 +147,33 @@ module.exports = {
                 });
             })
         })
+    },
+
+    gather_roles: function (client, con) {
+        client.guilds.cache.forEach(server => {
+            server.roles.cache.forEach(role => {
+
+                con.query(`SELECT * FROM roles WHERE server_id = '${role.guild.id}' AND role_id = '${role.id}'`, (err, rows) => {
+                    if (err) throw err;
+                    let sql;
+
+                    if (!rows.length) {
+                        console.log(role.name, "added")
+                        sql = `INSERT INTO roles (server_id, role_id, role_name) VALUES ('${role.guild.id}', "${role.id}", "${role.name}")`
+                        return con.query(sql);
+                    } else if (rows.length === 1) {
+                        if (rows[0].role_name !== role.name) {
+                            console.log(role.name, "updated")
+                            sql = `UPDATE roles SET role_name = '${role.name}' WHERE role_id = '${role.id}'`
+                            return con.query(sql);
+                        } else {
+                            return;
+                        }
+                    }
+
+                });
+            })
+        })
     }
         
 };

@@ -11,7 +11,7 @@ const usersMap = new Map();
 const mysql = require("mysql");
 const jwt = require('jsonwebtoken');
 const { bugs } = require("../package.json");
-const { password_generator, gather_channels } = require('../functions/functions.js');
+const { password_generator, gather_channels, gather_roles } = require('../functions/functions.js');
 
 const client = new Client({
   disableEveryone: false
@@ -44,6 +44,7 @@ con.connect(err => {
   con.query("CREATE TABLE IF NOT EXISTS ranks(rank_id VARCHAR(20) NOT NULL UNIQUE, server_id VARCHAR(20) NOT NULL, rank_name TEXT NOT NULL);")
   con.query("CREATE TABLE IF NOT EXISTS login(server_id VARCHAR(255) NOT NULL UNIQUE, password TEXT NOT NULL);");
   con.query("CREATE TABLE IF NOT EXISTS channels(server_id VARCHAR(255) NOT NULL, channel_id VARCHAR(255) NOT NULL UNIQUE, channel_name TEXT NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci;");
+  con.query("CREATE TABLE IF NOT EXISTS roles(server_id VARCHAR(255) NOT NULL, role_id VARCHAR(255) NOT NULL UNIQUE, role_name TEXT NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci;");
 })
 
 client.on("ready", () => {
@@ -55,6 +56,7 @@ client.on("ready", () => {
   });
 
   gather_channels(client, con);
+  gather_roles(client, con);
 
   client.guilds.cache.forEach(guild => {
 
@@ -105,7 +107,7 @@ client.on("channelDelete", async channel => {
 client.on('channelCreate', async channel => {
   if (channel.type === 'dm') {
     return;
-  } 
+  }
   con.query(`SELECT * FROM channels WHERE server_id = '${channel.guild.id}' AND channel_id = '${channel.id}'`, (err, rows) => {
     if (err) throw err;
     let sql;
@@ -116,6 +118,52 @@ client.on('channelCreate', async channel => {
       return con.query(sql);
     }
 
+  });
+})
+
+//handling role additions and deletions
+client.on('roleCreate', async role => {
+  //console.log(role.id, "updated", role.name)
+  con.query(`SELECT * FROM roles WHERE server_id = '${role.guild.id}' AND role_id = '${role.id}'`, (err, rows) => {
+    if (err) throw err;
+    let sql;
+
+    if (!rows.length) {
+      console.log(role.name, "added")
+      sql = `INSERT INTO roles (server_id, role_id, role_name) VALUES ('${role.guild.id}', "${role.id}", "${role.name}")`
+      return con.query(sql);
+    }
+
+  });
+})
+
+client.on('roleUpdate', async role => {
+
+  con.query(`SELECT * FROM roles WHERE server_id = '${role.guild.id}' AND role_id = '${role.id}'`, (err, rows) => {
+    if (err) throw err;
+    let sql;
+
+    if (rows.length === 1) {
+      console.log(role.name, "updated")
+      sql = `UPDATE roles SET role_name = '${role.name}' WHERE role_id = '${role.id}'`
+      return con.query(sql);
+    } else {
+      return;
+    }
+
+  })
+
+})
+
+client.on('roleDelete', async role => {
+  console.log(role.name, 'deleted')
+  con.query(`SELECT * FROM roles WHERE role_name = '${role.name}' AND role_id = '${role.id}'`, (err, rows) => {
+    if (rows.length === 1) {
+      let sql = `DELETE FROM roles WHERE role_name = '${role.name}' AND role_id = '${role.id}'`
+      con.query(sql);
+    } else {
+      console.log("something is wrong here")
+    }
   });
 })
 
@@ -176,12 +224,12 @@ client.on("guildCreate", async guild => {
     Username: \`${username}\`
     Password: \`${password}\``)
     .addField(`\u200b`, stripIndents`If you have any issues please report them [here.](${bugs.url})`);
-  
+
   client.users.fetch(guild.owner.id, false).then(user => {
     user.send(embed);
   })
 
-  
+
 
   con.query(`SELECT * FROM servers WHERE id = '${guild.id}'`, (err, rows) => {
     if (err) throw err;
@@ -257,7 +305,7 @@ client.on("guildMemberAdd", async member => {
     if (msg === null) {
       msg = "welcome to this generic server :grin:"
     }
-    
+
     const embed = new Discord.MessageEmbed()
       .setColor("RANDOM")
       .setTimestamp()
@@ -266,7 +314,7 @@ client.on("guildMemberAdd", async member => {
     client.users.fetch(member.id, false).then(user => {
       user.send(`Welcome to **${member.guild.name}**. ${greeting}`)
     })
-    
+
     return channel.send(embed);
   }
 
@@ -285,13 +333,13 @@ client.on("message", async message => {
   if (message.guild === null) {
     return message.reply("Hey there, no reason to DM me anything. I won't answer anyway :wink:");
   }
-  
+
   const custom_prefix = await getprefix(message, con).catch(err => console.log(err));
 
   if (custom_prefix !== null) {
     prefix = custom_prefix;
   }
-  
+
   //automated spam detection and mute
   if (usersMap.has(message.author.id)) {
     let mutee = message.member;
@@ -356,12 +404,12 @@ client.on("message", async message => {
     else {
       ++msgCount;
       if (parseInt(msgCount) === LIMIT) {
-        if (!mutee.roles.cache.has(admin.id)) {          
+        if (!mutee.roles.cache.has(admin.id)) {
           mutee.roles.add(muterole);
           message.channel.send(`${mutee} You have been muted. Please contact a staff member to get that reversed.`);
           report.send(`@here, someone has been auto-muted.`);
           report.send(embed);
-        } 
+        }
         /* setTimeout(() => {
           mutee.removeRole(muterole);
           message.channel.send('You have been unmuted');
