@@ -142,6 +142,14 @@ module.exports = {
                         console.log(channel.name, "added")
                         sql = `INSERT INTO channels (server_id, channel_id, channel_name) VALUES ('${server.id}', "${channel.id}", "${channel.name}")`
                         return con.query(sql);
+                    } else if (rows.length === 1) {
+                        if (rows[0].channel_name !== channel.name) {
+                            console.log(channel.name, "updated to")
+                            sql = `UPDATE channels SET channel_name = '${channel.name}' WHERE channel_id = '${channel.id}'`
+                            return con.query(sql);
+                        } else {
+                            return;
+                        }
                     }
 
                 });
