@@ -120,8 +120,26 @@ client.on('channelCreate', async channel => {
 
   });
 })
+client.on('channelUpdate', async function(oldChannel, newChannel) {
+  
+  con.query(`SELECT * FROM channels WHERE server_id = '${newChannel.guild.id}' AND channel_id = '${newChannel.id}'`, (err, rows) => {
+    if (err) throw err;
+    let sql;
 
-//handling role additions and deletions
+    if (rows.length === 1) {
+      if (rows[0].channel_name !== newChannel.name) {
+        console.log(oldChannel.name, "updated to", newChannel.name)
+        sql = `UPDATE channels SET channel_name = '${newChannel.name}' WHERE channel_id = '${newChannel.id}'`
+        return con.query(sql);
+      } else {
+        return;
+      }
+    } else return;
+
+  });
+})
+
+//handling role additions, updates and deletions
 client.on('roleCreate', async role => {
   //console.log(role.id, "updated", role.name)
   con.query(`SELECT * FROM roles WHERE server_id = '${role.guild.id}' AND role_id = '${role.id}'`, (err, rows) => {
@@ -137,16 +155,20 @@ client.on('roleCreate', async role => {
   });
 })
 
-client.on('roleUpdate', async role => {
+client.on('roleUpdate', async function(oldRole, newRole) {
 
-  con.query(`SELECT * FROM roles WHERE server_id = '${role.guild.id}' AND role_id = '${role.id}'`, (err, rows) => {
+  con.query(`SELECT * FROM roles WHERE server_id = '${newRole.guild.id}' AND role_id = '${newRole.id}'`, (err, rows) => {
     if (err) throw err;
     let sql;
 
     if (rows.length === 1) {
-      console.log(role.name, "updated")
-      sql = `UPDATE roles SET role_name = '${role.name}' WHERE role_id = '${role.id}'`
-      return con.query(sql);
+      if (rows[0].role_name !== newRole.name) {
+        console.log(oldRole.name, "updated to", newRole.name)
+        sql = `UPDATE roles SET role_name = '${newRole.name}' WHERE role_id = '${newRole.id}'`
+        return con.query(sql);
+      } else {
+        return;
+      }
     } else {
       return;
     }
@@ -218,7 +240,8 @@ client.on("guildCreate", async guild => {
     .setFooter(`Version: ${version}`)
     .setThumbnail(client.user.displayAvatarURL())
     .setDescription(stripIndents`**Hello there I'm ${client.user.username}**`)
-    .addField(`\u200b`, stripIndents`I have created #bot-setup for you to run **!setserver** in. That will set everything up.
+    .addField(`\u200b`, stripIndents`Thank you for inviting me to your server.
+    I have created #bot-setup for you to run **!setserver** in. That will set everything up.
     See [!help](https://ajax-discord.com/commands) for all of my commands. Enjoy :grin:
     You can also log into the [dashboard](https://ajax-discord.com/login).
     Username: \`${username}\`
