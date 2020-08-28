@@ -217,7 +217,7 @@ client.on("guildCreate", async guild => {
         }).then(res => {
           console.log(res)
           if (res.status === 200) {
-            console.log("test successfull")
+            console.log("successfully registered")
           }
         })
       } catch {
@@ -311,15 +311,11 @@ client.on("guildMemberAdd", async member => {
   var msg = await getservergreeting(member, con);
   var channel = member.guild.channels.cache.find(channel => channel.id === chnl);
 
-  if (typeof greeting == 'undefined') {
+  if (typeof greeting == 'undefined' || greeting === null) {
     greeting = "Welcome to this generic server. The owner has not bothered with a custom welcome message so you get this one. :person_shrugging:"
-  } else if (greeting === null) {
-    greeting = "Welcome to this generic server. The owner has not bothered with a custom welcome message so you get this one. :person_shrugging:"
-  }
+  } 
 
-  if (typeof channel == 'undefined') {
-    channel = member.guild.channels.cache.find(channel => channel.id === member.guild.systemChannelID);
-  } else if (channel === null) {
+  if (typeof channel == 'undefined' || channel === null) {
     channel = member.guild.channels.cache.find(channel => channel.id === member.guild.systemChannelID);
   }
 
