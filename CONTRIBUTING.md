@@ -38,13 +38,6 @@ By contributing to this repository, you are expected to know and follow the rule
 sudo apt-get install npm
 ```
 
-- Then install Discord.js
-
-    * Run this in your console
-    ```
-    npm install discord.js
-    ```
-
 - Now clone the repository
 ```
 git clone https://github.com/Worthy-Alpaca/AJAX.git
