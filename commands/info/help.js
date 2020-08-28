@@ -60,7 +60,7 @@ async function getAll(client, message, perms, cats) {
 
     const embed = new Discord.MessageEmbed()
         .setColor("RANDOM")
-        .setFooter(`Version: ${version}`)
+        .setFooter(`Version: ${version} | React below to cycle through the commands`)
         .setTimestamp()
         .setTitle("Help menu")
         .setURL("https://ajax-discord.com/commands")
