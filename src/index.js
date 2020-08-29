@@ -518,4 +518,9 @@ client.on("message", async message => {
   if (command) command.run(client, message, args, con);
 })
 
+//Handling API errors
+process.on('unhandledRejection', error => {
+  console.error('Unhandled promise rejection:', error);
+})
+
 client.login(token);
