@@ -9,24 +9,24 @@ module.exports = {
     permission: ["moderator", "admin"],
     description: "mutes a person",
     usage: "<id | mention>",
-    run: async (client, message, args, con) => {
+    run: async (client, message, args, con, api) => {
 
         if (message.deletable) message.delete();
 
-        var admin = await getAdmin(message, con);
+        /* var admin = await getAdmin(message, con);
         var moderator = await getMod(message, con);
-        var reports = await getreportschannel(message, con);
-        const report = message.guild.channels.cache.find(channel => channel.id === reports);
+        var reports = await getreportschannel(message, con); */
+        const report = message.guild.channels.cache.find(channel => channel.id === api.reports);
 
-        if (admin === null) {
+        if (api.admin === null) { //###########################
             return message.channel.send("You need to set the role for admin first. Do that by typing !setadmin")
         }
-        if (moderator === null) {
+        if (api.moderator === null) { //###########################
             return message.channel.send("You need to set the role for moderator first. Do that by typing !setmod")
         }
 
-        if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === admin).id)) {
-            if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === moderator).id)) {
+        if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === api.admin).id)) { //###########################
+            if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === api.moderator).id)) { //###########################
                 return message.reply("You can't do that. Please contact a staff member!")
                     .then(m => m.delete({ timeout: 5000 }));
             }
@@ -80,7 +80,7 @@ module.exports = {
                 return message.reply("You cannot mute a bot")
             }
 
-            if (mutee.roles.cache.has(message.guild.roles.cache.find(r => r.id === admin).id)) {
+            if (mutee.roles.cache.has(message.guild.roles.cache.find(r => r.id === api.admin).id)) { //###########################
                 return message.reply("You cannot mute a server admin")
             }
 

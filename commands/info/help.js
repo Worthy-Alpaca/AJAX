@@ -13,19 +13,19 @@ module.exports = {
     description: "Returns this list",
     descriptionlong: "Returns a menu of with commands you have access to. You have 4min per site to do stuff :grin:",
     usage: "[command | alias]",
-    run: async (client, message, args, con) => {
+    run: async (client, message, args, con, api) => {
         if (message.deletable) message.delete();
         //console.log(client.commands)
-        const adm = await getAdmin(message, con);
-        const mod = await getMod(message, con);
+        //const adm = await getAdmin(message, con);
+        //const mod = await getMod(message, con);
         var perms;
         var i = 0;
         var a = true;
-        const custom_prefix = await getprefix(message, con);
+        //const custom_prefix = await getprefix(message, con);
         const chooseArr = ["◀", "⏹", "▶"];
 
-        if (custom_prefix !== null) {
-            prefix = custom_prefix;
+        if (api.prefix !== null) {
+            prefix = api.prefix;
         }
         var cats = [client.categories[i]];
 
@@ -38,7 +38,7 @@ module.exports = {
                     perms = "author"
                 } else if (message.member.hasPermission("ADMINISTRATOR")) {
                     perms = "admin"
-                } else if (message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === mod).id)) {
+                } else if (message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === api.moderator).id)) { //######################
                     perms = "moderator"
                 } else {
                     perms = "none"

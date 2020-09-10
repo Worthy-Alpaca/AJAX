@@ -10,24 +10,24 @@ module.exports = {
     permission: ["none", "moderator", "admin"],
     description: "reports a member",
     usage: "<good/bad, mention | id, reason>",
-    run: async (client, message, args, con) => {
+    run: async (client, message, args, con, api) => {
         if (message.deletable) message.delete();
 
         let rMember = message.mentions.members.first() || message.guild.members.get(args[0]);
 
         let behavior;
         let behavior2;
-        var admin = await getAdmin(message, con);
+        /* var admin = await getAdmin(message, con);
         var moderator = await getMod(message, con);
-        const reports = await getreportschannel(message, con);
-        const channel = message.guild.channels.cache.find(c => c.id === reports) || message.channel;
+        const reports = await getreportschannel(message, con); */
+        const channel = message.guild.channels.cache.find(c => c.id === api.reports) || message.channel; //###########################
         const tblid = Array.from(message.guild.name)
         tblid.forEach(function (item, i) { if (item == " ") tblid[i] = "_"; });
 
-        if (admin === null) {
+        if (api.admin === null) {
             return message.channel.send("You need to set the role for admin first. Do that by typing !setadmin")
         }
-        if (moderator === null) {
+        if (api.moderator === null) {
             return message.channel.send("You need to set the role for moderator first. Do that by typing !setmod")
         }
 
@@ -37,7 +37,7 @@ module.exports = {
         if (!rMember)
             return message.reply("Couldn't find that person").then(m => m.delete({ timeout: 5000 }));
 
-        if (rMember.roles.cache.has(message.guild.roles.cache.find(r => r.id === admin).id) || rMember.user.bot)
+        if (rMember.roles.cache.has(message.guild.roles.cache.find(r => r.id === api.admin).id) || rMember.user.bot) //###########################
             return message.reply("Can't report that member").then(m => m.delete({ timeout: 5000 }));
 
         if (args[0] === "good") {

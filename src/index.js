@@ -302,14 +302,18 @@ client.on("guildMemberAdd", async member => {
   var greeting;
 
   if (member.bot) return;
+  const api = await get_API_call(message);
 
-  greeting = await getMsg(member, con);
-  bolean = await getautoapproved(member, con);
-  rl = await getapproved(member, con);
-  chnl = await getChnl(member, con);
-  const role = member.guild.roles.cache.find(r => r.id === rl);
-  var msg = await getservergreeting(member, con);
-  var channel = member.guild.channels.cache.find(channel => channel.id === chnl);
+  //greeting = await getMsg(member, con);
+  //bolean = await getautoapproved(member, con);
+  greeting = api.greeting; //#########################
+  bolean = api.auto_approved; //###############################
+  //rl = await getapproved(member, con);
+  //chnl = await getChnl(member, con);
+  const role = member.guild.roles.cache.find(r => r.id === api.approved); //#######################
+  //var msg = await getservergreeting(member, con);
+  var msg = api.server_greeting; //#############################
+  var channel = member.guild.channels.cache.find(channel => channel.id === api.channel); //##############################
 
   if (typeof greeting == 'undefined' || greeting === null) {
     greeting = "Welcome to this generic server. The owner has not bothered with a custom welcome message so you get this one. :person_shrugging:"
@@ -351,12 +355,13 @@ client.on("message", async message => {
 
   const api = await get_API_call(message);
   console.log(api)
-  
+
   if (message.guild === null) {
     return message.reply("Hey there, no reason to DM me anything. I won't answer anyway :wink:");
   }
 
-  const custom_prefix = await getprefix(message, con).catch(err => console.log(err));
+  //const custom_prefix = await getprefix(message, con).catch(err => console.log(err));
+  const custom_prefix = api.prefix;
 
   if (custom_prefix !== null) {
     prefix = custom_prefix;
@@ -365,10 +370,10 @@ client.on("message", async message => {
   //automated spam detection and mute
   if (usersMap.has(message.author.id)) {
     let mutee = message.member;
-    const reports = await getreportschannel(message, con);
-    const adm = await getAdmin(message, con);
-    const admin = message.guild.roles.cache.find(r => r.id === adm)
-    const report = message.guild.channels.cache.find(channel => channel.id === reports);
+    //const reports = await getreportschannel(message, con);
+    //const adm = await getAdmin(message, con);    
+    const admin = message.guild.roles.cache.find(r => r.id === api.admin); //###########################
+    const report = message.guild.channels.cache.find(channel => channel.id === api.reports); //###########################
     const userData = usersMap.get(message.author.id);
     const { lastMessage, timer } = userData;
     const difference = message.createdTimestamp - lastMessage.createdTimestamp;
@@ -456,21 +461,21 @@ client.on("message", async message => {
   if (!message.guild) return;
 
   //listening for the approved command
-  const startcommand = await getstartcmd(message, con);
+  //const startcommand = await getstartcmd(message, con);
 
-  if (message.content.startsWith(`${startcommand}`)) {
+  if (message.content.startsWith(`${api.startcmd}`)) { //######################
     message.delete();
     var chnl;
     var rl;
 
     const member = message.member;
     guild = member.guild;
-    rl = await getapproved2(message, con);
-    chnl = await getChnl(member, con);
-    var msg = await getservergreeting(member, con);
+    //rl = await getapproved2(message, con);
+    //chnl = await getChnl(member, con);
+    //var msg = await getservergreeting(member, con);
 
-    const role = message.guild.roles.cache.find(r => r.id === rl);
-    var channel = member.guild.channels.cache.find(channel => channel.id === chnl);
+    const role = message.guild.roles.cache.find(r => r.id === api.approved); //###########################
+    var channel = member.guild.channels.cache.find(channel => channel.id === api.channel); //###########################
 
     if (typeof channel == 'undefined') {
       channel = member.guild.channels.cache.find(channel => channel.id === member.guild.systemChannelID);
@@ -518,7 +523,7 @@ client.on("message", async message => {
   let command = client.commands.get(cmd);
   if (!command) command = client.commands.get(client.aliases.get(cmd));
 
-  if (command) command.run(client, message, args, con);
+  if (command) command.run(client, message, args, con, api);
 })
 
 //Handling API errors

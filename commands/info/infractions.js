@@ -11,14 +11,14 @@ module.exports = {
     description: "Tells you how often you have been reported",
     usage: "[clear](only admins), [mention]",
 
-    run: async (client, message, args, con) => {
+    run: async (client, message, args, con, api) => {
 
         if (message.deletable) message.delete();
 
         let rMember = message.mentions.members.first() || message.author;
 
-        var admin = await getAdmin(message, con);
-        var moderator = await getMod(message, con);
+        //var admin = await getAdmin(message, con);
+        //var moderator = await getMod(message, con);
         const tblid = Array.from(message.guild.name)
         tblid.forEach(function (item, i) { if (item == " ") tblid[i] = "_"; });
         con.query(`CREATE TABLE IF NOT EXISTS ${tblid.join("")}(member_id VARCHAR(20) NOT NULL UNIQUE, member_name TEXT NOT NULL, infractions INT NOT NULL);`)
@@ -38,7 +38,7 @@ module.exports = {
 
 
         if (args[0] === "clear") {
-            if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === admin).id)) {
+            if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === api.admin).id)) { //######################
                 return message.reply("You can't do that. Please contact a staff member!")
                     .then(m => m.delete({ timeout: 5000 }));
             }

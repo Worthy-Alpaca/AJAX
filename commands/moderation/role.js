@@ -10,24 +10,24 @@ module.exports = {
     description: "adds/removes role to all mentioned members",
     descriptionlong: "adds/removes role to all mentioned members depending wether they already have the role",
     usage: "<role> <member> [member] etc.",
-    run: async (client, message, args, con) => {
+    run: async (client, message, args, con, api) => {
         message.delete();
 
-        const reports = await getreportschannel(message, con);
-        const logChannel = message.guild.channels.cache.find(c => c.id === reports) || message.channel;
+        //const reports = await getreportschannel(message, con);
+        const logChannel = message.guild.channels.cache.find(c => c.id === api.reports) || message.channel;  //###########################
 
-        var admin = await getAdmin(message, con);
-        var moderator = await getMod(message, con);
+        /* var admin = await getAdmin(message, con);
+        var moderator = await getMod(message, con); */
 
-        if (admin === null) {
+        if (api.admin === null) { //###########################
             return message.channel.send("You need to set the role for admin first. Do that by typing !setadmin")
         }
-        if (moderator === null) {
+        if (api.moderator === null) { //###########################
             return message.channel.send("You need to set the role for moderator first. Do that by typing !setmod")
         }
 
-        if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === admin).id)) {
-            if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === moderator).id)) {
+        if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === api.admin).id)) { //###########################
+            if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === api.moderator).id)) { //###########################
                 return message.reply("You can't do that. Please contact a staff member!")
                     .then(m => m.delete({ timeout: 5000 }));
             }

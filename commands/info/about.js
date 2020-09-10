@@ -10,16 +10,16 @@ module.exports = {
     category: "info",
     permission: ["none", "moderator", "admin"],
     description: "Gives information about the bot and the server",
-    run: async (client, message, args, con) => {
+    run: async (client, message, args, con, api) => {
 
         if (message.deletable) message.delete();
 
         const guild = message.channel.guild;
         var count = [];
         var bots = [];
-
-        approvedR = await getapproved2(message, con);
-        role = message.guild.roles.cache.find(r => r.id === approvedR);
+        
+        //approvedR = await getapproved2(message, con);
+        role = message.guild.roles.cache.find(r => r.id === api.approved); //###########################
 
         if (!role) {
             return message.reply("No role for approved members found. You can change that with !setapproved")

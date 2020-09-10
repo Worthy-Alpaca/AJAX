@@ -9,7 +9,7 @@ module.exports = {
     permission: ["moderator", "admin"],
     description: "Kicks all members who don't have the approved role",
 
-    run: async (client, message, args, con) => {
+    run: async (client, message, args, con, api) => {
         if (message.deletable) message.delete();
 
         if (!message.member.hasPermission("ADMINISTRATOR")) {
@@ -17,11 +17,11 @@ module.exports = {
         }
 
         const guild = message.channel.guild;
-        const member = message.member;
+        //const member = message.member;
         const reason = "Too long without agreeing to the rules";
-        var approved = await getapproved2(message, con);
-        var chnl = await getChnl(member, con);
-        channel = guild.channels.cache.find(channel => channel.id === chnl);
+        //var approved = await getapproved2(message, con);
+        //var chnl = await getChnl(member, con);
+        channel = guild.channels.cache.find(channel => channel.id === api.channel); //###########################
         var name;
         var kicked = [];
         async function crtInvite(channel, member) {
@@ -39,7 +39,7 @@ module.exports = {
 
         guild.members.cache.forEach(member => {
             if (member.user.bot) return;
-            if (member.roles.cache.has(message.guild.roles.cache.find(r => r.id === approved).id)) {
+            if (member.roles.cache.has(message.guild.roles.cache.find(r => r.id === api.approved).id)) { //###########################
                 return;
             } else {
                 crtInvite(channel, member);

@@ -9,13 +9,13 @@ module.exports = {
     permission: ["none", "moderator", "admin"],
     description: "Shows available ranks",
 
-    run: async (client, message, args, con) => {
+    run: async (client, message, args, con, api) => {
 
         const ranks = await getranks(message, con)
-        const custom_prefix = await getprefix(message, con);
+        //const custom_prefix = await getprefix(message, con);
 
-        if (custom_prefix !== null) {
-            prefix = custom_prefix;
+        if (api.prefix !== null) {
+            prefix = api.prefix; //##########################
         }
 
         const embed = new Discord.MessageEmbed()

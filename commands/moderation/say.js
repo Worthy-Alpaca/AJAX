@@ -10,29 +10,29 @@ module.exports = {
     description: "Let the bot speak on your behalf",
     descriptionlong: "Let the bot speak on your behalf. Can be used across channels and also send an embed",
     usage: "[channel] [embed] <input>",
-    run: async (client, message, args, con) => {
+    run: async (client, message, args, con, api) => {
         message.delete();
 
-        var admin = await getAdmin(message, con);
-        var moderator = await getMod(message, con);
+        /* var admin = await getAdmin(message, con);
+        var moderator = await getMod(message, con); */
 
-        if (admin === null) {
+        if (api.admin === null) { //###########################
             return message.channel.send("You need to set the role for admin first. Do that by typing !setadmin").then(m => m.delete({ timeout: 5000 }));
         }
-        if (moderator === null) {
+        if (api.moderator === null) { //###########################
             return message.channel.send("You need to set the role for moderator first. Do that by typing !setmod").then(m => m.delete({ timeout: 5000 }));
         }
 
-        if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === admin).id))
+        if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === api.admin).id)) //###########################
             return message.reply("You don't have the required permissions to use this command.").then(m => m.delete({ timeout: 5000 }));
 
         if (typeof args[0] == 'undefined') {
             return message.channel.send("Maybe include something :wink:")
         }
 
-        const chnl = await filter_integer(message, args[0]);
+        //const chnl = await filter_integer(message, args[0]);
 
-        const channel = message.guild.channels.cache.find(channel => channel.id === chnl);
+        const channel = message.guild.channels.cache.find(channel => channel.id === api.channel); //###########################
 
         if (channel) {
             if (typeof args[1] == 'undefined') {
