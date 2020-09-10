@@ -11,7 +11,7 @@ const usersMap = new Map();
 const mysql = require("mysql");
 const jwt = require('jsonwebtoken');
 const { bugs } = require("../package.json");
-const { password_generator, gather_channels, gather_roles } = require('../functions/functions.js');
+const { password_generator, gather_channels, gather_roles, get_API_call } = require('../functions/functions.js');
 
 const client = new Client({
   disableEveryone: false
@@ -349,6 +349,9 @@ client.on("guildMemberAdd", async member => {
 client.on("message", async message => {
   if (message.author.bot) return;
 
+  const api = await get_API_call(message);
+  console.log(api)
+  
   if (message.guild === null) {
     return message.reply("Hey there, no reason to DM me anything. I won't answer anyway :wink:");
   }

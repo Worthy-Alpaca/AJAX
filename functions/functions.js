@@ -1,3 +1,7 @@
+const fetch = require('node-fetch');
+const { API_ADDRESS, TOKEN_SECRET } = require('../token.json');
+const jwt = require('jsonwebtoken');
+
 module.exports = {
     getMember: function(message, toFind = '') {
         toFind = toFind.toLowerCase();
@@ -181,6 +185,28 @@ module.exports = {
 
                 });
             })
+        })
+    },
+
+    get_API_call: function (message) {
+        return new Promise(async function (resolve, reject) {
+            const token = jwt.sign({ _id: message.guild.id }, TOKEN_SECRET);
+            //console.log(token)
+            const response = await fetch(API_ADDRESS + '/discord/showserver', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'content-type': 'application/json',
+                    'auth-token': token
+                },
+                body: JSON.stringify({
+                    server_id: message.guild.id
+                })
+            }).then(function (response) {
+                return response.json();
+            })
+
+            return resolve(response);
         })
     }
         
