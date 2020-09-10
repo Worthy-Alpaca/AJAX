@@ -5,6 +5,7 @@ module.exports = {
     category: "moderation",
     permission: ["none", "moderator", "admin"],
     description: "Locks a voice channel",
+    descriptionlong: "Locks a voice channel at the current member amount if no amount is specified. If the voice channel is not in use the lock will be removed.",
     usage: "<channel>, [amount]",
     run: async (client, message, args, con) => {
 
