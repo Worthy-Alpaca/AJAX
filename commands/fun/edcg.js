@@ -3,7 +3,6 @@ const fetch = require('node-fetch');
 const { stripIndents } = require("common-tags");
 const { version } = require("../../src/config.json");
 const { apikey_inara } = require("../../src/config.json");
-const { combat, exploration, trade, cqc, empire, fedaration } = require("../../assets/elite/ranks.json");
 const { promptMessage, pageparser } = require("../../functions/functions.js");
 
 module.exports = {
