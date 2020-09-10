@@ -5,6 +5,7 @@ module.exports = {
   category: "fun",
   permission: ["null"],
   description: "Sends a random cat",
+  descriptionlong: "Sends a random cat. Currently broken due to API being broken.",
   run: async (client, message, args, con) => {
     if (message.deletable) message.delete();
 
