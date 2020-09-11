@@ -175,10 +175,14 @@ client.on("guildCreate", async guild => {
     },
     body: JSON.stringify({
       username: username,
-      password: password
+      password: password,
+      guild: {
+        name: guild.name,
+        id: guild.id
+      }
     })
   }).then(res => {
-    console.log(res)
+    //console.log(res)
     if (res.status === 200) {
       console.log("successfully registered")
     }
@@ -204,40 +208,14 @@ client.on("guildCreate", async guild => {
     user.send(embed);
   })
 
-
-
-  con.query(`SELECT * FROM servers WHERE id = '${guild.id}'`, (err, rows) => {
-    if (err) throw err;
-    let sql;
-    let db;
-
-    if (!rows.length) {
-      console.log(guild.name, "added")
-      sql = `INSERT INTO servers (id, name) VALUES ('${guild.id}', "${guild.name}")`
-      return con.query(sql);
-    }
-
-    if (rows[0].id === guild.id) {
-      db = true;
-
-      return;
-    } else {
-      console.log("b")
-      sql = `INSERT INTO servers (id, name) VALUES ('${guild.id}', "${guild.name}")`
-      db = true;
-
-      con.query(sql);
-    }
-
-  });
 })
 
-client.on("guildDelete", guild => {
+client.on("guildDelete", async guild => {
   client.users.fetch(owner, false).then(user => {
     user.send(`I was kicked from ${guild.name}, ${guild.id}`)
   });
 
-  con.query(`SELECT * FROM servers WHERE id = '${guild.id}'`, (err, rows) => {
+  /* con.query(`SELECT * FROM servers WHERE id = '${guild.id}'`, (err, rows) => {
 
     let sql = `DELETE FROM servers WHERE id = '${guild.id}'`
     con.query(sql);
@@ -246,7 +224,22 @@ client.on("guildDelete", guild => {
   con.query(`SELECT * FROM login WHERE server_id = '${guild.id}'`, (err, rows) => {
     let sql = `DELETE FROM login WHERE server_id = '${guild.id}'`
     con.query(sql);
+  }) */
+  const payload = JSON.stringify({
+    'guild': guild
   })
+
+  const success = await delete_API_call('deleteserver', payload, guild, 'guild');
+
+  if (success.success === false) {
+    client.users.fetch(owner, false).then(user => {
+      user.send(success.err);
+    });
+  } else {
+    client.users.fetch(owner, false).then(user => {
+      user.send(`Successfully deleted from database`)
+    });
+  }
 })
 
 //welcome message
