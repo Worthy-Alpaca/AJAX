@@ -6,7 +6,6 @@ const fetch = require('node-fetch');
 const fs = require("fs");
 const Discord = require("discord.js");
 const { stripIndents } = require("common-tags");
-const { getChnl, getAdmin, getMsg, getapproved, getapproved2, getservergreeting, getstartcmd, getreportschannel, getautoapproved, getprefix } = require("../functions/db_queries.js");
 const usersMap = new Map();
 const mysql = require("mysql");
 const jwt = require('jsonwebtoken');
@@ -54,30 +53,6 @@ client.on("ready", () => {
   client.users.fetch(owner, false).then(user => {
     user.send(`I restarted`)
   });
-
-  /* client.guilds.cache.forEach(guild => {
-
-    con.query(`SELECT * FROM servers WHERE id = '${guild.id}'`, (err, rows) => {
-      if (err) throw err;
-      let sql;
-
-      if (!rows.length) {
-        console.log(guild.name, "added")
-        sql = `INSERT INTO servers (id, name) VALUES ('${guild.id}', "${guild.name}")`
-        return con.query(sql);
-      }
-
-      if (rows[0].id === guild.id) {
-        a++;
-        return;
-      } else {
-        console.log("b")
-        sql = `INSERT INTO servers (id, name) VALUES ('${guild.id}', "${guild.name}")`
-        con.query(sql);
-      }
-
-    });
-  }) */
 
   if (a > 0) console.log("No new servers")
 
@@ -215,16 +190,6 @@ client.on("guildDelete", async guild => {
     user.send(`I was kicked from ${guild.name}, ${guild.id}`)
   });
 
-  /* con.query(`SELECT * FROM servers WHERE id = '${guild.id}'`, (err, rows) => {
-
-    let sql = `DELETE FROM servers WHERE id = '${guild.id}'`
-    con.query(sql);
-  })
-
-  con.query(`SELECT * FROM login WHERE server_id = '${guild.id}'`, (err, rows) => {
-    let sql = `DELETE FROM login WHERE server_id = '${guild.id}'`
-    con.query(sql);
-  }) */
   const payload = JSON.stringify({
     'guild': guild
   })
