@@ -1,37 +1,32 @@
-const Discord  = require("discord.js");
+const Discord = require("discord.js");
 const { stripIndents } = require("common-tags");
 var { prefix } = require("../../src/config.json");
-const { getAdmin, getMod, getChnl, getMsg, getapproved, getstartcmd, getreportschannel, getautoapproved, getservergreeting, getprefix } = require("../../functions/db_queries.js");
+const fetch = require('node-fetch');
+const { API_ADDRESS, TOKEN_SECRET} = require('../../token.json');
+const jwt = require('jsonwebtoken');
 
 module.exports = {
     name: "showserver",
     category: "setup",
     permission: ["admin"],
-    description: "Shows the server setup result",
-    run: async (client, message, args, con) => {
-        message.delete();
-        
-        if (!message.member.hasPermission("ADMINISTRATOR")){
+    description: "Shows the server setup result.",
+    run: async (client, message, args, con, response) => {
+        //message.delete();
+        //console.log(response)
+        if (!message.member.hasPermission("ADMINISTRATOR")) {
             return message.reply("You are not powerful enough to do that");
         }
-                
-        const member = message.member; 
-        const guild = message.member.guild;
-        const admin2 = await getAdmin(message, con);
-        const moderator2 = await getMod(message, con);
-        const welcomechannel2 = await getChnl(member, con);
-        const approvedrole2 = await getapproved(member, con);
-        const reportschannel2 = await getreportschannel(message, con);
-        const admin = message.guild.roles.cache.find(r => r.id === admin2);
-        const moderator = message.guild.roles.cache.find(r => r.id === moderator2);
-        const welcomechannel = message.guild.channels.cache.find(c => c.id === welcomechannel2);
-        const welcomemessage = await getMsg(member, con);
-        const servergreeting = await getservergreeting(member, con);
-        const approvedrole = message.guild.roles.cache.find(r => r.id === approvedrole2);
-        var startcmd = await getstartcmd(message, con);
-        reportschannel = message.guild.channels.cache.find(c => c.id === reportschannel2);
-        const bolean = await getautoapproved(member, con);
-        const custom_prefix = await getprefix(message, con);
+        
+        const admin = message.guild.roles.cache.find(r => r.id === response.admin);
+        const moderator = message.guild.roles.cache.find(r => r.id === response.moderator);
+        const welcomechannel = message.guild.channels.cache.find(c => c.id === response.channel);
+        const welcomemessage = response.greeting;
+        const servergreeting = response.server_greeting;
+        const approvedrole = message.guild.roles.cache.find(r => r.id === response.approved);
+        var startcmd = response.startcmd;
+        const reportschannel = message.guild.channels.cache.find(c => c.id === response.reports);
+        const bolean = response.auto_approved;
+        const custom_prefix = response.prefix;
 
         if (custom_prefix !== null) {
             prefix = custom_prefix;
@@ -40,11 +35,11 @@ module.exports = {
         if (bolean === "true") {
             startcmd = "Members get role automatically"
         }
-        
-        const embed2= new Discord.MessageEmbed()
-            .setColor(member.displayHexColor === "#000000" ? "#ffffff" : member.displayHexColor)            
+
+        const embed2 = new Discord.MessageEmbed()
+            .setColor(message.member.displayHexColor === "#000000" ? "#ffffff" : message.member.displayHexColor)
             .setTimestamp()
-            .setThumbnail(guild.iconURL())
+            .setThumbnail(message.guild.iconURL())
             .setFooter(message.guild.name)
             .setDescription(stripIndents`**This is what you entered**`)
             .addField(`\u200b`, stripIndents`**Admin role**
@@ -66,7 +61,7 @@ module.exports = {
             .addField(`\u200b`, stripIndents`**Your prefix**
             \`${prefix}\``, true);
 
-        return message.channel.send(embed2).then(m => m.delete( {timeout: 120000} ));
-        
+        return message.channel.send(embed2).then(m => m.delete({ timeout: 120000 }));
+
     }
 }

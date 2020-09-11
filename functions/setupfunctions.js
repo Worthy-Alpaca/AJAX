@@ -1,4 +1,4 @@
-const { filter_integer } = require("./functions.js");
+const { filter_integer, update_API_call } = require("./functions.js");
 
 module.exports = {
 
@@ -14,13 +14,21 @@ module.exports = {
                         var admin = await filter_integer(message, messages.first().content);
                         
                         msg = message.channel.send(`You've entered: \`${message.guild.roles.cache.find(r => r.id === admin).name}\``).then(m => m.delete( {timeout: 5000} ));
-                        con.query(`SELECT * FROM servers WHERE id = '${message.guild.id}'`, (err, rows) => {
-                            let sql;
-                            sql = `UPDATE servers SET admin = '${admin}' WHERE id = '${message.guild.id}'`;
-                            adm = true;
-                            resolve(adm);
-                            return con.query(sql);
+                       
+                        const payload = JSON.stringify({
+                            guild: message.guild,
+                            field: 'admin',
+                            value: admin
                         })
+
+                        const success = await update_API_call('setup', payload, message.guild, 'setup');
+
+                        if (success.success === true) {                            
+                            return resolve(true);
+                        } else {
+                            message.channel.send(`An Error occured: ${success.err}`);
+                            return resolve(true);
+                        }
                     })                    
                     .catch(() => {
                         adm = false;
@@ -45,13 +53,21 @@ module.exports = {
                         var moderator = await filter_integer(message, messages.first().content);
 
                         msg = message.channel.send(`You've entered: \`${message.guild.roles.cache.find(r => r.id === moderator).name}\``).then(m => m.delete( {timeout: 5000} ));
-                        con.query(`SELECT * FROM servers WHERE id = '${message.guild.id}'`, (err, rows) => {
-                            let sql;    
-                            sql = `UPDATE servers SET moderator = '${moderator}' WHERE id = '${message.guild.id}'`;
-                            md = true;
-                            resolve(md);
-                            return con.query(sql);
+                        
+                        const payload = JSON.stringify({
+                            guild: message.guild,
+                            field: 'moderator',
+                            value: moderator
                         })
+
+                        const success = await update_API_call('setup', payload, message.guild, 'setup');
+
+                        if (success.success === true) {
+                            return resolve(true);
+                        } else {
+                            message.channel.send(`An Error occured: ${success.err}`);
+                            return resolve(true);
+                        }
                     })
                     .catch(() => {
                         md = false;
@@ -75,13 +91,21 @@ module.exports = {
                         var channel = await filter_integer(message, messages.first().content);        
                                                
                         message.channel.send(`You've entered: \`${message.guild.channels.cache.find(r => r.id === channel).name}\``).then(m => m.delete( {timeout: 5000} ));
-                        con.query(`SELECT * FROM servers WHERE id = '${message.guild.id}'`, (err, rows) => {
-                            let sql;
-                            sql = `UPDATE servers SET channel = '${channel}' WHERE id = '${message.guild.id}'`;
-                            ch = true;
-                            resolve(ch);
-                            return con.query(sql);
+                        
+                        const payload = JSON.stringify({
+                            guild: message.guild,
+                            field: 'channel',
+                            value: channel
                         })
+
+                        const success = await update_API_call('setup', payload, message.guild, 'setup');
+
+                        if (success.success === true) {
+                            return resolve(true);
+                        } else {
+                            message.channel.send(`An Error occured: ${success.err}`);
+                            return resolve(true);
+                        }
                     })
                     .catch(() => {
                         ch = false;
@@ -102,16 +126,24 @@ module.exports = {
                 var ms;
             
                 message.channel.awaitMessages(filter, { time: 120000, max: 1, errors: ['time'] })
-                    .then(messages => {
+                    .then(async messages => {
                         var greeting = messages.first().content
                         msg = message.channel.send(`You've entered: \`${messages.first().content}\``).then(m => m.delete( {timeout: 5000} ));
-                        con.query(`SELECT * FROM servers WHERE id = '${message.guild.id}'`, (err, rows) => {
-                            let sql;
-                            sql = `UPDATE servers SET greeting = "${greeting}" WHERE id = '${message.guild.id}'`;
-                            ms = true;
-                            resolve(ms);
-                            return con.query(sql);
+                        
+                        const payload = JSON.stringify({
+                            guild: message.guild,
+                            field: 'greeting',
+                            value: greeting
                         })
+
+                        const success = await update_API_call('setup', payload, message.guild, 'setup');
+
+                        if (success.success === true) {
+                            return resolve(true);
+                        } else {
+                            message.channel.send(`An Error occured: ${success.err}`);
+                            return resolve(true);
+                        }
                     })
                     .catch(() => {
                         ms = false;
@@ -135,13 +167,21 @@ module.exports = {
                         var approved = await filter_integer(message, messages.first().content);
 
                         msg = message.channel.send(`You've entered: \`${message.guild.roles.cache.find(r => r.id === approved).name}\``).then(m => m.delete( {timeout: 5000} ));
-                        con.query(`SELECT * FROM servers WHERE id = '${message.guild.id}'`, (err, rows) => {
-                            let sql;    
-                            sql = `UPDATE servers SET approved = '${approved}' WHERE id = '${message.guild.id}'`;
-                            apr = true;
-                            resolve(apr);
-                            return con.query(sql);
+                        
+                        const payload = JSON.stringify({
+                            guild: message.guild,
+                            field: 'approved',
+                            value: approved
                         })
+
+                        const success = await update_API_call('setup', payload, message.guild, 'setup');
+
+                        if (success.success === true) {
+                            return resolve(true);
+                        } else {
+                            message.channel.send(`An Error occured: ${success.err}`);
+                            return resolve(true);
+                        }
                     })
                     .catch(() => {
                         apr = false;
@@ -162,16 +202,24 @@ module.exports = {
                 var cmd;
             
                 message.channel.awaitMessages(filter, { time: 120000, max: 1, errors: ['time'] })
-                    .then(messages => {
+                    .then(async messages => {
                         cmd = messages.first().content
                         msg = message.channel.send(`You've entered: \`${cmd}\``).then(m => m.delete( {timeout: 5000} ));
-                        con.query(`SELECT * FROM servers WHERE id = '${message.guild.id}'`, (err, rows) => {
-                            let sql;
-                            sql = `UPDATE servers SET startcmd = '${cmd}' WHERE id = '${message.guild.id}'`;
-                            cmd = true;
-                            resolve(cmd);
-                            return con.query(sql);
+                        
+                        const payload = JSON.stringify({
+                            guild: message.guild,
+                            field: 'startcmd',
+                            value: cmd
                         })
+
+                        const success = await update_API_call('setup', payload, message.guild, 'setup');
+
+                        if (success.success === true) {
+                            return resolve(true);
+                        } else {
+                            message.channel.send(`An Error occured: ${success.err}`);
+                            return resolve(true);
+                        }
                     })
                     .catch(() => {
                         cmd = false;
@@ -225,13 +273,21 @@ module.exports = {
                         var channel = await filter_integer(message, messages.first().content);       
                                                
                         message.channel.send(`You've entered: \`${message.guild.channels.cache.find(r => r.id === channel).name}\``).then(m => m.delete( {timeout: 5000} ));
-                        con.query(`SELECT * FROM servers WHERE id = '${message.guild.id}'`, (err, rows) => {
-                            let sql;
-                            sql = `UPDATE servers SET reports = '${channel}' WHERE id = '${message.guild.id}'`;
-                            ch = true;
-                            resolve(ch);
-                            return con.query(sql);
+                        
+                        const payload = JSON.stringify({
+                            guild: message.guild,
+                            field: 'reports',
+                            value: channel
                         })
+
+                        const success = await update_API_call('setup', payload, message.guild, 'setup');
+
+                        if (success.success === true) {
+                            return resolve(true);
+                        } else {
+                            message.channel.send(`An Error occured: ${success.err}`);
+                            return resolve(true);
+                        }
                     })
                     .catch(() => {
                         ch = false;
@@ -272,24 +328,35 @@ module.exports = {
                 const filter = m => message.author.id === m.author.id;
                 let sql;
                 message.channel.awaitMessages(filter, { time: 120000, max: 1, errors: ['time']})
-                    .then(messages => {
-                        answer = messages.first().content.toLowerCase();                        
+                    .then(async messages => {
+                        answer = messages.first().content.toLowerCase();  
+                        var yes_no
 
                         if (answer === "y") { 
-                            message.channel.send(`New members \`will\` receive approved role automatically`)                           
-                            ch = true;
-                            sql = `UPDATE servers SET auto_approved = 'true' WHERE id = '${message.guild.id}'`;
+                            message.channel.send(`New members \`will\` receive approved role automatically`);
+                            yes_no = 'true'
                         } else {
-                            message.channel.send(`New members \`will not\` receive approved role automatically`)
-                            ch = false;
-                            sql = `UPDATE servers SET auto_approved = 'false' WHERE id = '${message.guild.id}'`;
+                            message.channel.send(`New members \`will not\` receive approved role automatically`);                            
+                            yes_no = 'false'
                         } 
 
-                        con.query(`SELECT * FROM servers WHERE id = '${message.guild.id}'`, (err, rows) => {                            
-                            
-                            resolve(ch);
-                            return con.query(sql);
+                        
+                        const payload = JSON.stringify({
+                            guild: message.guild,
+                            field: 'auto_approved',
+                            value: yes_no
                         })
+
+                        const success = await update_API_call('setup', payload, message.guild, 'setup');
+
+                        if (success.success === true && yes_no === 'true') {
+                            return resolve(true);
+                        } else if (success.success === true && yes_no === 'false') {
+                            return resolve(false);
+                        } else {
+                            message.channel.send(`An Error occured: ${success.err}`);
+                            return resolve(true);
+                        }
                     })
                     .catch(() => {
                         ch = false;
@@ -307,16 +374,24 @@ module.exports = {
                 var ms;
             
                 message.channel.awaitMessages(filter, { time: 120000, max: 1, errors: ['time'] })
-                    .then(messages => {
+                    .then(async messages => {
                         var greeting = messages.first().content
                         msg = message.channel.send(`You've entered: \`${messages.first().content}\``).then(m => m.delete( {timeout: 5000} ));
-                        con.query(`SELECT * FROM servers WHERE id = '${message.guild.id}'`, (err, rows) => {
-                            let sql;
-                            sql = `UPDATE servers SET server_greeting = "${greeting}" WHERE id = '${message.guild.id}'`;
-                            ms = true;
-                            resolve(ms);
-                            return con.query(sql);
+                        
+                        const payload = JSON.stringify({
+                            guild: message.guild,
+                            field: 'server_greeting',
+                            value: greeting
                         })
+
+                        const success = await update_API_call('setup', payload, message.guild, 'setup');
+
+                        if (success.success === true) {
+                            return resolve(true);
+                        } else {
+                            message.channel.send(`An Error occured: ${success.err}`);
+                            return resolve(true);
+                        }
                     })
                     .catch(() => {
                         ms = false;
@@ -335,16 +410,24 @@ module.exports = {
                 var ms;
             
                 message.channel.awaitMessages(filter, { time: 120000, max: 1, errors: ['time'] })
-                    .then(messages => {
+                    .then(async messages => {
                         var prefix = messages.first().content
                         msg = message.channel.send(`Prefix changed to: \`${messages.first().content}\``).then(m => m.delete( {timeout: 5000} ));
-                        con.query(`SELECT * FROM servers WHERE id = '${message.guild.id}'`, (err, rows) => {
-                            let sql;
-                            sql = `UPDATE servers SET prefix = '${prefix}' WHERE id = '${message.guild.id}'`;
-                            ms = true;
-                            resolve(ms);
-                            return con.query(sql);
+                        
+                        const payload = JSON.stringify({
+                            guild: message.guild,
+                            field: 'prefix',
+                            value: prefix
                         })
+
+                        const success = await update_API_call('setup', payload, message.guild, 'setup');
+
+                        if (success.success === true) {
+                            return resolve(true);
+                        } else {
+                            message.channel.send(`An Error occured: ${success.err}`);
+                            return resolve(true);
+                        }
                     })
                     .catch(() => {
                         ms = true;

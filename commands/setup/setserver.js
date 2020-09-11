@@ -1,8 +1,7 @@
 const Discord  = require("discord.js");
 const { stripIndents } = require("common-tags");
 const { setadm, setmd, setch, setms, setapr, setcmd, setreports, user_ready, setautomatic_approved, setservergreeting, setprefix } = require("../../functions/setupfunctions.js");
-const { getAdmin, getMod, getChnl, getMsg, getapproved, getstartcmd, getreportschannel, getautoapproved, getservergreeting, getprefix } = require("../../functions/db_queries.js");
-
+const { get_API_call } = require('../../functions/functions');
 
 module.exports = {
     name: "setserver",
@@ -143,24 +142,19 @@ module.exports = {
                 }                
             }
         }
-        
-        
-        if (rpt2) {            
-            const admin2 = await getAdmin(message, con);
-            const moderator2 = await getMod(message, con);
-            const welcomechannel2 = await getChnl(member, con);
-            const approvedrole2 = await getapproved(member, con);
-            const reportschannel2 = await getreportschannel(message, con);
-            bolean = await getautoapproved(member, con);
-            admin = message.guild.roles.cache.find(r => r.id === admin2);
-            moderator = message.guild.roles.cache.find(r => r.id === moderator2);
-            welcomechannel = message.guild.channels.cache.find(c => c.id === welcomechannel2);
-            welcomemessage = await getMsg(member, con);
-            servergreeting = await getservergreeting(member, con);
-            approvedrole = message.guild.roles.cache.find(r => r.id === approvedrole2);
-            startcmd = await getstartcmd(message, con);
-            prefix = await getprefix(message, con);
-            reportschannel = message.guild.channels.cache.find(c => c.id === reportschannel2);
+
+        if (rpt2) {
+            const response = await get_API_call(message, "getserver");
+            var admin = message.guild.roles.cache.find(r => r.id === response.admin);
+            var moderator = message.guild.roles.cache.find(r => r.id === response.moderator);
+            var welcomechannel = message.guild.channels.cache.find(c => c.id === response.channel);
+            var welcomemessage = response.greeting;
+            var servergreeting = response.server_greeting;
+            var approvedrole = message.guild.roles.cache.find(r => r.id === response.approved);
+            var startcmd = response.startcmd;
+            var reportschannel = message.guild.channels.cache.find(c => c.id === response.reports);
+            var bolean = response.auto_approved;
+            var prefix = response.prefix;
         }
 
         if (bolean === "true") {

@@ -25,7 +25,7 @@ client.categories = fs.readdirSync("./commands/");
   require(`../handler/${handler}`)(client);
 });
 
-//creating the database connection
+/* //creating the database connection
 var con = mysql.createConnection({
   host: "localhost",
   user: "root",
@@ -44,12 +44,24 @@ con.connect(err => {
   con.query("CREATE TABLE IF NOT EXISTS login(server_id VARCHAR(255) NOT NULL UNIQUE, password TEXT NOT NULL);");
   con.query("CREATE TABLE IF NOT EXISTS channels(server_id VARCHAR(255) NOT NULL, channel_id VARCHAR(255) NOT NULL UNIQUE, channel_name TEXT NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci;");
   con.query("CREATE TABLE IF NOT EXISTS roles(server_id VARCHAR(255) NOT NULL, role_id VARCHAR(255) NOT NULL UNIQUE, role_name TEXT NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci;");
-})
+}) */
 
-client.on("ready", () => {
+
+
+client.on("ready", async () => {
   var a = 0;
   console.log(`Logged in as ${client.user.username}`);
-
+  message = {
+    guild: {
+      id: '111111111'
+    }
+  }
+  const success = await get_API_call(message, 'check');
+  if (success.success === true) {
+    console.log("Connected to API");
+  } else {
+    console.log('NOT CONNECTED TO API!');
+  }
   client.users.fetch(owner, false).then(user => {
     user.send(`I restarted`)
   });
