@@ -208,9 +208,9 @@ module.exports = {
         })
     },
 
-    post_API_call: function (api_section = '', payload, channel, type = '') {
+    post_API_call: function (api_section = '', payload, guild, type = '') {
         return new Promise(async function (resolve, reject) {
-            const token = jwt.sign({ _id: channel.guild.id }, TOKEN_SECRET);
+            const token = jwt.sign({ _id: guild.id }, TOKEN_SECRET);
             //console.log(token)
             const response = await fetch(API_ADDRESS + `/discord/${api_section}`, {
                 method: 'POST',
@@ -229,9 +229,9 @@ module.exports = {
         })
     },
 
-    delete_API_call: function (api_section = '', payload, channel, type = '') {
+    delete_API_call: function (api_section = '', payload, guild, type = '') {
         return new Promise(async function (resolve, reject) {
-            const token = jwt.sign({ _id: channel.guild.id }, TOKEN_SECRET);
+            const token = jwt.sign({ _id: guild.id }, TOKEN_SECRET);
             //console.log(token)
             const response = await fetch(API_ADDRESS + `/discord/${api_section}`, {
                 method: 'DELETE',
@@ -250,9 +250,9 @@ module.exports = {
         })
     },
 
-    update_API_call: function (api_section = '', payload, channel, type = '') {
+    update_API_call: function (api_section = '', payload, guild, type = '') {
         return new Promise(async function (resolve, reject) {
-            const token = jwt.sign({ _id: channel.guild.id }, TOKEN_SECRET);
+            const token = jwt.sign({ _id: guild.id }, TOKEN_SECRET);
             //console.log(token)
             const response = await fetch(API_ADDRESS + `/discord/${api_section}`, {
                 method: 'PUT',

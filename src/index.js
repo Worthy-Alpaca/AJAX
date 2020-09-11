@@ -98,7 +98,7 @@ client.on("channelDelete", async channel => {
     'guild': channel.guild
   })
 
-  return delete_API_call('channel/delete', payload, channel, 'channel');  
+  return delete_API_call('channel/delete', payload, channel.guild, 'channel');  
 })
 
 client.on('channelCreate', async channel => {
@@ -111,83 +111,48 @@ client.on('channelCreate', async channel => {
     'guild': channel.guild
   })
 
-  return post_API_call('channel/create', payload, channel, 'channel');  
+  return post_API_call('channel/create', payload, channel.guild, 'channel');  
 
 })
 client.on('channelUpdate', async function(oldChannel, newChannel) {
-  
-  /* con.query(`SELECT * FROM channels WHERE server_id = '${newChannel.guild.id}' AND channel_id = '${newChannel.id}'`, (err, rows) => {
-    if (err) throw err;
-    let sql;
-
-    if (rows.length === 1) {
-      if (rows[0].channel_name !== newChannel.name) {
-        console.log(oldChannel.name, "updated to", newChannel.name)
-        sql = `UPDATE channels SET channel_name = '${newChannel.name}' WHERE channel_id = '${newChannel.id}'`
-        return con.query(sql);
-      } else {
-        return;
-      }
-    } else return;
-
-  }); */
 
   const payload = JSON.stringify({
     'channel': newChannel,
     'guild': newChannel.guild
   })
 
-  return update_API_call('channel/update', payload, newChannel, 'channel'); 
+  return update_API_call('channel/update', payload, newChannel.guild, 'channel'); 
 })
 
 //handling role additions, updates and deletions
 client.on('roleCreate', async role => {
-  //console.log(role.id, "updated", role.name)
-  con.query(`SELECT * FROM roles WHERE server_id = '${role.guild.id}' AND role_id = '${role.id}'`, (err, rows) => {
-    if (err) throw err;
-    let sql;
 
-    if (!rows.length) {
-      console.log(role.name, "added")
-      sql = `INSERT INTO roles (server_id, role_id, role_name) VALUES ('${role.guild.id}', "${role.id}", "${role.name}")`
-      return con.query(sql);
-    }
+  const payload = JSON.stringify({
+    'role': role,
+    'guild': role.guild
+  })
 
-  });
+  return post_API_call('role/create', payload, role.guild, 'role'); 
 })
 
 client.on('roleUpdate', async function(oldRole, newRole) {
 
-  con.query(`SELECT * FROM roles WHERE server_id = '${newRole.guild.id}' AND role_id = '${newRole.id}'`, (err, rows) => {
-    if (err) throw err;
-    let sql;
-
-    if (rows.length === 1) {
-      if (rows[0].role_name !== newRole.name) {
-        console.log(oldRole.name, "updated to", newRole.name)
-        sql = `UPDATE roles SET role_name = '${newRole.name}' WHERE role_id = '${newRole.id}'`
-        return con.query(sql);
-      } else {
-        return;
-      }
-    } else {
-      return;
-    }
-
+  const payload = JSON.stringify({
+    'role': newRole,
+    'guild': newRole.guild
   })
 
+  return update_API_call('role/update', payload, newRole.guild, 'role'); 
 })
 
 client.on('roleDelete', async role => {
-  console.log(role.name, 'deleted')
-  con.query(`SELECT * FROM roles WHERE role_name = '${role.name}' AND role_id = '${role.id}'`, (err, rows) => {
-    if (rows.length === 1) {
-      let sql = `DELETE FROM roles WHERE role_name = '${role.name}' AND role_id = '${role.id}'`
-      con.query(sql);
-    } else {
-      console.log("something is wrong here")
-    }
-  });
+
+  const payload = JSON.stringify({
+    'role': role,
+    'guild': role.guild
+  })
+
+  return delete_API_call('role/delete', payload, role.guild, 'role');  
 })
 
 //on joining a new server
@@ -200,38 +165,6 @@ client.on("guildCreate", async guild => {
   let password = password_generator(8);
   let username = guild.id;
   const token = jwt.sign({ _id: username }, TOKEN_SECRET);
-
-  /* con.query(`SELECT * FROM login WHERE server_id = '${username}'`, async (err, rows) => {
-    if (!rows.length) {
-      try {
-        await fetch(API_ADDRESS + '/user/register', {
-          method: 'POST',
-          headers: {
-            'Accept': 'application/json',
-            'content-type': 'application/json',
-            'auth-token': token
-          },
-          body: JSON.stringify({
-            username: username,
-            password: password
-          })
-        }).then(res => {
-          console.log(res)
-          if (res.status === 200) {
-            console.log("successfully registered")
-          }
-        })
-      } catch {
-        client.users.fetch(owner, false).then(user => {
-          return user.send(`There has been an error. ${guild.id}, ${guild.name} already exists in the database and caused an issue.`)
-        });
-      }
-    } else {
-      client.users.fetch(owner, false).then(user => {
-        user.send(`There has been an error. ${guild.id}, ${guild.name} already exists in the database and caused an issue.`)
-      });
-    }
-  }) */
 
   await fetch(API_ADDRESS + '/user/register', {
     method: 'POST',
