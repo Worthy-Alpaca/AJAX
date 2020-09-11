@@ -11,7 +11,7 @@ const usersMap = new Map();
 const mysql = require("mysql");
 const jwt = require('jsonwebtoken');
 const { bugs } = require("../package.json");
-const { password_generator, gather_channels, gather_roles, get_API_call } = require('../functions/functions.js');
+const { password_generator, gather_channels, gather_roles, get_API_call, post_API_call, delete_API_call, update_API_call } = require('../functions/functions.js');
 
 const client = new Client({
   disableEveryone: false
@@ -55,10 +55,7 @@ client.on("ready", () => {
     user.send(`I restarted`)
   });
 
-  gather_channels(client, con);
-  gather_roles(client, con);
-
-  client.guilds.cache.forEach(guild => {
+  /* client.guilds.cache.forEach(guild => {
 
     con.query(`SELECT * FROM servers WHERE id = '${guild.id}'`, (err, rows) => {
       if (err) throw err;
@@ -80,7 +77,7 @@ client.on("ready", () => {
       }
 
     });
-  })
+  }) */
 
   if (a > 0) console.log("No new servers")
 
@@ -95,34 +92,31 @@ client.on("ready", () => {
 
 //handling channel additions and deletions
 client.on("channelDelete", async channel => {
-  console.log(channel.name, 'deleted')
-  con.query(`SELECT * FROM channels WHERE channel_name = '${channel.name}' AND channel_id = '${channel.id}'`, (err, rows) => {
-    if (rows.length === 1) {
-      let sql = `DELETE FROM channels WHERE channel_name = '${channel.name}' AND channel_id = '${channel.id}'`
-      con.query(sql);
-    }
-  });
+
+  const payload = JSON.stringify({
+    'channel': channel,
+    'guild': channel.guild
+  })
+
+  return delete_API_call('channel/delete', payload, channel, 'channel');  
 })
 
 client.on('channelCreate', async channel => {
   if (channel.type === 'dm') {
     return;
   }
-  con.query(`SELECT * FROM channels WHERE server_id = '${channel.guild.id}' AND channel_id = '${channel.id}'`, (err, rows) => {
-    if (err) throw err;
-    let sql;
+  
+  const payload = JSON.stringify({
+    'channel': channel,
+    'guild': channel.guild
+  })
 
-    if (!rows.length) {
-      console.log(channel.name, "added")
-      sql = `INSERT INTO channels (server_id, channel_id, channel_name) VALUES ('${channel.guild.id}', "${channel.id}", "${channel.name}")`
-      return con.query(sql);
-    }
+  return post_API_call('channel/create', payload, channel, 'channel');  
 
-  });
 })
 client.on('channelUpdate', async function(oldChannel, newChannel) {
   
-  con.query(`SELECT * FROM channels WHERE server_id = '${newChannel.guild.id}' AND channel_id = '${newChannel.id}'`, (err, rows) => {
+  /* con.query(`SELECT * FROM channels WHERE server_id = '${newChannel.guild.id}' AND channel_id = '${newChannel.id}'`, (err, rows) => {
     if (err) throw err;
     let sql;
 
@@ -136,7 +130,14 @@ client.on('channelUpdate', async function(oldChannel, newChannel) {
       }
     } else return;
 
-  });
+  }); */
+
+  const payload = JSON.stringify({
+    'channel': newChannel,
+    'guild': newChannel.guild
+  })
+
+  return update_API_call('channel/update', payload, newChannel, 'channel'); 
 })
 
 //handling role additions, updates and deletions
@@ -200,7 +201,7 @@ client.on("guildCreate", async guild => {
   let username = guild.id;
   const token = jwt.sign({ _id: username }, TOKEN_SECRET);
 
-  con.query(`SELECT * FROM login WHERE server_id = '${username}'`, async (err, rows) => {
+  /* con.query(`SELECT * FROM login WHERE server_id = '${username}'`, async (err, rows) => {
     if (!rows.length) {
       try {
         await fetch(API_ADDRESS + '/user/register', {
@@ -229,6 +230,24 @@ client.on("guildCreate", async guild => {
       client.users.fetch(owner, false).then(user => {
         user.send(`There has been an error. ${guild.id}, ${guild.name} already exists in the database and caused an issue.`)
       });
+    }
+  }) */
+
+  await fetch(API_ADDRESS + '/user/register', {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'content-type': 'application/json',
+      'auth-token': token
+    },
+    body: JSON.stringify({
+      username: username,
+      password: password
+    })
+  }).then(res => {
+    console.log(res)
+    if (res.status === 200) {
+      console.log("successfully registered")
     }
   })
 
@@ -302,7 +321,7 @@ client.on("guildMemberAdd", async member => {
   var greeting;
 
   if (member.bot) return;
-  const api = await get_API_call(message);
+  const api = await get_API_call(message, "getserver");
 
   //greeting = await getMsg(member, con);
   //bolean = await getautoapproved(member, con);
@@ -353,8 +372,8 @@ client.on("guildMemberAdd", async member => {
 client.on("message", async message => {
   if (message.author.bot) return;
 
-  const api = await get_API_call(message);
-  console.log(api)
+  const api = await get_API_call(message, "getserver");
+  //console.log(api)
 
   if (message.guild === null) {
     return message.reply("Hey there, no reason to DM me anything. I won't answer anyway :wink:");

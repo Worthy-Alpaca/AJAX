@@ -188,20 +188,81 @@ module.exports = {
         })
     },
 
-    get_API_call: function (message) {
+    get_API_call: function (message, api_section = '') {
         return new Promise(async function (resolve, reject) {
             const token = jwt.sign({ _id: message.guild.id }, TOKEN_SECRET);
             //console.log(token)
-            const response = await fetch(API_ADDRESS + '/discord/showserver', {
+            const response = await fetch(API_ADDRESS + `/discord/${api_section}`, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'content-type': 'application/json',
+                    'auth-token': token,
+                    'server_id': message.guild.id
+                }                
+            }).then(function (response) {
+                return response.json();
+            })
+
+            return resolve(response);
+        })
+    },
+
+    post_API_call: function (api_section = '', payload, channel, type = '') {
+        return new Promise(async function (resolve, reject) {
+            const token = jwt.sign({ _id: channel.guild.id }, TOKEN_SECRET);
+            //console.log(token)
+            const response = await fetch(API_ADDRESS + `/discord/${api_section}`, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
                     'content-type': 'application/json',
-                    'auth-token': token
+                    'auth-token': token,
+                    'type': type,
                 },
-                body: JSON.stringify({
-                    server_id: message.guild.id
-                })
+                body: payload
+            }).then(function (response) {
+                return response.json();
+            })
+
+            return resolve(response);
+        })
+    },
+
+    delete_API_call: function (api_section = '', payload, channel, type = '') {
+        return new Promise(async function (resolve, reject) {
+            const token = jwt.sign({ _id: channel.guild.id }, TOKEN_SECRET);
+            //console.log(token)
+            const response = await fetch(API_ADDRESS + `/discord/${api_section}`, {
+                method: 'DELETE',
+                headers: {
+                    'Accept': 'application/json',
+                    'content-type': 'application/json',
+                    'auth-token': token,
+                    'type': type,
+                },
+                body: payload
+            }).then(function (response) {
+                return response.json();
+            })
+
+            return resolve(response);
+        })
+    },
+
+    update_API_call: function (api_section = '', payload, channel, type = '') {
+        return new Promise(async function (resolve, reject) {
+            const token = jwt.sign({ _id: channel.guild.id }, TOKEN_SECRET);
+            //console.log(token)
+            const response = await fetch(API_ADDRESS + `/discord/${api_section}`, {
+                method: 'PUT',
+                headers: {
+                    'Accept': 'application/json',
+                    'content-type': 'application/json',
+                    'auth-token': token,
+                    'type': type,
+                },
+                body: payload
             }).then(function (response) {
                 return response.json();
             })
