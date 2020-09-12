@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
 const { stripIndents } = require("common-tags");
-const { getAdmin, getMod, getreportschannel, getinfractions } = require("../../functions/db_queries.js");
+const { get_API_call, post_API_call, update_API_call } = require("../../functions/functions.js");
 const { ban_limit, kick_limit } = require("../../src/config.json");
 
 
@@ -10,7 +10,7 @@ module.exports = {
     permission: ["none", "moderator", "admin"],
     description: "reports a member",
     usage: "<good/bad, mention | id, reason>",
-    run: async (client, message, args, con, api) => {
+    run: async (client, message, args, api) => {
         if (message.deletable) message.delete();
 
         let rMember = message.mentions.members.first() || message.guild.members.get(args[0]);
@@ -46,18 +46,23 @@ module.exports = {
         } else if (args[0] === "bad") {
             behavior = "Please cease this behavior immediatly. If you think this is wrong, please contact a staff member."
             behavior2 = "bad"
-            con.query(`CREATE TABLE IF NOT EXISTS ${tblid.join("")}(member_id VARCHAR(20) NOT NULL UNIQUE, member_name TEXT NOT NULL, infractions INT NOT NULL);`)
-            con.query(`SELECT * FROM ${tblid.join("")} WHERE member_id = '${rMember.id}'`, (err, rows) => {
-                if (err) throw err;
-                let sql;
-                if (rows.length < 1) {
-                    sql = `INSERT INTO ${tblid.join("")} (member_id, member_name, infractions) VALUES ('${rMember.id}', '${rMember.displayName}', 1)`
-                } else if (rows[0].member_id === rMember.id) {
-                    infraction = rows[0].infractions + 1;
-                    sql = `UPDATE ${tblid.join("")} SET infractions = ${infraction} WHERE member_id = '${rMember.id}'`
-                }
-                con.query(sql)
-            });
+            const infractions = await get_API_call(message, 'misc/get', 'misc/infractions', tblid.join(""), rMember.id);
+            console.log(infractions)
+            if (infractions > 0) {
+                const payload = JSON.stringify({
+                    server: tblid.join(''),
+                    value: rMember
+                })
+                const success = await update_API_call('misc/update', payload, message.guild, 'misc/infractions');
+                console.log(success);
+            } else {
+                const payload = JSON.stringify({
+                    server: tblid.join(''),
+                    value: rMember
+                })
+                const success = await post_API_call('misc/create', payload, message.guild, 'misc/infractions');
+                console.log(success);
+            }
 
         } else if ((args[0] !== "good") || (args[0] !== "bad")) {
             return message.reply("You need to add a behavior type. (Good/Bad)").then(m => m.delete({ timeout: 5000 }));
@@ -68,9 +73,9 @@ module.exports = {
 
 
 
-        const infractions = await getinfractions(tblid, rMember, con);
+        const infractions = await get_API_call(message, 'misc/get', 'misc/infractions', tblid.join(""), rMember.id);
 
-        let msg = `You have been reported by ${message.member} for "${args.slice(2).join(" ")}." ${behavior} This message was computer generated. Please do not answer to it.`;
+        let msg = `You have been reported for "${args.slice(2).join(" ")}." ${behavior} This message was computer generated. Please do not answer to it.`;
 
         const embed = new Discord.MessageEmbed()
             .setColor("#ff0000")
@@ -91,23 +96,23 @@ module.exports = {
             **> Reported by:** ${message.member} (${message.member.id})
             > Reported in: ${message.channel}
             **> Reason:** ${args.slice(2).join(" ")}
-            > Current Infractions: \`${infractions + 1}\``);
+            > Current Infractions: \`${infractions}\``);
         }
 
-        if (infractions + 1 >= kick_limit && infractions + 1 < ban_limit) {
+        if (infractions >= kick_limit && infractions < ban_limit) {
             rMember.kick(`Reported infractions have reached ${kick_limit}`)
                 .catch(err => {
                     if (err) return message.channel.send(`That didn't work`)
                 });
-            msg = `You have been kicked because you have been reported ${infractions + 1} times for bad behavior. This message was computer generated. Please do not answer to it.`
+            msg = `You have been kicked because you have been reported ${infractions} times for bad behavior. This message was computer generated. Please do not answer to it.`
             embed.addField(`\u200b`, stripIndents`${rMember} has been kicked.`);
-        } else if (infractions + 1 >= ban_limit) {
-            rMember.ban({ days: infractions + 1, reason: `Reported infractions have reached ${ban_limit}` })
+        } else if (infractions >= ban_limit) {
+            rMember.ban({ days: infractions, reason: `Reported infractions have reached ${ban_limit}` })
                 .catch(err => {
                     if (err) return message.channel.send(`That didn't work`)
                 });
-            msg = `You have been banned for ${infractions + 1} days because you have been reported ${infractions + 1} times for bad behavior. This message was computer generated. Please do not answer to it.`
-            embed.addField(`\u200b`, stripIndents`${rMember} has been banned for \`${infractions + 1}\` days.`);
+            msg = `You have been banned for ${infractions} days because you have been reported ${infractions} times for bad behavior. This message was computer generated. Please do not answer to it.`
+            embed.addField(`\u200b`, stripIndents`${rMember} has been banned for \`${infractions}\` days.`);
         }
 
         client.users.fetch(`${rMember.id}`, false).then(user => {
