@@ -1,4 +1,3 @@
-const { getAdmin, getMod } = require("../../functions/db_queries.js");
 
 module.exports = {
     name: "move",
@@ -6,7 +5,7 @@ module.exports = {
     permission: ["moderator", "admin"],
     description: "Moves all members from one channel to the other. Case sensitive.",
     usage: "<channel1 -> channel2>",
-    run: async (client, message, args, con, api) => {
+    run: async (client, message, args, api) => {
         message.delete();
 
         //var admin = await getAdmin(message, con);

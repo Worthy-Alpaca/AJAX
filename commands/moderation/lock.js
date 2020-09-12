@@ -1,4 +1,3 @@
-const { getAdmin, getMod } = require("../../functions/db_queries.js");
 
 module.exports = {
     name: "lock",
@@ -7,7 +6,7 @@ module.exports = {
     description: "Locks a voice channel",
     descriptionlong: "Locks a voice channel at the current member amount if no amount is specified. If the voice channel is not in use the lock will be removed.",
     usage: "<channel>, [amount]",
-    run: async (client, message, args, con, api) => {
+    run: async (client, message, args, api) => {
 
         message.delete();
         member = message.member;

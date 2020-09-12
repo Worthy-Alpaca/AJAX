@@ -10,14 +10,11 @@ module.exports = {
     description: "adds/removes role to all mentioned members",
     descriptionlong: "adds/removes role to all mentioned members depending wether they already have the role",
     usage: "<role> <member> [member] etc.",
-    run: async (client, message, args, con, api) => {
+    run: async (client, message, args, api) => {
         message.delete();
 
         //const reports = await getreportschannel(message, con);
         const logChannel = message.guild.channels.cache.find(c => c.id === api.reports) || message.channel;  //###########################
-
-        /* var admin = await getAdmin(message, con);
-        var moderator = await getMod(message, con); */
 
         if (api.admin === null) { //###########################
             return message.channel.send("You need to set the role for admin first. Do that by typing !setadmin")

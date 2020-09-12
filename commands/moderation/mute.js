@@ -1,6 +1,5 @@
 const Discord = require("discord.js");
 const { stripIndents } = require("common-tags");
-const { getAdmin, getMod, getreportschannel } = require("../../functions/db_queries.js");
 const { filter_integer } = require("../../functions/functions.js");
 
 module.exports = {
@@ -9,13 +8,10 @@ module.exports = {
     permission: ["moderator", "admin"],
     description: "mutes a person",
     usage: "<id | mention>",
-    run: async (client, message, args, con, api) => {
+    run: async (client, message, args, api) => {
 
         if (message.deletable) message.delete();
 
-        /* var admin = await getAdmin(message, con);
-        var moderator = await getMod(message, con);
-        var reports = await getreportschannel(message, con); */
         const report = message.guild.channels.cache.find(channel => channel.id === api.reports);
 
         if (api.admin === null) { //###########################

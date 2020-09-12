@@ -1,6 +1,5 @@
 const Discord = require("discord.js");
 const { stripIndents } = require("common-tags");
-const { getAdmin, getMod, getreportschannel } = require("../../functions/db_queries.js");
 
 module.exports = {
     name: "ban",
@@ -8,14 +7,11 @@ module.exports = {
     permission: ["admin"],
     description: "Bans the person mentioned",
     usage: "<member>, <reason>",
-    run: async (client, message, args, con, api) => {
+    run: async (client, message, args, api) => {
         //const reports = await getreportschannel(message, con);
         const logChannel = message.guild.channels.cache.find(c => c.id === api.reports) || message.channel;  //###########################
 
         if (message.deletable) message.delete();
-
-        //var admin = await getAdmin(message, con);
-        //var moderator = await getMod(message, con);
 
         if (api.admin === null) {  //###########################
             return message.channel.send("You need to set the role for admin first. Do that by typing !setadmin")

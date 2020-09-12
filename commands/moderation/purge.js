@@ -1,6 +1,5 @@
 const Discord = require("discord.js");
 const { stripIndents } = require("common-tags");
-const { getapproved2, getChnl } = require("../../functions/db_queries.js");
 
 
 module.exports = {
@@ -9,7 +8,7 @@ module.exports = {
     permission: ["moderator", "admin"],
     description: "Kicks all members who don't have the approved role",
 
-    run: async (client, message, args, con, api) => {
+    run: async (client, message, args, api) => {
         if (message.deletable) message.delete();
 
         if (!message.member.hasPermission("ADMINISTRATOR")) {
@@ -19,8 +18,6 @@ module.exports = {
         const guild = message.channel.guild;
         //const member = message.member;
         const reason = "Too long without agreeing to the rules";
-        //var approved = await getapproved2(message, con);
-        //var chnl = await getChnl(member, con);
         channel = guild.channels.cache.find(channel => channel.id === api.channel); //###########################
         var name;
         var kicked = [];

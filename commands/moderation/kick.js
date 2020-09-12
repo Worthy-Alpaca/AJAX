@@ -1,6 +1,5 @@
 const Discord = require("discord.js");
 const { stripIndents } = require("common-tags");
-const { getAdmin, getMod, getreportschannel } = require("../../functions/db_queries.js");
 const { filter_integer } = require("../../functions/functions.js");
 
 
@@ -10,7 +9,7 @@ module.exports = {
     permission: ["moderator", "admin"],
     description: "Kicks all the members you mention",
     usage: "<member> [member] etc.",
-    run: async (client, message, args, con, api) => {
+    run: async (client, message, args, api) => {
         //const reports = await getreportschannel(message, con);
         const logChannel = message.guild.channels.cache.find(c => c.id === api.reports) || message.channel; //###########################
 

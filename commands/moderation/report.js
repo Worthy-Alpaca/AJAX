@@ -17,9 +17,6 @@ module.exports = {
 
         let behavior;
         let behavior2;
-        /* var admin = await getAdmin(message, con);
-        var moderator = await getMod(message, con);
-        const reports = await getreportschannel(message, con); */
         const channel = message.guild.channels.cache.find(c => c.id === api.reports) || message.channel; //###########################
         const tblid = Array.from(message.guild.name)
         tblid.forEach(function (item, i) { if (item == " ") tblid[i] = "_"; });

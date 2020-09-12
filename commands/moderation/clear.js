@@ -5,13 +5,10 @@ module.exports = {
     category: "moderation",
     permission: ["moderator", "admin"],
     description: "Clears the chat",
-    run: async (client, message, args, con, api) => {
+    run: async (client, message, args, api) => {
         if (message.deletable) {
             message.delete();
         }
-
-        //var admin = await getAdmin(message, con);
-        //var moderator = await getMod(message, con);
 
         if (api.admin === null) {  //###########################
             return message.channel.send("You need to set the role for admin first. Do that by typing !setadmin")
