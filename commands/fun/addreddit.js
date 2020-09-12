@@ -2,7 +2,6 @@ const Discord = require("discord.js");
 const { getAdmin, getMod, addreddit } = require("../../functions/db_queries.js");
 const { post_API_call } = require("../../functions/functions.js");
 const { stripIndents } = require("common-tags");
-const { createPool } = require("mysql");
 
 module.exports = {
     name: "addreddit",    
