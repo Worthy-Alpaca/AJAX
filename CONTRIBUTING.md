@@ -48,15 +48,9 @@ git clone https://github.com/Worthy-Alpaca/AJAX.git
 npm install
 ```
 
-- Next you need to install MySQL 
+- Next you need the API behing AJAX 
 
-    - For linux systems follow [this](https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-18-04) guide if you're unsure otherwise just do this
-    ```
-    sudo apt update
-    sudo apt install mysql-server
-    sudo mysql_secure_installation
-    ```
-    - For Windows you can download it [here](https://dev.mysql.com/downloads/windows/installer/8.0.html)
+    - You can get it [here.](https://github.com/Worthy-Alpaca/api.ajax-discord.com)
 
 - Set up your database and make sure to name it 'discord'
     - if you wish to use another database you'll have to change it in /src/config.json
