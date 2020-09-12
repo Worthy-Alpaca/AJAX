@@ -198,7 +198,7 @@ module.exports = {
                     'Accept': 'application/json',
                     'content-type': 'application/json',
                     'auth-token': token,
-                    'server_id': message.guild.id,
+                    'serverid': message.guild.id,
                     'type': type,
                     'payload': payload,
                     'extra_payload': extra_payload
