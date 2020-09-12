@@ -7,10 +7,9 @@ const fs = require("fs");
 const Discord = require("discord.js");
 const { stripIndents } = require("common-tags");
 const usersMap = new Map();
-const mysql = require("mysql");
 const jwt = require('jsonwebtoken');
 const { bugs } = require("../package.json");
-const { password_generator, gather_channels, gather_roles, get_API_call, post_API_call, delete_API_call, update_API_call } = require('../functions/functions.js');
+const { password_generator, get_API_call, post_API_call, delete_API_call, update_API_call } = require('../functions/functions.js');
 
 const client = new Client({
   disableEveryone: false
@@ -24,29 +23,6 @@ client.categories = fs.readdirSync("./commands/");
 ["command"].forEach(handler => {
   require(`../handler/${handler}`)(client);
 });
-
-/* //creating the database connection
-var con = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: password,
-  database: database,
-  charset: "utf8mb4",
-  encoding: "utf8mb4_unicode_520_ci",
-  acquireTimeout: 1000000
-});
-
-con.connect(err => {
-  if (err) throw err;
-  console.log("Connected to Database");
-  con.query("CREATE TABLE IF NOT EXISTS servers(id VARCHAR(20) NOT NULL UNIQUE, name TEXT NOT NULL, admin TEXT, moderator TEXT, greeting VARCHAR(512), channel TEXT, approved TEXT, startcmd TEXT, reports TEXT, auto_approved TEXT, server_greeting TEXT, prefix TEXT) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci;")
-  con.query("CREATE TABLE IF NOT EXISTS ranks(rank_id VARCHAR(20) NOT NULL UNIQUE, server_id VARCHAR(20) NOT NULL, rank_name TEXT NOT NULL);")
-  con.query("CREATE TABLE IF NOT EXISTS login(server_id VARCHAR(255) NOT NULL UNIQUE, password TEXT NOT NULL);");
-  con.query("CREATE TABLE IF NOT EXISTS channels(server_id VARCHAR(255) NOT NULL, channel_id VARCHAR(255) NOT NULL UNIQUE, channel_name TEXT NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci;");
-  con.query("CREATE TABLE IF NOT EXISTS roles(server_id VARCHAR(255) NOT NULL, role_id VARCHAR(255) NOT NULL UNIQUE, role_name TEXT NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci;");
-}) */
-
-
 
 client.on("ready", async () => {
   var a = 0;
@@ -78,7 +54,7 @@ client.on("ready", async () => {
 });
 
 //handling channel additions and deletions
-client.on("channelDelete", async channel => {
+client.on("channelDelete", channel => {
 
   const payload = JSON.stringify({
     'channel': channel,
@@ -88,7 +64,7 @@ client.on("channelDelete", async channel => {
   return delete_API_call('channel/delete', payload, channel.guild, 'channel');  
 })
 
-client.on('channelCreate', async channel => {
+client.on('channelCreate', channel => {
   if (channel.type === 'dm') {
     return;
   }
@@ -101,7 +77,7 @@ client.on('channelCreate', async channel => {
   return post_API_call('channel/create', payload, channel.guild, 'channel');  
 
 })
-client.on('channelUpdate', async function(oldChannel, newChannel) {
+client.on('channelUpdate', function(oldChannel, newChannel) {
 
   const payload = JSON.stringify({
     'channel': newChannel,
@@ -112,7 +88,7 @@ client.on('channelUpdate', async function(oldChannel, newChannel) {
 })
 
 //handling role additions, updates and deletions
-client.on('roleCreate', async role => {
+client.on('roleCreate', role => {
 
   const payload = JSON.stringify({
     'role': role,
@@ -122,7 +98,7 @@ client.on('roleCreate', async role => {
   return post_API_call('role/create', payload, role.guild, 'role'); 
 })
 
-client.on('roleUpdate', async function(oldRole, newRole) {
+client.on('roleUpdate', function(oldRole, newRole) {
 
   const payload = JSON.stringify({
     'role': newRole,
@@ -132,7 +108,7 @@ client.on('roleUpdate', async function(oldRole, newRole) {
   return update_API_call('role/update', payload, newRole.guild, 'role'); 
 })
 
-client.on('roleDelete', async role => {
+client.on('roleDelete', role => {
 
   const payload = JSON.stringify({
     'role': role,
@@ -282,7 +258,7 @@ client.on("message", async message => {
   }
 
   const api = await get_API_call(message, "getserver");
-  //const custom_prefix = await getprefix(message).catch(err => console.log(err));
+  
   const custom_prefix = api.prefix;
 
   if (custom_prefix !== null) {
@@ -292,8 +268,7 @@ client.on("message", async message => {
   //automated spam detection and mute
   if (usersMap.has(message.author.id)) {
     let mutee = message.member;
-    //const reports = await getreportschannel(message);
-    //const adm = await getAdmin(message);    
+    
     const admin = message.guild.roles.cache.find(r => r.id === api.admin); //###########################
     const report = message.guild.channels.cache.find(channel => channel.id === api.reports); //###########################
     const userData = usersMap.get(message.author.id);
@@ -383,7 +358,6 @@ client.on("message", async message => {
   if (!message.guild) return;
 
   //listening for the approved command
-  //const startcommand = await getstartcmd(message);
 
   if (message.content.startsWith(`${api.startcmd}`)) { //######################
     message.delete();
@@ -391,9 +365,6 @@ client.on("message", async message => {
     var rl;
 
     const member = message.member;
-    guild = member.guild;
-    //rl = await getapproved2(message);
-    //chnl = await getChnl(member);
     var msg = api.server_greeting;
 
     const role = message.guild.roles.cache.find(r => r.id === api.approved); //###########################
