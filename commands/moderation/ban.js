@@ -1,6 +1,5 @@
 const Discord = require("discord.js");
 const { stripIndents } = require("common-tags");
-const { getAdmin, getMod, getreportschannel } = require("../../functions/db_queries.js");
 
 module.exports = {
     name: "ban",
@@ -8,19 +7,16 @@ module.exports = {
     permission: ["admin"],
     description: "Bans the person mentioned",
     usage: "<member>, <reason>",
-    run: async (client, message, args, con) => {
-        const reports = await getreportschannel(message, con);
-        const logChannel = message.guild.channels.cache.find(c => c.id === reports) || message.channel;
+    run: async (client, message, args, api) => {
+        //const reports = await getreportschannel(message);
+        const logChannel = message.guild.channels.cache.find(c => c.id === api.reports) || message.channel;  //###########################
 
         if (message.deletable) message.delete();
 
-        var admin = await getAdmin(message, con);
-        var moderator = await getMod(message, con);
-
-        if (admin === null) {
+        if (api.admin === null) {  //###########################
             return message.channel.send("You need to set the role for admin first. Do that by typing !setadmin")
         }
-        if (moderator === null) {
+        if (api.moderator === null) {  //###########################
             return message.channel.send("You need to set the role for moderator first. Do that by typing !setmod")
         }
 
@@ -57,7 +53,7 @@ module.exports = {
         }
 
         // No author permissions
-        if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === admin).id)) {
+        if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === api.admin).id)) {
             return message.reply("❌ You do not have permissions to ban members. Please contact a staff member")
                 .then(m => m.delete({ timeout: 5000 }));
         }

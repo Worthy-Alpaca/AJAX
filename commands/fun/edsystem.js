@@ -11,7 +11,7 @@ module.exports = {
     permission: ["none", "moderator", "admin"],
     description: "Displays information about a system",
     usage: "<System>",
-    run: async (client, message, args, con) => {
+    run: async (client, message, args) => {
 
         message.delete();
 

@@ -1,3 +1,7 @@
+const fetch = require('node-fetch');
+const { API_ADDRESS, TOKEN_SECRET } = require('../token.json');
+const jwt = require('jsonwebtoken');
+
 module.exports = {
     getMember: function(message, toFind = '') {
         toFind = toFind.toLowerCase();
@@ -130,7 +134,7 @@ module.exports = {
         return password.substr(0, len);
     },
 
-    gather_channels: function (client, con) {
+    gather_channels: function (client) {
         client.guilds.cache.forEach(server => {
             server.channels.cache.forEach(channel => {
 
@@ -142,10 +146,131 @@ module.exports = {
                         console.log(channel.name, "added")
                         sql = `INSERT INTO channels (server_id, channel_id, channel_name) VALUES ('${server.id}', "${channel.id}", "${channel.name}")`
                         return con.query(sql);
+                    } else if (rows.length === 1) {
+                        if (rows[0].channel_name !== channel.name) {
+                            console.log(channel.name, "updated to")
+                            sql = `UPDATE channels SET channel_name = '${channel.name}' WHERE channel_id = '${channel.id}'`
+                            return con.query(sql);
+                        } else {
+                            return;
+                        }
                     }
 
                 });
             })
+        })
+    },
+
+    gather_roles: function (client) {
+        client.guilds.cache.forEach(server => {
+            server.roles.cache.forEach(role => {
+
+                con.query(`SELECT * FROM roles WHERE server_id = '${role.guild.id}' AND role_id = '${role.id}'`, (err, rows) => {
+                    if (err) throw err;
+                    let sql;
+
+                    if (!rows.length) {
+                        console.log(role.name, "added")
+                        sql = `INSERT INTO roles (server_id, role_id, role_name) VALUES ('${role.guild.id}', "${role.id}", "${role.name}")`
+                        return con.query(sql);
+                    } else if (rows.length === 1) {
+                        if (rows[0].role_name !== role.name) {
+                            console.log(role.name, "updated")
+                            sql = `UPDATE roles SET role_name = '${role.name}' WHERE role_id = '${role.id}'`
+                            return con.query(sql);
+                        } else {
+                            return;
+                        }
+                    }
+
+                });
+            })
+        })
+    },
+
+    get_API_call: function (message, api_section = '', type = '', payload, extra_payload) {
+        return new Promise(async function (resolve, reject) {
+            const token = jwt.sign({ _id: message.guild.id }, TOKEN_SECRET);
+            //console.log(token)
+            const response = await fetch(API_ADDRESS + `/discord/${api_section}`, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'content-type': 'application/json',
+                    'auth-token': token,
+                    'server_id': message.guild.id,
+                    'type': type,
+                    'payload': payload,
+                    'extra_payload': extra_payload
+                }                
+            }).then(function (response) {
+                return response.json();
+            })
+
+            return resolve(response);
+        })
+    },
+
+    post_API_call: function (api_section = '', payload, guild, type = '') {
+        return new Promise(async function (resolve, reject) {
+            const token = jwt.sign({ _id: guild.id }, TOKEN_SECRET);
+            //console.log(token)
+            const response = await fetch(API_ADDRESS + `/discord/${api_section}`, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'content-type': 'application/json',
+                    'auth-token': token,
+                    'type': type,
+                },
+                body: payload
+            }).then(function (response) {
+                return response.json();
+            })
+
+            return resolve(response);
+        })
+    },
+
+    delete_API_call: function (api_section = '', payload, guild, type = '') {
+        return new Promise(async function (resolve, reject) {
+            const token = jwt.sign({ _id: guild.id }, TOKEN_SECRET);
+            //console.log(token)
+            const response = await fetch(API_ADDRESS + `/discord/${api_section}`, {
+                method: 'DELETE',
+                headers: {
+                    'Accept': 'application/json',
+                    'content-type': 'application/json',
+                    'auth-token': token,
+                    'type': type,
+                },
+                body: payload
+            }).then(function (response) {
+                return response.json();
+            })
+
+            return resolve(response);
+        })
+    },
+
+    update_API_call: function (api_section = '', payload, guild, type = '') {
+        return new Promise(async function (resolve, reject) {
+            const token = jwt.sign({ _id: guild.id }, TOKEN_SECRET);
+            //console.log(token)
+            const response = await fetch(API_ADDRESS + `/discord/${api_section}`, {
+                method: 'PUT',
+                headers: {
+                    'Accept': 'application/json',
+                    'content-type': 'application/json',
+                    'auth-token': token,
+                    'type': type,
+                },
+                body: payload
+            }).then(function (response) {
+                return response.json();
+            })
+
+            return resolve(response);
         })
     }
         

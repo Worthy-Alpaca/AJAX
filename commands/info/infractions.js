@@ -1,5 +1,5 @@
 const Discord = require("discord.js");
-const { getinfractions, getAdmin, getMod } = require("../../functions/db_queries.js");
+const { get_API_call, delete_API_call} = require("../../functions/functions.js");
 const { stripIndents } = require("common-tags");
 const { kick_limit, ban_limit, version } = require("../../src/config.json");
 
@@ -11,18 +11,19 @@ module.exports = {
     description: "Tells you how often you have been reported",
     usage: "[clear](only admins), [mention]",
 
-    run: async (client, message, args, con) => {
+    run: async (client, message, args, api) => {
 
         if (message.deletable) message.delete();
 
         let rMember = message.mentions.members.first() || message.author;
 
-        var admin = await getAdmin(message, con);
-        var moderator = await getMod(message, con);
+        //var admin = await getAdmin(message);
+        //var moderator = await getMod(message);
         const tblid = Array.from(message.guild.name)
         tblid.forEach(function (item, i) { if (item == " ") tblid[i] = "_"; });
-        con.query(`CREATE TABLE IF NOT EXISTS ${tblid.join("")}(member_id VARCHAR(20) NOT NULL UNIQUE, member_name TEXT NOT NULL, infractions INT NOT NULL);`)
-        const infractions = await getinfractions(tblid, rMember, con);
+        
+        const infractions = await get_API_call(message, 'misc/get', 'misc/infractions', tblid.join(""), rMember.id);
+        
         if (!rMember) {
             return message.reply("This member does not exist on this server");
         }
@@ -38,7 +39,7 @@ module.exports = {
 
 
         if (args[0] === "clear") {
-            if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === admin).id)) {
+            if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === api.admin).id)) { //######################
                 return message.reply("You can't do that. Please contact a staff member!")
                     .then(m => m.delete({ timeout: 5000 }));
             }
@@ -46,15 +47,19 @@ module.exports = {
             if (infractions === 0) {
                 return message.reply("No infractions to clear");
             } else {
-                con.query(`SELECT * FROM ${tblid.join("")} WHERE member_id = '${rMember.id}'`, (err, rows) => {
-                    if (err) throw err;
-                    let sql;
-
-                    sql = `DELETE FROM ${tblid.join("")} WHERE member_id = '${rMember.id}'`
-
-                    con.query(sql)
-                });
-                return message.reply(`Infractions for ${rMember} have been cleared`);
+                const payload = JSON.stringify({
+                    server: tblid.join(''),
+                    value: rMember.id
+                })
+                const success = await delete_API_call('misc/delete', payload, message.guild, 'misc/infractions');
+                
+                if (success.success === true) {
+                    return message.reply(`Infractions for ${rMember} have been cleared`);
+                } else if (success.success === false && success.status === 200) {
+                    return message.reply(`No Infractions for ${rMember} found!`);
+                } else {
+                    return message.reply(`An error occured: ${success.err}`);
+                }
             }
 
         }

@@ -10,7 +10,7 @@ module.exports = {
     permission: ["none", "moderator", "admin"],
     description: "Sends an urban dictonary entry",
     usage: "<word>",
-    run: async (client, message, args, con) => {
+    run: async (client, message, args) => {
         if (message.deletabe) message.delete();
 
         if (!args.length) {

@@ -38,13 +38,6 @@ By contributing to this repository, you are expected to know and follow the rule
 sudo apt-get install npm
 ```
 
-- Then install Discord.js
-
-    * Run this in your console
-    ```
-    npm install discord.js
-    ```
-
 - Now clone the repository
 ```
 git clone https://github.com/Worthy-Alpaca/AJAX.git
@@ -68,6 +61,10 @@ npm install
 - Set up your database and make sure to name it 'discord'
     - if you wish to use another database you'll have to change it in /src/config.json
 
-- Lastly you need to put both your Discord Bot token and your SQL password into the included token file and rename it to token.json
+- Lastly you need to put some things into the included token file and rename it to token.json
+    - Your discord Token
+    - Your database password
+    - The API address
+    - The API token secret
 
 Thats it

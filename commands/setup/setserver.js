@@ -1,15 +1,14 @@
 const Discord  = require("discord.js");
 const { stripIndents } = require("common-tags");
 const { setadm, setmd, setch, setms, setapr, setcmd, setreports, user_ready, setautomatic_approved, setservergreeting, setprefix } = require("../../functions/setupfunctions.js");
-const { getAdmin, getMod, getChnl, getMsg, getapproved, getstartcmd, getreportschannel, getautoapproved, getservergreeting, getprefix } = require("../../functions/db_queries.js");
-
+const { get_API_call } = require('../../functions/functions');
 
 module.exports = {
     name: "setserver",
     category: "setup",
     permission: ["admin"],
     description: "Set up the entire server",
-    run: async (client, message, args, con) => {
+    run: async (client, message, args) => {
         
         if (!message.member.hasPermission("ADMINISTRATOR")){
             return message.reply("You are not powerful enough to do that");
@@ -71,96 +70,91 @@ module.exports = {
         //set admin role  
         if (rdy) {
             while (adm2 === false) {
-                adm2 = await setadm(message, con);
+                adm2 = await setadm(message);
             }            
         }
         //set moderator role
         if (adm2) {
             while (md2 === false) {
-                md2 = await setmd(message, con);
+                md2 = await setmd(message);
             }            
         }
         //set welcome channel
         if (md2) {
             while (ch2 === false) {
-                ch2 = await setch(message, con);
+                ch2 = await setch(message);
             }            
         }
         //set welcome message
         if (ch2) {
             while (ms2 === false) {
-                ms2 = await setms(message, con);
+                ms2 = await setms(message);
             }            
         }
         //set server welcome message
         if (ms2) {
             while (ms3 === false) {
-                ms3 = await setservergreeting(message, con, embed4);
+                ms3 = await setservergreeting(message, embed4);
             }            
         }
         //set approved immediatly
         if (ms3){            
-            setimmediatly = await setautomatic_approved(message, con);                     
+            setimmediatly = await setautomatic_approved(message);                     
         }
         if (setimmediatly) {
             //set approved role    
             while (apr2 === false) {
-                apr2 = await setapr(message, con);
+                apr2 = await setapr(message);
             }                 
             //set report channel
             if (apr2) {
                 while (prefix2 === false) {
-                    prefix2 = await setreports(message, con);
+                    prefix2 = await setreports(message);
                 }                
             }
             //set prefix
             if (prefix2) {
                 while (rpt2 === false) {
-                    rpt2 = await setprefix(message, con);
+                    rpt2 = await setprefix(message);
                 }                
             }
         } else {   
             //set approved role  
             while (apr2 === false) {
-                apr2 = await setapr(message, con);
+                apr2 = await setapr(message);
             }                  
             //set approving command
             if (apr2) {
                 while (cmd2 === false) {
-                    cmd2 = await setcmd(message, con);
+                    cmd2 = await setcmd(message);
                 }               
             }
             //set report channel
             if (cmd2) {
                 while (prefix2 === false) {
-                    prefix2 = await setreports(message, con);
+                    prefix2 = await setreports(message);
                 }                
             }
             //set prefix
             if (prefix2) {
                 while (rpt2 === false) {
-                    rpt2 = await setprefix(message, con);
+                    rpt2 = await setprefix(message);
                 }                
             }
         }
-        
-        
-        if (rpt2) {            
-            const admin2 = await getAdmin(message, con);
-            const moderator2 = await getMod(message, con);
-            const welcomechannel2 = await getChnl(member, con);
-            const approvedrole2 = await getapproved(member, con);
-            const reportschannel2 = await getreportschannel(message, con);
-            bolean = await getautoapproved(member, con);
-            admin = message.guild.roles.cache.find(r => r.id === admin2);
-            moderator = message.guild.roles.cache.find(r => r.id === moderator2);
-            welcomechannel = message.guild.channels.cache.find(c => c.id === welcomechannel2);
-            welcomemessage = await getMsg(member, con);
-            servergreeting = await getservergreeting(member, con);
-            approvedrole = message.guild.roles.cache.find(r => r.id === approvedrole2);
-            startcmd = await getstartcmd(message, con);
-            prefix = await getprefix(message, con);
-            reportschannel = message.guild.channels.cache.find(c => c.id === reportschannel2);
+
+        if (rpt2) {
+            const response = await get_API_call(message, "getserver");
+            var admin = message.guild.roles.cache.find(r => r.id === response.admin);
+            var moderator = message.guild.roles.cache.find(r => r.id === response.moderator);
+            var welcomechannel = message.guild.channels.cache.find(c => c.id === response.channel);
+            var welcomemessage = response.greeting;
+            var servergreeting = response.server_greeting;
+            var approvedrole = message.guild.roles.cache.find(r => r.id === response.approved);
+            var startcmd = response.startcmd;
+            var reportschannel = message.guild.channels.cache.find(c => c.id === response.reports);
+            var bolean = response.auto_approved;
+            var prefix = response.prefix;
         }
 
         if (bolean === "true") {

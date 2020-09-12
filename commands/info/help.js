@@ -13,19 +13,19 @@ module.exports = {
     description: "Returns this list",
     descriptionlong: "Returns a menu of with commands you have access to. You have 4min per site to do stuff :grin:",
     usage: "[command | alias]",
-    run: async (client, message, args, con) => {
+    run: async (client, message, args, api) => {
         if (message.deletable) message.delete();
         //console.log(client.commands)
-        const adm = await getAdmin(message, con);
-        const mod = await getMod(message, con);
+        //const adm = await getAdmin(message);
+        //const mod = await getMod(message);
         var perms;
         var i = 0;
         var a = true;
-        const custom_prefix = await getprefix(message, con);
+        //const custom_prefix = await getprefix(message);
         const chooseArr = ["◀", "⏹", "▶"];
 
-        if (custom_prefix !== null) {
-            prefix = custom_prefix;
+        if (api.prefix !== null) {
+            prefix = api.prefix;
         }
         var cats = [client.categories[i]];
 
@@ -38,7 +38,7 @@ module.exports = {
                     perms = "author"
                 } else if (message.member.hasPermission("ADMINISTRATOR")) {
                     perms = "admin"
-                } else if (message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === mod).id)) {
+                } else if (message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === api.moderator).id)) { //######################
                     perms = "moderator"
                 } else {
                     perms = "none"
@@ -60,7 +60,7 @@ async function getAll(client, message, perms, cats) {
 
     const embed = new Discord.MessageEmbed()
         .setColor("RANDOM")
-        .setFooter(`Version: ${version}`)
+        .setFooter(`Version: ${version} | React below to cycle through the commands`)
         .setTimestamp()
         .setTitle("Help menu")
         .setURL("https://ajax-discord.com/commands")

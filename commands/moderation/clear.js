@@ -5,24 +5,21 @@ module.exports = {
     category: "moderation",
     permission: ["moderator", "admin"],
     description: "Clears the chat",
-    run: async (client, message, args, con) => {
+    run: async (client, message, args, api) => {
         if (message.deletable) {
             message.delete();
         }
 
-        var admin = await getAdmin(message, con);
-        var moderator = await getMod(message, con);
-
-        if (admin === null) {
+        if (api.admin === null) {  //###########################
             return message.channel.send("You need to set the role for admin first. Do that by typing !setadmin")
         }
-        if (moderator === null) {
+        if (api.moderator === null) { //###########################
             return message.channel.send("You need to set the role for moderator first. Do that by typing !setmod")
         }
 
         // Member doesn't have permissions
-        if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === admin).id)) {
-            if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === moderator).id)) {
+        if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === api.admin).id)) { //###########################
+            if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === api.moderator).id)) { //###########################
                 return message.reply("You can't delete messages....").then(m => m.delete({ timeout: 5000 }));
             }
         }

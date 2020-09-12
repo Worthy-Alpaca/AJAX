@@ -1,4 +1,3 @@
-const { getAdmin, getMod } = require("../../functions/db_queries.js");
 
 module.exports = {
     name: "move",
@@ -6,21 +5,21 @@ module.exports = {
     permission: ["moderator", "admin"],
     description: "Moves all members from one channel to the other. Case sensitive.",
     usage: "<channel1 -> channel2>",
-    run: async (client, message, args, con) => {
+    run: async (client, message, args, api) => {
         message.delete();
 
-        var admin = await getAdmin(message, con);
-        var moderator = await getMod(message, con);
+        //var admin = await getAdmin(message);
+        //var moderator = await getMod(message);
 
-        if (admin === null) {
+        if (api.admin === null) { //###########################
             return message.channel.send("You need to set the role for admin first. Do that by typing !setadmin")
         }
-        if (moderator === null) {
+        if (api.moderator === null) { //###########################
             return message.channel.send("You need to set the role for moderator first. Do that by typing !setmod")
         }
 
-        if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === admin).id)) {
-            if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === moderator).id)) {
+        if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === api.admin).id)) { //###########################
+            if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === api.moderator).id)) { //###########################
                 return message.reply("You are not powerful enough to do that.")
                     .then(m => m.delete({ timeout: 5000 }));
             }

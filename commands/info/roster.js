@@ -8,32 +8,32 @@ module.exports = {
     permission: ["none", "moderator", "admin"],
     description: "People who do stuff",
     
-    run: async (client, message, args, con) => {
+    run: async (client, message, args, api) => {
         if (message.deletable) message.delete();
 
         const guild = message.channel.guild;
 
-        var admin = await getAdmin(message, con);
-        var moderator = await getMod(message, con);        
+        //var admin = await getAdmin(message);
+        //var moderator = await getMod(message);        
         var admins = [];
         var moderators = [];
         var bots = [];
         
-        if (admin === null) {
+        if (api.admin === null) { //###########################
             return message.channel.send("You need to set the role for admin first. Do that by typing !setadmin")
         }
-        if (moderator === null) {
+        if (api.moderator === null) { //###########################
             return message.channel.send("You need to set the role for moderator first. Do that by typing !setmod")
         }
         
         guild.members.cache.forEach(member => {
-            if (member.roles.cache.has(message.guild.roles.cache.find(r => r.id === admin).id)){
+            if (member.roles.cache.has(message.guild.roles.cache.find(r => r.id === api.admin).id)){
                 if (member.user.bot) {                    
                     return
                 } else {                    
                     admins.push(member.displayName)
                 }
-            } else if(member.roles.cache.has(message.guild.roles.cache.find(r => r.id === moderator).id)) {
+            } else if(member.roles.cache.has(message.guild.roles.cache.find(r => r.id === api.moderator).id)) {
                 if (member.user.bot) {
                     return
                 } else {                    

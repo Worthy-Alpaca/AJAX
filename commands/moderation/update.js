@@ -8,7 +8,7 @@ module.exports = {
     category: "moderation",
     permission: ["null"],
     description: "Updates the bot",
-    run: async (client, message, args, con) => {
+    run: async (client, message, args) => {
         message.delete();
 
         if (message.author.id !== owner)

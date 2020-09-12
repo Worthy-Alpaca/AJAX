@@ -3,7 +3,6 @@ const fetch = require('node-fetch');
 const { stripIndents } = require("common-tags");
 const { version } = require("../../src/config.json");
 const { apikey_inara } = require("../../src/config.json");
-const { combat, exploration, trade, cqc, empire, fedaration } = require("../../assets/elite/ranks.json");
 const { promptMessage, pageparser } = require("../../functions/functions.js");
 
 module.exports = {
@@ -12,7 +11,7 @@ module.exports = {
     permission: ["none", "moderator", "admin"],
     description: "Returns latest community goal details",
     descriptionlong: "Returns latest community goal details and adds reactions to cycle through them",
-    run: async (client, message, args, con) => {
+    run: async (client, message, args) => {
         if (message.deletable) message.delete();
 
         var date = new Date();

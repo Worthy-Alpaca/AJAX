@@ -1,13 +1,13 @@
 const Discord = require("discord.js");
 const randomPuppy = require("random-puppy");
-const { getreddits, addreddit } = require("../../functions/db_queries.js")
+const { post_API_call, get_API_call } = require("../../functions/functions.js");
 
 module.exports = {
     name: "meme",
     category: "fun",
     permission: ["none", "moderator", "admin"],
     description: "Sends an epic meme",
-    run: async (client, message, args, con) => {
+    run: async (client, message, args) => {
 
 
         var channel = message.guild.channels.cache.find(channel => channel.name.includes("memes"));
@@ -17,13 +17,17 @@ module.exports = {
         var mp4 = false;
         if (message.deletable) message.delete();
         
-        const reddits = await getreddits(message, con);
+        const reddits = await get_API_call(message, 'misc/get', 'misc/reddit');
 
         if (!reddits) {
             var subReddits = ["dankmeme", "meme", "me_irl", "funny"];
             subReddits.forEach(async reddit => {
-                console.log(reddit, "added")
-                await addreddit(message, reddit, con);
+                const payload = JSON.stringify({
+                    guild: message.guild,
+                    value: reddit
+                })
+
+                await post_API_call('misc/create', payload, message.guild, 'misc/reddit');
             })
         } else {
             var subReddits = reddits;

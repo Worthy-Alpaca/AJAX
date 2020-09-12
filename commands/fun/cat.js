@@ -3,9 +3,10 @@ const fetch = require('node-fetch');
 module.exports = {
   name: "cat",
   category: "fun",
-  permission: ["null"],
+  permission: ["none", "moderator", "admin"],
   description: "Sends a random cat",
-  run: async (client, message, args, con) => {
+  descriptionlong: "Sends a random cat",
+  run: async (client, message, args) => {
     if (message.deletable) message.delete();
 
     const { file } = await fetch('https://aws.random.cat/meow').then(response => response.json());

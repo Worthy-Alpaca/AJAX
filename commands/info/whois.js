@@ -11,7 +11,7 @@ module.exports = {
     description: "Returns user information",
     usage: "[username | id, | mention]",
 
-    run: async (client, message, args, con) => {
+    run: async (client, message, args) => {
         const member = message.mentions.members.first() || message.member;
 
         //member variables
