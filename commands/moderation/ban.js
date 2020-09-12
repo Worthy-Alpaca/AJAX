@@ -8,7 +8,7 @@ module.exports = {
     description: "Bans the person mentioned",
     usage: "<member>, <reason>",
     run: async (client, message, args, api) => {
-        //const reports = await getreportschannel(message, con);
+        //const reports = await getreportschannel(message);
         const logChannel = message.guild.channels.cache.find(c => c.id === api.reports) || message.channel;  //###########################
 
         if (message.deletable) message.delete();

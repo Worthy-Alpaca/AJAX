@@ -13,7 +13,7 @@ module.exports = {
     run: async (client, message, args, api) => {
         message.delete();
 
-        //const reports = await getreportschannel(message, con);
+        //const reports = await getreportschannel(message);
         const logChannel = message.guild.channels.cache.find(c => c.id === api.reports) || message.channel;  //###########################
 
         if (api.admin === null) { //###########################

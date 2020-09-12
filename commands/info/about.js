@@ -18,7 +18,7 @@ module.exports = {
         var count = [];
         var bots = [];
         
-        //approvedR = await getapproved2(message, con);
+        //approvedR = await getapproved2(message);
         role = message.guild.roles.cache.find(r => r.id === api.approved); //###########################
 
         if (!role) {

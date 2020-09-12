@@ -53,7 +53,7 @@ module.exports = {
     permission: ["none", "moderator", "admin", "null"],
     description: "Command description",
     usage: "[args input]",
-    run: async (client, message, args, con) => {
+    run: async (client, message, args) => {
         The code in here to execute
     }
 }

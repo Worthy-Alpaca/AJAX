@@ -2,7 +2,7 @@ const { filter_integer, update_API_call } = require("./functions.js");
 
 module.exports = {
 
-    setadm: function(message, con) { 
+    setadm: function(message) { 
         return new Promise(function(resolve, reject) { 
             var adm;
             message.channel.send('Please enter the admin role').then(() => {
@@ -40,7 +40,7 @@ module.exports = {
         });
     },
 
-    setmd: function(message, con) {
+    setmd: function(message) {
         return new Promise(function(resolve, reject) {
             message.channel.send('Please enter the moderator role').then(() => {
                 var md;
@@ -79,7 +79,7 @@ module.exports = {
         })
     },
 
-    setch: function(message, con) {
+    setch: function(message) {
         return new Promise(function(resolve, reject) {
             message.channel.send('Please enter the greeting channel').then(() => {
                 const filter = m => message.author.id === m.author.id;
@@ -117,7 +117,7 @@ module.exports = {
         })
     },
 
-    setms: function(message, con) {
+    setms: function(message) {
         return new Promise(function(resolve, reject) {
             
             
@@ -155,7 +155,7 @@ module.exports = {
         })
     },
 
-    setapr: function(message, con) {
+    setapr: function(message) {
         return new Promise(function(resolve, reject) {
             message.channel.send('Please enter the role for approved members').then(() => {
                 const filter = m => message.author.id === m.author.id;
@@ -193,7 +193,7 @@ module.exports = {
         })            
     },
 
-    setcmd: function(message, con) {
+    setcmd: function(message) {
         return new Promise(function(resolve, reject) {
             
             
@@ -231,7 +231,7 @@ module.exports = {
         })
     },
 
-    setDB: function(guild, con) {
+    setDB: function(guild) {
         return new Promise(function(resolve, reject) {
             con.query(`SELECT * FROM servers WHERE id = '${guild.id}'`, (err, rows) => {
                 if(err) throw err;
@@ -262,7 +262,7 @@ module.exports = {
         })
     },
     
-    setreports: function(message, con) {
+    setreports: function(message) {
         return new Promise(function(resolve, reject) {
             message.channel.send('Please enter the channel where you want your reports to be displayed').then(() => {
                 const filter = m => message.author.id === m.author.id;
@@ -322,7 +322,7 @@ module.exports = {
         })
     },
 
-    setautomatic_approved: function(message, con) {
+    setautomatic_approved: function(message) {
         return new Promise(function(resolve, reject) {
             message.channel.send('Do you want new members to get approved immediatly? (y/n)').then(() => {
                 const filter = m => message.author.id === m.author.id;
@@ -367,7 +367,7 @@ module.exports = {
         })
     },
 
-    setservergreeting: function (message, con, embed4) {
+    setservergreeting: function (message, embed4) {
         return new Promise(function (resolve, reject) {
             message.channel.send(embed4).then(() => {
                 const filter = m => message.author.id === m.author.id;
@@ -403,7 +403,7 @@ module.exports = {
         })
     },
 
-    setprefix: function (message, con) {
+    setprefix: function (message) {
         return new Promise(function (resolve, reject) {
             message.channel.send("Please enter your desired prefix").then(() => {
                 const filter = m => message.author.id === m.author.id;

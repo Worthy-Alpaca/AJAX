@@ -13,8 +13,8 @@ module.exports = {
 
         const guild = message.channel.guild;
 
-        //var admin = await getAdmin(message, con);
-        //var moderator = await getMod(message, con);        
+        //var admin = await getAdmin(message);
+        //var moderator = await getMod(message);        
         var admins = [];
         var moderators = [];
         var bots = [];

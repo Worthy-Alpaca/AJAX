@@ -8,7 +8,7 @@ module.exports = {
     category: "setup",
     permission: ["admin"],
     description: "Set up the entire server",
-    run: async (client, message, args, con) => {
+    run: async (client, message, args) => {
         
         if (!message.member.hasPermission("ADMINISTRATOR")){
             return message.reply("You are not powerful enough to do that");
@@ -70,75 +70,75 @@ module.exports = {
         //set admin role  
         if (rdy) {
             while (adm2 === false) {
-                adm2 = await setadm(message, con);
+                adm2 = await setadm(message);
             }            
         }
         //set moderator role
         if (adm2) {
             while (md2 === false) {
-                md2 = await setmd(message, con);
+                md2 = await setmd(message);
             }            
         }
         //set welcome channel
         if (md2) {
             while (ch2 === false) {
-                ch2 = await setch(message, con);
+                ch2 = await setch(message);
             }            
         }
         //set welcome message
         if (ch2) {
             while (ms2 === false) {
-                ms2 = await setms(message, con);
+                ms2 = await setms(message);
             }            
         }
         //set server welcome message
         if (ms2) {
             while (ms3 === false) {
-                ms3 = await setservergreeting(message, con, embed4);
+                ms3 = await setservergreeting(message, embed4);
             }            
         }
         //set approved immediatly
         if (ms3){            
-            setimmediatly = await setautomatic_approved(message, con);                     
+            setimmediatly = await setautomatic_approved(message);                     
         }
         if (setimmediatly) {
             //set approved role    
             while (apr2 === false) {
-                apr2 = await setapr(message, con);
+                apr2 = await setapr(message);
             }                 
             //set report channel
             if (apr2) {
                 while (prefix2 === false) {
-                    prefix2 = await setreports(message, con);
+                    prefix2 = await setreports(message);
                 }                
             }
             //set prefix
             if (prefix2) {
                 while (rpt2 === false) {
-                    rpt2 = await setprefix(message, con);
+                    rpt2 = await setprefix(message);
                 }                
             }
         } else {   
             //set approved role  
             while (apr2 === false) {
-                apr2 = await setapr(message, con);
+                apr2 = await setapr(message);
             }                  
             //set approving command
             if (apr2) {
                 while (cmd2 === false) {
-                    cmd2 = await setcmd(message, con);
+                    cmd2 = await setcmd(message);
                 }               
             }
             //set report channel
             if (cmd2) {
                 while (prefix2 === false) {
-                    prefix2 = await setreports(message, con);
+                    prefix2 = await setreports(message);
                 }                
             }
             //set prefix
             if (prefix2) {
                 while (rpt2 === false) {
-                    rpt2 = await setprefix(message, con);
+                    rpt2 = await setprefix(message);
                 }                
             }
         }

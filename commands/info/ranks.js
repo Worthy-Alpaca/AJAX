@@ -12,7 +12,7 @@ module.exports = {
     run: async (client, message, args, api) => {
 
         const ranks = await get_API_call(message, 'misc/get', 'misc/rank');
-        //const custom_prefix = await getprefix(message, con);
+        //const custom_prefix = await getprefix(message);
 
         if (api.prefix !== null) {
             prefix = api.prefix; //##########################

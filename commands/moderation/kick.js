@@ -10,13 +10,13 @@ module.exports = {
     description: "Kicks all the members you mention",
     usage: "<member> [member] etc.",
     run: async (client, message, args, api) => {
-        //const reports = await getreportschannel(message, con);
+        //const reports = await getreportschannel(message);
         const logChannel = message.guild.channels.cache.find(c => c.id === api.reports) || message.channel; //###########################
 
         if (message.deletable) message.delete();
 
-        //var admin = await getAdmin(message, con);
-        //var moderator = await getMod(message, con);
+        //var admin = await getAdmin(message);
+        //var moderator = await getMod(message);
 
         if (api.admin === null) { //###########################
             return message.channel.send("You need to set the role for admin first. Do that by typing !setadmin")

@@ -134,7 +134,7 @@ module.exports = {
         return password.substr(0, len);
     },
 
-    gather_channels: function (client, con) {
+    gather_channels: function (client) {
         client.guilds.cache.forEach(server => {
             server.channels.cache.forEach(channel => {
 
@@ -161,7 +161,7 @@ module.exports = {
         })
     },
 
-    gather_roles: function (client, con) {
+    gather_roles: function (client) {
         client.guilds.cache.forEach(server => {
             server.roles.cache.forEach(role => {
 

@@ -1,5 +1,5 @@
 module.exports = {
-    getAdmin: function(message, con) {
+    getAdmin: function(message) {
         var admininstrator;  
         
         return new Promise(function(resolve, reject) {
@@ -10,7 +10,7 @@ module.exports = {
         });            
     },
     
-    getMod: function(message, con) {
+    getMod: function(message) {
         var moderator;  
         
         return new Promise(function(resolve, reject) {
@@ -21,7 +21,7 @@ module.exports = {
         });            
     },
     
-    getChnl: function(member, con) {
+    getChnl: function(member) {
         var channel;  
         
         return new Promise(function(resolve, reject) {
@@ -32,7 +32,7 @@ module.exports = {
         }); 
     },
 
-    getMsg: function(member, con) {
+    getMsg: function(member) {
         var msg;
 
         return new Promise(function(resolve, reject) {
@@ -43,7 +43,7 @@ module.exports = {
         });
     },
 
-    getapproved: function(member, con) {
+    getapproved: function(member) {
         var msg;
 
         return new Promise(function(resolve, reject) {
@@ -54,7 +54,7 @@ module.exports = {
         });
     },
 
-    getapproved2: function(message, con) {
+    getapproved2: function(message) {
         var msg;
 
         return new Promise(function(resolve, reject) {
@@ -65,7 +65,7 @@ module.exports = {
         });
     },
 
-    getstartcmd: function(message, con) {
+    getstartcmd: function(message) {
         var msg;
 
         return new Promise(function(resolve, reject) {
@@ -76,7 +76,7 @@ module.exports = {
         });
     },
 
-    getreportschannel: function(message, con) {
+    getreportschannel: function(message) {
         var chnl;
         return new Promise(function(resolve, reject) {
             con.query(`SELECT * FROM servers WHERE id = '${message.guild.id}'`, (err, rows) => {                
@@ -86,7 +86,7 @@ module.exports = {
         })
     },
 
-    getinfractions: function(tblid, rMember, con) {
+    getinfractions: function(tblid, rMember) {
         var infractions;
         return new Promise(function(resolve, reject) {
             con.query(`SELECT * FROM ${tblid.join("")} WHERE member_id = '${rMember.id}'`, (err, rows) => {
@@ -103,7 +103,7 @@ module.exports = {
         })
     },
 
-    getranks: function(message, con) {
+    getranks: function(message) {
         var ranks = []
         return new Promise(function(resolve, reject) {
             con.query(`SELECT * FROM ranks WHERE server_id = '${message.guild.id}'`, (err, rows) => {
@@ -125,7 +125,7 @@ module.exports = {
         })
     },
 
-    getrank: function(message, rank, con) {
+    getrank: function(message, rank) {
         var r;
         return new Promise(function(resolve, reject) {
             con.query(`SELECT * FROM ranks WHERE server_id = '${message.guild.id}' AND rank_id = '${rank.id}'`, (err, rows) => {
@@ -140,7 +140,7 @@ module.exports = {
         })
     },
 
-    setrank: function(message, rank, con) {
+    setrank: function(message, rank) {
         let sql;
         var success;
         return new Promise(function(resolve, reject) {
@@ -158,7 +158,7 @@ module.exports = {
         })
     },
 
-    delrank: function(message, rank, con) {
+    delrank: function(message, rank) {
         let sql;
         var success;
         if  (typeof rank.id != 'undefined') {            
@@ -193,7 +193,7 @@ module.exports = {
         
     },
 
-    getservers: function(message, con) {
+    getservers: function(message) {
         var servers = []
         return new Promise(function(resolve, reject) {
             con.query(`SELECT * FROM servers`, (err, rows) => {
@@ -215,7 +215,7 @@ module.exports = {
         })
     },
 
-    getserverchannel: function(srv, con) {
+    getserverchannel: function(srv) {
         var chnl;
         return new Promise(function(resolve, reject) {
             con.query(`SELECT * FROM servers WHERE id = '${srv.id}'`, (err, rows) => {                
@@ -225,7 +225,7 @@ module.exports = {
         })
     },
 
-    getautoapproved: function(member, con) {
+    getautoapproved: function(member) {
         var bolean;
         return new Promise(function(resolve, reject) {
             con.query(`SELECT * FROM servers WHERE id = '${member.guild.id}'`, (err, rows) => {
@@ -235,7 +235,7 @@ module.exports = {
         })
     },
 
-    getservergreeting: function (member, con) {
+    getservergreeting: function (member) {
         var msg
         return new Promise(function (resolve, reject) {
             con.query(`SELECT * FROM servers WHERE id = '${member.guild.id}'`, (err, rows) => {
@@ -245,7 +245,7 @@ module.exports = {
         })
     },
 
-    getprefix: function (message, con) {
+    getprefix: function (message) {
         var prefix
         return new Promise(function (resolve, reject) {
             con.query(`SELECT * FROM servers WHERE id = '${message.guild.id}'`, (err, rows) => {
@@ -255,7 +255,7 @@ module.exports = {
         })
     },
 
-    addreddit: function (message, reddit, con) {
+    addreddit: function (message, reddit) {
         var sql;
         var success;
         return new Promise(function (resolve, reject) {
@@ -273,7 +273,7 @@ module.exports = {
         })
     },
     
-    getreddits: function (message, con) {
+    getreddits: function (message) {
         var reddits = []
         return new Promise(function (resolve, reject) {
             con.query(`SELECT * FROM reddits WHERE server_id = '${message.guild.id}'`, (err, rows) => {
@@ -294,7 +294,7 @@ module.exports = {
         })
     },
 
-    delreddit: function (message, reddit, con) {
+    delreddit: function (message, reddit) {
         return new Promise(function (resolve, reject) {
             con.query(`SELECT * FROM reddits WHERE server_id = '${message.guild.id}' AND reddit = '${reddit}'`, (err, rows) => {
                 if (rows.length < 1) {

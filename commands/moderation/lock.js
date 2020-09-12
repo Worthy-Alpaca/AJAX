@@ -19,8 +19,8 @@ module.exports = {
 
         const a = mRole.pop();
 
-        //var admin = await getAdmin(message, con);
-        //var moderator = await getMod(message, con);
+        //var admin = await getAdmin(message);
+        //var moderator = await getMod(message);
 
         if (api.admin === null) { //###########################
             return message.channel.send("You need to set the role for admin first. Do that by typing !setadmin")

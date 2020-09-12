@@ -226,14 +226,14 @@ client.on("guildMemberAdd", async member => {
   if (member.bot) return;
   const api = await get_API_call(message, "getserver");
 
-  //greeting = await getMsg(member, con);
-  //bolean = await getautoapproved(member, con);
+  //greeting = await getMsg(member);
+  //bolean = await getautoapproved(member);
   greeting = api.greeting; //#########################
   bolean = api.auto_approved; //###############################
-  //rl = await getapproved(member, con);
-  //chnl = await getChnl(member, con);
+  //rl = await getapproved(member);
+  //chnl = await getChnl(member);
   const role = member.guild.roles.cache.find(r => r.id === api.approved); //#######################
-  //var msg = await getservergreeting(member, con);
+  //var msg = await getservergreeting(member);
   var msg = api.server_greeting; //#############################
   var channel = member.guild.channels.cache.find(channel => channel.id === api.channel); //##############################
 
@@ -282,7 +282,7 @@ client.on("message", async message => {
     return message.reply("Hey there, no reason to DM me anything. I won't answer anyway :wink:");
   }
 
-  //const custom_prefix = await getprefix(message, con).catch(err => console.log(err));
+  //const custom_prefix = await getprefix(message).catch(err => console.log(err));
   const custom_prefix = api.prefix;
 
   if (custom_prefix !== null) {
@@ -292,8 +292,8 @@ client.on("message", async message => {
   //automated spam detection and mute
   if (usersMap.has(message.author.id)) {
     let mutee = message.member;
-    //const reports = await getreportschannel(message, con);
-    //const adm = await getAdmin(message, con);    
+    //const reports = await getreportschannel(message);
+    //const adm = await getAdmin(message);    
     const admin = message.guild.roles.cache.find(r => r.id === api.admin); //###########################
     const report = message.guild.channels.cache.find(channel => channel.id === api.reports); //###########################
     const userData = usersMap.get(message.author.id);
@@ -383,7 +383,7 @@ client.on("message", async message => {
   if (!message.guild) return;
 
   //listening for the approved command
-  //const startcommand = await getstartcmd(message, con);
+  //const startcommand = await getstartcmd(message);
 
   if (message.content.startsWith(`${api.startcmd}`)) { //######################
     message.delete();
@@ -392,9 +392,9 @@ client.on("message", async message => {
 
     const member = message.member;
     guild = member.guild;
-    //rl = await getapproved2(message, con);
-    //chnl = await getChnl(member, con);
-    //var msg = await getservergreeting(member, con);
+    //rl = await getapproved2(message);
+    //chnl = await getChnl(member);
+    //var msg = await getservergreeting(member);
 
     const role = message.guild.roles.cache.find(r => r.id === api.approved); //###########################
     var channel = member.guild.channels.cache.find(channel => channel.id === api.channel); //###########################

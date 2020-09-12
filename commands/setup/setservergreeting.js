@@ -7,7 +7,7 @@ module.exports = {
     category: "setup",
     permission: ["admin"],
     description: "Sets the message that is to be displayed to the rest of the server",    
-    run: async (client, message, args, con) => {
+    run: async (client, message, args) => {
         if (!message.member.hasPermission("ADMINISTRATOR")){
             return message.reply("You are not powerful enough to do that");
         }
@@ -19,7 +19,7 @@ module.exports = {
             .setDescription(`Please enter the greeting that is to be displayed to the server.`)
             .addField(`**Example**`, stripIndents`<Member>, [Your message here]`);
 
-        return setservergreeting(message, con, embed4);
+        return setservergreeting(message, embed4);
 
     }
 }

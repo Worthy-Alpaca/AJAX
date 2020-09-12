@@ -16,12 +16,12 @@ module.exports = {
     run: async (client, message, args, api) => {
         if (message.deletable) message.delete();
         //console.log(client.commands)
-        //const adm = await getAdmin(message, con);
-        //const mod = await getMod(message, con);
+        //const adm = await getAdmin(message);
+        //const mod = await getMod(message);
         var perms;
         var i = 0;
         var a = true;
-        //const custom_prefix = await getprefix(message, con);
+        //const custom_prefix = await getprefix(message);
         const chooseArr = ["◀", "⏹", "▶"];
 
         if (api.prefix !== null) {
