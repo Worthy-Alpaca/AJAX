@@ -29,9 +29,7 @@
     "jsonwebtoken": "^8.5.1",
     "mysql": "^2.18.1",
     "node-fetch": "^2.6.0",
-    "random-puppy": "^1.1.0",
-    "superagent": "^5.2.2",
-    "xmlhttprequest": "^1.8.0"
+    "random-puppy": "^1.1.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.4"
