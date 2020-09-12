@@ -1,5 +1,5 @@
 const Discord = require("discord.js");
-const { getranks, getprefix } = require("../../functions/db_queries.js");
+const { get_API_call } = require("../../functions/functions.js");
 const { stripIndents } = require("common-tags");
 var { prefix } = require("../../src/config.json")
 
@@ -9,9 +9,9 @@ module.exports = {
     permission: ["none", "moderator", "admin"],
     description: "Shows available ranks",
 
-    run: async (client, message, args, con, api) => {
+    run: async (client, message, args, api) => {
 
-        const ranks = await getranks(message, con)
+        const ranks = await get_API_call(message, 'misc/get', 'misc/rank');
         //const custom_prefix = await getprefix(message, con);
 
         if (api.prefix !== null) {
