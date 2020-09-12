@@ -188,7 +188,7 @@ module.exports = {
         })
     },
 
-    get_API_call: function (message, api_section = '') {
+    get_API_call: function (message, api_section = '', type = '') {
         return new Promise(async function (resolve, reject) {
             const token = jwt.sign({ _id: message.guild.id }, TOKEN_SECRET);
             //console.log(token)
@@ -198,7 +198,8 @@ module.exports = {
                     'Accept': 'application/json',
                     'content-type': 'application/json',
                     'auth-token': token,
-                    'server_id': message.guild.id
+                    'server_id': message.guild.id,
+                    'type': type
                 }                
             }).then(function (response) {
                 return response.json();
