@@ -275,13 +275,13 @@ client.on("guildMemberAdd", async member => {
 client.on("message", async message => {
   if (message.author.bot) return;
 
-  const api = await get_API_call(message, "getserver");
   //console.log(api)
 
   if (message.guild === null) {
     return message.reply("Hey there, no reason to DM me anything. I won't answer anyway :wink:");
   }
 
+  const api = await get_API_call(message, "getserver");
   //const custom_prefix = await getprefix(message).catch(err => console.log(err));
   const custom_prefix = api.prefix;
 
