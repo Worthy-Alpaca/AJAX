@@ -13,7 +13,7 @@ module.exports = {
     description: "Returns this list",
     descriptionlong: "Returns a menu of with commands you have access to. You have 4min per site to do stuff :grin:",
     usage: "[command | alias]",
-    run: async (client, message, args, con, api) => {
+    run: async (client, message, args, api) => {
         if (message.deletable) message.delete();
         //console.log(client.commands)
         //const adm = await getAdmin(message, con);
