@@ -8,7 +8,7 @@ module.exports = {
     permission: ["none", "moderator", "admin"],
     description: "People who do stuff",
     
-    run: async (client, message, args, con, api) => {
+    run: async (client, message, args, api) => {
         if (message.deletable) message.delete();
 
         const guild = message.channel.guild;

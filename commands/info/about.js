@@ -10,7 +10,7 @@ module.exports = {
     category: "info",
     permission: ["none", "moderator", "admin"],
     description: "Gives information about the bot and the server",
-    run: async (client, message, args, con, api) => {
+    run: async (client, message, args, api) => {
 
         if (message.deletable) message.delete();
 

@@ -7,7 +7,7 @@ module.exports = {
     category: "fun",
     permission: ["none", "moderator", "admin"],
     description: "Sends an epic meme",
-    run: async (client, message, args, con) => {
+    run: async (client, message, args) => {
 
 
         var channel = message.guild.channels.cache.find(channel => channel.name.includes("memes"));

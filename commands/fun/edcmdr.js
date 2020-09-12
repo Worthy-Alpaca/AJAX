@@ -12,7 +12,7 @@ module.exports = {
     description: "Gets CMDR stats from INARA",
     descriptionlong: "Gets your CMDR stats from inara. If you don't provide a name I'll try your discord name.",
     usage: "[Commander name]",
-    run: async (client, message, args, con) => {
+    run: async (client, message, args) => {
         if (message.deletable) message.delete();
 
         var cmdr = args.slice(0).join(" ")

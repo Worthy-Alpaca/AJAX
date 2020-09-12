@@ -6,7 +6,7 @@ module.exports = {
     permission: ["null"],
     description: "Changes the status of the bot",
     usage: "<action> <'game'>",
-    run: async (client, message, args, con) => {
+    run: async (client, message, args) => {
         message.delete();
 
         if (message.author.id !== owner) {

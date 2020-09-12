@@ -11,7 +11,7 @@ module.exports = {
     permission: ["none", "moderator", "admin"],
     description: "Returns latest community goal details",
     descriptionlong: "Returns latest community goal details and adds reactions to cycle through them",
-    run: async (client, message, args, con) => {
+    run: async (client, message, args) => {
         if (message.deletable) message.delete();
 
         var date = new Date();
