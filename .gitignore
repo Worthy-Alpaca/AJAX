@@ -11,3 +11,4 @@ node_modules
 .github
 supervisor_template
 test.js
+db_queries.js
