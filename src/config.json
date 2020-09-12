@@ -1,7 +1,7 @@
 {
   "prefix": "!",
-  "version": "4.0.0a",
-  "status": "to !help",
+  "version": "4.0.0b",
+  "status": "!help",
   "database": "discord",
   "apikey_inara": "ba01ak6lqtws4gswwc48sg8csss0wkgw0w88os8",
   "owner": "595341356432621573",

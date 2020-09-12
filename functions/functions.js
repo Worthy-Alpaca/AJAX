@@ -189,14 +189,13 @@ module.exports = {
     },
 
     get_API_call: function (message, api_section = '', type = '', payload, extra_payload) {
-        return new Promise(async function (resolve, reject) {
+        return new Promise(function (resolve, reject) {
             const token = jwt.sign({ _id: message.guild.id }, TOKEN_SECRET);
             //console.log(token)
-            const response = await fetch(API_ADDRESS + `/discord/${api_section}`, {
+            const response = fetch(API_ADDRESS + `/discord/${api_section}`, {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',
-                    'content-type': 'application/json',
                     'auth-token': token,
                     'serverid': message.guild.id,
                     'type': type,
@@ -212,10 +211,10 @@ module.exports = {
     },
 
     post_API_call: function (api_section = '', payload, guild, type = '') {
-        return new Promise(async function (resolve, reject) {
+        return new Promise(function (resolve, reject) {
             const token = jwt.sign({ _id: guild.id }, TOKEN_SECRET);
             //console.log(token)
-            const response = await fetch(API_ADDRESS + `/discord/${api_section}`, {
+            const response = fetch(API_ADDRESS + `/discord/${api_section}`, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -233,10 +232,10 @@ module.exports = {
     },
 
     delete_API_call: function (api_section = '', payload, guild, type = '') {
-        return new Promise(async function (resolve, reject) {
+        return new Promise(function (resolve, reject) {
             const token = jwt.sign({ _id: guild.id }, TOKEN_SECRET);
             //console.log(token)
-            const response = await fetch(API_ADDRESS + `/discord/${api_section}`, {
+            const response = fetch(API_ADDRESS + `/discord/${api_section}`, {
                 method: 'DELETE',
                 headers: {
                     'Accept': 'application/json',
@@ -254,10 +253,10 @@ module.exports = {
     },
 
     update_API_call: function (api_section = '', payload, guild, type = '') {
-        return new Promise(async function (resolve, reject) {
+        return new Promise(function (resolve, reject) {
             const token = jwt.sign({ _id: guild.id }, TOKEN_SECRET);
             //console.log(token)
-            const response = await fetch(API_ADDRESS + `/discord/${api_section}`, {
+            const response = fetch(API_ADDRESS + `/discord/${api_section}`, {
                 method: 'PUT',
                 headers: {
                     'Accept': 'application/json',
