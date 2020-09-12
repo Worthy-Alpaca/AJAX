@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
 const { stripIndents } = require("common-tags");
-const { getservers, getserverchannel } = require("../../functions/db_queries.js");
+const { get_API_call } = require("../../functions/functions.js");
 const { version, owner } = require("../../src/config.json");
 
 module.exports = {
@@ -9,14 +9,14 @@ module.exports = {
     permission: ["null"],
     description: "Sends a message to all servers",
     usage: "[list|server id], <message>",
-    run: async (client, message, args, con) => {
+    run: async (client, message, args) => {
         message.delete();
         //console.log(client.guilds)
         if (message.author.id !== owner)
             return message.reply("You are not powerful enough to command me in such a way!").then(m => m.delete({ timeout: 5000 }));
 
-        const servers = await getservers(message, con);
-
+        const servers = await get_API_call(message, 'announcements', 'announcements/getserver');
+        
         if (!args[0]) {
             srvs = [];
 
@@ -36,7 +36,7 @@ module.exports = {
             if (!srv) {
                 return message.reply("No server with that ID found")
             }
-            const chnl = await getserverchannel(srv, con);
+            const chnl = await get_API_call(message, 'announcements', 'announcements/getchannel', srv.id);
             var channel = srv.channels.cache.find(channel => channel.id === chnl);
 
             const embed = new Discord.MessageEmbed()
@@ -71,7 +71,7 @@ module.exports = {
             servers.forEach(async function (server) {
                 var srv = client.guilds.cache.get(server);
                 if (!srv) return message.channel.send(`${server} was not found.`)
-                const chnl = await getserverchannel(srv, con)
+                const chnl = await get_API_call(message, 'announcements', 'announcements/getchannel', srv.id);
                 var channel = srv.channels.cache.find(channel => channel.id === chnl);
                 if (!channel) {
                     channel = srv.channels.cache.find(channel => channel.id === srv.systemChannelID);
@@ -81,7 +81,7 @@ module.exports = {
                         })
                     }
                 }
-                return channel.send(embed)
+                return channel.send(embed);
             })
         }
     }

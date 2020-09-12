@@ -10,7 +10,7 @@ module.exports = {
     category: "setup",
     permission: ["admin"],
     description: "Shows the server setup result.",
-    run: async (client, message, args, con, response) => {
+    run: async (client, message, args, response) => {
         //message.delete();
         //console.log(response)
         if (!message.member.hasPermission("ADMINISTRATOR")) {
