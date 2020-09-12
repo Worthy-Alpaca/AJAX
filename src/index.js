@@ -394,7 +394,7 @@ client.on("message", async message => {
     guild = member.guild;
     //rl = await getapproved2(message);
     //chnl = await getChnl(member);
-    //var msg = await getservergreeting(member);
+    var msg = api.server_greeting;
 
     const role = message.guild.roles.cache.find(r => r.id === api.approved); //###########################
     var channel = member.guild.channels.cache.find(channel => channel.id === api.channel); //###########################
