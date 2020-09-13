@@ -14,11 +14,7 @@ module.exports = {
         }
         /* var admin = await getAdmin(message);
         var moderator = await getMod(message); */
-        if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === api.admin).id)) { //###########################
-            if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === api.moderator).id)) { //###########################
-                return message.reply("You don't have the required permissions to do this.").then(m => m.delete({ timeout: 5000 }));
-            }
-        }
+        
         var reddit = args[0];
         if (reddit.startsWith("r/") || reddit.startsWith("https://reddit.com/r/")) {
             a = reddit.split("r/");
@@ -36,13 +32,13 @@ module.exports = {
 
         if (done.success === true) {
             embed.setColor("GREEN").setDescription("✅ Subreddit was deleted successfully.");
-            return message.channel.send(embed).then(m => m.delete({ timeout: 5000 }));
+            return message.channel.send(embed);
         } else if (done.success === false && done.status === 200) {
             embed.setColor("YELLOW").setDescription("❗ This subreddit doesn't exist in my database");
-            return message.channel.send(embed).then(m => m.delete({ timeout: 5000 }));
+            return message.channel.send(embed);
         } else {
             embed.setColor("RED").setDescription(`❗ An error occured: ${done.err}`);
-            return message.channel.send(embed).then(m => m.delete({ timeout: 5000 }));
+            return message.channel.send(embed);
         }
     }
 }

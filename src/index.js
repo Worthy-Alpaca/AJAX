@@ -415,8 +415,36 @@ client.on("message", async message => {
 
   let command = client.commands.get(cmd);
   if (!command) command = client.commands.get(client.aliases.get(cmd));
+  if (!command) return message.reply(`\`${api.prefix + cmd}\` doesn't exist!`);
 
-  if (command) command.run(client, message, args, api);
+  if (api.admin === null) {  
+    return message.channel.send("You need to set the role for admin first. Do that by typing !setadmin")
+  }
+  if (api.moderator === null) { 
+    return message.channel.send("You need to set the role for moderator first. Do that by typing !setmod")
+  }
+  
+  //Handling the permission check on a global level
+  if (message.author.id === owner) {
+    return command.run(client, message, args, api);
+  } else if (command.permission.includes('none')) {
+    return command.run(client, message, args, api);
+  } else if (command.permission.includes('moderator')) {
+    if (message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === api.admin).id) || message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === api.moderator).id)) {
+      return command.run(client, message, args, api);
+    } else {
+      return message.reply(`You do not have the required permission to access \`${api.prefix + command.name}\``);
+    }
+  } else if (command.permission.includes('admin')) {
+    if (message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === api.admin).id)) {
+      return command.run(client, message, args, api);
+    } else {
+      return message.reply(`You do not have the required permission to access \`${api.prefix + command.name}\``);
+    }
+  } else {
+    return message.reply(`\`${api.prefix + command.name}\` doesn't exist. Believe me, it really doesn't!`);
+  }
+   
 })
 
 //Handling API errors

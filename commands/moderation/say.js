@@ -20,9 +20,6 @@ module.exports = {
             return message.channel.send("You need to set the role for moderator first. Do that by typing !setmod").then(m => m.delete({ timeout: 5000 }));
         }
 
-        if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === api.admin).id)) //###########################
-            return message.reply("You don't have the required permissions to use this command.").then(m => m.delete({ timeout: 5000 }));
-
         if (typeof args[0] == 'undefined') {
             return message.channel.send("Maybe include something :wink:")
         }

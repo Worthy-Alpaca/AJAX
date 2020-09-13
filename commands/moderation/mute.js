@@ -21,13 +21,6 @@ module.exports = {
             return message.channel.send("You need to set the role for moderator first. Do that by typing !setmod")
         }
 
-        if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === api.admin).id)) { //###########################
-            if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === api.moderator).id)) { //###########################
-                return message.reply("You can't do that. Please contact a staff member!")
-                    .then(m => m.delete({ timeout: 5000 }));
-            }
-        }
-
         if (!args[0] || !message.mentions.members.first()) {
             return message.reply("You need to tag someone.")
                 .then(m => m.delete({ timeout: 5000 }));

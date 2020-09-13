@@ -15,9 +15,6 @@ module.exports = {
 
         if (message.deletable) message.delete();
 
-        //var admin = await getAdmin(message);
-        //var moderator = await getMod(message);
-
         if (api.admin === null) { //###########################
             return message.channel.send("You need to set the role for admin first. Do that by typing !setadmin")
         }
@@ -29,14 +26,6 @@ module.exports = {
         if (!args[0] || !message.mentions.members.first()) {
             return message.reply("Please always mention whomever you want to kick")
                 .then(m => m.delete({ timeout: 5000 }));
-        }
-
-        // No author permissions
-        if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === api.admin).id)) { //###########################
-            if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === api.moderator).id)) {  //###########################
-                return message.reply("❌ You do not have permissions to kick members. Please contact a staff member")
-                    .then(m => m.delete({ timeout: 5000 }));
-            }
         }
 
         const toKick_collection = args.slice(0);
