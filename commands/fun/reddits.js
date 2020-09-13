@@ -13,7 +13,6 @@ module.exports = {
     run: async (client, message, args) => {
         
         const reddits = await get_API_call(message, 'misc/get', 'misc/reddit');
-        console.log(reddits);
         var subReddits = ["dankmeme", "meme", "me_irl", "funny"];
 
         const embed = new Discord.MessageEmbed()

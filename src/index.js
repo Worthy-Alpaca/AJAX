@@ -69,16 +69,6 @@ client.on("ready", async () => {
 });
 
 //handling channel additions and deletions
-client.on("channelDelete", channel => {
-
-  const payload = JSON.stringify({
-    'channel': channel,
-    'guild': channel.guild
-  })
-
-  return delete_API_call('channel/delete', payload, channel.guild, 'channel');  
-})
-
 client.on('channelCreate', channel => {
   if (channel.type === 'dm') {
     return;
@@ -101,6 +91,16 @@ client.on('channelUpdate', function (oldChannel, newChannel) {
   })
 
   return update_API_call('channel/update', payload, newChannel.guild, 'channel'); 
+})
+
+client.on("channelDelete", channel => {
+
+  const payload = JSON.stringify({
+    'channel': channel,
+    'guild': channel.guild
+  })
+
+  return delete_API_call('channel/delete', payload, channel.guild, 'channel');  
 })
 
 //handling role additions, updates and deletions
