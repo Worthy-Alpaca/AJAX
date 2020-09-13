@@ -416,13 +416,6 @@ client.on("message", async message => {
   let command = client.commands.get(cmd);
   if (!command) command = client.commands.get(client.aliases.get(cmd));
   if (!command) return message.reply(`\`${api.prefix + cmd}\` doesn't exist!`);
-
-  if (api.admin === null) {  
-    return message.channel.send("You need to set the role for admin first. Do that by typing !setadmin")
-  }
-  if (api.moderator === null) { 
-    return message.channel.send("You need to set the role for moderator first. Do that by typing !setmod")
-  }
   
   //Handling the permission check on a global level
   if (message.author.id === owner) {
