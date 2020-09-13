@@ -425,7 +425,7 @@ client.on("message", async message => {
   }
   
   //Handling the permission check on a global level
-  if (message.author.id === "owner") {
+  if (message.author.id === owner) {
     return command.run(client, message, args, api);
   } else if (command.permission.includes('none')) {
     return command.run(client, message, args, api);
