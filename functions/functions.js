@@ -203,7 +203,11 @@ module.exports = {
                     'extra_payload': extra_payload
                 }                
             }).then(function (response) {
-                return response.json();
+                if (response.status === 200) {
+                    return response.json();
+                } else if (response.status === 409) {
+                    return response.json();   
+                }
             })
 
             return resolve(response);
@@ -224,7 +228,11 @@ module.exports = {
                 },
                 body: payload
             }).then(function (response) {
-                return response.json();
+                if (response.status === 200) {
+                    return response.json();
+                } else if (response.status === 409) {
+                    return response.json();
+                }
             })
 
             return resolve(response);
@@ -245,7 +253,11 @@ module.exports = {
                 },
                 body: payload
             }).then(function (response) {
-                return response.json();
+                if (response.status === 200) {
+                    return response.json();
+                } else if (response.status === 409) {
+                    return response.json();
+                }
             })
 
             return resolve(response);
@@ -266,7 +278,11 @@ module.exports = {
                 },
                 body: payload
             }).then(function (response) {
-                return response.json();
+                if (response.status === 200) {
+                    return response.json();
+                } else if (response.status === 409) {
+                    return response.json();
+                }
             })
 
             return resolve(response);
