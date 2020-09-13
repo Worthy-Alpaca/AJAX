@@ -17,8 +17,6 @@ module.exports = {
 
         let rMember = message.mentions.members.first() || message.author;
 
-        //var admin = await getAdmin(message);
-        //var moderator = await getMod(message);
         const tblid = Array.from(message.guild.name)
         tblid.forEach(function (item, i) { if (item == " ") tblid[i] = "_"; });
         

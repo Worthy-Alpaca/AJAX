@@ -5,7 +5,7 @@ const { stripIndents } = require("common-tags");
 module.exports = {
     name: "purge",
     category: "moderation",
-    permission: ["moderator", "admin"],
+    permission: ["admin"],
     description: "Kicks all members who don't have the approved role",
 
     run: async (client, message, args, api) => {

@@ -52,12 +52,6 @@ module.exports = {
                 .then(m => m.delete({ timeout: 5000 }));
         }
 
-        // No author permissions
-        if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === api.admin).id)) {
-            return message.reply("❌ You do not have permissions to ban members. Please contact a staff member")
-                .then(m => m.delete({ timeout: 5000 }));
-        }
-
         //no bot permissions
         if (!message.guild.me.hasPermission("BAN_MEMBERS")) {
             return message.reply("❌ I do not have permissions to ban members. Please contact a staff member")
