@@ -36,13 +36,13 @@ module.exports = {
 
         if (done.success === true) {
             embed.setColor("GREEN").setDescription("✅ Subreddit was deleted successfully.");
-            return message.channel.send(embed).then(m => m.delete({ timeout: 5000 }));
+            return message.channel.send(embed);
         } else if (done.success === false && done.status === 200) {
             embed.setColor("YELLOW").setDescription("❗ This subreddit doesn't exist in my database");
-            return message.channel.send(embed).then(m => m.delete({ timeout: 5000 }));
+            return message.channel.send(embed);
         } else {
             embed.setColor("RED").setDescription(`❗ An error occured: ${done.err}`);
-            return message.channel.send(embed).then(m => m.delete({ timeout: 5000 }));
+            return message.channel.send(embed);
         }
     }
 }
