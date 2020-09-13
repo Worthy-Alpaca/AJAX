@@ -192,15 +192,12 @@ module.exports = {
         return new Promise(function (resolve, reject) {
             const token = jwt.sign({ _id: message.guild.id }, TOKEN_SECRET);
             //console.log(token)
-            const response = fetch(API_ADDRESS + `/discord/${api_section}`, {
+            const response = fetch(API_ADDRESS + `/discord/${api_section}/?guildID=${message.guild.id}&payload=${payload}&extraPayload=${extra_payload}`, {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',
                     'auth-token': token,
-                    'serverid': message.guild.id,
                     'type': type,
-                    'payload': payload,
-                    'extra_payload': extra_payload
                 }                
             }).then(function (response) {
                 if (response.status === 200) {

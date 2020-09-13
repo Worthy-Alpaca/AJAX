@@ -1,29 +1,44 @@
+//Import Discord
 const { Client, Collection } = require("discord.js");
+const Discord = require("discord.js");
+
+//Import FS
+const fs = require("fs");
+
+//Import constants and variables
 const { version, status, DIFF, LIMIT, TIME, database, owner } = require('./config.json');
 var { prefix } = require('./config.json');
 const { token, password, API_ADDRESS, TOKEN_SECRET } = require('../token.json');
-const fetch = require('node-fetch');
-const fs = require("fs");
-const Discord = require("discord.js");
-const { stripIndents } = require("common-tags");
-const usersMap = new Map();
-const jwt = require('jsonwebtoken');
 const { bugs } = require("../package.json");
+
+//Import packages
+const fetch = require('node-fetch');
+const { stripIndents } = require("common-tags");
+const jwt = require('jsonwebtoken');
+
+//Import functions
 const { password_generator, get_API_call, post_API_call, delete_API_call, update_API_call } = require('../functions/functions.js');
 
+//Create new userMap
+const usersMap = new Map();
+
+//Create new Bot instance
 const client = new Client({
   disableEveryone: false
 });
 
+//Create command structures
 client.reply = new Collection();
 client.commands = new Collection();
 client.aliases = new Collection();
 client.categories = fs.readdirSync("./commands/");
 
+//Assign the handler
 ["command"].forEach(handler => {
   require(`../handler/${handler}`)(client);
 });
 
+//Handling bot startup process
 client.on("ready", async () => {
   var a = 0;
   console.log(`Logged in as ${client.user.username}`);
@@ -54,16 +69,6 @@ client.on("ready", async () => {
 });
 
 //handling channel additions and deletions
-client.on("channelDelete", channel => {
-
-  const payload = JSON.stringify({
-    'channel': channel,
-    'guild': channel.guild
-  })
-
-  return delete_API_call('channel/delete', payload, channel.guild, 'channel');  
-})
-
 client.on('channelCreate', channel => {
   if (channel.type === 'dm') {
     return;
@@ -77,7 +82,8 @@ client.on('channelCreate', channel => {
   return post_API_call('channel/create', payload, channel.guild, 'channel');  
 
 })
-client.on('channelUpdate', function(oldChannel, newChannel) {
+
+client.on('channelUpdate', function (oldChannel, newChannel) {
 
   const payload = JSON.stringify({
     'channel': newChannel,
@@ -85,6 +91,16 @@ client.on('channelUpdate', function(oldChannel, newChannel) {
   })
 
   return update_API_call('channel/update', payload, newChannel.guild, 'channel'); 
+})
+
+client.on("channelDelete", channel => {
+
+  const payload = JSON.stringify({
+    'channel': channel,
+    'guild': channel.guild
+  })
+
+  return delete_API_call('channel/delete', payload, channel.guild, 'channel');  
 })
 
 //handling role additions, updates and deletions
@@ -416,13 +432,6 @@ client.on("message", async message => {
   let command = client.commands.get(cmd);
   if (!command) command = client.commands.get(client.aliases.get(cmd));
   if (!command) return message.reply(`\`${api.prefix + cmd}\` doesn't exist!`);
-
-  if (api.admin === null) {  
-    return message.channel.send("You need to set the role for admin first. Do that by typing !setadmin")
-  }
-  if (api.moderator === null) { 
-    return message.channel.send("You need to set the role for moderator first. Do that by typing !setmod")
-  }
   
   //Handling the permission check on a global level
   if (message.author.id === owner) {
@@ -430,13 +439,13 @@ client.on("message", async message => {
   } else if (command.permission.includes('none')) {
     return command.run(client, message, args, api);
   } else if (command.permission.includes('moderator')) {
-    if (message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === api.admin).id) || message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === api.moderator).id)) {
+    if (message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === api.admin).id) || message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === api.moderator).id) || message.member.hasPermission("ADMINISTRATOR")) {
       return command.run(client, message, args, api);
     } else {
       return message.reply(`You do not have the required permission to access \`${api.prefix + command.name}\``);
     }
   } else if (command.permission.includes('admin')) {
-    if (message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === api.admin).id)) {
+    if (message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === api.admin).id) || message.member.hasPermission("ADMINISTRATOR")) {
       return command.run(client, message, args, api);
     } else {
       return message.reply(`You do not have the required permission to access \`${api.prefix + command.name}\``);
@@ -452,4 +461,5 @@ process.on('unhandledRejection', error => {
   console.error('Unhandled promise rejection:', error);
 })
 
+//Logging into discord
 client.login(token);
