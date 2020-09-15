@@ -10,9 +10,6 @@ By contributing to this repository, you are expected to know and follow the rule
 
 ## How to
 
-* Project setup?
-  [I've got you covered!](https://github.com/Worthy-Alpaca/AJAX#how-to-install)
-
 * Found a bug?
   [Let me know!](https://github.com/Worthy-Alpaca/AJAX/issues/new?assignees=Worthy-Alpaca&labels=bug&template=bug_report.md&title=)
 

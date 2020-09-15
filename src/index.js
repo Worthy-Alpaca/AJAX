@@ -22,10 +22,8 @@ const { password_generator, get_API_call, post_API_call, delete_API_call, update
 //Create new userMap
 const usersMap = new Map();
 
-//Create new Bot instance
-const client = new Client({
-  disableEveryone: false
-});
+//Import new Bot instance
+const client = require('./client');
 
 //Create command structures
 client.reply = new Collection();

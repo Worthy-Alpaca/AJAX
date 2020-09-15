@@ -1,6 +1,7 @@
 const fetch = require('node-fetch');
 const { API_ADDRESS, TOKEN_SECRET } = require('../token.json');
 const jwt = require('jsonwebtoken');
+const { error_handler } = require('./error');
 
 module.exports = {
     getMember: function(message, toFind = '') {
@@ -189,10 +190,10 @@ module.exports = {
     },
 
     get_API_call: function (message, api_section = '', type = '', payload, extra_payload) {
-        return new Promise(function (resolve, reject) {
+        return new Promise(async function (resolve, reject) {
             const token = jwt.sign({ _id: message.guild.id }, TOKEN_SECRET);
             //console.log(token)
-            const response = fetch(API_ADDRESS + `/discord/${api_section}/?guildID=${message.guild.id}&payload=${payload}&extraPayload=${extra_payload}`, {
+            const response = await fetch(API_ADDRESS + `/discord/${api_section}/?guildID=${message.guild.id}&payload=${payload}&extraPayload=${extra_payload}`, {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',
@@ -200,14 +201,20 @@ module.exports = {
                     'type': type,
                 }                
             }).then(function (response) {
-                if (response.status === 200) {
-                    return response.json();
-                } else if (response.status === 409) {
-                    return response.json();   
-                }
+                return response.json();
+            }).catch(error => {
+                return error_handler(error);
             })
-
-            return resolve(response);
+            
+            if (typeof response.status == 'undefined') {
+                return resolve(response);
+            } else if (response.status === 200 && response.success === false) {
+                return response.err
+            } else {
+                message.reply(`An error has occured: ${response.err}`);
+            }
+            
+            
         })
     },
 
@@ -230,6 +237,8 @@ module.exports = {
                 } else if (response.status === 409) {
                     return response.json();
                 }
+            }).catch(error => {
+                return error_handler(error);
             })
 
             return resolve(response);
@@ -255,6 +264,8 @@ module.exports = {
                 } else if (response.status === 409) {
                     return response.json();
                 }
+            }).catch(error => {
+                return error_handler(error);
             })
 
             return resolve(response);
@@ -280,6 +291,8 @@ module.exports = {
                 } else if (response.status === 409) {
                     return response.json();
                 }
+            }).catch(error => {
+                return error_handler(error);
             })
 
             return resolve(response);
