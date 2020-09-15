@@ -1,3 +1,9 @@
+//######################################################################################################################
+// All of these functions are deprecated as of version 4.0.0 and not in use anymore
+// They have been replaced with a REST API that will handle database queries 
+// They requiere an active connection to a MySQL database
+//######################################################################################################################
+
 module.exports = {
     getAdmin: function(message) {
         var admininstrator;  
