@@ -2,6 +2,9 @@ const { readdirSync } = require("fs");
 
 const ascii = require("ascii-table");
 
+//Import API calls
+const { post_API_call } = require('../functions/functions');
+
 // Create a new Ascii table
 let table = new ascii("Commands");
 table.setHeading("Command", "Load status");
@@ -20,6 +23,15 @@ module.exports = (client) => {
             let pull = require(`../commands/${dir}/${file}`);
     
             if (pull.name && pull.category && pull.description && pull.permission) {
+
+                const payload = JSON.stringify({
+                    'command': pull
+                })
+
+                const guild = {
+                    id: '111111111'
+                }
+                post_API_call('commands/create', payload, guild, 'command/create');
                 client.commands.set(pull.name, pull);
                 table.addRow(file, 'operational ✅');
             } else {

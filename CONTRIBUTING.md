@@ -45,16 +45,13 @@ git clone https://github.com/Worthy-Alpaca/AJAX.git
 npm install
 ```
 
-- Next you need the API behing AJAX 
+- Next you need the API behing AJAX. *Since version 4.0.0 it handles all access to the database.*
 
     - You can get it [here.](https://github.com/Worthy-Alpaca/api.ajax-discord.com)
 
-- Set up your database and make sure to name it 'discord'
-    - if you wish to use another database you'll have to change it in /src/config.json
 
-- Lastly you need to put some things into the included token file and rename it to token.json
+- Lastly you need to put some things into the included env file and rename it to .env
     - Your discord Token
-    - Your database password
     - The API address
     - The API token secret
 
