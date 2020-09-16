@@ -1,6 +1,3 @@
-{
-    "token": "Your Bot token here",
-    "password": "Your MySQL root password here",
-    "API_ADDRESS": "The API address here",
-    "TOKEN_SECRET": "Your API verify token"
-}
+DISCORD_TOKEN = Your bot token here
+API_ADDRESS = Your API address here
+TOKEN_SECRET = Your API verification token

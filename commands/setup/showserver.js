@@ -2,7 +2,6 @@ const Discord = require("discord.js");
 const { stripIndents } = require("common-tags");
 var { prefix } = require("../../src/config.json");
 const fetch = require('node-fetch');
-const { API_ADDRESS, TOKEN_SECRET} = require('../../token.json');
 const jwt = require('jsonwebtoken');
 
 module.exports = {

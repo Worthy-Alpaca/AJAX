@@ -1,5 +1,5 @@
 //Import Discord
-const { Client, Collection } = require("discord.js");
+const { Collection } = require("discord.js");
 const Discord = require("discord.js");
 
 //Import FS
@@ -8,13 +8,15 @@ const fs = require("fs");
 //Import constants and variables
 const { version, status, DIFF, LIMIT, TIME, database, owner } = require('./config.json');
 var { prefix } = require('./config.json');
-const { token, password, API_ADDRESS, TOKEN_SECRET } = require('../token.json');
 const { bugs } = require("../package.json");
 
 //Import packages
 const fetch = require('node-fetch');
 const { stripIndents } = require("common-tags");
 const jwt = require('jsonwebtoken');
+
+//.env import
+require('dotenv').config();
 
 //Import functions
 const { password_generator, get_API_call, post_API_call, delete_API_call, update_API_call } = require('../functions/functions.js');
@@ -141,9 +143,9 @@ client.on("guildCreate", async guild => {
 
   let password = password_generator(8);
   let username = guild.id;
-  const token = jwt.sign({ _id: username }, TOKEN_SECRET);
+  const token = jwt.sign({ _id: username }, process.env.TOKEN_SECRET);
 
-  await fetch(API_ADDRESS + '/user/register', {
+  await fetch(process.env.API_ADDRESS + '/user/register', {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
@@ -460,4 +462,4 @@ process.on('unhandledRejection', error => {
 })
 
 //Logging into discord
-client.login(token);
+client.login(process.env.DISCORD_TOKEN);

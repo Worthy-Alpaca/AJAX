@@ -1,5 +1,4 @@
 const fetch = require('node-fetch');
-const { API_ADDRESS, TOKEN_SECRET } = require('../token.json');
 const jwt = require('jsonwebtoken');
 const { error_handler } = require('./error');
 
@@ -191,9 +190,9 @@ module.exports = {
 
     get_API_call: function (message, api_section = '', type = '', payload, extra_payload) {
         return new Promise(async function (resolve, reject) {
-            const token = jwt.sign({ _id: message.guild.id }, TOKEN_SECRET);
+            const token = jwt.sign({ _id: message.guild.id }, process.env.TOKEN_SECRET);
             //console.log(token)
-            const response = await fetch(API_ADDRESS + `/discord/${api_section}/?guildID=${message.guild.id}&payload=${payload}&extraPayload=${extra_payload}`, {
+            const response = await fetch(process.env.API_ADDRESS + `/discord/${api_section}/?guildID=${message.guild.id}&payload=${payload}&extraPayload=${extra_payload}`, {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',
@@ -220,9 +219,9 @@ module.exports = {
 
     post_API_call: function (api_section = '', payload, guild, type = '') {
         return new Promise(function (resolve, reject) {
-            const token = jwt.sign({ _id: guild.id }, TOKEN_SECRET);
+            const token = jwt.sign({ _id: guild.id }, process.env.TOKEN_SECRET);
             //console.log(token)
-            const response = fetch(API_ADDRESS + `/discord/${api_section}`, {
+            const response = fetch(process.env.API_ADDRESS + `/discord/${api_section}`, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -247,9 +246,9 @@ module.exports = {
 
     delete_API_call: function (api_section = '', payload, guild, type = '') {
         return new Promise(function (resolve, reject) {
-            const token = jwt.sign({ _id: guild.id }, TOKEN_SECRET);
+            const token = jwt.sign({ _id: guild.id }, process.env.TOKEN_SECRET);
             //console.log(token)
-            const response = fetch(API_ADDRESS + `/discord/${api_section}`, {
+            const response = fetch(process.env.API_ADDRESS + `/discord/${api_section}`, {
                 method: 'DELETE',
                 headers: {
                     'Accept': 'application/json',
@@ -274,9 +273,9 @@ module.exports = {
 
     update_API_call: function (api_section = '', payload, guild, type = '') {
         return new Promise(function (resolve, reject) {
-            const token = jwt.sign({ _id: guild.id }, TOKEN_SECRET);
+            const token = jwt.sign({ _id: guild.id }, process.env.TOKEN_SECRET);
             //console.log(token)
-            const response = fetch(API_ADDRESS + `/discord/${api_section}`, {
+            const response = fetch(process.env.API_ADDRESS + `/discord/${api_section}`, {
                 method: 'PUT',
                 headers: {
                     'Accept': 'application/json',

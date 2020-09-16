@@ -12,3 +12,4 @@ node_modules
 supervisor_template
 test.js
 db_queries.js
+.env
