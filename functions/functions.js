@@ -1,6 +1,6 @@
 const fetch = require('node-fetch');
 const jwt = require('jsonwebtoken');
-const { error_handler } = require('./error');
+const { error_handler, sign_token } = require('./default_functions');
 
 module.exports = {
     getMember: function(message, toFind = '') {
@@ -189,8 +189,8 @@ module.exports = {
     },
 
     get_API_call: function (message, api_section = '', type = '', payload, extra_payload) {
-        return new Promise(async function (resolve, reject) {
-            const token = jwt.sign({ _id: message.guild.id }, process.env.TOKEN_SECRET);
+        return new Promise(async function (resolve, reject) {            
+            const token = sign_token(message.guild.id);
             //console.log(token)
             const response = await fetch(process.env.API_ADDRESS + `/discord/${api_section}/?guildID=${message.guild.id}&payload=${payload}&extraPayload=${extra_payload}`, {
                 method: 'GET',
@@ -219,7 +219,7 @@ module.exports = {
 
     post_API_call: function (api_section = '', payload, guild, type = '') {
         return new Promise(function (resolve, reject) {
-            const token = jwt.sign({ _id: guild.id }, process.env.TOKEN_SECRET);
+            const token = sign_token(guild.id);
             //console.log(token)
             const response = fetch(process.env.API_ADDRESS + `/discord/${api_section}`, {
                 method: 'POST',
@@ -246,7 +246,7 @@ module.exports = {
 
     delete_API_call: function (api_section = '', payload, guild, type = '') {
         return new Promise(function (resolve, reject) {
-            const token = jwt.sign({ _id: guild.id }, process.env.TOKEN_SECRET);
+            const token = sign_token(guild.id);
             //console.log(token)
             const response = fetch(process.env.API_ADDRESS + `/discord/${api_section}`, {
                 method: 'DELETE',
@@ -273,7 +273,7 @@ module.exports = {
 
     update_API_call: function (api_section = '', payload, guild, type = '') {
         return new Promise(function (resolve, reject) {
-            const token = jwt.sign({ _id: guild.id }, process.env.TOKEN_SECRET);
+            const token = sign_token(guild.id);
             //console.log(token)
             const response = fetch(process.env.API_ADDRESS + `/discord/${api_section}`, {
                 method: 'PUT',
