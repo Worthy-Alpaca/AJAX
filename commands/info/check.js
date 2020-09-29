@@ -3,7 +3,7 @@ const { get_API_call, checkStatus } = require('../../functions/functions');
 const Discord = require('discord.js');
 
 module.exports = {
-    name: "check",
+    name: "checkstatus",
     category: "info",
     permission: ["none", "moderator", "admin"],
     description: "Check if the Bot is operational",
