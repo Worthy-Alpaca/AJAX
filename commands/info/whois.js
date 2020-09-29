@@ -5,7 +5,7 @@ const { formatDate } = require("../../functions/functions.js");
 
 module.exports = {
     name: "whois",
-    aliases: ["userinfo", "user", "who"],
+    aliases: ["whoami"],
     category: "info",
     permission: ["none", "moderator", "admin"],
     description: "Returns user information",
