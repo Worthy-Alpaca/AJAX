@@ -19,7 +19,8 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 //Import functions
-const { password_generator, get_API_call, post_API_call, delete_API_call, update_API_call } = require('../functions/functions.js');
+const { password_generator, get_API_call, post_API_call, delete_API_call, update_API_call, checkStatus } = require('../functions/functions.js');
+//const { checkStatus } = require('../functions/default_functions');
 
 //Create new userMap
 const usersMap = new Map();
@@ -47,7 +48,7 @@ client.on("ready", async () => {
       id: '0000000000000000'
     }
   }
-  const success = await get_API_call(message, 'check');
+  const success = await get_API_call(message, 'check', 'checkIn', process.env.DB_TABLES);
   if (success.success === true) {
     console.log("Connected to API");
   } else {
@@ -412,10 +413,19 @@ client.on("message", async message => {
     if (message.content.toLowerCase().includes("version")) {
       return message.reply(`Current version is \`${version}\``)
     }
+    if (message.content.toLowerCase().includes("check status")) {
+      return checkStatus(message, get_API_call);
+    }
   }
-
+  
   //command parser
-  if (!message.content.startsWith(prefix)) return;
+  if (!message.content.startsWith(prefix)) {
+    if (api === false) {
+      return checkStatus(message, get_API_call);
+    } else {
+      return;
+    }
+  }
 
   if (!message.member) message.member = await message.guild.fetchMember(message);
 

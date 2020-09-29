@@ -1,6 +1,9 @@
 const fetch = require('node-fetch');
-const jwt = require('jsonwebtoken');
+const fs = require('fs');
+const Discord = require('discord.js');
 const { error_handler, sign_token } = require('./default_functions');
+const { owner } = require('../src/config.json');
+const client = require('../src/client');
 
 module.exports = {
     getMember: function(message, toFind = '') {
@@ -205,7 +208,9 @@ module.exports = {
                 return error_handler(error);
             })
             
-            if (typeof response.status == 'undefined') {
+            if (typeof response == 'undefined') {
+                return resolve(false);
+            } else if (typeof response.status == 'undefined') {
                 return resolve(response);
             } else if (response.status === 200 && response.success === false) {
                 return response.err
@@ -296,6 +301,51 @@ module.exports = {
 
             return resolve(response);
         })
+    },
+
+    checkStatus: async function (message, get_API_call) {
+        let a = 0;
+        const cmd = [];
+        const embed = new Discord.MessageEmbed();
+
+        fs.readdirSync("./commands/").forEach(dir => {
+            // Filter for .js command files
+            const commands = fs.readdirSync(`./commands/${dir}/`).filter(file => file.endsWith(".js"));
+
+
+            // Loop over the commands, and add all of them to a collection
+            // If there's no name found, prevent it from returning an error        
+            for (let file of commands) {
+                let pull = require(`../commands/${dir}/${file}`);
+
+                if (pull.name && pull.category && pull.description && pull.permission) {
+                    continue;
+                } else {
+                    cmd.push(pull.name || pull.category || pull.description || pull.permission)
+                    a++;
+                    continue;
+                }
+
+
+            }
+        });
+
+        const success = await get_API_call(message, 'check', 'checkIn');
+
+        if (a === 0 && success.success === true) {
+            return message.reply(embed.setColor('GREEN').setDescription("**Bot is operational**"));
+        } else if (a > 0 && success.success === true) {
+            embed.setColor('YELLOW')
+                .setDescription("**Performance is degraded. The following commands do not work!**")
+                .addField(`\u200b`, `\`${cmd.join('\n- ')}\``);
+            
+            client.users.fetch(owner, false).then(user => {
+                user.send(embed);
+            });
+            return message.reply(embed);
+        } else {
+            return message.reply(embed.setColor('RED').setDescription("**Bot is NOT operational!**"));
+        }
     }
         
 };
