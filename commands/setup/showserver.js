@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
 const { stripIndents } = require("common-tags");
-var { prefix } = require("../../src/config.json");
+var { prefix, kick_limit, ban_limit } = require("../../src/config.json");
 const fetch = require('node-fetch');
 const jwt = require('jsonwebtoken');
 
@@ -26,6 +26,16 @@ module.exports = {
         const reportschannel = message.guild.channels.cache.find(c => c.id === response.reports);
         const bolean = response.auto_approved;
         const custom_prefix = response.prefix;
+        var custom_kicklimit = response.kick_limit;
+        var custom_banlimit = response.ban_limit;
+
+        if (custom_banlimit !== null) {
+            ban_limit = custom_banlimit;
+        }
+
+        if (custom_kicklimit !== null) {
+            kick_limit = custom_kicklimit;
+        }
 
         if (custom_prefix !== null) {
             prefix = custom_prefix;
@@ -58,7 +68,11 @@ module.exports = {
             .addField(`\u200b`, stripIndents`**Channel for your reports**
             ${reportschannel}`, true)
             .addField(`\u200b`, stripIndents`**Your prefix**
-            \`${prefix}\``, true);
+            \`${prefix}\``, true)
+            .addField(`\u200b`, stripIndents`**Your Kick-Limit**
+            \`${kick_limit}\``, true)
+            .addField(`\u200b`, stripIndents`**Your Ban-Limit**
+            \`${ban_limit}\``, true);
 
         return message.channel.send(embed2).then(m => m.delete({ timeout: 120000 }));
 

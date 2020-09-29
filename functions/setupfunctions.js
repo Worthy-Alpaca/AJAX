@@ -437,5 +437,89 @@ module.exports = {
                     
             });
         })
-    }
+    },
+
+    setkicklimit: function (message) {
+        return new Promise(function (resolve, reject) {
+            message.channel.send("Please set the Kick-Limit").then(() => {
+                const filter = m => message.author.id === m.author.id;
+                var ms;
+
+                message.channel.awaitMessages(filter, { time: 120000, max: 1, errors: ['time'] })
+                    .then(async messages => {
+                        var limit = messages.first().content;
+                        
+                        if (Number.isInteger(+limit)) {
+                            msg = message.channel.send(`You've entered: \`${messages.first().content}\``).then(m => m.delete({ timeout: 5000 }));
+                        } else {
+                            message.channel.send('You did not enter a number');
+                            return resolve(false);
+                        }
+
+                        const payload = JSON.stringify({
+                            guild: message.guild,
+                            field: 'kick_limit',
+                            value: limit
+                        })
+
+                        const success = await update_API_call('setup', payload, message.guild, 'setup');
+
+                        if (success.success === true) {
+                            return resolve(true);
+                        } else {
+                            message.channel.send(`An Error occured: ${success.err}`);
+                            return resolve(true);
+                        }
+                    })
+                    .catch(() => {
+                        ms = true;
+                        resolve(ms);
+                        message.channel.send('You did not provide any input! Using default of 3');
+                    })
+
+            });
+        })
+    },
+
+    setbanlimit: function (message) {
+        return new Promise(function (resolve, reject) {
+            message.channel.send("Please set the Ban-Limit").then(() => {
+                const filter = m => message.author.id === m.author.id;
+                var ms;
+
+                message.channel.awaitMessages(filter, { time: 120000, max: 1, errors: ['time'] })
+                    .then(async messages => {
+                        var limit = messages.first().content;
+
+                        if (Number.isInteger(+limit)) {
+                            msg = message.channel.send(`You've entered: \`${messages.first().content}\``).then(m => m.delete({ timeout: 5000 }));
+                        } else {
+                            message.channel.send('You did not enter a number');
+                            return resolve(false);
+                        }
+
+                        const payload = JSON.stringify({
+                            guild: message.guild,
+                            field: 'ban_limit',
+                            value: limit
+                        })
+
+                        const success = await update_API_call('setup', payload, message.guild, 'setup');
+
+                        if (success.success === true) {
+                            return resolve(true);
+                        } else {
+                            message.channel.send(`An Error occured: ${success.err}`);
+                            return resolve(true);
+                        }
+                    })
+                    .catch(() => {
+                        ms = true;
+                        resolve(ms);
+                        message.channel.send('You did not provide any input! Using default of 3');
+                    })
+
+            });
+        })
+    },
 };

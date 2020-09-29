@@ -1,7 +1,8 @@
 const Discord  = require("discord.js");
 const { stripIndents } = require("common-tags");
-const { setadm, setmd, setch, setms, setapr, setcmd, setreports, user_ready, setautomatic_approved, setservergreeting, setprefix } = require("../../functions/setupfunctions.js");
+const { setadm, setmd, setch, setms, setapr, setcmd, setreports, user_ready, setautomatic_approved, setservergreeting, setprefix, setkicklimit, setbanlimit } = require("../../functions/setupfunctions.js");
 const { get_API_call } = require('../../functions/functions');
+var { prefix, kick_limit, ban_limit } = require('../../src/config.json');
 
 module.exports = {
     name: "setserver",
@@ -28,7 +29,9 @@ module.exports = {
         var rpt2 = false; 
         var prefix2 = false;
         var setimmediatly = false;   
-        var bolean = false;    
+        var bolean = false;  
+        var kick = false;
+        var ban = false;
         
         //setup complete message
         const embed = new Discord.MessageEmbed()
@@ -108,9 +111,21 @@ module.exports = {
             }                 
             //set report channel
             if (apr2) {
-                while (prefix2 === false) {
-                    prefix2 = await setreports(message);
+                while (kick === false) {
+                    kick = await setreports(message);
                 }                
+            }
+            //set kicklimit
+            if (kick) {
+                while (ban === false) {
+                    ban = await setkicklimit(message);
+                }
+            }
+            //set banlimit
+            if (ban) {
+                while (prefix2 === false) {
+                    prefix2 = await setbanlimit(message);
+                }
             }
             //set prefix
             if (prefix2) {
@@ -132,8 +147,20 @@ module.exports = {
             //set report channel
             if (cmd2) {
                 while (prefix2 === false) {
-                    prefix2 = await setreports(message);
+                    kick = await setreports(message);
                 }                
+            }
+            //set kicklimit
+            if (kick) {
+                while (ban === false) {
+                    ban = await setkicklimit(message);
+                }
+            }
+            //set banlimit
+            if (ban) {
+                while (prefix2 === false) {
+                    prefix2 = await setbanlimit(message);
+                }
             }
             //set prefix
             if (prefix2) {
@@ -154,7 +181,21 @@ module.exports = {
             var startcmd = response.startcmd;
             var reportschannel = message.guild.channels.cache.find(c => c.id === response.reports);
             var bolean = response.auto_approved;
-            var prefix = response.prefix;
+            var custom_prefix = response.prefix;
+            var custom_kicklimit = response.kick_limit;
+            var custom_banlimit = response.ban_limit;
+        }
+
+        if (custom_prefix !== null) {
+            prefix = custom_prefix;
+        }
+
+        if (custom_banlimit !== null) {
+            ban_limit = custom_banlimit;
+        }
+
+        if (custom_kicklimit !== null) {
+            kick_limit = custom_kicklimit;
         }
 
         if (bolean === "true") {
@@ -183,7 +224,12 @@ module.exports = {
             .addField(`\u200b`, stripIndents`**Channel for your reports**
             ${reportschannel}`, true)
             .addField(`\u200b`, stripIndents`**Your prefix**
-            \`${prefix}\``, true);
+            \`${prefix}\``, true)
+            .addField(`\u200b`, stripIndents`**Your Kick-Limit**
+            \`${kick_limit}\``, true)
+            .addField(`\u200b`, stripIndents`**Your Ban-Limit**
+            \`${ban_limit}\``, true);
+        
 
         if (rpt2) {            
             message.channel.send(embed)

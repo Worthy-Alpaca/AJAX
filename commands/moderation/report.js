@@ -1,7 +1,7 @@
 const Discord = require("discord.js");
 const { stripIndents } = require("common-tags");
 const { get_API_call, post_API_call, update_API_call } = require("../../functions/functions.js");
-const { ban_limit, kick_limit } = require("../../src/config.json");
+var { ban_limit, kick_limit } = require("../../src/config.json");
 
 
 module.exports = {
@@ -71,6 +71,14 @@ module.exports = {
 
 
         const infractions = await get_API_call(message, 'misc/get', 'misc/infractions', tblid.join(""), rMember.id);
+
+        if (api.ban_limit !== null) {
+            ban_limit = api.ban_limit;
+        }
+
+        if (api.kick_limit !== null) {
+            kick_limit = api.ban_limit;
+        }
 
         let msg = `You have been reported for "${args.slice(2).join(" ")}." ${behavior} This message was computer generated. Please do not answer to it.`;
 
