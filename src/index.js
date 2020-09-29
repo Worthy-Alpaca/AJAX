@@ -6,7 +6,7 @@ const Discord = require("discord.js");
 const fs = require("fs");
 
 //Import constants and variables
-const { version, status, DIFF, LIMIT, TIME, database, owner } = require('./config.json');
+const { version, status, DIFF, LIMIT, TIME, owner } = require('./config.json');
 var { prefix } = require('./config.json');
 const { bugs } = require("../package.json");
 
@@ -19,7 +19,8 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 //Import functions
-const { password_generator, get_API_call, post_API_call, delete_API_call, update_API_call } = require('../functions/functions.js');
+const { password_generator, get_API_call, post_API_call, delete_API_call, update_API_call, checkStatus } = require('../functions/functions.js');
+//const { checkStatus } = require('../functions/default_functions');
 
 //Create new userMap
 const usersMap = new Map();
@@ -44,10 +45,10 @@ client.on("ready", async () => {
   console.log(`Logged in as ${client.user.username}`);
   message = {
     guild: {
-      id: '111111111'
+      id: '0000000000000000'
     }
   }
-  const success = await get_API_call(message, 'check');
+  const success = await get_API_call(message, 'check', 'checkIn', process.env.DB_TABLES);
   if (success.success === true) {
     console.log("Connected to API");
   } else {
@@ -213,20 +214,15 @@ client.on("guildDelete", async guild => {
 
 //welcome message
 client.on("guildMemberAdd", async member => {
-  var greeting;
 
   if (member.bot) return;
   const api = await get_API_call(message, "getserver");
 
-  //greeting = await getMsg(member);
-  //bolean = await getautoapproved(member);
-  greeting = api.greeting; //#########################
-  bolean = api.auto_approved; //###############################
-  //rl = await getapproved(member);
-  //chnl = await getChnl(member);
-  const role = member.guild.roles.cache.find(r => r.id === api.approved); //#######################
-  //var msg = await getservergreeting(member);
-  var msg = api.server_greeting; //#############################
+  var greeting = api.greeting; 
+  var bolean = api.auto_approved;
+  
+  const role = member.guild.roles.cache.find(r => r.id === api.approved); 
+  var msg = api.server_greeting; 
   var channel = member.guild.channels.cache.find(channel => channel.id === api.channel); //##############################
 
   if (typeof greeting == 'undefined' || greeting === null) {
@@ -285,8 +281,8 @@ client.on("message", async message => {
   if (usersMap.has(message.author.id)) {
     let mutee = message.member;
     
-    const admin = message.guild.roles.cache.find(r => r.id === api.admin); //###########################
-    const report = message.guild.channels.cache.find(channel => channel.id === api.reports); //###########################
+    const admin = message.guild.roles.cache.find(r => r.id === api.admin);
+    const report = message.guild.channels.cache.find(channel => channel.id === api.reports); 
     const userData = usersMap.get(message.author.id);
     const { lastMessage, timer } = userData;
     const difference = message.createdTimestamp - lastMessage.createdTimestamp;
@@ -375,7 +371,7 @@ client.on("message", async message => {
 
   //listening for the approved command
 
-  if (message.content.startsWith(`${api.startcmd}`)) { //######################
+  if (message.content.startsWith(`${api.startcmd}`)) { 
     message.delete();
     var chnl;
     var rl;
@@ -383,8 +379,8 @@ client.on("message", async message => {
     const member = message.member;
     var msg = api.server_greeting;
 
-    const role = message.guild.roles.cache.find(r => r.id === api.approved); //###########################
-    var channel = member.guild.channels.cache.find(channel => channel.id === api.channel); //###########################
+    const role = message.guild.roles.cache.find(r => r.id === api.approved); 
+    var channel = member.guild.channels.cache.find(channel => channel.id === api.channel); 
 
     if (typeof channel == 'undefined') {
       channel = member.guild.channels.cache.find(channel => channel.id === member.guild.systemChannelID);
@@ -417,10 +413,19 @@ client.on("message", async message => {
     if (message.content.toLowerCase().includes("version")) {
       return message.reply(`Current version is \`${version}\``)
     }
+    if (message.content.toLowerCase().includes("check status")) {
+      return checkStatus(message, get_API_call);
+    }
   }
-
+  
   //command parser
-  if (!message.content.startsWith(prefix)) return;
+  if (!message.content.startsWith(prefix)) {
+    if (api === false) {
+      return checkStatus(message, get_API_call);
+    } else {
+      return;
+    }
+  }
 
   if (!message.member) message.member = await message.guild.fetchMember(message);
 
