@@ -413,7 +413,7 @@ client.on("message", async message => {
     if (message.content.toLowerCase().includes("version")) {
       return message.reply(`Current version is \`${version}\``)
     }
-    if (message.content.toLowerCase().includes("check status")) {
+    if (message.content.toLowerCase().includes("check status") || message.content.toLowerCase().includes("status")) {
       return checkStatus(message, get_API_call);
     }
   }
