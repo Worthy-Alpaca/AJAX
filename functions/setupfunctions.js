@@ -516,7 +516,7 @@ module.exports = {
                     .catch(() => {
                         ms = true;
                         resolve(ms);
-                        message.channel.send('You did not provide any input! Using default of 3');
+                        message.channel.send('You did not provide any input! Using default of 6');
                     })
 
             });
