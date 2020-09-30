@@ -270,10 +270,16 @@ client.on("message", async message => {
   }
 
   const api = await get_API_call(message, "getserver");
+
+  if (api === false) {
+    client.users.fetch(owner, false).then(user => {
+      user.send(`API is not responding`)
+    });
+  }
   
   const custom_prefix = api.prefix;
 
-  if (custom_prefix !== null) {
+  if (custom_prefix !== undefined && custom_prefix !== null) {
     prefix = custom_prefix;
   }
 
@@ -420,11 +426,11 @@ client.on("message", async message => {
   
   //command parser
   if (!message.content.startsWith(prefix)) {
-    if (api === false) {
-      return checkStatus(message, get_API_call);
-    } else {
-      return;
-    }
+    return;
+  }
+  
+  if (api === false) {
+    return checkStatus(message, get_API_call);
   }
 
   if (!message.member) message.member = await message.guild.fetchMember(message);
