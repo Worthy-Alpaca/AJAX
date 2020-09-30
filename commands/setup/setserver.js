@@ -1,6 +1,6 @@
 const Discord  = require("discord.js");
 const { stripIndents } = require("common-tags");
-const { setadm, setmd, setch, setms, setapr, setcmd, setreports, user_ready, setautomatic_approved, setservergreeting, setprefix, setkicklimit, setbanlimit } = require("../../functions/setupfunctions.js");
+const setupfunctions = require("../../functions/setupfunctions.js");
 const { get_API_call } = require('../../functions/functions');
 var { prefix, kick_limit, ban_limit } = require('../../src/config.json');
 
@@ -47,16 +47,16 @@ module.exports = {
             .setColor(member.displayHexColor === "#000000" ? "#ffffff" : member.displayHexColor)
             .setTimestamp()
             .setDescription(`This command allows me to get everything I need to work. 
-            To simplify please **always** mention the role or channel i.e. #channel, @role
+            To simplify, please **always** mention the role or channel i.e. #channel, @role
             **The following is required:**`)
             .addField(`\u200b`, stripIndents`- Administrator role
             - Moderator role 
-            - approved member role`, true)
+            - Approved member role`, true)
             .addField(`\u200b`, stripIndents`- Welcome channel
             - Welcome message that is to be displayed to the new member
             - Welcome message that is to be displayed to the entire server`, true)
             .addField(`\u200b`, stripIndents`- Command to approve new members
-            - channel for your report filings`, true)
+            - Channel for your report filings`, true)
             .addField(`\u200b`, stripIndents`All of this can be changed afterwards.
             **Ready?** (y/n)`);
         
@@ -69,103 +69,103 @@ module.exports = {
         
         
         //getting user ready
-        const rdy = await user_ready(message, embed2);
+        const rdy = await setupfunctions.user_ready(message, embed2);
         //set admin role  
         if (rdy) {
             while (adm2 === false) {
-                adm2 = await setadm(message);
+                adm2 = await setupfunctions.setadm(message);
             }            
         }
         //set moderator role
         if (adm2) {
             while (md2 === false) {
-                md2 = await setmd(message);
+                md2 = await setupfunctions.setmd(message);
             }            
         }
         //set welcome channel
         if (md2) {
             while (ch2 === false) {
-                ch2 = await setch(message);
+                ch2 = await setupfunctions.setch(message);
             }            
         }
         //set welcome message
         if (ch2) {
             while (ms2 === false) {
-                ms2 = await setms(message);
+                ms2 = await setupfunctions.setms(message);
             }            
         }
         //set server welcome message
         if (ms2) {
             while (ms3 === false) {
-                ms3 = await setservergreeting(message, embed4);
+                ms3 = await setupfunctions.setservergreeting(message, embed4);
             }            
         }
         //set approved immediatly
         if (ms3){            
-            setimmediatly = await setautomatic_approved(message);                     
+            setimmediatly = await setupfunctions.setautomatic_approved(message);                     
         }
         if (setimmediatly) {
             //set approved role    
             while (apr2 === false) {
-                apr2 = await setapr(message);
+                apr2 = await setupfunctions.setapr(message);
             }                 
             //set report channel
             if (apr2) {
                 while (kick === false) {
-                    kick = await setreports(message);
+                    kick = await setupfunctions.setreports(message);
                 }                
             }
             //set kicklimit
             if (kick) {
                 while (ban === false) {
-                    ban = await setkicklimit(message);
+                    ban = await setupfunctions.setkicklimit(message);
                 }
             }
             //set banlimit
             if (ban) {
                 while (prefix2 === false) {
-                    prefix2 = await setbanlimit(message);
+                    prefix2 = await setupfunctions.setbanlimit(message);
                 }
             }
             //set prefix
             if (prefix2) {
                 while (rpt2 === false) {
-                    rpt2 = await setprefix(message);
+                    rpt2 = await setupfunctions.setprefix(message);
                 }                
             }
         } else {   
             //set approved role  
             while (apr2 === false) {
-                apr2 = await setapr(message);
+                apr2 = await setupfunctions.setapr(message);
             }                  
             //set approving command
             if (apr2) {
                 while (cmd2 === false) {
-                    cmd2 = await setcmd(message);
+                    cmd2 = await setupfunctions.setcmd(message);
                 }               
             }
             //set report channel
             if (cmd2) {
                 while (prefix2 === false) {
-                    kick = await setreports(message);
+                    kick = await setupfunctions.setreports(message);
                 }                
             }
             //set kicklimit
             if (kick) {
                 while (ban === false) {
-                    ban = await setkicklimit(message);
+                    ban = await setupfunctions.setkicklimit(message);
                 }
             }
             //set banlimit
             if (ban) {
                 while (prefix2 === false) {
-                    prefix2 = await setbanlimit(message);
+                    prefix2 = await setupfunctions.setbanlimit(message);
                 }
             }
             //set prefix
             if (prefix2) {
                 while (rpt2 === false) {
-                    rpt2 = await setprefix(message);
+                    rpt2 = await setupfunctions.setprefix(message);
                 }                
             }
         }
