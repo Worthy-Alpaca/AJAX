@@ -137,60 +137,6 @@ module.exports = {
         return password.substr(0, len);
     },
 
-    gather_channels: function (client) {
-        client.guilds.cache.forEach(server => {
-            server.channels.cache.forEach(channel => {
-
-                con.query(`SELECT * FROM channels WHERE server_id = '${server.id}' AND channel_id = '${channel.id}'`, (err, rows) => {
-                    if (err) throw err;
-                    let sql;
-
-                    if (!rows.length) {
-                        console.log(channel.name, "added")
-                        sql = `INSERT INTO channels (server_id, channel_id, channel_name) VALUES ('${server.id}', "${channel.id}", "${channel.name}")`
-                        return con.query(sql);
-                    } else if (rows.length === 1) {
-                        if (rows[0].channel_name !== channel.name) {
-                            console.log(channel.name, "updated to")
-                            sql = `UPDATE channels SET channel_name = '${channel.name}' WHERE channel_id = '${channel.id}'`
-                            return con.query(sql);
-                        } else {
-                            return;
-                        }
-                    }
-
-                });
-            })
-        })
-    },
-
-    gather_roles: function (client) {
-        client.guilds.cache.forEach(server => {
-            server.roles.cache.forEach(role => {
-
-                con.query(`SELECT * FROM roles WHERE server_id = '${role.guild.id}' AND role_id = '${role.id}'`, (err, rows) => {
-                    if (err) throw err;
-                    let sql;
-
-                    if (!rows.length) {
-                        console.log(role.name, "added")
-                        sql = `INSERT INTO roles (server_id, role_id, role_name) VALUES ('${role.guild.id}', "${role.id}", "${role.name}")`
-                        return con.query(sql);
-                    } else if (rows.length === 1) {
-                        if (rows[0].role_name !== role.name) {
-                            console.log(role.name, "updated")
-                            sql = `UPDATE roles SET role_name = '${role.name}' WHERE role_id = '${role.id}'`
-                            return con.query(sql);
-                        } else {
-                            return;
-                        }
-                    }
-
-                });
-            })
-        })
-    },
-
     get_API_call: function (message, api_section = '', type = '', payload, extra_payload) {
         return new Promise(async function (resolve, reject) {            
             const token = sign_token(message.guild.id);
