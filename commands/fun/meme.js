@@ -1,5 +1,4 @@
-const Discord = require("discord.js");
-const randomPuppy = require("random-puppy");
+const fetch = require('node-fetch');
 const { post_API_call, get_API_call } = require("../../functions/functions.js");
 
 module.exports = {
@@ -16,10 +15,10 @@ module.exports = {
         }
         var mp4 = false;
         if (message.deletable) message.delete();
-        
+
         const reddits = await get_API_call(message, 'misc/get', 'misc/reddit');
 
-        if (!reddits) {
+        if (reddits === null) {
             var subReddits = ["dankmeme", "meme", "me_irl", "funny"];
             subReddits.forEach(async reddit => {
                 const payload = JSON.stringify({
@@ -32,29 +31,30 @@ module.exports = {
         } else {
             var subReddits = reddits;
         }
-                
+
         //check if file ends in .mp4 and get a new one if it does
+
+        var random = subReddits[Math.floor(Math.random() * subReddits.length)];
+        var img = await fetch(`https://www.reddit.com/r/${random}/hot.json`, {
+            method: "GET"
+        }).then(res => {
+            return res.json();
+        })
+        
         while (mp4 === false) {
-            var random = subReddits[Math.floor(Math.random() * subReddits.length)];
-            var img = await randomPuppy(random);  
-            
-            if (typeof img == 'undefined') {
+            var randimg = img.data.children[Math.ceil(img.data.children.length * Math.random())].data.url;
+
+            if (typeof randimg == 'undefined') {
                 mp4 = false;
                 continue;
             }
-            
-            if (!img.endsWith(".mp4")) {
+
+            if (!randimg.endsWith(".mp4")) {
                 mp4 = true;
             }
         }
 
-        const embed = new Discord.MessageEmbed()
-            .setColor("RANDOM")
-            .setImage(img)
-            .setTitle(`From /r/${random}`)
-            .setURL(`https://reddit.com/r/${random}`);
-
-        return channel.send(embed);
+        return channel.send(randimg);
 
     }
 }
