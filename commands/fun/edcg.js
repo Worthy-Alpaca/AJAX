@@ -25,7 +25,7 @@ module.exports = {
                 "appName": "Aiax",
                 "appVersion": `${version}`,
                 "isDeveloped": true,
-                "APIkey": apikey_inara,
+                "APIkey": process.env.INARA_API_KEY,
                 "commanderName": "Worthy Alpaca",
                 "commanderFrontierID": "3298136"
             },
