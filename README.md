@@ -20,12 +20,13 @@ AJAX is a discord moderation bot that also has an EDSM and INARA API connection 
 - In the configurtion you also have the option to set a custom prefix. The default prefix is **!**.
 - The help menu is customized to the permission of the user who calls it and features a multi page setup.
 
-AJAX features three categories
+AJAX features four categories
 > - fun
 > - moderation
 > - info
+> - setup
 
-Check out all of its commands [here.](https://github.com/Worthy-Alpaca/AJAX/blob/develop/MY_COMMANDS.md)
+Check out all of its commands [here.](https://ajax-discord.com/commands) 
 
 ## Want to customize AJAX yourself or contribute to this project?
 
