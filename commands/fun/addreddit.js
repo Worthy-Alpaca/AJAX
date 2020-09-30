@@ -15,7 +15,7 @@ module.exports = {
         }
         
         var reddit = args[0];
-        if (reddit.startsWith("r/") || reddit.startsWith("https://reddit.com/r/")) {
+        if (reddit.startsWith("r/") || reddit.startsWith("https://reddit.com/r/") || reddit.startsWith("/r/")) {
             a = reddit.split("r/");
             reddit = a[1];             
         } 
