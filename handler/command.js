@@ -9,14 +9,14 @@ const { post_API_call, delete_API_call } = require('../functions/functions');
 let table = new ascii("Commands");
 table.setHeading("Command", "Load status");
 
-module.exports = (client) => {
+module.exports = async (client) => {
     var a = 0;
     const payload = JSON.stringify({
         table: "commands",
         id: '0000000000000000'
     })
     
-    delete_API_call('commands/delete', payload, payload, 'delete/table');
+    await delete_API_call('commands/delete', payload, payload, 'delete/table');
     // Read every commands subfolder
     readdirSync("./commands/").forEach(dir => {
         // Filter for .js command files
