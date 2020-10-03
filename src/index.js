@@ -20,7 +20,7 @@ require('dotenv').config();
 
 //Import functions
 const { password_generator, get_API_call, post_API_call, delete_API_call, update_API_call, checkStatus } = require('../functions/functions.js');
-//const { checkStatus } = require('../functions/default_functions');
+const { gather_server_channels, gather_server_roles } = require('../functions/default_functions');
 
 //Create new userMap
 const usersMap = new Map();
@@ -58,8 +58,6 @@ client.on("ready", async () => {
     user.send(`I restarted`)
   });
 
-  if (a > 0) console.log("No new servers")
-
   client.user.setPresence({
     status: "online",
     activity: {
@@ -81,7 +79,6 @@ client.on('channelCreate', channel => {
   })
 
   return post_API_call('channel/create', payload, channel.guild, 'channel');  
-
 })
 
 client.on('channelUpdate', function (oldChannel, newChannel) {
@@ -168,6 +165,9 @@ client.on("guildCreate", async guild => {
     }
   })
 
+  gather_server_channels(guild, post_API_call);
+  gather_server_roles(guild, post_API_call);
+
   guild.channels.create('bot-setup');
 
   const embed = new Discord.MessageEmbed()
@@ -219,7 +219,6 @@ client.on("guildMemberAdd", async member => {
   const api = await get_API_call(message, "getserver");
 
   var greeting = api.greeting; 
-  var bolean = api.auto_approved;
   
   const role = member.guild.roles.cache.find(r => r.id === api.approved); 
   var msg = api.server_greeting; 
@@ -233,7 +232,7 @@ client.on("guildMemberAdd", async member => {
     channel = member.guild.channels.cache.find(channel => channel.id === member.guild.systemChannelID);
   }
 
-  if (bolean === "true") {
+  if (api.auto_approved === "true") {
     member.roles.add(role.id).catch(e => console.log(e.message));
     if (msg === null) {
       msg = "welcome to this generic server :grin:"
@@ -263,8 +262,6 @@ client.on("guildMemberAdd", async member => {
 client.on("message", async message => {
   if (message.author.bot) return;
 
-  //console.log(api)
-
   if (message.guild === null) {
     return message.reply("Hey there, no reason to DM me anything. I won't answer anyway :wink:");
   }
@@ -286,7 +283,6 @@ client.on("message", async message => {
   //automated spam detection and mute
   if (usersMap.has(message.author.id)) {
     let mutee = message.member;
-    
     const admin = message.guild.roles.cache.find(r => r.id === api.admin);
     const report = message.guild.channels.cache.find(channel => channel.id === api.reports); 
     const userData = usersMap.get(message.author.id);
@@ -352,10 +348,6 @@ client.on("message", async message => {
           report.send(`@here, someone has been auto-muted.`);
           report.send(embed);
         }
-        /* setTimeout(() => {
-          mutee.removeRole(muterole);
-          message.channel.send('You have been unmuted');
-        }, TIME); */
       } else {
         userData.msgCount = msgCount;
         usersMap.set(message.author.id, userData);
@@ -376,11 +368,8 @@ client.on("message", async message => {
   if (!message.guild) return;
 
   //listening for the approved command
-
   if (message.content.startsWith(`${api.startcmd}`)) { 
     message.delete();
-    var chnl;
-    var rl;
 
     const member = message.member;
     var msg = api.server_greeting;
@@ -395,7 +384,7 @@ client.on("message", async message => {
     }
 
     if (message.member.roles.cache.has(role.id)) {
-      return
+      return;
     }
 
     if (msg === null) {
@@ -412,6 +401,7 @@ client.on("message", async message => {
     return channel.send(embed);
   }
 
+  //listening for commands on mention
   if (message.mentions.has(client.user)) {
     if (message.content.toLowerCase().includes("help") || message.content.toLowerCase().includes("prefix")) {
       return message.reply(`My prefix for this server is \`${prefix}\`. You can use \`${prefix}help\` to get all the commands available to you.`)
@@ -469,7 +459,7 @@ client.on("message", async message => {
 
 //Handling API errors
 process.on('unhandledRejection', error => {
-  console.error('Unhandled promise rejection:', error);
+  console.log('Unhandled promise rejection:', error);
 })
 
 //Logging into discord
