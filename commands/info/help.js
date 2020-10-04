@@ -11,7 +11,7 @@ module.exports = {
     category: "info",
     permission: ["none", "moderator", "admin"],
     description: "Returns this list",
-    descriptionlong: "Returns a menu of with commands you have access to. You have 4min per site to do stuff :grin:",
+    descriptionlong: "Displays a multipage menu, showing what commands you have access to",
     usage: "[command | alias]",
     run: async (client, message, args, api) => {
         if (message.deletable) message.delete();
