@@ -17,7 +17,7 @@ module.exports = {
 
         const servers = await get_API_call(message, 'announcements', 'announcements/getserver');
         
-        if (!args[0]) {
+        if (!args[0] || args[0] === "list") {
             srvs = [];
 
             client.guilds.cache.forEach(server => {
