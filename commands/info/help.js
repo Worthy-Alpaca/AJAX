@@ -2,7 +2,6 @@ const Discord = require("discord.js");
 const { stripIndents } = require("common-tags");
 const { version } = require("../../src/config.json");
 var { prefix, owner } = require("../../src/config.json");
-const { getAdmin, getMod, getprefix } = require("../../functions/db_queries.js");
 const { promptMessage, pageparser } = require("../../functions/functions.js");
 
 module.exports = {
@@ -15,13 +14,9 @@ module.exports = {
     usage: "[command | alias]",
     run: async (client, message, args, api) => {
         if (message.deletable) message.delete();
-        //console.log(client.commands)
-        //const adm = await getAdmin(message);
-        //const mod = await getMod(message);
         var perms;
         var i = 0;
         var a = true;
-        //const custom_prefix = await getprefix(message);
         const chooseArr = ["◀", "⏹", "▶"];
 
         if (api.prefix !== null) {
