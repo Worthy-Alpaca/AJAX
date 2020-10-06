@@ -39,7 +39,10 @@ module.exports = {
                     perms = "none"
                 }
 
-                cats = [client.categories[i]];
+                cats = [client.categories[i]];                
+                if (cats[0] === "administration" && (perms === "none" || perms === "moderator" || perms === "admin")) {
+                    cats = [client.categories[++i]];
+                }
                 i = await getAll(client, message, perms, cats).then(msg => pageparser(message, msg, i, 240000, chooseArr, promptMessage, client.categories.length));
             } return;
 

@@ -5,7 +5,7 @@ const { stripIndents } = require("common-tags");
 
 module.exports = {
     name: "update",
-    category: "moderation",
+    category: "administration",
     permission: ["null"],
     description: "Updates the bot",
     run: async (client, message, args) => {

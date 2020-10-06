@@ -2,7 +2,7 @@ const { owner } = require("../../src/config.json");
 
 module.exports = {
     name: "shutdown",
-    category: "moderation",
+    category: "administration",
     permission: ["null"],
     description: "Kills the bot",
     run: async (client, message, args) => {

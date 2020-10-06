@@ -2,7 +2,7 @@ const { owner } = require("../../src/config.json");
 
 module.exports = {
     name: "status",
-    category: "moderation",
+    category: "administration",
     permission: ["null"],
     description: "Changes the status of the bot",
     usage: "<action> <'game'>",

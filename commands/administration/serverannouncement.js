@@ -5,7 +5,7 @@ const { version, owner } = require("../../src/config.json");
 
 module.exports = {
     name: "cross-server",
-    category: "moderation",
+    category: "administration",
     permission: ["null"],
     description: "Sends a message to all servers",
     usage: "[list|server id], <message>",
