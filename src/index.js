@@ -170,6 +170,14 @@ client.on("guildCreate", async guild => {
 
   guild.channels.create('bot-setup');
 
+  const api = await get_API_call(message, "getserver");
+
+  const custom_prefix = api.prefix;
+
+  if (custom_prefix !== undefined && custom_prefix !== null) {
+    prefix = custom_prefix;
+  }
+
   const embed = new Discord.MessageEmbed()
     .setColor("RANDOM")
     .setTimestamp()
@@ -177,8 +185,8 @@ client.on("guildCreate", async guild => {
     .setThumbnail(client.user.displayAvatarURL())
     .setDescription(stripIndents`**Hello there I'm ${client.user.username}**`)
     .addField(`\u200b`, stripIndents`Thank you for inviting me to your server.
-    I have created #bot-setup for you to run **!setserver** in. That will set everything up.
-    See [!help](https://ajax-discord.com/commands) for all of my commands. Enjoy :grin:
+    I have created #bot-setup for you to run **${prefix}setserver** in. That will set everything up.
+    See [${prefix}help](https://ajax-discord.com/commands) for all of my commands. Enjoy :grin:
     You can also log into the [dashboard](https://ajax-discord.com/login).
     Username: \`${username}\`
     Password: \`${password}\``)
@@ -186,11 +194,12 @@ client.on("guildCreate", async guild => {
 
   client.users.fetch(guild.owner.id, false).then(user => {
     user.send(embed);
-    user.send("We are currently reviewing an issue with the starting prefix. To make sure you are using the correct one do '@ajax help' ")
+    user.send(`We are currently reviewing an issue with the starting prefix. To make sure you are using the correct one do '@${client.user.username} help' `)
   })
 
 })
 
+//on being kicked from a server
 client.on("guildDelete", async guild => {
   client.users.fetch(owner, false).then(user => {
     user.send(`I was kicked from ${guild.name}, ${guild.id}`)

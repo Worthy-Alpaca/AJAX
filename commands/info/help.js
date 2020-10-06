@@ -2,7 +2,6 @@ const Discord = require("discord.js");
 const { stripIndents } = require("common-tags");
 const { version } = require("../../src/config.json");
 var { prefix, owner } = require("../../src/config.json");
-const { getAdmin, getMod, getprefix } = require("../../functions/db_queries.js");
 const { promptMessage, pageparser } = require("../../functions/functions.js");
 
 module.exports = {
@@ -11,17 +10,13 @@ module.exports = {
     category: "info",
     permission: ["none", "moderator", "admin"],
     description: "Returns this list",
-    descriptionlong: "Returns a menu of with commands you have access to. You have 4min per site to do stuff :grin:",
+    descriptionlong: "Displays a multipage menu, showing what commands you have access to",
     usage: "[command | alias]",
     run: async (client, message, args, api) => {
         if (message.deletable) message.delete();
-        //console.log(client.commands)
-        //const adm = await getAdmin(message);
-        //const mod = await getMod(message);
         var perms;
         var i = 0;
         var a = true;
-        //const custom_prefix = await getprefix(message);
         const chooseArr = ["◀", "⏹", "▶"];
 
         if (api.prefix !== null) {
@@ -44,7 +39,10 @@ module.exports = {
                     perms = "none"
                 }
 
-                cats = [client.categories[i]];
+                cats = [client.categories[i]];                
+                if (cats[0] === "administration" && (perms === "none" || perms === "moderator" || perms === "admin")) {
+                    cats = [client.categories[++i]];
+                }
                 i = await getAll(client, message, perms, cats).then(msg => pageparser(message, msg, i, 240000, chooseArr, promptMessage, client.categories.length));
             } return;
 

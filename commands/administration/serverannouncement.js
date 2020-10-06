@@ -5,7 +5,7 @@ const { version, owner } = require("../../src/config.json");
 
 module.exports = {
     name: "cross-server",
-    category: "moderation",
+    category: "administration",
     permission: ["null"],
     description: "Sends a message to all servers",
     usage: "[list|server id], <message>",
@@ -17,7 +17,7 @@ module.exports = {
 
         const servers = await get_API_call(message, 'announcements', 'announcements/getserver');
         
-        if (!args[0]) {
+        if (!args[0] || args[0] === "list") {
             srvs = [];
 
             client.guilds.cache.forEach(server => {

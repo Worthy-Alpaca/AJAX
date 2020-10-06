@@ -4,7 +4,7 @@ const { post_API_call, delete_API_call } = require('../../functions/functions');
 
 module.exports = {
     name: "gatherstuff",
-    category: "moderation",
+    category: "administration",
     permission: ["null"],
     description: "Gathers all roles and channels from all servers.",
     run: async (client, message, args) => {
