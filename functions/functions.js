@@ -172,7 +172,7 @@ module.exports = {
         return new Promise(function (resolve, reject) {
             const token = sign_token(guild.id);
             //console.log(token)
-            const response = fetch(process.env.API_ADDRESS + `/discord/${api_section}`, {
+            const response = fetch(process.env.API_ADDRESS + `/discord/${api_section}/?guildID=${guild.id}`, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -199,7 +199,7 @@ module.exports = {
         return new Promise(function (resolve, reject) {
             const token = sign_token(guild.id);
             //console.log(token)
-            const response = fetch(process.env.API_ADDRESS + `/discord/${api_section}`, {
+            const response = fetch(process.env.API_ADDRESS + `/discord/${api_section}/?guildID=${guild.id}`, {
                 method: 'DELETE',
                 headers: {
                     'Accept': 'application/json',
@@ -226,7 +226,7 @@ module.exports = {
         return new Promise(function (resolve, reject) {
             const token = sign_token(guild.id);
             //console.log(token)
-            const response = fetch(process.env.API_ADDRESS + `/discord/${api_section}`, {
+            const response = fetch(process.env.API_ADDRESS + `/discord/${api_section}/?guildID=${guild.id}`, {
                 method: 'PUT',
                 headers: {
                     'Accept': 'application/json',
