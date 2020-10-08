@@ -10,7 +10,6 @@ module.exports = {
     description: "Rock Paper Scissors game.",
     usage: "rps",
     run: async (client, message, args) => {
-        if (message.deletable) message.delete();
 
         const embed = new Discord.MessageEmbed()
             .setColor("#ffffff")

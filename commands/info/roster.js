@@ -9,7 +9,6 @@ module.exports = {
     description: "People who do stuff",
     
     run: async (client, message, args, api) => {
-        if (message.deletable) message.delete();
 
         const guild = message.channel.guild;
 

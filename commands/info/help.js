@@ -13,7 +13,7 @@ module.exports = {
     descriptionlong: "Displays a multipage menu, showing what commands you have access to",
     usage: "[command | alias]",
     run: async (client, message, args, api) => {
-        if (message.deletable) message.delete();
+        
         var perms;
         var i = 0;
         var a = true;

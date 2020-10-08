@@ -11,7 +11,7 @@ module.exports = {
     description: "reports a member",
     usage: "<good/bad, mention | id, reason>",
     run: async (client, message, args, api) => {
-        if (message.deletable) message.delete();
+        
 
         let rMember = message.mentions.members.first() || message.guild.members.get(args[0]);
 
@@ -32,10 +32,10 @@ module.exports = {
             return message.channel.send("I could not find a \`#reports\` channel").then(m => m.delete({ timeout: 10000 }));
 
         if (!rMember)
-            return message.reply("Couldn't find that person").then(m => m.delete({ timeout: 5000 }));
+            return message.reply("Couldn't find that person");
 
         if (rMember.roles.cache.has(message.guild.roles.cache.find(r => r.id === api.admin).id) || rMember.user.bot) //###########################
-            return message.reply("Can't report that member").then(m => m.delete({ timeout: 5000 }));
+            return message.reply("Can't report that member");
 
         if (args[0] === "good") {
             behavior = "Keep up the good work!"
@@ -62,7 +62,7 @@ module.exports = {
             }
 
         } else if ((args[0] !== "good") || (args[0] !== "bad")) {
-            return message.reply("You need to add a behavior type. (Good/Bad)").then(m => m.delete({ timeout: 5000 }));
+            return message.reply("You need to add a behavior type. (Good/Bad)");
         }
 
         if (!args[2])

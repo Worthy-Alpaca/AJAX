@@ -9,7 +9,7 @@ module.exports = {
     description: "Kicks all members who don't have the approved role",
 
     run: async (client, message, args, api) => {
-        if (message.deletable) message.delete();
+        
 
         if (!message.member.hasPermission("ADMINISTRATOR")) {
             return message.reply("You are not powerful enough to do that");

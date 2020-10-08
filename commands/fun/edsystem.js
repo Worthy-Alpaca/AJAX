@@ -13,11 +13,8 @@ module.exports = {
     usage: "<System>",
     run: async (client, message, args) => {
 
-        message.delete();
-
         if (!args.length) {
-            return message.channel.send('You need to supply a search term!')
-                .then(m => m.delete({ timeout: 5000 }));
+            return message.channel.send('You need to supply a search term!');
         }
 
         const sys = args.slice(0).join("+")
@@ -154,10 +151,10 @@ module.exports = {
             **Allegiance:** ${response4.information.allegiance} 
             **Population:** ${response4.information.population}
             **Noteable services:** ${services.join(", ")}`)
-            .addField(`\u200b`, stripIndents`**Main Star** 
+            .addField(`Main Star`, stripIndents` 
             Star Class: ${response1.bodies[0].subType}
             Scoopable: ${response1.bodies[0].isScoopable}`, true)
-            .addField(`\u200b`, stripIndents`**Stellar Bodies**
+            .addField(`Stellar Bodies`, stripIndents`
             Stars: ${stars.length}
             Landable Bodies: ${landables.length}
             Nonlandable Bodies: ${nonlandables.length}`, true);
@@ -166,15 +163,15 @@ module.exports = {
         if (uninhabitated == true) {
             embed.setDescription(`This system is **uninhabitated**`)
         } else {
-            embed.addField(`\u200b`, stripIndents`**Stations** 
+            embed.addField(`Stations`, stripIndents` 
             Star Ports: ${station.length}                        
             Outposts: ${outposts.length}
             Planetary Ports: ${planetary.length}`, true);
-            embed.addField(`\u200b`, stripIndents`**Star Ports**
+            embed.addField(`Star Ports`, stripIndents`
             - ${station.join('\n- ')}`, true)
-            embed.addField(`\u200b`, stripIndents`**Planetary Ports**
+            embed.addField(`Planetary Ports`, stripIndents`
             - ${planetary.join('\n- ')}`, true)
-            embed.addField(`\u200b`, stripIndents`**Outposts**
+            embed.addField(`Outposts`, stripIndents`
             - ${outposts.join('\n- ')}`)
         }
 

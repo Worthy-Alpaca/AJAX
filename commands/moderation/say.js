@@ -14,10 +14,10 @@ module.exports = {
         message.delete();
 
         if (api.admin === null) { //###########################
-            return message.channel.send("You need to set the role for admin first. Do that by typing !setadmin").then(m => m.delete({ timeout: 5000 }));
+            return message.channel.send("You need to set the role for admin first. Do that by typing !setadmin");
         }
         if (api.moderator === null) { //###########################
-            return message.channel.send("You need to set the role for moderator first. Do that by typing !setmod").then(m => m.delete({ timeout: 5000 }));
+            return message.channel.send("You need to set the role for moderator first. Do that by typing !setmod");
         }
 
         if (typeof args[0] == 'undefined') {
