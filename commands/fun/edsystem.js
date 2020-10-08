@@ -14,8 +14,7 @@ module.exports = {
     run: async (client, message, args) => {
 
         if (!args.length) {
-            return message.channel.send('You need to supply a search term!')
-                .then(m => m.delete({ timeout: 5000 }));
+            return message.channel.send('You need to supply a search term!');
         }
 
         const sys = args.slice(0).join("+")

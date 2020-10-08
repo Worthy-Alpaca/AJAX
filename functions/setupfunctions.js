@@ -13,7 +13,7 @@ module.exports = {
                         
                         var admin = await filter_integer(message, messages.first().content);
                         
-                        msg = message.channel.send(`You've entered: \`${message.guild.roles.cache.find(r => r.id === admin).name}\``).then(m => m.delete( {timeout: 5000} ));
+                        msg = message.channel.send(`You've entered: \`${message.guild.roles.cache.find(r => r.id === admin).name}\``);
                        
                         const payload = JSON.stringify({
                             guild: message.guild,
@@ -33,7 +33,7 @@ module.exports = {
                     .catch(() => {
                         adm = false;
                         resolve(adm);
-                        message.channel.send(`This role doesn't exist! Please try again!`).then(m => m.delete( {timeout: 5000} ));
+                        message.channel.send(`This role doesn't exist! Please try again!`);
                     })
                     
             });
@@ -52,7 +52,7 @@ module.exports = {
                         
                         var moderator = await filter_integer(message, messages.first().content);
 
-                        msg = message.channel.send(`You've entered: \`${message.guild.roles.cache.find(r => r.id === moderator).name}\``).then(m => m.delete( {timeout: 5000} ));
+                        msg = message.channel.send(`You've entered: \`${message.guild.roles.cache.find(r => r.id === moderator).name}\``);
                         
                         const payload = JSON.stringify({
                             guild: message.guild,
@@ -90,7 +90,7 @@ module.exports = {
                     .then(async messages => {
                         var channel = await filter_integer(message, messages.first().content);        
                                                
-                        message.channel.send(`You've entered: \`${message.guild.channels.cache.find(r => r.id === channel).name}\``).then(m => m.delete( {timeout: 5000} ));
+                        message.channel.send(`You've entered: \`${message.guild.channels.cache.find(r => r.id === channel).name}\``);
                         
                         const payload = JSON.stringify({
                             guild: message.guild,
@@ -128,7 +128,7 @@ module.exports = {
                 message.channel.awaitMessages(filter, { time: 120000, max: 1, errors: ['time'] })
                     .then(async messages => {
                         var greeting = messages.first().content
-                        msg = message.channel.send(`You've entered: \`${messages.first().content}\``).then(m => m.delete( {timeout: 5000} ));
+                        msg = message.channel.send(`You've entered: \`${messages.first().content}\``);
                         
                         const payload = JSON.stringify({
                             guild: message.guild,
@@ -166,7 +166,7 @@ module.exports = {
 
                         var approved = await filter_integer(message, messages.first().content);
 
-                        msg = message.channel.send(`You've entered: \`${message.guild.roles.cache.find(r => r.id === approved).name}\``).then(m => m.delete( {timeout: 5000} ));
+                        msg = message.channel.send(`You've entered: \`${message.guild.roles.cache.find(r => r.id === approved).name}\``);
                         
                         const payload = JSON.stringify({
                             guild: message.guild,
@@ -204,7 +204,7 @@ module.exports = {
                 message.channel.awaitMessages(filter, { time: 120000, max: 1, errors: ['time'] })
                     .then(async messages => {
                         cmd = messages.first().content
-                        msg = message.channel.send(`You've entered: \`${cmd}\``).then(m => m.delete( {timeout: 5000} ));
+                        msg = message.channel.send(`You've entered: \`${cmd}\``);
                         
                         const payload = JSON.stringify({
                             guild: message.guild,
@@ -272,7 +272,7 @@ module.exports = {
                     .then(async messages => {
                         var channel = await filter_integer(message, messages.first().content);       
                                                
-                        message.channel.send(`You've entered: \`${message.guild.channels.cache.find(r => r.id === channel).name}\``).then(m => m.delete( {timeout: 5000} ));
+                        message.channel.send(`You've entered: \`${message.guild.channels.cache.find(r => r.id === channel).name}\``);
                         
                         const payload = JSON.stringify({
                             guild: message.guild,
@@ -312,11 +312,11 @@ module.exports = {
                             rdy = true;
                             return resolve(rdy);
                         } else {
-                            return message.channel.send('Aborting setup process').then(m => m.delete( {timeout: 5000} ));
+                            return message.channel.send('Aborting setup process');
                         }
                     })
                     .catch(() => {
-                        return message.channel.send('Aborting setup process').then(m => m.delete( {timeout: 5000} ));
+                        return message.channel.send('Aborting setup process');
                     })
             })     
         })
@@ -376,7 +376,7 @@ module.exports = {
                 message.channel.awaitMessages(filter, { time: 120000, max: 1, errors: ['time'] })
                     .then(async messages => {
                         var greeting = messages.first().content
-                        msg = message.channel.send(`You've entered: \`${messages.first().content}\``).then(m => m.delete( {timeout: 5000} ));
+                        msg = message.channel.send(`You've entered: \`${messages.first().content}\``);
                         
                         const payload = JSON.stringify({
                             guild: message.guild,
@@ -412,7 +412,7 @@ module.exports = {
                 message.channel.awaitMessages(filter, { time: 120000, max: 1, errors: ['time'] })
                     .then(async messages => {
                         var prefix = messages.first().content
-                        msg = message.channel.send(`Prefix changed to: \`${messages.first().content}\``).then(m => m.delete( {timeout: 5000} ));
+                        msg = message.channel.send(`Prefix changed to: \`${messages.first().content}\``);
                         
                         const payload = JSON.stringify({
                             guild: message.guild,
@@ -450,7 +450,7 @@ module.exports = {
                         var limit = messages.first().content;
                         
                         if (Number.isInteger(+limit)) {
-                            msg = message.channel.send(`You've entered: \`${messages.first().content}\``).then(m => m.delete({ timeout: 5000 }));
+                            msg = message.channel.send(`You've entered: \`${messages.first().content}\``);
                         } else {
                             message.channel.send('You did not enter a number');
                             return resolve(false);
@@ -492,7 +492,7 @@ module.exports = {
                         var limit = messages.first().content;
 
                         if (Number.isInteger(+limit)) {
-                            msg = message.channel.send(`You've entered: \`${messages.first().content}\``).then(m => m.delete({ timeout: 5000 }));
+                            msg = message.channel.send(`You've entered: \`${messages.first().content}\``);
                         } else {
                             message.channel.send('You did not enter a number');
                             return resolve(false);

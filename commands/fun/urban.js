@@ -14,7 +14,7 @@ module.exports = {
 
         if (!args.length) {
             return message.channel.send('You need to supply a search term!')
-                .then(m => m.delete( {timeout: 5000} ));
+                ;
         }
         
         const query = querystring.stringify({ term: args.join(' ') });
@@ -24,7 +24,7 @@ module.exports = {
 
         if (!list.length) {
             return message.channel.send(`No results found for **${args.join(' ')}**.`)
-                .then(m => m.delete( {timeout: 5000} ));
+                ;
         }
 
         const [answer] = list;

@@ -24,8 +24,7 @@ module.exports = {
 
         // No args
         if (!args[0] || !message.mentions.members.first()) {
-            return message.reply("Please always mention whomever you want to kick")
-                .then(m => m.delete({ timeout: 5000 }));
+            return message.reply("Please always mention whomever you want to kick");
         }
 
         const toKick_collection = args.slice(0);
@@ -37,26 +36,22 @@ module.exports = {
 
             // No member found
             if (!toKick) {
-                return message.reply("Couldn't find that member, try again")
-                    .then(m => m.delete({ timeout: 5000 }));
+                return message.reply("Couldn't find that member, try again");
             }
 
             // person to remove = author
             if (toKick.id === message.author.id) {
-                return message.reply("You can't do that to yourself smartboi :rofl:")
-                    .then(m => m.delete({ timeout: 5000 }));
+                return message.reply("You can't do that to yourself smartboi :rofl:");
             }
 
             // Check if the user's kickable
             if (!toKick.kickable) {
-                return message.reply("I can't kick that person due to role hierarchy, I suppose.")
-                    .then(m => m.delete({ timeout: 5000 }));
+                return message.reply("I can't kick that person due to role hierarchy, I suppose.");
             }
 
             //no bot permission
             if (!message.guild.me.hasPermission("KICK_MEMBERS")) {
-                return message.reply("❌ I do not have permissions to kick members. Please contact a staff member")
-                    .then(m => m.delete({ timeout: 5000 }));
+                return message.reply("❌ I do not have permissions to kick members. Please contact a staff member");
             }
 
             const embed = new Discord.MessageEmbed()
@@ -69,7 +64,7 @@ module.exports = {
 
             toKick.kick()
                 .catch(err => {
-                    if (err) return message.channel.send(`Well.... the kick didn't work out. Here's the error ${err}`)
+                    if (err) return message.channel.send(`Well.... the kick didn't work out. Here's the error ${err}`);
                 });
 
             return logChannel.send(embed);

@@ -10,7 +10,7 @@ module.exports = {
     usage: "<reddit>",
     run: async (client, message, args, api) => {
         if (args < 1) {
-            return message.reply("If you give me some thing to work with, I might be able to help you :wink:").then(m => m.delete({ timeout: 5000 }));
+            return message.reply("If you give me some thing to work with, I might be able to help you :wink:");
         }
         /* var admin = await getAdmin(message);
         var moderator = await getMod(message); */

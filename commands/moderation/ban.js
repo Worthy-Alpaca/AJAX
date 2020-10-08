@@ -22,40 +22,34 @@ module.exports = {
 
         // No args
         if (!args[0]) {
-            return message.reply("Please provide a person to ban.")
-                .then(m => m.delete({ timeout: 5000 }));
+            return message.reply("Please provide a person to ban.");
         }
 
         // No reason
         if (!args[1]) {
-            return message.reply("Please provide a reason to ban.")
-                .then(m => m.delete({ timeout: 5000 }));
+            return message.reply("Please provide a reason to ban.");
         }
 
         const toBan = message.mentions.members.first() || message.guild.members.get(args[1]);
 
         // No member found
         if (!toBan) {
-            return message.reply("Couldn't find that member, try again")
-                .then(m => m.delete({ timeout: 5000 }));
+            return message.reply("Couldn't find that member, try again");
         }
 
         // person to remove = author
         if (toBan.id === message.author.id) {
-            return message.reply("You can't do that to yourself smartboi :rofl:")
-                .then(m => m.delete({ timeout: 5000 }));
+            return message.reply("You can't do that to yourself smartboi :rofl:");
         }
 
         // Check if the user's kickable
         if (!toBan.kickable) {
-            return message.reply("I can't kick that person due to role hierarchy, I suppose.")
-                .then(m => m.delete({ timeout: 5000 }));
+            return message.reply("I can't kick that person due to role hierarchy, I suppose.");
         }
 
         //no bot permissions
         if (!message.guild.me.hasPermission("BAN_MEMBERS")) {
-            return message.reply("❌ I do not have permissions to ban members. Please contact a staff member")
-                .then(m => m.delete({ timeout: 5000 }));
+            return message.reply("❌ I do not have permissions to ban members. Please contact a staff member");
         }
 
         const embed = new Discord.MessageEmbed()
@@ -69,7 +63,7 @@ module.exports = {
 
         toBan.ban(args.slice(1).join(" "))
             .catch(err => {
-                if (err) return message.channel.send(`Well.... the ban didn't work out. Here's the error ${err}`)
+                if (err) return message.channel.send(`Well.... the ban didn't work out. Here's the error ${err}`);
             });
 
         return logChannel.send(embed);

@@ -17,7 +17,7 @@ module.exports = {
 
         var rank = message.guild.roles.cache.find(r => r.name === args.slice(0).join(" "))
         if (!rank) {
-            return message.reply("This rank doesn't exist").then(m => m.delete({ timeout: 5000 }));
+            return message.reply("This rank doesn't exist");
         }
 
         const ranktoadd = await get_API_call(message, 'misc/get', 'misc/checkrank', rank.id);

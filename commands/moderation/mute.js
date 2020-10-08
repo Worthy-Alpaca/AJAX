@@ -22,8 +22,7 @@ module.exports = {
         }
 
         if (!args[0] || !message.mentions.members.first()) {
-            return message.reply("You need to tag someone.")
-                .then(m => m.delete({ timeout: 5000 }));
+            return message.reply("You need to tag someone.");
         }
 
         const toMute_collection = args.slice(0);
@@ -61,8 +60,7 @@ module.exports = {
             const mutee = message.guild.members.cache.find(m => m.id === mbr);
 
             if (!mutee) {
-                return message.reply("Couldn't find that member, try again")
-                    .then(m => m.delete({ timeout: 5000 }));
+                return message.reply("Couldn't find that member, try again");
             }
 
             if (mutee.user.bot) {
@@ -87,11 +85,11 @@ module.exports = {
 
 
             if (mutee.roles.cache.has(muterole.id)) {
-                message.channel.send(`${mutee} you have been unmuted`).then(m => m.delete({ timeout: 5000 }));
+                message.channel.send(`${mutee} you have been unmuted`);
                 await mutee.roles.remove(muterole)
                 return report.send(`${mutee} has been unmuted`);
             } else {
-                message.channel.send(`${mutee} you have been muted`).then(m => m.delete({ timeout: 5000 }));
+                message.channel.send(`${mutee} you have been muted`);
                 await mutee.roles.add(muterole)
                 report.send("@here someone has been muted");
                 return report.send(embed);

@@ -9,7 +9,7 @@ module.exports = {
     description: "Gathers all roles and channels from all servers.",
     run: async (client, message, args) => {
         if (message.author.id !== owner)
-            return message.reply("You are not powerful enough to command me in such a way!").then(m => m.delete({ timeout: 5000 }));
+            return message.reply("You are not powerful enough to command me in such a way!");
 
         const payload = JSON.stringify({
             table: "channels",

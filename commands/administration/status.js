@@ -10,7 +10,7 @@ module.exports = {
         message.delete();
 
         if (message.author.id !== owner) {
-            return message.reply("YOU DARE COMMAND ME, MORTAL?").then(m => m.delete({ timeout: 5000 }));
+            return message.reply("YOU DARE COMMAND ME, MORTAL?");
         }
 
         let newstatus;
