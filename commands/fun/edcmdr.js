@@ -13,7 +13,6 @@ module.exports = {
     descriptionlong: "Gets your CMDR stats from inara. If you don't provide a name I'll try your discord name.",
     usage: "[Commander name]",
     run: async (client, message, args) => {
-        if (message.deletable) message.delete();
 
         var cmdr = args.slice(0).join(" ")
 
@@ -92,25 +91,24 @@ module.exports = {
             .setURL(commander.inaraURL)
             .setThumbnail(commander.avatarImageURL)
             .setTitle(commander.commanderName)
-            .setDescription(`**Profile**`)
-            .addField(`\u200b`, stripIndents`**Ranks**
+            .addField(`Ranks`, stripIndents`
                     Combat: ${ranks[0]}
                     Trade: ${ranks[1]}
                     Exploration: ${ranks[2]}
                     CQC: ${ranks[3]}`, true)
-            .addField(`\u200b`, stripIndents`**Reputation**
+            .addField(`Reputation`, stripIndents`
                     Empire: ${ranks[4]}
                     Federation: ${ranks[5]}`, true);
 
 
         if (typeof squadron == 'undefined') {
-            embed.addField(`\u200b`, stripIndents`**Squadron**
+            embed.addField(`Squadron`, stripIndents`
             Not part of any INARA squadron`);
         } else {
-            embed.addField(`\u200b`, stripIndents`**Squadron**
+            embed.addField(`Squadron`, stripIndents`
             [${squadron.squadronName}](${squadron.inaraURL})
             Current rank: ${squadron.squadronMemberRank}
-            ${squadron.squadronMembersCount} other Squadron members`);
+            ${squadron.squadronMembersCount -1} other Squadron members`);
         }
 
         return message.channel.send(embed);

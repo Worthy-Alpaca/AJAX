@@ -12,7 +12,6 @@ module.exports = {
     description: "Returns latest community goal details",
     descriptionlong: "Returns latest community goal details and adds reactions to cycle through them",
     run: async (client, message, args) => {
-        if (message.deletable) message.delete();
 
         var date = new Date();
         var timestamp = date.getTime();
@@ -64,7 +63,7 @@ module.exports = {
                 .setURL(community_goal.inaraURL)
                 .setTitle(community_goal.communitygoalName)
                 .setDescription(`${community_goal.goalDescriptionText}`)
-                .addField(`\u200b`, stripIndents`**Statistics**
+                .addField(`Statistics`, stripIndents`
             System: ${community_goal.starsystemName}
             Station: ${community_goal.stationName}
             Tier: ${community_goal.tierReached}/${community_goal.tierMax}
