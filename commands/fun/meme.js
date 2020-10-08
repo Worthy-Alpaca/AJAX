@@ -17,7 +17,7 @@ module.exports = {
 
         const reddits = await get_API_call(message, 'misc/get', 'misc/reddit');
 
-        if (reddits === null) {
+        if (reddits.status === 200 && reddits.success === false) {
             var subReddits = ["dankmeme", "meme", "me_irl", "funny"];
             subReddits.forEach(async reddit => {
                 const payload = JSON.stringify({

@@ -22,7 +22,7 @@ module.exports = {
             .setTitle("Available subreddits")
             .setDescription("Don't see a subreddit that you like? Let us know!");
             
-        
+        console.log(reddits)
         if (reddits.status === 200 && reddits.success === false) {
             subReddits.forEach(async reddit => {                
                 const payload = JSON.stringify({

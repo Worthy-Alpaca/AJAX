@@ -159,7 +159,7 @@ module.exports = {
             } else if (typeof response.status == 'undefined') {
                 return resolve(response);
             } else if (response.status === 200 && response.success === false) {
-                return response.err
+                return resolve(response);
             } else {
                 message.reply(`An error has occured: ${response.err}`);
             }
