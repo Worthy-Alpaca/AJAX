@@ -14,7 +14,6 @@ module.exports = {
         const coc = await get_API_call(message, 'misc/get', 'misc/coc');
 
         let terms = [];
-
         if (message.member.hasPermission("ADMINISTRATOR")) {
             coc.forEach(elemet => {
                 terms.push(`- ${elemet.coc} \`CoC-ID ${elemet.id}\``);
