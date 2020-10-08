@@ -10,7 +10,7 @@ module.exports = {
     usage: "<id | mention>",
     run: async (client, message, args, api) => {
 
-        if (message.deletable) message.delete();
+        
 
         const report = message.guild.channels.cache.find(channel => channel.id === api.reports);
 

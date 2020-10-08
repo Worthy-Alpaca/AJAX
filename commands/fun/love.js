@@ -12,9 +12,6 @@ module.exports = {
         // Get a member from mention, id, or username
         let person = message.mentions.members.first();
 
-        if (message.deletable) message.delete();
-
-
         if (!person || message.author.id === person.id) {
             person = message.guild.members.cache
                 .filter(m => m.id !== message.author.id)

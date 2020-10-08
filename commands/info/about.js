@@ -12,8 +12,6 @@ module.exports = {
     description: "Gives information about the bot and the server",
     run: async (client, message, args, api) => {
 
-        if (message.deletable) message.delete();
-
         const guild = message.channel.guild;
         var count = [];
         var bots = [];

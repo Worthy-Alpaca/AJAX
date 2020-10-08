@@ -11,7 +11,7 @@ module.exports = {
     description: "reports a member",
     usage: "<good/bad, mention | id, reason>",
     run: async (client, message, args, api) => {
-        if (message.deletable) message.delete();
+        
 
         let rMember = message.mentions.members.first() || message.guild.members.get(args[0]);
 

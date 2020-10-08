@@ -12,8 +12,6 @@ module.exports = {
     usage: "[mention]",
     run: async (client, message, args, api) => {
 
-        if (message.deletable) message.delete();
-
         let rMember = message.mentions.members.first() || message.author;
 
         const tblid = Array.from(message.guild.name)

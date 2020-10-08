@@ -14,7 +14,6 @@ module.exports = {
             channel = message.channel;
         }
         var mp4 = false;
-        if (message.deletable) message.delete();
 
         const reddits = await get_API_call(message, 'misc/get', 'misc/reddit');
 

@@ -13,7 +13,7 @@ module.exports = {
         //const reports = await getreportschannel(message);
         const logChannel = message.guild.channels.cache.find(c => c.id === api.reports) || message.channel; //###########################
 
-        if (message.deletable) message.delete();
+        
 
         if (api.admin === null) { //###########################
             return message.channel.send("You need to set the role for admin first. Do that by typing !setadmin")
