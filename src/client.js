@@ -1,7 +1,7 @@
-const { Client } = require("discord.js");
+const Client = require('./client/Client');
 
 const client = new Client({
     disableEveryone: false
 }); 
 
-module.exports = client;
+module.exports = client; 

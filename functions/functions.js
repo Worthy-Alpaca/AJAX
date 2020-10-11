@@ -4,6 +4,7 @@ const Discord = require('discord.js');
 const { error_handler, sign_token } = require('./default_functions');
 const { owner } = require('../src/config.json');
 const client = require('../src/client');
+const { user } = require('../src/client');
 
 module.exports = {
     getMember: function(message, toFind = '') {
