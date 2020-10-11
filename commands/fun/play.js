@@ -19,6 +19,11 @@ module.exports = {
         if (!permissions.has("CONNECT") || !permissions.has("SPEAK")) {
             return message.channel.send("I need the permissions to join and speak in your voice channel!");
         }
+        if (!args[0]) return message.reply("There is no song that I could play!")
+
+        if (!ytdl.validateURL(args[0])) {
+            return message.reply("That is not a valid link!")
+        }
 
         const songInfo = await ytdl.getInfo(args[0]);
         //console.log(songInfo.videoDetails)
@@ -121,7 +126,6 @@ module.exports = {
         }
 
         function stop(message, m) {
-            console.log(message.member)
             //if (!message.member.voice.channel) return message.channel.send("You have to be in a voice channel to stop the music!");
             const serverQueue = queue.get(message.guild.id);
             m.delete();
