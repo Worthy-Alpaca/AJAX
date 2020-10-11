@@ -67,6 +67,17 @@ client.on("ready", async () => {
   });
 });
 
+// Handling voice chat changes
+client.on('voiceStateUpdate', (oldState, newState) => {
+
+  if (oldState.channelID === null || typeof oldState.channelID == 'undefined') return;
+  if (newState.id !== client.user.id) return;
+  
+  const queue = client.queue;
+  queue.delete(oldState.guild.id);
+
+});
+
 //handling channel additions and deletions
 client.on('channelCreate', channel => {
   if (channel.type === 'dm') {
@@ -275,7 +286,7 @@ client.on("message", async message => {
   if (message.guild === null) {
     return message.reply("Hey there, no reason to DM me anything. I won't answer anyway :wink:");
   }
-
+  
   const api = await get_API_call(message, "getserver");
 
   if (api === false) {

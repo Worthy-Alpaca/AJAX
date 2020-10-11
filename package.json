@@ -23,13 +23,16 @@
   },
   "homepage": "https://ajax-discord.com/",
   "dependencies": {
+    "@discordjs/opus": "^0.3.2",
     "ascii-table": "0.0.9",
     "common-tags": "^1.8.0",
     "discord.js": "^12.2.1",
     "dotenv": "^8.2.0",
+    "ffmpeg-static": "^4.2.7",
     "jsonwebtoken": "^8.5.1",
     "node-fetch": "^2.6.1",
-    "random-puppy": "^1.1.0"
+    "random-puppy": "^1.1.0",
+    "ytdl-core": "^3.3.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.4"
