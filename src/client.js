@@ -1,4 +1,4 @@
-const Client = require('./client/Client');
+const Client = require('./client/client');
 
 const client = new Client({
     disableEveryone: false
