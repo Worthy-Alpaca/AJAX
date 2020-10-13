@@ -30,7 +30,7 @@ module.exports = {
             return message.reply("Please provide a reason to ban.");
         }
 
-        const toBan = message.mentions.members.first() || message.guild.members.get(args[1]);
+        const toBan = message.mentions.members.first() || message.guild.members.cache.get(args[1]);
 
         // No member found
         if (!toBan) {

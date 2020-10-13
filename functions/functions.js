@@ -293,6 +293,13 @@ module.exports = {
         } else {
             return message.reply(embed.setColor('RED').setDescription("**Bot is NOT operational!**"));
         }
+    },
+
+    convertSeconds: function (time) {
+        var minutes = Math.floor(time / 60);
+        var seconds = time % 60;
+        var timeinMin = minutes + ":" + seconds;
+        return timeinMin;
     }
         
 };
