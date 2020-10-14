@@ -13,3 +13,4 @@ supervisor_template
 test.js
 db_queries.js
 .env
+database.js
