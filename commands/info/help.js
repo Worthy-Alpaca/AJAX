@@ -19,7 +19,7 @@ module.exports = {
         var a = true;
         const chooseArr = ["◀", "⏹", "▶"];
 
-        if (api.prefix !== null) {
+        if (api.prefix !== null && api.prefix !== undefined) {
             prefix = api.prefix;
         }
         var cats = [client.categories[i]];

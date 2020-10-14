@@ -35,6 +35,7 @@
     "ytdl-core": "^3.3.0"
   },
   "devDependencies": {
+    "mysql": "^2.18.1",
     "nodemon": "^2.0.4"
   }
 }

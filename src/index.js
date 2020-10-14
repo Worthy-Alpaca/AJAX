@@ -284,6 +284,9 @@ client.on("message", async message => {
   if (message.author.bot) return;
 
   if (message.guild === null) {
+    fs.appendFile('logs/PMs.txt', `${message.content} \n`, function (err) {
+      if (err) console.log(err);      
+    });
     return message.reply("Hey there, no reason to DM me anything. I won't answer anyway :wink:");
   }
   
@@ -441,7 +444,7 @@ client.on("message", async message => {
   }
   
   if (api === false) {
-    return checkStatus(message, get_API_call);
+    message.channel.send("API connection temporarily unavailable. Some commands might not work as intended!");
   }
 
   if (!message.member) message.member = await message.guild.fetchMember(message);

@@ -38,8 +38,8 @@ module.exports = {
             .setTimestamp()
 
 
-        if (member.user.presence.game)
-            embed.addField('Currently playing', `**> Name:** ${member.user.presence.game.name}`);
+        if (member.user.presence.activities[0])
+            embed.addField(`Currently ${member.user.presence.activities[0].type.toLowerCase()}`, `${member.user.presence.activities[0].name}`);
 
         message.channel.send(embed);
 
