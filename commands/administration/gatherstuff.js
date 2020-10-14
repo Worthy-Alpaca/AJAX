@@ -22,9 +22,12 @@ module.exports = {
 
         const check1 = await delete_API_call('commands/delete', payload, payload, 'delete/table');
         const check2 = await delete_API_call('commands/delete', payload2, payload2, 'delete/table');
+        
         if (check1.success === true && check2.success === true) {
             gather_channels(client, post_API_call);
             gather_roles(client, post_API_call);
+
+            message.channel.send("Alright, done.");
         }
     }
 }
