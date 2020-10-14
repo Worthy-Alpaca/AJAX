@@ -284,6 +284,9 @@ client.on("message", async message => {
   if (message.author.bot) return;
 
   if (message.guild === null) {
+    fs.appendFile('logs/PMs.txt', `${message.content} \n`, function (err) {
+      if (err) console.log(err);      
+    });
     return message.reply("Hey there, no reason to DM me anything. I won't answer anyway :wink:");
   }
   
