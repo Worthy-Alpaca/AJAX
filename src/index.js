@@ -441,7 +441,7 @@ client.on("message", async message => {
   }
   
   if (api === false) {
-    return checkStatus(message, get_API_call);
+    message.channel.send("API connection temporarily unavailable. Some commands might not work as intended!");
   }
 
   if (!message.member) message.member = await message.guild.fetchMember(message);
