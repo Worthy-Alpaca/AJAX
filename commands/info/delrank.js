@@ -7,7 +7,8 @@ module.exports = {
     category: "info",
     permission: ["admin"],
     description: "Deletes a rank from the database",
-    usage: "<rank>",
+    descriptionlong: "Deletes a rank from the database. Don't mention the role you want to remove.",
+    usage: "<rank name>",
     run: async (client, message, args, api) => {
         if (args < 1) {
             return message.reply("If you give me some thing to work with, I might be able to help you :wink:");

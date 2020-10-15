@@ -7,7 +7,8 @@ module.exports = {
     category: "info",
     permission: ["admin"],
     description: "Adds a rank to the database",
-    usage: "<rank>",
+    descriptionlong: "Adds a rank to the database. Don't mention the role you want to set.",
+    usage: "<rank name>",
     run: async (client, message, args, api) => {
         if (args < 1) {
             return message.reply("If you give me some thing to work with, I might be able to help you :wink:");
