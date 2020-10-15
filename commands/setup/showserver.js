@@ -3,6 +3,7 @@ const { stripIndents } = require("common-tags");
 var { prefix, kick_limit, ban_limit } = require("../../src/config.json");
 const fetch = require('node-fetch');
 const jwt = require('jsonwebtoken');
+const { api } = require("../../src/client");
 
 module.exports = {
     name: "showserver",
@@ -28,6 +29,7 @@ module.exports = {
         const custom_prefix = response.prefix;
         var custom_kicklimit = response.kick_limit;
         var custom_banlimit = response.ban_limit;
+        var togglegreeting = "Welcome message will be sent to new members"
 
         if (custom_banlimit !== null) {
             ban_limit = custom_banlimit;
@@ -43,6 +45,10 @@ module.exports = {
 
         if (bolean === "true") {
             startcmd = "Members get role automatically"
+        }
+
+        if (api.togglegreeting === "true") {
+            togglegreeting = "Welcome message will not be sent to new members"
         }
 
         const embed2 = new Discord.MessageEmbed()
@@ -72,7 +78,8 @@ module.exports = {
             .addField(`\u200b`, stripIndents`**Your Kick-Limit**
             \`${kick_limit}\``, true)
             .addField(`\u200b`, stripIndents`**Your Ban-Limit**
-            \`${ban_limit}\``, true);
+            \`${ban_limit}\``, true)
+            .addField(`\u200b`, stripIndents`\`${togglegreeting}\``, true);
 
         return message.channel.send(embed2).then(m => m.delete({ timeout: 120000 }));
 

@@ -251,6 +251,10 @@ client.on("guildMemberAdd", async member => {
     channel = member.guild.channels.cache.find(channel => channel.id === member.guild.systemChannelID);
   }
 
+  if (api.togglegreeting === "true") {
+    return;
+  }
+
   if (api.auto_approved === "true") {
     member.roles.add(role.id).catch(e => console.log(e.message));
     if (msg === null) {
