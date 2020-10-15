@@ -179,8 +179,6 @@ client.on("guildCreate", async guild => {
   gather_server_channels(guild, post_API_call);
   gather_server_roles(guild, post_API_call);
 
-  guild.channels.create('bot-setup');
-
   const api = await get_API_call(message, "getserver");
 
   const custom_prefix = api.prefix;
@@ -196,7 +194,7 @@ client.on("guildCreate", async guild => {
     .setThumbnail(client.user.displayAvatarURL())
     .setDescription(stripIndents`**Hello there I'm ${client.user.username}**`)
     .addField(`\u200b`, stripIndents`Thank you for inviting me to your server.
-    I have created #bot-setup for you to run **${prefix}setserver** in. That will set everything up.
+    You should run **${prefix}setserver** to start the customization process. That will set everything up.
     See [${prefix}help](https://ajax-discord.com/commands) for all of my commands. Enjoy :grin:
     You can also log into the [dashboard](https://ajax-discord.com/login).
     Username: \`${username}\`
@@ -251,6 +249,10 @@ client.on("guildMemberAdd", async member => {
 
   if (typeof channel == 'undefined' || channel === null) {
     channel = member.guild.channels.cache.find(channel => channel.id === member.guild.systemChannelID);
+  }
+
+  if (api.togglegreeting === "true") {
+    return;
   }
 
   if (api.auto_approved === "true") {

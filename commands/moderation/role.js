@@ -11,7 +11,6 @@ module.exports = {
     descriptionlong: "adds/removes role to all mentioned members depending wether they already have the role",
     usage: "<role> <member> [member] etc.",
     run: async (client, message, args, api) => {
-        message.delete();
 
         const logChannel = message.guild.channels.cache.find(c => c.id === api.reports) || message.channel;  //###########################
 
@@ -32,8 +31,8 @@ module.exports = {
             return message.reply("You did not mention a role for me to add");
         }
         //check if role is one of the staff roles
-        if (role.id === message.guild.roles.cache.find(r => r.id === admin).id || role.id === message.guild.roles.cache.find(r => r.id === moderator).id) {
-            if (!message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === admin).id)) {
+        if (role.id === message.guild.roles.cache.find(r => r.id === api.admin).id || role.id === message.guild.roles.cache.find(r => r.id === api.moderator).id) {
+            if (!message.member.hasPermission('ADMINISTRATOR')) {
                 return message.reply("You can't do that. Please contact an admin!");
             }
         }
