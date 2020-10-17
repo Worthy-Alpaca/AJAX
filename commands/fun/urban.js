@@ -7,7 +7,7 @@ const Discord  = require("discord.js");
 module.exports = {
     name: "urban",
     category: "fun",
-    permission: ["none", "moderator", "admin"],
+    permission: ["null"],
     description: "Sends an urban dictonary entry",
     usage: "<word>",
     run: async (client, message, args) => {
