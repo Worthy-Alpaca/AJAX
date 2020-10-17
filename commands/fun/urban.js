@@ -11,10 +11,12 @@ module.exports = {
     description: "Sends an urban dictonary entry",
     usage: "<word>",
     run: async (client, message, args) => {
+        if (message.channel.nsfw === false) {
+            return message.channel.send("You can only use this command inside a NSFW channel!");
+        }
 
         if (!args.length) {
-            return message.channel.send('You need to supply a search term!')
-                ;
+            return message.channel.send('You need to supply a search term!');
         }
         
         const query = querystring.stringify({ term: args.join(' ') });
@@ -23,8 +25,7 @@ module.exports = {
         
 
         if (!list.length) {
-            return message.channel.send(`No results found for **${args.join(' ')}**.`)
-                ;
+            return message.channel.send(`No results found for **${args.join(' ')}**.`);
         }
 
         const [answer] = list;
