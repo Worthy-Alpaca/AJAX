@@ -120,5 +120,5 @@ function getCMD(client, message, input) {
 
     }
 
-    return message.channel.send(embed.setColor("GREEN").setDescription(info)).then(m => m.delete({ timeout: 120000 }));
+    return message.channel.send(embed.setColor("GREEN").setDescription(info));
 }
