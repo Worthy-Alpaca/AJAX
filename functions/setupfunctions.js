@@ -13,7 +13,7 @@ module.exports = {
                         
                         var admin = await filter_integer(message, messages.first().content);
                         
-                        msg = message.channel.send(`You've entered: \`${message.guild.roles.cache.find(r => r.id === admin).name}\``);
+                        msg = message.channel.send(`Your Admin role is: \`${message.guild.roles.cache.find(r => r.id === admin).name}\``);
                        
                         const payload = JSON.stringify({
                             guild: message.guild,
@@ -49,10 +49,10 @@ module.exports = {
             
                 message.channel.awaitMessages(filter, { time: 120000, max: 1, errors: ['time'] })
                     .then(async messages => {
-                        
+                        console.log(messages.first().content)
                         var moderator = await filter_integer(message, messages.first().content);
 
-                        msg = message.channel.send(`You've entered: \`${message.guild.roles.cache.find(r => r.id === moderator).name}\``);
+                        msg = message.channel.send(`Your Moderator role is: \`${message.guild.roles.cache.find(r => r.id === moderator).name}\``);
                         
                         const payload = JSON.stringify({
                             guild: message.guild,
@@ -90,7 +90,7 @@ module.exports = {
                     .then(async messages => {
                         var channel = await filter_integer(message, messages.first().content);        
                                                
-                        message.channel.send(`You've entered: \`${message.guild.channels.cache.find(r => r.id === channel).name}\``);
+                        message.channel.send(`Your greeting channel is: \`${message.guild.channels.cache.find(r => r.id === channel).name}\``);
                         
                         const payload = JSON.stringify({
                             guild: message.guild,
@@ -128,7 +128,7 @@ module.exports = {
                 message.channel.awaitMessages(filter, { time: 120000, max: 1, errors: ['time'] })
                     .then(async messages => {
                         var greeting = messages.first().content
-                        msg = message.channel.send(`You've entered: \`${messages.first().content}\``);
+                        msg = message.channel.send(`A new member will be greeted by: \`${messages.first().content}\``);
                         
                         const payload = JSON.stringify({
                             guild: message.guild,
@@ -166,7 +166,7 @@ module.exports = {
 
                         var approved = await filter_integer(message, messages.first().content);
 
-                        msg = message.channel.send(`You've entered: \`${message.guild.roles.cache.find(r => r.id === approved).name}\``);
+                        msg = message.channel.send(`Your approved role is: \`${message.guild.roles.cache.find(r => r.id === approved).name}\``);
                         
                         const payload = JSON.stringify({
                             guild: message.guild,
@@ -204,7 +204,7 @@ module.exports = {
                 message.channel.awaitMessages(filter, { time: 120000, max: 1, errors: ['time'] })
                     .then(async messages => {
                         cmd = messages.first().content
-                        msg = message.channel.send(`You've entered: \`${cmd}\``);
+                        msg = message.channel.send(`The approval command is: \`${cmd}\``);
                         
                         const payload = JSON.stringify({
                             guild: message.guild,
@@ -272,7 +272,7 @@ module.exports = {
                     .then(async messages => {
                         var channel = await filter_integer(message, messages.first().content);       
                                                
-                        message.channel.send(`You've entered: \`${message.guild.channels.cache.find(r => r.id === channel).name}\``);
+                        message.channel.send(`Your reports will be displayed in: \`${message.guild.channels.cache.find(r => r.id === channel).name}\``);
                         
                         const payload = JSON.stringify({
                             guild: message.guild,
@@ -376,7 +376,7 @@ module.exports = {
                 message.channel.awaitMessages(filter, { time: 120000, max: 1, errors: ['time'] })
                     .then(async messages => {
                         var greeting = messages.first().content
-                        msg = message.channel.send(`You've entered: \`${messages.first().content}\``);
+                        msg = message.channel.send(`The server will be notifed by: \`<New member>, ${messages.first().content}\``);
                         
                         const payload = JSON.stringify({
                             guild: message.guild,
@@ -450,7 +450,7 @@ module.exports = {
                         var limit = messages.first().content;
                         
                         if (Number.isInteger(+limit)) {
-                            msg = message.channel.send(`You've entered: \`${messages.first().content}\``);
+                            msg = message.channel.send(`Your kick limit is: \`${messages.first().content}\``);
                         } else {
                             message.channel.send('You did not enter a number');
                             return resolve(false);
@@ -492,7 +492,7 @@ module.exports = {
                         var limit = messages.first().content;
 
                         if (Number.isInteger(+limit)) {
-                            msg = message.channel.send(`You've entered: \`${messages.first().content}\``);
+                            msg = message.channel.send(`Your ban limit is: \`${messages.first().content}\``);
                         } else {
                             message.channel.send('You did not enter a number');
                             return resolve(false);
