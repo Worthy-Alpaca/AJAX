@@ -208,6 +208,21 @@ client.on("guildCreate", async guild => {
 
 })
 
+//on updating of a guild
+client.on('guildUpdate', (oldGuild, newGuild) => {
+  if (oldGuild.name === newGuild.name) {
+    return;
+  }
+
+  const payload = JSON.stringify({
+    guild: newGuild,
+    field: 'name',
+    value: newGuild.name
+  })
+
+  return update_API_call('setup', payload, newGuild, 'setup');
+})
+
 //on being kicked from a server
 client.on("guildDelete", async guild => {
   client.users.fetch(owner, false).then(user => {
