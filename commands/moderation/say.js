@@ -24,9 +24,9 @@ module.exports = {
             return message.channel.send("Maybe include something :wink:")
         }
 
-        //const chnl = await filter_integer(message, args[0]);
+        const chnl = await filter_integer(message, args[0]);
 
-        const channel = message.guild.channels.cache.find(channel => channel.id === api.channel); //###########################
+        const channel = message.guild.channels.cache.find(channel => channel.id === chnl); //###########################
 
         if (channel) {
             if (typeof args[1] == 'undefined') {
