@@ -57,9 +57,9 @@ module.exports = {
                 })
                 return resolve(mbr.join(""))
             } else {
-                var mbr2 = message.guild.roles.cache.find(r => r.name === person.join(""));
+                var mbr2 = message.guild.roles.cache.find(r => r.name === person.join("")) || message.guild.roles.cache.find(r => r.id === person.join(""));
                 if (!mbr2) {
-                    mbr2 = message.guild.channels.cache.find(r => r.name === person.join(""));
+                    mbr2 = message.guild.channels.cache.find(r => r.name === person.join("")) || message.guild.channels.cache.find(r => r.id === person.join(""));
                 }
                 return resolve(mbr2.id);
             }
