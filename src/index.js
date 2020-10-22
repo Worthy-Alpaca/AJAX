@@ -352,16 +352,13 @@ client.on("message", async message => {
           }
         })
         message.guild.channels.cache.forEach(async (channel, id) => {
-          await channel.overwritePermissions([
-            {
-              id: muterole.id,
-              deny: ['SEND_MESSAGES',
-                'ADD_REACTIONS',
-                'SEND_TTS_MESSAGES',
-                'ATTACH_FILES',
-                'SPEAK']
-            }
-          ])
+          await channel.updateOverwrite(muterole, {
+            SEND_MESSAGES: false,
+            SPEAK: false,
+            ADD_REACTIONS: false,
+            SEND_TTS_MESSAGES: false,
+            ATTACH_FILES: false 
+          })
         })
       } catch (e) {
         console.log(e.stack);
