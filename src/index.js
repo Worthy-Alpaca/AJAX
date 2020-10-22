@@ -453,6 +453,17 @@ client.on("message", async message => {
     if (message.content.toLowerCase().includes("check status") || message.content.toLowerCase().includes("status")) {
       return checkStatus(message, get_API_call);
     }
+
+    if (message.content.toLowerCase().includes("newguild")) {
+      if (message.author.id !== owner) return;
+      /* const args = message.content.slice(message.mentions.first().length).trim().split(/ +/g);
+      const cmd = args.shift().toLowerCase();
+
+      if (cmd.length === 0) return; */
+
+      let command = client.commands.get('createguild');
+      command.run(client, message)
+    }
   }
   
   //command parser
