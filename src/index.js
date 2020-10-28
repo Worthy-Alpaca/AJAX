@@ -250,10 +250,9 @@ client.on("guildDelete", async guild => {
 client.on("guildMemberAdd", async member => {
 
   if (member.bot) return;
-  const api = await get_API_call(message, "getserver");
-
-  var greeting = api.greeting; 
+  const api = await get_API_call(member, "getserver");
   
+  var greeting = api.greeting;   
   const role = member.guild.roles.cache.find(r => r.id === api.approved); 
   var msg = api.server_greeting; 
   var channel = member.guild.channels.cache.find(channel => channel.id === api.channel); //##############################
@@ -352,16 +351,13 @@ client.on("message", async message => {
           }
         })
         message.guild.channels.cache.forEach(async (channel, id) => {
-          await channel.overwritePermissions([
-            {
-              id: muterole.id,
-              deny: ['SEND_MESSAGES',
-                'ADD_REACTIONS',
-                'SEND_TTS_MESSAGES',
-                'ATTACH_FILES',
-                'SPEAK']
-            }
-          ])
+          await channel.updateOverwrite(muterole, {
+            SEND_MESSAGES: false,
+            SPEAK: false,
+            ADD_REACTIONS: false,
+            SEND_TTS_MESSAGES: false,
+            ATTACH_FILES: false 
+          })
         })
       } catch (e) {
         console.log(e.stack);

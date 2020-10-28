@@ -2,7 +2,6 @@ const Discord = require("discord.js");
 const fetch = require('node-fetch');
 const { stripIndents } = require("common-tags");
 const { version } = require("../../src/config.json");
-const { apikey_inara } = require("../../src/config.json");
 const { promptMessage, pageparser } = require("../../functions/functions.js");
 
 module.exports = {
@@ -53,7 +52,6 @@ module.exports = {
 
         while (a && i < response.events[0].eventData.length) {
             const community_goal = response.events[0].eventData[i];
-            console.log(i, "before function")
             const embed = new Discord.MessageEmbed()
                 .setColor('RANDOM')
                 .setTimestamp()

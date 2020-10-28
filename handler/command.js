@@ -56,7 +56,8 @@ module.exports = async (client) => {
     if (a > 0) {
         console.log(`${a} system(s) are not operational`)
     } else {
-        console.log("All systems are operational")
+        console.log("All systems are operational");
+        console.log("Commands successfully updated");
     }
 }
 
