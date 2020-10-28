@@ -250,10 +250,9 @@ client.on("guildDelete", async guild => {
 client.on("guildMemberAdd", async member => {
 
   if (member.bot) return;
-  const api = await get_API_call(message, "getserver");
-
-  var greeting = api.greeting; 
+  const api = await get_API_call(member, "getserver");
   
+  var greeting = api.greeting;   
   const role = member.guild.roles.cache.find(r => r.id === api.approved); 
   var msg = api.server_greeting; 
   var channel = member.guild.channels.cache.find(channel => channel.id === api.channel); //##############################
