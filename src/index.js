@@ -203,8 +203,12 @@ client.on("guildCreate", async guild => {
 
   client.users.fetch(guild.owner.id, false).then(user => {
     user.send(embed);
-    user.send(`We are currently reviewing an issue with the starting prefix. To make sure you are using the correct one do '@${client.user.username} help' `)
+    user.send(`We are currently reviewing an issue with the starting prefix. To make sure you are using the correct one do '${client.user} help' `)
   })
+
+  const channel = guild.channels.cache.get(guild.systemChannelID) || guild.channels.cache.find(channel => channel.name.includes("general"));
+  channel.send(embed);
+  channel.send(`We are currently reviewing an issue with the starting prefix. To make sure you are using the correct one do '${client.user} help' `);
 
 })
 
