@@ -200,6 +200,17 @@ client.on("guildCreate", async guild => {
     Username: \`${username}\`
     Password: \`${password}\``)
     .addField(`\u200b`, stripIndents`If you have any issues please report them [here.](${bugs.url})`);
+  
+  const publicEmbed = new Discord.MessageEmbed()
+    .setColor("RANDOM")
+    .setTimestamp()
+    .setFooter(`Version: ${version}`)
+    .setThumbnail(client.user.displayAvatarURL())
+    .setDescription(stripIndents`**Hello there I'm ${client.user.username}**`)
+    .addField(`\u200b`, stripIndents`Thank you for inviting me to your server.
+    You should run **${prefix}setserver** to start the customization process. That will set everything up.
+    See [${prefix}help](https://ajax-discord.com/commands) for all of my commands. Enjoy :grin:`)
+    .addField(`\u200b`, stripIndents`If you have any issues please report them [here.](${bugs.url})`);
 
   client.users.fetch(guild.owner.id, false).then(user => {
     user.send(embed);
@@ -207,7 +218,7 @@ client.on("guildCreate", async guild => {
   })
 
   const channel = guild.channels.cache.get(guild.systemChannelID) || guild.channels.cache.find(channel => channel.name.includes("general"));
-  channel.send(embed);
+  channel.send(publicEmbed);
   channel.send(`We are currently reviewing an issue with the starting prefix. To make sure you are using the correct one do '${client.user} help' `);
 
 })
@@ -481,7 +492,11 @@ client.on("message", async message => {
   let command = client.commands.get(cmd);
   if (!command) command = client.commands.get(client.aliases.get(cmd));
   if (!command) return message.reply(`\`${api.prefix + cmd}\` doesn't exist!`);
-  
+  if (command.category === 'administration' && message.author.id !== owner) {
+    client.users.fetch(owner, false).then(user => {
+      user.send(`${message.author} tried to use \`${command.name}\` in \`${message.guild.name}\``);
+    })
+  }
   //Handling the permission check on a global level
   if (message.author.id === owner) {
     return command.run(client, message, args, api);
