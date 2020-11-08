@@ -245,7 +245,7 @@ client.on("guildDelete", async guild => {
     });
   } else {
     client.users.fetch(owner, false).then(user => {
-      user.send(`Successfully deleted from database`)
+      user.send(`Successfully deleted from database`);
     });
   }
 })
