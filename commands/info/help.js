@@ -113,7 +113,6 @@ function getCMD(client, message, input, perms) {
 
     if (!cmd) {
         let cat = [client.categories.find(element => element === input.toLowerCase())];
-        console.log(cat)
         if (cat[0]) {
             return getAll(client, message, perms, cat);
         }
