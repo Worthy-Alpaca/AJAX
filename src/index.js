@@ -41,19 +41,8 @@ client.categories = fs.readdirSync("./commands/");
 
 //Handling bot startup process
 client.on("ready", async () => {
-  var a = 0;
   console.log(`Logged in as ${client.user.username}`);
-  message = {
-    guild: {
-      id: '0000000000000000'
-    }
-  }
-  const success = await get_API_call(message, 'check', 'checkIn', process.env.DB_TABLES);
-  if (success.success === true) {
-    console.log("Connected to API");
-  } else {
-    console.log('NOT CONNECTED TO API!');
-  }
+
   client.users.fetch(owner, false).then(user => {
     user.send(`I restarted`)
   });
