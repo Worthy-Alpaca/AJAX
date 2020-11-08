@@ -25,7 +25,16 @@ module.exports = {
         var cats = [client.categories[i]];
 
         if (args[0]) {
-            return getCMD(client, message, args[0]);
+            if (message.author.id === owner) {
+                perms = "author"
+            } else if (message.member.hasPermission("ADMINISTRATOR")) {
+                perms = "admin"
+            } else if (message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === api.moderator).id)) { //######################
+                perms = "moderator"
+            } else {
+                perms = "none"
+            }
+            return getCMD(client, message, args[0], perms);
         } else {
             while (a && i < client.categories.length) {
 
@@ -39,7 +48,7 @@ module.exports = {
                     perms = "none"
                 }
 
-                cats = [client.categories[i]];                
+                cats = [client.categories[i]];
                 if (cats[0] === "administration" && (perms === "none" || perms === "moderator" || perms === "admin")) {
                     cats = [client.categories[++i]];
                 }
@@ -93,7 +102,7 @@ async function getAll(client, message, perms, cats) {
 
 }
 
-function getCMD(client, message, input) {
+function getCMD(client, message, input, perms) {
     const embed = new Discord.MessageEmbed()
         .setTimestamp()
         .setThumbnail(client.user.displayAvatarURL())
@@ -103,8 +112,12 @@ function getCMD(client, message, input) {
     let info = `What do you mean with **${input.toLowerCase()}**? I don't know what you are talking about`;
 
     if (!cmd) {
+        let cat = [client.categories.find(element => element === input.toLowerCase())];
+        console.log(cat)
+        if (cat[0]) {
+            return getAll(client, message, perms, cat);
+        }
         return message.channel.send(embed.setColor("RED").setDescription(info));
-
     }
 
     if (cmd.name) embed.setTitle(`**${cmd.name.toUpperCase()}**`);
