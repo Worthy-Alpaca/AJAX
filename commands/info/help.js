@@ -25,19 +25,7 @@ module.exports = {
         var cats = [client.categories[i]];
 
         if (args[0]) {
-            if (message.author.id === owner) {
-                perms = "author"
-            } else if (message.member.hasPermission("ADMINISTRATOR")) {
-                perms = "admin"
-            } else if (message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === api.moderator).id)) { //######################
-                perms = "moderator"
-            } else {
-                perms = "none"
-            }
-            return getCMD(client, message, args[0], perms);
-        } else {
-            while (a && i < client.categories.length) {
-
+            if (api.moderator) {
                 if (message.author.id === owner) {
                     perms = "author"
                 } else if (message.member.hasPermission("ADMINISTRATOR")) {
@@ -47,6 +35,35 @@ module.exports = {
                 } else {
                     perms = "none"
                 }
+            } else {
+                if (message.member.hasPermission("ADMINISTRATOR")) {
+                    perms = "admin"
+                } else {
+                    perms = "none"
+                }
+            }
+            return getCMD(client, message, args[0], perms);
+        } else {
+            while (a && i < client.categories.length) {
+
+                if (api.moderator) {
+                    if (message.author.id === owner) {
+                        perms = "author"
+                    } else if (message.member.hasPermission("ADMINISTRATOR")) {
+                        perms = "admin"
+                    } else if (message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === api.moderator).id)) { //######################
+                        perms = "moderator"
+                    } else {
+                        perms = "none"
+                    }
+                } else {
+                    if (message.member.hasPermission("ADMINISTRATOR")) {
+                        perms = "admin"
+                    } else {
+                        perms = "none"
+                    }
+                }
+                
 
                 cats = [client.categories[i]];
                 if (cats[0] === "administration" && (perms === "none" || perms === "moderator" || perms === "admin")) {
