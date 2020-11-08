@@ -49,7 +49,7 @@ module.exports = {
             > Approved Member amount: \`${count.length}\`
             > Bots: \`${bots.length}\``)
             .addField(`\u200b`, stripIndents`You have a server where you want to deploy this bot?
-            You can do so [here.](https://discord.com/api/oauth2/authorize?client_id=682255208125956128&permissions=8&redirect_uri=https%3A%2F%2Fworthyalpaca.de%2F&scope=bot)`)
+            You can do so [here.](https://discord.com/api/oauth2/authorize?client_id=682255208125956128&permissions=301182039&redirect_uri=https%3A%2F%2Fajax-discord.com&scope=bot)`)
             .addField(`\u200b`, stripIndents`If you have any issues please report them [here.](${bugs.url})`);
 
         return message.channel.send(embed);
