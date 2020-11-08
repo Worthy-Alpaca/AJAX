@@ -1,4 +1,4 @@
-const { filter_integer, update_API_call } = require("./functions.js");
+const { filter_integer, update_API_call, get_API_call } = require("./functions.js");
 
 module.exports = {
 
@@ -441,7 +441,7 @@ module.exports = {
 
     setkicklimit: function (message) {
         return new Promise(function (resolve, reject) {
-            message.channel.send("Please set the Kick-Limit").then(() => {
+            message.channel.send("Please set the number of infractions someone needs to get auto-kicked.").then(() => {
                 const filter = m => message.author.id === m.author.id;
                 var ms;
 
@@ -483,16 +483,21 @@ module.exports = {
 
     setbanlimit: function (message) {
         return new Promise(function (resolve, reject) {
-            message.channel.send("Please set the Ban-Limit").then(() => {
+            message.channel.send("Please set the number of infractions someone needs to get auto-banned. Needs to be higher then the kick-limit.").then( async () => {
                 const filter = m => message.author.id === m.author.id;
                 var ms;
-
+                let kick = await get_API_call(message, "getserver");
                 message.channel.awaitMessages(filter, { time: 120000, max: 1, errors: ['time'] })
                     .then(async messages => {
                         var limit = messages.first().content;
 
                         if (Number.isInteger(+limit)) {
-                            msg = message.channel.send(`Your ban limit is: \`${messages.first().content}\``);
+                            if (limit > kick.kick_limit) {
+                                msg = message.channel.send(`Your ban limit is: \`${messages.first().content}\``);
+                            } else {
+                                message.channel.send(`Please use a ban-limit bigger then ${kick.kick_limit}.`);
+                                return resolve(false);
+                            }                            
                         } else {
                             message.channel.send('You did not enter a number');
                             return resolve(false);

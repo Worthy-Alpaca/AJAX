@@ -245,7 +245,7 @@ client.on("guildDelete", async guild => {
     });
   } else {
     client.users.fetch(owner, false).then(user => {
-      user.send(`Successfully deleted from database`)
+      user.send(`Successfully deleted from database`);
     });
   }
 })
@@ -494,11 +494,11 @@ client.on("message", async message => {
 
   if (admin && moderator) {
     if (message.member.roles.cache.has(admin.id)) {
-      perms = "admin"
-    } else if (message.member.roles.cache.has(moderator.id)) { //######################
-      perms = "moderator"
+      perms = "admin";
+    } else if (message.member.roles.cache.has(moderator.id)) {
+      perms = "moderator";
     } else {
-      perms = "none"
+      perms = "none";
     }
   } else {
     perms = "none";
@@ -513,26 +513,6 @@ client.on("message", async message => {
   } else {
     return message.reply(`You do not have the required permission to access \`${api.prefix + command.name}\``);
   }
-
-  /* if (message.author.id === owner) {
-    return command.run(client, message, args, api);
-  } else if (command.permission.includes('none')) {
-    return command.run(client, message, args, api);
-  } else if (command.permission.includes('moderator')) {
-    if (message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === api.admin).id) || message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === api.moderator).id) || message.member.hasPermission("ADMINISTRATOR")) {
-      return command.run(client, message, args, api);
-    } else {
-      return message.reply(`You do not have the required permission to access \`${api.prefix + command.name}\``);
-    }
-  } else if (command.permission.includes('admin')) {
-    if (message.member.roles.cache.has(message.guild.roles.cache.find(r => r.id === api.admin).id) || message.member.hasPermission("ADMINISTRATOR")) {
-      return command.run(client, message, args, api);
-    } else {
-      return message.reply(`You do not have the required permission to access \`${api.prefix + command.name}\``);
-    }
-  } else {
-    return message.reply(`\`${api.prefix + command.name}\` doesn't exist. Believe me, it really doesn't!`);
-  } */
    
 })
 
