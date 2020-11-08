@@ -486,8 +486,35 @@ client.on("message", async message => {
       user.send(`${message.author} tried to use \`${command.name}\` in \`${message.guild.name}\``);
     })
   }
+  
   //Handling the permission check on a global level
-  if (message.author.id === owner) {
+  let perms;
+  let admin = message.guild.roles.cache.get(api.admin);
+  let moderator = message.guild.roles.cache.get(api.moderator);
+
+  if (admin && moderator) {
+    if (message.member.roles.cache.has(admin.id)) {
+      perms = "admin"
+    } else if (message.member.roles.cache.has(moderator.id)) { //######################
+      perms = "moderator"
+    } else {
+      perms = "none"
+    }
+  } else {
+    perms = "none";
+  }
+
+  if (command.category === "administration" && message.author.id !== owner) {
+    return message.reply(`\`${api.prefix + command.name}\` doesn't exist. Believe me, it really doesn't!`);
+  }
+
+  if (command.permission.includes(perms) || message.member.hasPermission('ADMINISTRATOR') || message.author.id === owner) {
+    command.run(client, message, args, api);
+  } else {
+    return message.reply(`You do not have the required permission to access \`${api.prefix + command.name}\``);
+  }
+
+  /* if (message.author.id === owner) {
     return command.run(client, message, args, api);
   } else if (command.permission.includes('none')) {
     return command.run(client, message, args, api);
@@ -505,7 +532,7 @@ client.on("message", async message => {
     }
   } else {
     return message.reply(`\`${api.prefix + command.name}\` doesn't exist. Believe me, it really doesn't!`);
-  }
+  } */
    
 })
 
