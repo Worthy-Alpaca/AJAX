@@ -255,7 +255,9 @@ client.on("guildMemberAdd", async member => {
 
   if (member.bot) return;
   const api = await get_API_call(member, "getserver");
-  
+  if (api.togglegreeting === "true") {
+    return;
+  }
   var greeting = api.greeting;   
   const role = member.guild.roles.cache.find(r => r.id === api.approved); 
   var msg = api.server_greeting; 
@@ -267,10 +269,6 @@ client.on("guildMemberAdd", async member => {
 
   if (typeof channel == 'undefined' || channel === null) {
     channel = member.guild.channels.cache.find(channel => channel.id === member.guild.systemChannelID);
-  }
-
-  if (api.togglegreeting === "true") {
-    return;
   }
 
   if (api.auto_approved === "true") {
