@@ -499,6 +499,7 @@ client.on("message", async message => {
       perms = "none";
     }
   } else {
+    message.channel.send(`Commands are currently locked to non-administrative mode. You can change that by using the ${prefix}setserver command.`);
     perms = "none";
   }
 
