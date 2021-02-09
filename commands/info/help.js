@@ -57,7 +57,9 @@ module.exports = {
                         perms = "none"
                     }
                 } else {
-                    if (message.member.hasPermission("ADMINISTRATOR")) {
+                    if (message.author.id === owner) {
+                        perms = "author"
+                    } else if (message.member.hasPermission("ADMINISTRATOR")) {
                         perms = "admin"
                     } else {
                         perms = "none"
