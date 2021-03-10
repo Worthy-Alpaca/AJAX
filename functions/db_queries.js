@@ -5,6 +5,9 @@
 //######################################################################################################################
 
 module.exports = {
+    /**
+    * @description deprecated DO NOT USE!
+    */
     getAdmin: function(message) {
         var admininstrator;  
         
@@ -15,7 +18,9 @@ module.exports = {
             }); 
         });            
     },
-    
+    /**
+    * @description deprecated DO NOT USE!
+    */
     getMod: function(message) {
         var moderator;  
         
@@ -26,7 +31,9 @@ module.exports = {
             }); 
         });            
     },
-    
+    /**
+    * @description deprecated DO NOT USE!
+    */
     getChnl: function(member) {
         var channel;  
         
@@ -37,7 +44,9 @@ module.exports = {
             }); 
         }); 
     },
-
+    /**
+    * @description deprecated DO NOT USE!
+    */
     getMsg: function(member) {
         var msg;
 
@@ -48,7 +57,9 @@ module.exports = {
             });
         });
     },
-
+    /**
+    * @description deprecated DO NOT USE!
+    */
     getapproved: function(member) {
         var msg;
 
@@ -59,7 +70,9 @@ module.exports = {
             });
         });
     },
-
+    /**
+    * @description deprecated DO NOT USE!
+    */
     getapproved2: function(message) {
         var msg;
 
@@ -70,7 +83,9 @@ module.exports = {
             });
         });
     },
-
+    /**
+    * @description deprecated DO NOT USE!
+    */
     getstartcmd: function(message) {
         var msg;
 
@@ -81,7 +96,9 @@ module.exports = {
             });
         });
     },
-
+    /**
+    * @description deprecated DO NOT USE!
+    */
     getreportschannel: function(message) {
         var chnl;
         return new Promise(function(resolve, reject) {
@@ -91,7 +108,9 @@ module.exports = {
             })
         })
     },
-
+    /**
+    * @description deprecated DO NOT USE!
+    */
     getinfractions: function(tblid, rMember) {
         var infractions;
         return new Promise(function(resolve, reject) {
@@ -108,7 +127,9 @@ module.exports = {
             })
         })
     },
-
+    /**
+    * @description deprecated DO NOT USE!
+    */
     getranks: function(message) {
         var ranks = []
         return new Promise(function(resolve, reject) {
@@ -130,7 +151,9 @@ module.exports = {
             })
         })
     },
-
+    /**
+    * @description deprecated DO NOT USE!
+    */
     getrank: function(message, rank) {
         var r;
         return new Promise(function(resolve, reject) {
@@ -145,7 +168,9 @@ module.exports = {
             })
         })
     },
-
+    /**
+    * @description deprecated DO NOT USE!
+    */
     setrank: function(message, rank) {
         let sql;
         var success;
@@ -163,7 +188,9 @@ module.exports = {
             })
         })
     },
-
+    /**
+    * @description deprecated DO NOT USE!
+    */
     delrank: function(message, rank) {
         let sql;
         var success;
@@ -198,7 +225,9 @@ module.exports = {
         }
         
     },
-
+    /**
+    * @description deprecated DO NOT USE!
+    */
     getservers: function(message) {
         var servers = []
         return new Promise(function(resolve, reject) {
@@ -220,7 +249,9 @@ module.exports = {
             })
         })
     },
-
+    /**
+    * @description deprecated DO NOT USE!
+    */
     getserverchannel: function(srv) {
         var chnl;
         return new Promise(function(resolve, reject) {
@@ -230,7 +261,9 @@ module.exports = {
             })
         })
     },
-
+    /**
+    * @description deprecated DO NOT USE!
+    */
     getautoapproved: function(member) {
         var bolean;
         return new Promise(function(resolve, reject) {
@@ -240,7 +273,9 @@ module.exports = {
             })
         })
     },
-
+    /**
+    * @description deprecated DO NOT USE!
+    */
     getservergreeting: function (member) {
         var msg
         return new Promise(function (resolve, reject) {
@@ -250,7 +285,9 @@ module.exports = {
             })
         })
     },
-
+    /**
+    * @description deprecated DO NOT USE!
+    */
     getprefix: function (message) {
         var prefix
         return new Promise(function (resolve, reject) {
@@ -260,7 +297,9 @@ module.exports = {
             })
         })
     },
-
+    /**
+    * @description deprecated DO NOT USE!
+    */
     addreddit: function (message, reddit) {
         var sql;
         var success;
@@ -278,7 +317,9 @@ module.exports = {
             })
         })
     },
-    
+    /**
+    * @description deprecated DO NOT USE!
+    */
     getreddits: function (message) {
         var reddits = []
         return new Promise(function (resolve, reject) {
@@ -299,7 +340,9 @@ module.exports = {
             })
         })
     },
-
+    /**
+    * @description deprecated DO NOT USE!
+    */
     delreddit: function (message, reddit) {
         return new Promise(function (resolve, reject) {
             con.query(`SELECT * FROM reddits WHERE server_id = '${message.guild.id}' AND reddit = '${reddit}'`, (err, rows) => {

@@ -44,7 +44,12 @@ module.exports = {
             .awaitReactions(filter, { max: 1, time: time})
             .then(collected => collected.first() && collected.first().emoji.name);
     },
-
+    /**
+    * @description returns ID of passed object
+    * @param {Discord.Message} message - the message object
+    * @param {Discord.MessageMentions} mention - the mentioned object
+    * @returns {string} ID - the ID of the mentioned object
+    */
     filter_integer: function (message, mention) {
         return new Promise(function (resolve, reject) {
             var person = Array.from(mention)
@@ -65,7 +70,16 @@ module.exports = {
             }
         })
     },
-
+    /**
+    * @description enables page turning 
+    * @param {Discord.Message} message - the message object
+    * @param msg - the sent message
+    * @param i - the current page
+    * @param time - the time limit
+    * @param chooseArr - the reaction array
+    * @param {Function} promptMessage - promptMessage function
+    * @param array_length - max page number
+    */
     pageparser: function (message, msg, i, time, chooseArr, promptMessage, array_length) {
         
         return new Promise(async function (resolve, reject) {
@@ -114,7 +128,11 @@ module.exports = {
             }
         })
     },
-
+    /**
+    * @description returns ID of passed object
+    * @param {int} length - the length of the password
+    * @returns {string} password - the generated password
+    */
     password_generator: function(len) {
         var length = (len) ? (len) : (10);
         var string = "abcdefghijklmnopqrstuvwxyz"; //to upper 
@@ -137,7 +155,14 @@ module.exports = {
         password = password.split('').sort(function () { return 0.5 - Math.random() }).join('');
         return password.substr(0, len);
     },
-
+    /**
+    * @description creates an API GET request
+    * @param {Discord.Message} message - the message object
+    * @param {string} api_section - the API endpoint
+    * @param {string} type - the type of request 
+    * @param {string} payload - the payload
+    * @param {string} extra payload - an additional payload
+    */
     get_API_call: function (message, api_section = '', type = '', payload, extra_payload) {
         return new Promise(async function (resolve, reject) {            
             const token = sign_token(message.guild.id);
@@ -168,7 +193,13 @@ module.exports = {
             
         })
     },
-
+    /**
+    * @description creates an API POST request
+    * @param {string} api_section - the API endpoint
+    * @param {object} payload - the payload
+    * @param {Discord.Guild} guild - the guild the request comes from
+    * @param {string} type - the type of request
+    */
     post_API_call: function (api_section = '', payload, guild, type = '') {
         return new Promise(function (resolve, reject) {
             const token = sign_token(guild.id);
@@ -195,7 +226,13 @@ module.exports = {
             return resolve(response);
         })
     },
-
+    /**
+    * @description creates an API DELETE request
+    * @param {string} api_section - the API endpoint
+    * @param {object} payload - the payload
+    * @param {Discord.Guild} guild - the guild the request comes from
+    * @param {string} type - the type of request
+    */
     delete_API_call: function (api_section = '', payload, guild, type = '') {
         return new Promise(function (resolve, reject) {
             const token = sign_token(guild.id);
@@ -222,7 +259,13 @@ module.exports = {
             return resolve(response);
         })
     },
-
+    /**
+    * @description creates an API PUT request
+    * @param {string} api_section - the API endpoint
+    * @param {object} payload - the payload
+    * @param {Discord.Guild} guild - the guild the request comes from
+    * @param {string} type - the type of request
+    */
     update_API_call: function (api_section = '', payload, guild, type = '') {
         return new Promise(function (resolve, reject) {
             const token = sign_token(guild.id);
@@ -249,7 +292,11 @@ module.exports = {
             return resolve(response);
         })
     },
-
+    /**
+    * @description checks the API status
+    * @param {Discord.Message} message - the message object
+    * @param {function} get_API_call - the function to create an API GET request
+    */
     checkStatus: async function (message, get_API_call) {
         let a = 0;
         const cmd = [];
@@ -294,7 +341,11 @@ module.exports = {
             return message.reply(embed.setColor('RED').setDescription("**Bot is NOT operational!**"));
         }
     },
-
+    /**
+    * @description converts seconds to min:sec
+    * @param {int} time - the time to parse
+    * @returns {string} the time in minutes
+    */
     convertSeconds: function (time) {
         var minutes = Math.floor(time / 60);
         var seconds = time % 60;
