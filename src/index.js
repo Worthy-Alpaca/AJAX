@@ -522,3 +522,19 @@ process.on('unhandledRejection', error => {
 
 //Logging into discord
 client.login(process.env.DISCORD_TOKEN);
+
+/* ######################################################################### */
+// import express
+const express = require('express');
+const app = express();
+const helmet = require("helmet");
+
+const receive = require('./routes/receive');
+// middleware
+app.use(helmet())
+
+// routes
+app.use('/receive', receive);
+
+const port = process.env.PORT || 1000;
+app.listen(port, () => console.log(`listening to port ${port}`));
