@@ -27,7 +27,7 @@ module.exports = {
     * @returns {JsonWebKey} token - the token used to authenticate with the API
     */
     sign_token: function (id) {
-        return jwt.sign({ _id: id }, process.env.TOKEN_SECRET);
+        return jwt.sign({ _id: id }, process.env.TOKEN_SECRET, { expiresIn: "1m"});
     },
     /**
     * @description gathers all channels from all guilds
