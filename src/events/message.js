@@ -21,7 +21,7 @@ module.exports = client => {
             fs.appendFile('logs/PMs.txt', `${message.content} \n`, function (err) {
                 if (err) console.log(err);
             });
-            return message.reply("Hey there, no reason to DM me anything. I won't answer anyway :wink:");
+            return;
         }
 
         const api = await get_API_call(message, "getserver");
