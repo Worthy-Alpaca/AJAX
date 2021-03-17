@@ -6,6 +6,7 @@ var { prefix } = require('../config.json');
 // importing additional modules
 const { stripIndents } = require("common-tags");
 const Discord = require('discord.js');
+const fs = require('fs');
 // creating new Map
 const usersMap = new Map();
 /**

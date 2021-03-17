@@ -52,12 +52,12 @@ const express = require('express');
 const app = express();
 const helmet = require("helmet");
 
-const receive = require('./routes/receive');
+const recover = require('./routes/recover');
 // middleware
 app.use(helmet());
 
 // routes
-app.use('/receive', receive);
+app.use('/recover', recover);
 
 const port = process.env.PORT || 1000;
 app.listen(port, () => console.log(`listening to port ${port}`));
