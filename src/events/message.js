@@ -21,6 +21,14 @@ module.exports = client => {
             fs.appendFile('logs/PMs.txt', `${message.content} \n`, function (err) {
                 if (err) console.log(err);
             });
+            if (message.content.toLowerCase().includes("help")) {
+                message.reply(`You can use \`${prefix}help\` to get all the commands available to you.`);
+                return message.reply("Commands do not work in a private message. Please use them in a server channel!");
+            }
+            if (message.content.startsWith(prefix)) {
+                return message.reply("Commands do not work in a private message. Please use them in a server channel!");
+            }
+            
             return;
         }
 
