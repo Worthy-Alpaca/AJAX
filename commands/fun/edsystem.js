@@ -7,6 +7,7 @@ const { stripIndents } = require("common-tags");
 
 module.exports = {
     name: "edsystem",
+    aliases: ["elitesys"],
     category: "fun",
     permission: ["none", "moderator", "admin"],
     description: "Displays information about a system",
@@ -17,11 +18,11 @@ module.exports = {
             return message.channel.send('You need to supply a search term!');
         }
 
-        const sys = args.slice(0).join("+")
-        const system = `https://www.edsm.net/api-system-v1/bodies?sysname=${sys}`
-        const stations = `https://www.edsm.net/api-system-v1/stations?sysname=${sys}`
-        const factions = `https://www.edsm.net/api-system-v1/factions?sysname=${sys}`
-        const sysinfo = `https://www.edsm.net/api-v1/system?sysname=${sys}&showPermit=1&showInformation=1`
+        const sys = args.slice(0).join("+");
+        const system = `https://www.edsm.net/api-system-v1/bodies?sysname=${sys}`;
+        const stations = `https://www.edsm.net/api-system-v1/stations?sysname=${sys}`;
+        const factions = `https://www.edsm.net/api-system-v1/factions?sysname=${sys}`;
+        const sysinfo = `https://www.edsm.net/api-v1/system?sysname=${sys}&showPermit=1&showInformation=1`;
 
         const response1 = await fetch(system).then(function (response) {
             return response.json();
