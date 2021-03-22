@@ -21,7 +21,7 @@ function recover(owner, guild) {
             .setFooter(`Version: ${version}`)
             .setThumbnail(client.user.displayAvatarURL())
             .setTitle('Password reset')
-            .setDescription("Your requested a password reset. Please respond with your new password. If you believe this to be an error please type `abort` to stop the recovery process.")
+            .setDescription(`Your requested a password reset for the guild: \`${guild.name}\`. Please respond with your new password. If you believe this to be an error please type \`abort\` to stop the recovery process.`)
 
         owner.send(embed).then((message) => {
             
