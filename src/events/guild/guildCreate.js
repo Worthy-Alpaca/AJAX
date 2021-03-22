@@ -1,5 +1,5 @@
 // importing functions
-const { post_API_call, get_API_call } = require('../../../functions/functions');
+const { post_API_call, password_generator } = require('../../../functions/functions');
 const { gather_server_channels, gather_server_roles } = require('../../../functions/default_functions');
 // importing variables
 var { prefix, version, owner } = require('../../config.json');
@@ -50,14 +50,6 @@ module.exports = client => {
         gather_server_channels(guild, post_API_call);
         gather_server_roles(guild, post_API_call);
 
-        const api = await get_API_call(message, "getserver");
-
-        const custom_prefix = api.prefix;
-
-        if (custom_prefix !== undefined && custom_prefix !== null) {
-            prefix = custom_prefix;
-        }
-
         const embed = new Discord.MessageEmbed()
             .setColor("RANDOM")
             .setTimestamp()
@@ -89,6 +81,7 @@ module.exports = client => {
         })
 
         const channel = guild.channels.cache.get(guild.systemChannelID) || guild.channels.cache.find(channel => channel.name.includes("general"));
+        if (!channel) return;
         channel.send(publicEmbed);
         channel.send(`We are currently reviewing an issue with the starting prefix. To make sure you are using the correct one do '${client.user} help' `);
 
