@@ -9,7 +9,7 @@ const Discord = require('discord.js');
 module.exports = client => {
     client.on("guildMemberAdd", async member => {
 
-        if (member.bot) return;
+        if (member.user.bot) return;
         const api = await get_API_call(member, "getserver");
         if (api.togglegreeting === "true") {
             return;
