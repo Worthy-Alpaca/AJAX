@@ -351,6 +351,20 @@ module.exports = {
         var seconds = time % 60;
         var timeinMin = minutes + ":" + seconds;
         return timeinMin;
+    },
+
+    /**
+     * @description cretes an embed with the given description and color
+     * @param {string} description - the description for the embed
+     * @param {string} color - the color for the embed
+     */
+    createEmbed: function (description, color) {
+        const embed = new Discord.MessageEmbed()
+            .setTimestamp()
+            .setColor(color)
+            .setDescription(description);
+        
+        return embed;
     }
         
 };

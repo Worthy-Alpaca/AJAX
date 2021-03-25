@@ -1,4 +1,4 @@
-const { filter_integer, update_API_call, get_API_call } = require("./functions.js");
+const { filter_integer, update_API_call, get_API_call, createEmbed } = require("./functions.js");
 
 module.exports = {
 
@@ -12,8 +12,7 @@ module.exports = {
                     .then(async messages => {                        
                         
                         var admin = await filter_integer(message, messages.first().content);
-                        
-                        msg = message.channel.send(`Your Admin role is: \`${message.guild.roles.cache.find(r => r.id === admin).name}\``);
+                        const msg = `Your Admin role is: \`${message.guild.roles.cache.find(r => r.id === admin).name}\``;
                        
                         const payload = JSON.stringify({
                             guild: message.guild,
@@ -23,7 +22,8 @@ module.exports = {
 
                         const success = await update_API_call('setup', payload, message.guild, 'setup');
 
-                        if (success.success === true) {                            
+                        if (success.success === true) {
+                            message.channel.send(createEmbed(msg, 'GREEN'));
                             return resolve(true);
                         } else {
                             message.channel.send(`An Error occured: ${success.err}`);
@@ -52,7 +52,7 @@ module.exports = {
                         console.log(messages.first().content)
                         var moderator = await filter_integer(message, messages.first().content);
 
-                        msg = message.channel.send(`Your Moderator role is: \`${message.guild.roles.cache.find(r => r.id === moderator).name}\``);
+                        const msg = `Your Moderator role is: \`${message.guild.roles.cache.find(r => r.id === moderator).name}\``;
                         
                         const payload = JSON.stringify({
                             guild: message.guild,
@@ -63,6 +63,7 @@ module.exports = {
                         const success = await update_API_call('setup', payload, message.guild, 'setup');
 
                         if (success.success === true) {
+                            message.channel.send(createEmbed(msg, 'GREEN'));
                             return resolve(true);
                         } else {
                             message.channel.send(`An Error occured: ${success.err}`);
@@ -90,7 +91,7 @@ module.exports = {
                     .then(async messages => {
                         var channel = await filter_integer(message, messages.first().content);        
                                                
-                        message.channel.send(`Your greeting channel is: \`${message.guild.channels.cache.find(r => r.id === channel).name}\``);
+                        const msg = `Your greeting channel is: \`${message.guild.channels.cache.find(r => r.id === channel).name}\``;
                         
                         const payload = JSON.stringify({
                             guild: message.guild,
@@ -101,6 +102,7 @@ module.exports = {
                         const success = await update_API_call('setup', payload, message.guild, 'setup');
 
                         if (success.success === true) {
+                            message.channel.send(createEmbed(msg, 'GREEN'));
                             return resolve(true);
                         } else {
                             message.channel.send(`An Error occured: ${success.err}`);
@@ -128,7 +130,7 @@ module.exports = {
                 message.channel.awaitMessages(filter, { time: 120000, max: 1, errors: ['time'] })
                     .then(async messages => {
                         var greeting = messages.first().content
-                        msg = message.channel.send(`A new member will be greeted by: \`${messages.first().content}\``);
+                        const msg = `A new member will be greeted by: \`${messages.first().content}\``;
                         
                         const payload = JSON.stringify({
                             guild: message.guild,
@@ -139,6 +141,7 @@ module.exports = {
                         const success = await update_API_call('setup', payload, message.guild, 'setup');
 
                         if (success.success === true) {
+                            message.channel.send(createEmbed(msg, 'GREEN'));
                             return resolve(true);
                         } else {
                             message.channel.send(`An Error occured: ${success.err}`);
@@ -166,7 +169,7 @@ module.exports = {
 
                         var approved = await filter_integer(message, messages.first().content);
 
-                        msg = message.channel.send(`Your approved role is: \`${message.guild.roles.cache.find(r => r.id === approved).name}\``);
+                        const msg = `Your approved role is: \`${message.guild.roles.cache.find(r => r.id === approved).name}\``;
                         
                         const payload = JSON.stringify({
                             guild: message.guild,
@@ -177,6 +180,7 @@ module.exports = {
                         const success = await update_API_call('setup', payload, message.guild, 'setup');
 
                         if (success.success === true) {
+                            message.channel.send(createEmbed(msg, 'GREEN'));
                             return resolve(true);
                         } else {
                             message.channel.send(`An Error occured: ${success.err}`);
@@ -204,7 +208,7 @@ module.exports = {
                 message.channel.awaitMessages(filter, { time: 120000, max: 1, errors: ['time'] })
                     .then(async messages => {
                         cmd = messages.first().content
-                        msg = message.channel.send(`The approval command is: \`${cmd}\``);
+                        const msg = `The approval command is: \`${cmd}\``;
                         
                         const payload = JSON.stringify({
                             guild: message.guild,
@@ -215,6 +219,7 @@ module.exports = {
                         const success = await update_API_call('setup', payload, message.guild, 'setup');
 
                         if (success.success === true) {
+                            message.channel.send(createEmbed(msg, 'GREEN'));
                             return resolve(true);
                         } else {
                             message.channel.send(`An Error occured: ${success.err}`);
@@ -272,7 +277,7 @@ module.exports = {
                     .then(async messages => {
                         var channel = await filter_integer(message, messages.first().content);       
                                                
-                        message.channel.send(`Your reports will be displayed in: \`${message.guild.channels.cache.find(r => r.id === channel).name}\``);
+                        const msg = `Your reports will be displayed in: \`${message.guild.channels.cache.find(r => r.id === channel).name}\``;
                         
                         const payload = JSON.stringify({
                             guild: message.guild,
@@ -283,6 +288,7 @@ module.exports = {
                         const success = await update_API_call('setup', payload, message.guild, 'setup');
 
                         if (success.success === true) {
+                            message.channel.send(createEmbed(msg, 'GREEN'));
                             return resolve(true);
                         } else {
                             message.channel.send(`An Error occured: ${success.err}`);
@@ -330,14 +336,15 @@ module.exports = {
                 message.channel.awaitMessages(filter, { time: 120000, max: 1, errors: ['time']})
                     .then(async messages => {
                         answer = messages.first().content.toLowerCase();  
-                        var yes_no
+                        var yes_no;
+                        let msg;
 
                         if (answer === "y") { 
-                            message.channel.send(`New members \`will\` receive approved role automatically`);
-                            yes_no = 'true'
+                            msg = `New members \`will\` receive approved role automatically`;
+                            yes_no = 'true';
                         } else {
-                            message.channel.send(`New members \`will not\` receive approved role automatically`);                            
-                            yes_no = 'false'
+                            msg = `New members \`will not\` receive approved role automatically`;
+                            yes_no = 'false';
                         } 
 
                         
@@ -350,8 +357,10 @@ module.exports = {
                         const success = await update_API_call('setup', payload, message.guild, 'setup');
 
                         if (success.success === true && yes_no === 'true') {
+                            message.channel.send(createEmbed(msg, 'GREEN'));
                             return resolve(true);
                         } else if (success.success === true && yes_no === 'false') {
+                            message.channel.send(createEmbed(msg, 'GREEN'));
                             return resolve(false);
                         } else {
                             message.channel.send(`An Error occured: ${success.err}`);
@@ -376,7 +385,7 @@ module.exports = {
                 message.channel.awaitMessages(filter, { time: 120000, max: 1, errors: ['time'] })
                     .then(async messages => {
                         var greeting = messages.first().content
-                        msg = message.channel.send(`The server will be notifed by: \`<New member>, ${messages.first().content}\``);
+                        const msg = `The server will be notifed by: \`<New member>, ${messages.first().content}\``;
                         
                         const payload = JSON.stringify({
                             guild: message.guild,
@@ -387,6 +396,7 @@ module.exports = {
                         const success = await update_API_call('setup', payload, message.guild, 'setup');
 
                         if (success.success === true) {
+                            message.channel.send(createEmbed(msg, 'GREEN'));
                             return resolve(true);
                         } else {
                             message.channel.send(`An Error occured: ${success.err}`);
@@ -412,7 +422,7 @@ module.exports = {
                 message.channel.awaitMessages(filter, { time: 120000, max: 1, errors: ['time'] })
                     .then(async messages => {
                         var prefix = messages.first().content
-                        msg = message.channel.send(`Prefix changed to: \`${messages.first().content}\``);
+                        const msg = `Prefix changed to: \`${messages.first().content}\``;
                         
                         const payload = JSON.stringify({
                             guild: message.guild,
@@ -423,6 +433,7 @@ module.exports = {
                         const success = await update_API_call('setup', payload, message.guild, 'setup');
 
                         if (success.success === true) {
+                            message.channel.send(createEmbed(msg, 'GREEN'));
                             return resolve(true);
                         } else {
                             message.channel.send(`An Error occured: ${success.err}`);
@@ -450,7 +461,7 @@ module.exports = {
                         var limit = messages.first().content;
                         
                         if (Number.isInteger(+limit)) {
-                            msg = message.channel.send(`Your kick limit is: \`${messages.first().content}\``);
+                            var msg = `Your kick limit is: \`${limit}\``;
                         } else {
                             message.channel.send('You did not enter a number');
                             return resolve(false);
@@ -465,6 +476,7 @@ module.exports = {
                         const success = await update_API_call('setup', payload, message.guild, 'setup');
 
                         if (success.success === true) {
+                            message.channel.send(createEmbed(msg, 'GREEN'));
                             return resolve(true);
                         } else {
                             message.channel.send(`An Error occured: ${success.err}`);
@@ -493,7 +505,7 @@ module.exports = {
 
                         if (Number.isInteger(+limit)) {
                             if (limit > kick.kick_limit) {
-                                msg = message.channel.send(`Your ban limit is: \`${messages.first().content}\``);
+                                var msg = `Your ban limit is: \`${messages.first().content}\``;
                             } else {
                                 message.channel.send(`Please use a ban-limit bigger then ${kick.kick_limit}.`);
                                 return resolve(false);
@@ -512,6 +524,7 @@ module.exports = {
                         const success = await update_API_call('setup', payload, message.guild, 'setup');
 
                         if (success.success === true) {
+                            message.channel.send(createEmbed(msg, 'GREEN'));
                             return resolve(true);
                         } else {
                             message.channel.send(`An Error occured: ${success.err}`);
