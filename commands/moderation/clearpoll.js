@@ -23,12 +23,18 @@ module.exports = {
 
         let adj_yes = poll.count_yes / total * 100;
         let adj_no = poll.count_no / total * 100;
-        embed.addField("Yes", `${Math.floor(adj_yes)}%`);
-        embed.addField("No", `${Math.floor(adj_no)}%`);
+        embed.addField("Yes", bar(adj_yes, "✅"));
+        embed.addField("No", bar(adj_no, "❌"));
 
         pollMessage.edit(embed);
         pollMessage.reactions.removeAll();
         client.polls.delete(message.guild.id);
 
     }
+}
+
+function bar(percent, emoji = '') {
+    const index = Math.floor(percent / 10);
+    const level = emoji.repeat(index) + "🔳".repeat(10 - index);
+    return level;
 }
