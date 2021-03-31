@@ -10,8 +10,8 @@ module.exports = {
     category: "info",
     permission: ["none", "moderator", "admin"],
     description: "Returns this list",
-    descriptionlong: "Displays a multipage menu, showing what commands you have access to",
-    usage: "[command | alias]",
+    descriptionlong: "Displays a multipage menu, showing what commands you have access to. You can also combine this with a command or category.",
+    usage: "[command | alias | category]",
     run: async (client, message, args, api) => {
         
         var perms;
@@ -123,12 +123,16 @@ async function getAll(client, message, perms, cats) {
 
 function getCMD(client, message, input, perms) {
     const embed = new Discord.MessageEmbed()
+        .setColor("RANDOM")
+        .setFooter(`Version: ${version}`)
         .setTimestamp()
+        .setTitle("Help menu")
+        .setURL("https://ajax-discord.com/commands")
         .setThumbnail(client.user.displayAvatarURL())
 
     const cmd = client.commands.get(input.toLowerCase()) || client.commands.get(client.aliases.get(input.toLowerCase()));
 
-    let info = `What do you mean with **${input.toLowerCase()}**? I don't know what you are talking about`;
+    let info = `What do you mean with **${input.toLowerCase()}**? I don't know what you are talking about.`;
 
     if (!cmd) {
         let cat = [client.categories.find(element => element === input.toLowerCase())];
