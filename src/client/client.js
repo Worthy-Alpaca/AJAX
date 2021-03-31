@@ -5,6 +5,7 @@ module.exports = class extends Client {
         super({});
 
         this.queue = new Map();
+        this.polls = new Map();
 
         this.config = config;
     }

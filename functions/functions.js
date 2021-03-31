@@ -66,6 +66,7 @@ module.exports = {
                 if (!mbr2) {
                     mbr2 = message.guild.channels.cache.find(r => r.name === person.join("")) || message.guild.channels.cache.find(r => r.id === person.join(""));
                 }
+                if (!mbr2) return resolve(false);
                 return resolve(mbr2.id);
             }
         })
