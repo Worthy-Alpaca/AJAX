@@ -24,8 +24,8 @@ module.exports = {
 
             let adj_yes = poll.count_yes / total * 100;
             let adj_no = poll.count_no / total * 100;
-            embed.addField("Yes", bar(adj_yes, "✅"));
-            embed.addField("No", bar(adj_no, "❌"));
+            embed.addField("Yes", bar(adj_yes, "✅", poll.count_yes));
+            embed.addField("No", bar(adj_no, "❌", poll.count_no));
 
             pollMessage.edit(embed);
             pollMessage.reactions.removeAll();
@@ -53,7 +53,7 @@ module.exports = {
                     indV = 0;
                 }
                 let percent = indV / total * 100;
-                progresBar(embed, percent, reaction);
+                progresBar(embed, percent, reaction, indV);
                 client.counts.delete(reaction);
             })
             pollMessage.edit(embed);
@@ -63,13 +63,13 @@ module.exports = {
     }
 }
 
-function bar(percent, emoji = '') {
+function bar(percent, emoji = '', entries) {
     const index = Math.floor(percent / 10);
     const level = emoji.repeat(index) + "🔳".repeat(10 - index);
-    return level;
+    return level + ` Number of entries: \`${entries}\``;
 }
 
-function progresBar(embed, percent, emoji) {
+function progresBar(embed, percent, emoji, entries) {
     const index = Math.floor(percent / 10);
     let level;
     if (Number.isInteger(+index)) {
@@ -77,5 +77,5 @@ function progresBar(embed, percent, emoji) {
     } else {
         level = "🔳".repeat(10);
     }
-    embed.addField(emoji, level);
+    embed.addField(emoji, level + ` Number of entries: \`${entries}\``);
 }
