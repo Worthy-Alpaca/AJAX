@@ -6,6 +6,7 @@ module.exports = class extends Client {
 
         this.queue = new Map();
         this.polls = new Map();
+        this.counts = new Map();
 
         this.config = config;
     }
