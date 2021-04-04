@@ -1,14 +1,14 @@
-const { owner } = require("../../src/config.json");
+const { owner } = require('../../src/config.json');
 
 module.exports = {
-    name: "shutdown",
-    category: "administration",
-    permission: ["null"],
-    description: "Kills the bot",
-    run: async (client, message, args) => {
-        if (message.author.id !== owner)
-            return message.reply("You are not powerful enough to command me in such a way!");
+	name: 'shutdown',
+	category: 'administration',
+	permission: ['null'],
+	description: 'Kills the bot',
+	run: async (client, message, args) => {
+		if (message.author.id !== owner)
+			return message.reply('You are not powerful enough to command me in such a way!');
 
-        return client.destroy();
-    }
-}
+		return client.destroy();
+	}
+};
