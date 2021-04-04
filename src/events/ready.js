@@ -5,19 +5,19 @@ const { owner, status } = require('../config.json');
 * @description This handels handles the first interaction when the bot is ready
 */
 module.exports = client => {
-    client.on("ready", async () => {
-        console.log(`Logged in as ${client.user.username}`);
+	client.on('ready', async () => {
+		console.log(`Logged in as ${client.user.username}`);
 
-        client.users.fetch(owner, false).then(user => {
-            user.send(`I restarted`)
-        });
+		client.users.fetch(owner, false).then(user => {
+			user.send('I restarted');
+		});
 
-        client.user.setPresence({
-            status: "online",
-            activity: {
-                name: `${status}`,
-                type: "LISTENING"
-            }
-        });
-    });
-}
+		client.user.setPresence({
+			status: 'online',
+			activity: {
+				name: `${status}`,
+				type: 'LISTENING'
+			}
+		});
+	});
+};

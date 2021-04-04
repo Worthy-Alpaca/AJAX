@@ -3,13 +3,13 @@
 * @description This handels changes in voiceStates
 */
 module.exports = client => {
-    client.on('voiceStateUpdate', (oldState, newState) => {
+	client.on('voiceStateUpdate', (oldState, newState) => {
 
-        if (oldState.channelID === null || typeof oldState.channelID == 'undefined') return;
-        if (newState.id !== client.user.id) return;
+		if (oldState.channelID === null || typeof oldState.channelID == 'undefined') return;
+		if (newState.id !== client.user.id) return;
 
-        const queue = client.queue;
-        queue.delete(oldState.guild.id);
+		const queue = client.queue;
+		queue.delete(oldState.guild.id);
 
-    });
-}
+	});
+};

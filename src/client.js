@@ -1,7 +1,7 @@
 const Client = require('./client/client');
 
 const client = new Client({
-    disableEveryone: false
+	disableEveryone: false
 }); 
 
 module.exports = client; 

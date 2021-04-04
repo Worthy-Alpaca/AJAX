@@ -5,13 +5,13 @@ const { delete_API_call } = require('../../../functions/functions');
 * @description This handels all channel deletions
 */
 module.exports = client => {
-    client.on("channelDelete", channel => {
+	client.on('channelDelete', channel => {
 
-        const payload = JSON.stringify({
-            'channel': channel,
-            'guild': channel.guild
-        })
+		const payload = JSON.stringify({
+			'channel': channel,
+			'guild': channel.guild
+		});
 
-        return delete_API_call('channel/delete', payload, channel.guild, 'channel');
-    })
-}
+		return delete_API_call('channel/delete', payload, channel.guild, 'channel');
+	});
+};

@@ -5,13 +5,13 @@ const { update_API_call } = require('../../../functions/functions');
 * @description This handels all role updates
 */
 module.exports = client => {
-    client.on('roleUpdate', function (oldRole, newRole) {
+	client.on('roleUpdate', function (oldRole, newRole) {
 
-        const payload = JSON.stringify({
-            'role': newRole,
-            'guild': newRole.guild
-        })
+		const payload = JSON.stringify({
+			'role': newRole,
+			'guild': newRole.guild
+		});
 
-        return update_API_call('role/update', payload, newRole.guild, 'role');
-    })
-}
+		return update_API_call('role/update', payload, newRole.guild, 'role');
+	});
+};

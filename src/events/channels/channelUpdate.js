@@ -5,13 +5,13 @@ const { update_API_call } = require('../../../functions/functions');
 * @description This handels all channel updates
 */
 module.exports = client => {
-    client.on('channelUpdate', function (oldChannel, newChannel) {
+	client.on('channelUpdate', function (oldChannel, newChannel) {
 
-        const payload = JSON.stringify({
-            'channel': newChannel,
-            'guild': newChannel.guild
-        })
+		const payload = JSON.stringify({
+			'channel': newChannel,
+			'guild': newChannel.guild
+		});
 
-        return update_API_call('channel/update', payload, newChannel.guild, 'channel');
-    })
-}
+		return update_API_call('channel/update', payload, newChannel.guild, 'channel');
+	});
+};

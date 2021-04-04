@@ -5,13 +5,13 @@ const { post_API_call } = require('../../../functions/functions');
 * @description This handels all role creations
 */
 module.exports = client => {
-    client.on('roleCreate', role => {
+	client.on('roleCreate', role => {
 
-        const payload = JSON.stringify({
-            'role': role,
-            'guild': role.guild
-        })
+		const payload = JSON.stringify({
+			'role': role,
+			'guild': role.guild
+		});
 
-        return post_API_call('role/create', payload, role.guild, 'role');
-    })
- }
+		return post_API_call('role/create', payload, role.guild, 'role');
+	});
+};
