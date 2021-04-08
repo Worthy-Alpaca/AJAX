@@ -42,7 +42,11 @@ module.exports = {
 					perms = 'none';
 				}
 			}
-			return getCMD(client, message, args[0], perms);
+			let cmd = args[0];
+			if (args[0].includes(api.prefix)) {
+				cmd = args[0].replace(api.prefix, '');
+			}
+			return getCMD(client, message, cmd, perms);
 		} else {
 			while (a && i < client.categories.length) {
 
