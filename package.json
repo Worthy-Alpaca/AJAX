@@ -34,7 +34,7 @@
     "jsonwebtoken": "^8.5.1",
     "node-fetch": "^2.6.1",
     "random-puppy": "^1.1.0",
-    "ytdl-core": "^4.9.0"
+    "ytdl-core": "^4.10.0"
   },
   "devDependencies": {
     "eslint": "^7.31.0",
