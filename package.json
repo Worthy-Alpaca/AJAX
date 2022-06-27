@@ -39,6 +39,6 @@
   "devDependencies": {
     "eslint": "^7.31.0",
     "mysql": "^2.18.1",
-    "nodemon": "^2.0.7"
+    "nodemon": "^2.0.18"
   }
 }
