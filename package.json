@@ -37,7 +37,7 @@
     "ytdl-core": "^4.9.0"
   },
   "devDependencies": {
-    "eslint": "^7.31.0",
+    "eslint": "^8.30.0",
     "mysql": "^2.18.1",
     "nodemon": "^2.0.7"
   }
