@@ -27,7 +27,6 @@ AJAX features four categories
 > - info
 > - setup
 
-Check out all of its commands [here.](https://ajax-discord.com/commands) 
 
 ## Want to customize AJAX yourself or contribute to this project?
 
