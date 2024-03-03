@@ -1,5 +1,7 @@
 # [AJAX](https://ajax-discord.com/)
 
+**This project is discontinued**
+
 [![node](https://img.shields.io/badge/Node.js-v.12.X-brightgreen)](https://nodejs.org)
 [![Discord](https://img.shields.io/badge/Discord-v.12-blue)](https://discord.js.org/#/docs/main/stable/general/welcome)
 [![API](https://img.shields.io/badge/API-v.1.3-blue)](https://github.com/Worthy-Alpaca/api.ajax-discord.com)
@@ -9,7 +11,6 @@ AJAX is a discord moderation bot that also has an EDSM and INARA API connection 
 
 > As this project is under heavy development, I cannot offer support at this time.  However, please do report bugs or issues on my little project [here.](https://github.com/Worthy-Alpaca/AJAX/issues)
 
-**You can add AJAX to your server [here.](https://discord.com/api/oauth2/authorize?client_id=682255208125956128&permissions=8&redirect_uri=https%3A%2F%2Fworthyalpaca.de%2F&scope=bot)**
 
 ## What it can do
 
